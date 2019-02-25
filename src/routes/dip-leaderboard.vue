@@ -159,7 +159,7 @@
     <div class="dip-leaderboard fullfill">
         <div class="container">
             <div class="banner font-color-FFFFFF">
-                <img class="nova-logo d-none d-xl-block" src="/static/img/nova_logo.png?v=20190116" width="169px" alt="nova">
+                <img class="nova-logo d-none d-xl-block" src="/static/img/cos_logo.png?v=20190116" width="169px" alt="nova">
                 <div class="title font-36 font-bold">Native Developer Incentive Protocol Awards</div>
                 <div class="update font-16" style="margin-top: 11px; color: rgba(255, 255, 255, 0.7)">*The DIP ranking automatically update every Monday.</div>
                 <div class="subtitle font-22 font-bold" style="margin-top: 29px">Testnet Developer Incentive Program is in Progress</div>
@@ -350,7 +350,7 @@
             },
             weekLabelClick(event) {
                 this.$nextTick(function () {
-                    
+
                 });
 
                 setTimeout(() => {

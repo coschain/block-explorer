@@ -43,7 +43,7 @@
         color: #0057FF;
     }
 
-    @media (min-width: 768px) { 
+    @media (min-width: 768px) {
         .vue-footer .row {
             align-items: center;
             height: 82px;
@@ -62,7 +62,7 @@
         }
     }
 
-    @media (max-width: 767.98px) { 
+    @media (max-width: 767.98px) {
         .vue-footer .row {
             align-items: center;
             height: 182px;
@@ -84,7 +84,7 @@
             <div class="row">
                 <div class="col-xs-12 col-md-4">
                     <a target=_blank href=https://www.contentos.io/>
-                        <img style="height: 34px; width: 156px;display: inline; vertical-align: middle;" src="../../static/img/img_footer_logo.png"/>
+                        <img style="height: 34px; width: 156px;display: inline; vertical-align: middle;" src="../../static/img/logo_cos.png"/>
                     </a>
                 </div>
 

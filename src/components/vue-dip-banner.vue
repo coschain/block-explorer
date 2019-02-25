@@ -68,7 +68,7 @@
             background: url(/static/img/dip_home_banner_bg.jpg?v=20190116) no-repeat right;
             background-size: cover;
         }
-        
+
         .mainnet-dip-banner .detail {
             background:linear-gradient(to left,rgba(48,35,174,1) 0%,rgba(139,57,180,0) 100%);
         }
@@ -95,7 +95,7 @@
 <template>
     <div class="vue-dip-banner">
         <div v-if="$route.params.api != 'testnet'" class="clickable mainnet-dip-banner d-flex" @click=join>
-            <img class="nova-logo d-none d-md-block" src="/static/img/nova_logo.png?v=20190116" alt="nova logo">
+            <img class="nova-logo d-none d-md-block" src="/static/img/cos_logo.png?v=20190116" alt="nova logo">
             <div class="detail flex-fill">
                 <div class="title font-color-FFFFFF font-30 font-bold">Testnet Developer Incentive Program is in Progress</div>
                 <div class="sub-detail d-block d-xl-flex align-items-center" style="margin-top: 24px;">
