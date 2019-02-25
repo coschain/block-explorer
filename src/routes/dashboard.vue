@@ -636,14 +636,14 @@
                         <div class="item-title">TPS</div>
                         <div v-if="market" class="update-time">Update Time : {{ timeConversion(Date.now() - market.createdAt) }} ago</div>
                         <div v-if="market" class="detail">
-                            <span>$</span>
-                            <span>{{ market.price }}</span>
+                            <span>{{ curTps }}</span>
                         </div>
                         <div v-if="market" class="market container">
                             <div class="row">
                                 <div class="col-6">
-                                    MAX TPS
-                                    <div>{{ numberAddComma(market.marketCap) }}</div>
+                                    Peak
+                                    <!--<div>{{ numberAddComma(market.marketCap) }}</div>-->
+                                    <div>{{ maxTps }}</div>
                                 </div>
                             </div>
                         </div>
@@ -749,12 +749,13 @@
 </template>
 <script>
     var api = require("@/assets/api"),
-        utility = require("@/assets/utility"),
+   utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-
     var ECharts = require('vue-echarts/components/ECharts').default;
     require('echarts/lib/chart/line');
     require('echarts/lib/component/tooltip');
+
+    import ajax1 from "@/assets/utility"
 
     module.exports = {
         components: {
@@ -771,7 +772,9 @@
                 staticInfo: null,
                 txs: [],
                 shortIntervalID: null,
-                longIntervalID: null
+                longIntervalID: null,
+                curTps: 0, //current tps
+                maxTps: 0,//Historical max tps
             }
         },
         computed: {
@@ -988,6 +991,20 @@
             }
         },
         mounted() {
+            window.getStateInfo(info => {
+                if (typeof(info.props) != "undefined" ) {
+                    this.curTps = info.props.tps;
+                    if (this.maxTps < info.props.maxTps) {
+                        this.maxTps = info.props.maxTps;
+                    }
+                }else {
+                    console.log("return empty props");
+                }
+            },(errCode,msg) => {
+                console.log("Get state info fail");
+                console.log("error code is %s,msg is %s",errCode,msg);
+            });
+
             api.getTx("cnt_static", o => this.dailyTxData = o);                     //recent daily trx volume i
             api.getMarketCap(o => this.market = o);                                 //coin price and market
             api.getBlock({ type: "latest" }, o => this.blocks = this.addLocalTimestamp(o));           //recent blocks
@@ -1017,6 +1034,20 @@
                 api.getTodayTxCnt(o => this.todayTxCnt = o);                        //today trx volume
                 api.getMarketCap(o => this.market = o);                             //coin price and market
                 api.getStaticInfo(o => this.staticInfo = o);                        //contract address
+                //fetch lates tps
+                window.getStateInfo(info => {
+                    if (typeof(info.props) != "undefined" ) {
+                        this.curTps = info.props.tps;
+                        if (this.maxTps < info.props.maxTps) {
+                            this.maxTps = info.props.maxTps;
+                        }
+                    }else {
+                        console.log("return empty props");
+                    }
+                },(errCode,msg) => {
+                    console.log("Get state info fail");
+                    console.log("error code is %s,msg is %s",errCode,msg);
+                });
             }, 60000);
 
             if (this.$root.showAtpAds) {
