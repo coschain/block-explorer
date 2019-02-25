@@ -162,7 +162,7 @@
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Value:</td>
-                        <td class="font-16 font-color-000000">{{ nasAmount(tx.value) }} NAS</td>
+                        <td class="font-16 font-color-000000">{{ nasAmount(tx.value) }} COS</td>
                     </tr>
 
                 </table>
@@ -247,7 +247,7 @@
                 </div>
                 <div>
                     Value:
-                    <div class="detail">{{ nasAmount(tx.value) }} NAS</div>
+                    <div class="detail">{{ nasAmount(tx.value) }} COS</div>
                 </div>
             </div>
         </div>
@@ -400,10 +400,10 @@
         },
         mounted() {
             if (this.$root.showAtpAds) {
-                /*初始化ATPSDK，并设置partnerID (init ATP-SDK ,Set partnerID)*/  
+                /*初始化ATPSDK，并设置partnerID (init ATP-SDK ,Set partnerID)*/
                 var atpAds = AtlasAds('pbg91eenif2mbsoo3g1qg');
 
-                //获取广告 传入div containerId和广告的宽高（getAd set the containerId and dimension wide high）  
+                //获取广告 传入div containerId和广告的宽高（getAd set the containerId and dimension wide high）
                 atpAds.getAd('#atlaspAds-bottom', 'nas_1200x100_002');
                 atpAds.getAd('#atlaspAds-side', 'nas_360x300_002');
                 atpAds.getAd('#atlaspAds-mobile', 'nas_720x200_002');

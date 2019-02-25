@@ -23,11 +23,11 @@
 <template>
     <!-- https://etherscan.io/accounts  -->
     <div class="vue-accounts fullfill">
-        <vue-bread title="Top Accounts By NAS Balance"></vue-bread>
+        <vue-bread title="Top Accounts By COS Balance"></vue-bread>
         <div v-if="arr && arr.length" class="mt20 container">
             <div class="d-block d-md-flex flex-row align-items-center mt20">
                 <div class="col-auto pl-0 pr-2 info font-color-000000 font-24 font-bold title">
-                    {{ numberAddComma(totalAccounts) }} accounts found 
+                    {{ numberAddComma(totalAccounts) }} accounts found
                 </div>
                 <span v-if="totalAccounts > 10000" class="col-auto pl-0 font-color-555555 font-16 align-text-bottom subtitle">(showing the last 10,000 top accounts)</span>
             </div>
@@ -148,7 +148,7 @@
                 BigNumber.config({DECIMAL_PLACES: 8})
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
-                return amount.div(decimals).toFormat().shortAmount() + ' NAS';
+                return amount.div(decimals).toFormat().shortAmount() + ' COS';
             }
         },
         mounted() {

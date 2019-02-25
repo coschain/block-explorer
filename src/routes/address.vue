@@ -233,10 +233,10 @@
             </div>
             <table class="explorer-table d-none d-md-table">
                 <tr>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">NAS Balance:
+                    <td class="base-info-key font-16 font-color-555555 pl-16">COS Balance:
                     </td>
                     <td class="font-16 font-color-000000">
-                        {{ nasAmount(obj.address.balance) }} NAS
+                        {{ nasAmount(obj.address.balance) }} COS
                     </td>
                 </tr>
                 <tr v-if="creator && deployTxHash">
@@ -303,8 +303,8 @@
 
             <div class="mobile-detail d-md-none">
                 <div>
-                    NAS Balance:
-                    <div class="detail">{{ nasAmount(obj.address.balance) }} NAS</div>
+                    COS Balance:
+                    <div class="detail">{{ nasAmount(obj.address.balance) }} COS</div>
                 </div>
                 <div v-if="creator && deployTxHash">
                     Contract Creator:
