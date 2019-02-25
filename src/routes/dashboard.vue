@@ -759,7 +759,7 @@
     module.exports = {
         components: {
             'vchart': ECharts,
-            "vue-dip-banner": require("@/components/vue-dip-banner").default
+            //"vue-dip-banner": require("@/components/vue-dip-banner").default
         },
         data() {
             return {

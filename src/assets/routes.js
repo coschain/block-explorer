@@ -65,10 +65,6 @@ module.exports = [{
     path: "/:api?",
     name: "home"
 }, {
-    component: require("@/routes/dip-leaderboard").default,
-    meta: { headerActive: 3 },
-    path: "/:api?/dip-leaderboard"
-}, {
     component: require("@/routes/404").default,
     name: "*",
     path: "*"
