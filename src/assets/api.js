@@ -1,5 +1,5 @@
 
-var { ajax, ajaxSplitAction, getNebulasNetHost } = require("@/assets/utility");
+var { ajax, ajaxSplitAction, getContentosNetHost } = require("@/assets/utility");
 
 module.exports = {
     // get api/account?
@@ -38,7 +38,7 @@ module.exports = {
         }
     },
     getTransactionByContract(t, netname, done, fail) {
-        var host =  getNebulasNetHost(netname)
+        var host =  getContentosNetHost(netname)
         ajax('POST ' + host + '/user/getTransactionByContract', t, done, fail)
     },
 
@@ -65,7 +65,7 @@ module.exports = {
         }
     },
 
-    
+
     getBlocks(t, done, fail) {
         // wtf - webpack 对 if (typeof t == "object") 报异常
         if (eval('typeof t == "object"'))

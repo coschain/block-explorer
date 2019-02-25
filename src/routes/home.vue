@@ -328,7 +328,7 @@
                         // , type: "area"
                     }],
                     subtitle: {
-                        text: "Data Source：Nebulas"
+                        text: "Data Source：Contentos"
                     },
                     title: {
                         text: "transactions"

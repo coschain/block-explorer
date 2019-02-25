@@ -105,7 +105,7 @@
 
     .vue-dashboard .row1 .item-bg {
         position: relative;
-        background:linear-gradient(135deg,rgba(48,58,76,1) 0%,rgba(15,19,26,1) 100%);
+        background:linear-gradient(135deg,rgba(33,45,128,1) 0%,rgba(24,19,93,1) 100%);
     }
 
     .vue-dashboard .item-title {
@@ -520,7 +520,7 @@
             display: none;
         }
     }
-    
+
 
     @media (max-width: 414px) {
         .vue-dashboard .row1 .data-source {
@@ -642,7 +642,7 @@
                         <div v-if="market" class="market container">
                             <div class="row">
                                 <div class="col-6">
-                                    Peak
+                                    MAX TPS
                                     <div>{{ numberAddComma(market.marketCap) }}</div>
                                 </div>
                             </div>
@@ -727,7 +727,7 @@
                                         From
                                         <router-link :to='fragApi + "/address/" + tx.from.hash'>
                                             <span class="monospace">{{ tx.from.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.from.hash.slice(-4) }}</span>
-                                        </router-link>    
+                                        </router-link>
                                     </span>
                                     <span class="fromto d-none d-sm-inline">
                                         To
@@ -778,7 +778,7 @@
             dailyTxChartOptions() {
                 if (!this.dailyTxData) return null;
                 var arr = [],
-                    dates = [], 
+                    dates = [],
                     nums = [];
                 for (var k in this.dailyTxData) {
                     arr.push([k, this.dailyTxData[k]]);
@@ -838,15 +838,15 @@
                         symbol: 'circle',
                         symbolSize: 5,
                         lineStyle: {
-                            color: '#595C63',
+                            color: '#595C83',
                             width: 3
                         },
                         itemStyle: {
-                            color: '#FFFFFF',
+                            color: '#C0C0C0',
                             borderWidth: 3
                         },
                         areaStyle: {
-                            color: '#595C63',
+                            color: '#595C93',
                             opacity: 1
                         }
                     },
@@ -876,7 +876,7 @@
                     return null;
                 }
                 var arr = this.staticInfo.addressWeekList;
-                var dates = [], 
+                var dates = [],
                     nums = [];
 
                 arr.sort(function (a, b) { return a.timestamp > b.timestamp; });
@@ -888,7 +888,7 @@
                     nums.push(arr[i].addressCount);
                     dates.push(arr[i].timestamp);
                 }
-                
+
                 let vm = this;
                 var options = {
                     grid: { left: '30', bottom: '50', right: '17', top: '10', containLabel: false },
@@ -998,7 +998,7 @@
             this.shortIntervalID = setInterval(() => {
                 api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));        //recent latest trx
                 api.getBlock({ type: "newblock" }, o => {                           //fetch the latest block
-                    this.addLocalTimestamp(o);                       
+                    this.addLocalTimestamp(o);
                     try {
                         if (o[0].height != this.blocks[0].height) {
                             this.blocks.splice(0, 0, o[0]);

@@ -22,7 +22,7 @@ module.exports = {
     easyNumber:easyNumber,
     ua: ua,
     yyyymmdd: yyyymmdd,
-    getNebulasNetHost: getNebulasNetHost,
+    getContentosNetHost: getContentosNetHost,
     weekNumber: weekNumber,
     moment: moment
 };
@@ -198,7 +198,7 @@ function ua() {
     // Firefox 1.0+
     var isFirefox = typeof InstallTrigger !== 'undefined';
 
-    // Safari 3.0+ "[object HTMLElementConstructor]" 
+    // Safari 3.0+ "[object HTMLElementConstructor]"
     var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 
     // Internet Explorer 6-11
@@ -231,9 +231,9 @@ function yyyymmdd(dateNow) {
     return 10000 * d.getFullYear() + 100 * d.getMonth() + 100 + d.getDate();
 }
 
-function getNebulasNetHost(net){
+function getContentosNetHost(net){
     var mainnet = 'https://mainnet.nebulas.io/v1'
-    
+
     if(!net){
         return mainnet
     }

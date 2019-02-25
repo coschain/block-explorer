@@ -23,9 +23,9 @@
 
     <div class="vue-popmsg">
         <div class="vue-popmsg-wrap">
-            <h1>Nebulas Mainnet Security Upgrade Notice</h1>
-            <p>During 16:00 to 20:00 on August 21st, 2018(UTC+8), Nebulas mainnet development team will make security upgrades to the Nebulas mainnet. During this period, some functionalities including transactions, smart contract calls, and fund transfers will be affected. We ask for your patience while the Nebulas mainnet development team complete the upgrades. We will announce when the upgrade is complete via official channels and we apologize for any inconvenience during this short period.</p>
-            <p class="vue-popmsg-tr">Nebulas Mainnet Developer Team</p>
+            <h1>Contentos Mainnet Security Upgrade Notice</h1>
+            <p>During 16:00 to 20:00 on August 21st, 2018(UTC+8), Contentos mainnet development team will make security upgrades to the Contentos mainnet. During this period, some functionalities including transactions, smart contract calls, and fund transfers will be affected. We ask for your patience while the Nebulas mainnet development team complete the upgrades. We will announce when the upgrade is complete via official channels and we apologize for any inconvenience during this short period.</p>
+            <p class="vue-popmsg-tr">Contentos Mainnet Developer Team</p>
             <p class="vue-popmsg-tr">August 21,2018</p>
         </div>
     </div>

@@ -94,10 +94,10 @@
 
                 <div class="col-xs-12 col-md-4">
                     <div>
-                        <a target=_blank href=https://twitter.com/nebulasio>
+                        <a target=_blank href=https://twitter.com/contentos>
                             <div class="icon24 twitter" src="../../static/img/ic_twitter.png"></div>
                         </a>
-                        <a target=_blank href=https://github.com/nebulasio/explorer/issues>
+                        <a target=_blank href=https://github.com/coschain/contentos-go/issues>
                             <div class="icon24 github" src="../../static/img/ic_github.png"></div>
                             Submit an issue
                         </a>

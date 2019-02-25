@@ -105,7 +105,7 @@
         <div class=container>
             <div>
                 <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
-                    <img src="/static/img/logo_beta.png?v=20190117" width=210 alt="">
+                    <img src="/static/img/logo_cos.png?v=20190117" width=210 alt="">
                 </router-link>
             </div>
 
@@ -130,14 +130,15 @@
                         </a>
                         <div class=dropdown-menu aria-labelledby=header-dropdown-blockchain>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/txs'">Transactions</router-link>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/txs/pending'">Pending Transactions</router-link>
+                            <!--<router-link class=dropdown-item v-bind:to="fragApi + '/txs/pending'">Pending Transactions</router-link>
+                            -->
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/blocks'">Blocks</router-link>
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/accounts'">Accounts</router-link>
                         </div>
                     </li>
-                    <li v-if="$route.params.api == 'testnet' && $root.testnetGotDipWinners" class=nav-item v-bind:class="{ active: $route.meta.headerActive == 3 }">
+                    <li hidden v-if="$route.params.api == 'testnet' && $root.testnetGotDipWinners" class=nav-item v-bind:class="{ active: $route.meta.headerActive == 3 }">
                         <router-link class=nav-link v-bind:to="fragApi + '/dip-leaderboard'">Dip Winners</router-link>
                     </li>
                     <li class="nav-item">
@@ -190,6 +191,8 @@
                         this.$router.push(this.fragApi + "/address/" + o.q);
                     else if (o.type == "tx")
                         this.$router.push(this.fragApi + "/tx/" + o.q);
+                    // else if (o.type == "contract")
+                    //     this.$router.push(this.fragApi + "/token/" + o.q);
                     else {
                         this.$root.search = o.q;
                         this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/nothing");
