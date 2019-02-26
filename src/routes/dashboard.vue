@@ -755,8 +755,6 @@
     require('echarts/lib/chart/line');
     require('echarts/lib/component/tooltip');
 
-    import ajax1 from "@/assets/utility"
-
     module.exports = {
         components: {
             'vchart': ECharts,
@@ -1034,7 +1032,7 @@
                 api.getTodayTxCnt(o => this.todayTxCnt = o);                        //today trx volume
                 api.getMarketCap(o => this.market = o);                             //coin price and market
                 api.getStaticInfo(o => this.staticInfo = o);                        //contract address
-                //fetch lates tps
+                //fetch latest tps
                 window.getStateInfo(info => {
                     if (typeof(info.props) != "undefined" ) {
                         this.curTps = info.props.tps;
