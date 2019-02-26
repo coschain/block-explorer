@@ -654,7 +654,7 @@
             <div class="row row2">
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
-                        <div v-if="staticInfo">{{ blockheight }}</div>
+                        <div v-if="stateInfo">{{ stateInfo.headBlockNumber }}</div>
                         <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/blocks/"'>Block Height ></router-link>
                         <img src=/static/img/dashboard-1.png width=44 alt="">
                     </div>
