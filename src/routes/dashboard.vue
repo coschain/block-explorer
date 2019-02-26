@@ -635,15 +635,15 @@
                     <div class="item-bg">
                         <div class="item-title">TPS</div>
                         <div v-if="market" class="update-time">Update Time : {{ timeConversion(Date.now() - market.createdAt) }} ago</div>
-                        <div v-if="market" class="detail">
-                            <span>{{ curTps }}</span>
+                        <div v-if="stateInfo" class="detail">
+                            <span>{{ stateInfo.tps }}</span>
                         </div>
                         <div v-if="market" class="market container">
                             <div class="row">
                                 <div class="col-6">
                                     Peak
                                     <!--<div>{{ numberAddComma(market.marketCap) }}</div>-->
-                                    <div>{{ maxTps }}</div>
+                                    <div v-if="stateInfo">{{ stateInfo.maxTps }}</div>
                                 </div>
                             </div>
                         </div>
@@ -661,21 +661,21 @@
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
-                        <div v-if="staticInfo">{{ numberAddComma(staticInfo.txnCnt) }}</div>
+                        <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalTrxCnt) }}</div>
                         <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/txs/"'>Total Transactions ></router-link>
                         <img src=/static/img/dashboard-2.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
-                        <div v-if="staticInfo">{{ numberAddComma(staticInfo.totalContractCount) }}</div>
+                        <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalPostCnt) }}</div>
                         <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/contracts/"'>Total articles ></router-link>
                         <img src=/static/img/dashboard-3.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
-                        <div v-if="staticInfo">{{ numberAddComma(staticInfo.totalAddressCount) }}</div>
+                        <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalUserCnt) }}</div>
                         <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/accounts/"'>Total Addresses ></router-link>
                         <img src=/static/img/dashboard-4.png width=44 alt="">
                     </div>
@@ -771,8 +771,13 @@
                 txs: [],
                 shortIntervalID: null,
                 longIntervalID: null,
+                stateInfo: null,//chain props
                 curTps: 0, //current tps
                 maxTps: 0,//Historical max tps
+                blkTotalNum:0,//total block number(block height)
+                trxTotalNum:0, //total trx number
+                articleTotalNum:0,//total article number
+                accountTotalNum:0,//total account number
             }
         },
         computed: {
@@ -991,10 +996,7 @@
         mounted() {
             window.getStateInfo(info => {
                 if (typeof(info.props) != "undefined" ) {
-                    this.curTps = info.props.tps;
-                    if (this.maxTps < info.props.maxTps) {
-                        this.maxTps = info.props.maxTps;
-                    }
+                    this.stateInfo = info.props;
                 }else {
                     console.log("return empty props");
                 }
@@ -1035,10 +1037,7 @@
                 //fetch latest tps
                 window.getStateInfo(info => {
                     if (typeof(info.props) != "undefined" ) {
-                        this.curTps = info.props.tps;
-                        if (this.maxTps < info.props.maxTps) {
-                            this.maxTps = info.props.maxTps;
-                        }
+                        this.stateInfo = info.props;
                     }else {
                         console.log("return empty props");
                     }
@@ -1048,25 +1047,25 @@
                 });
             }, 60000);
 
-            if (this.$root.showAtpAds) {
-                /*init ATPSDK，set partnerID (init ATP-SDK ,Set partnerID)*/
-                var atpAds = AtlasAds('pbg91eenif2mbsoo3g1qg');
-
-                //fetch ads set div containerId and width、height（getAd set the containerId and dimension wide high）
-                atpAds.getAd('#atlaspAds-bottom', 'nas_1200x100_001');
-                atpAds.getAd('#atlaspAds-side', 'nas_360x300_001');
-                atpAds.getAd('#atlaspAds-middle-mobile', 'nas_720x200_001');
-
-                //Sidebar size limit
-                window.onresize = function () {
-                    if (window.innerWidth >= 1600) {
-                        $('#atlaspAds-side').show();
-                    } else {
-                        $('#atlaspAds-side').hide();
-                    }
-                }
-                window.onresize();
-            }
+            // if (this.$root.showAtpAds) {
+            //     /*init ATPSDK，set partnerID (init ATP-SDK ,Set partnerID)*/
+            //     var atpAds = AtlasAds('pbg91eenif2mbsoo3g1qg');
+            //
+            //     //fetch ads set div containerId and width、height（getAd set the containerId and dimension wide high）
+            //     atpAds.getAd('#atlaspAds-bottom', 'nas_1200x100_001');
+            //     atpAds.getAd('#atlaspAds-side', 'nas_360x300_001');
+            //     atpAds.getAd('#atlaspAds-middle-mobile', 'nas_720x200_001');
+            //
+            //     //Sidebar size limit
+            //     window.onresize = function () {
+            //         if (window.innerWidth >= 1600) {
+            //             $('#atlaspAds-side').show();
+            //         } else {
+            //             $('#atlaspAds-side').hide();
+            //         }
+            //     }
+            //     window.onresize();
+            // }
         },
         methods: {
             numberAddComma(n) {

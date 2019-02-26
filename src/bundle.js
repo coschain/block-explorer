@@ -24983,7 +24983,6 @@ const host = 'http://' + window.location.hostname + ':8080';
             if (status === _improbable_eng_grpc_web__WEBPACK_IMPORTED_MODULE_0__["grpc"].Code.OK && message) {
                 let obj = message.toObject();
                 if (typeof(success) == 'function') {
-                    console.log("success");
                     success(obj)
                 }
             }else {
