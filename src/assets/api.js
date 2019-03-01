@@ -1,13 +1,13 @@
 
 var { ajax, ajaxSplitAction, getContentosNetHost } = require("@/assets/utility");
-import * as cos_sdk from "../sdk.min"
+const cos_sdk = require("cos-grpc-js");
 const cos_host = 'http://' + window.location.hostname + ':8080';
 const grpc_web = require("@improbable-eng/grpc-web").grpc;
 
 module.exports = {
      cos_host ,
-    /** get user account info by account name
-     * get Account
+    /*
+     * get user account info by account name
      * @param name: user name
      * @param success:  the request success callback
      * @param fail:  the request fail callBack
@@ -136,6 +136,13 @@ module.exports = {
         promise.then(success,fail)
     },
 
+    /**
+     * get list of daily total trx count by time
+     * @param start: the  start time in request range, if value null,query from the first in db
+     * @param end: the end time  in request range, if value is null,query to the end in db
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
     async fetchDailyTotalTrxInfoList(start,end,success,fail){
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
