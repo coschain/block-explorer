@@ -634,7 +634,7 @@
                 <div class="nas-price flex-item col-12 col-lg-6 row1-item">
                     <div class="item-bg">
                         <div class="item-title">TPS</div>
-                        <div v-if="market" class="update-time">Update Time : {{ timeConversion(Date.now() - market.createdAt) }} ago</div>
+                        <div v-if="stateInfo" class="update-time">Update Time : {{ timeConversion(Date.now() - stateInfo.time.utcSeconds*1000) }} ago</div>
                         <div v-if="stateInfo" class="detail">
                             <span>{{ stateInfo.tps }}</span>
                         </div>
@@ -676,7 +676,7 @@
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalUserCnt) }}</div>
-                        <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/accounts/"'>Total Addresses ></router-link>
+                        <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/accounts/"'>Total Account ></router-link>
                         <img src=/static/img/dashboard-4.png width=44 alt="">
                     </div>
                 </div>
@@ -688,21 +688,23 @@
                         <div class="item-title">Blocks</div>
                         <router-link :to='fragApi + "/blocks/"' class="showall">View All ></router-link>
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
-                            <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.height">
+                            <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.signedHeader.header.timestamp.utcSeconds">
                                 <td>
                                     <img src="/static/img/icon-block.png?v=20190116" width="50" height="50">
                                 </td>
                                 <td>
                                     Block#
-                                    <router-link :to='fragApi + "/block/" + block.height' class="monospace">{{ block.height }}</router-link>
+                                    <router-link :to='fragApi + "/block/" + block.height' class="monospace">{{blocks.length-i}}</router-link>
                                     <br>
                                     <span class="txcnt monospace">
-                                        <router-link v-if="block.txnCnt" :to='fragApi + "/txs?block=" + block.height'>{{ block.txnCnt }} {{ block.txnCnt > 1 ? "transactions" : "transaction" }}</router-link>
+                                        <router-link v-if="block.transactionsList.length" :to='fragApi + "/txs?block="
+                                        + block.height'>{{ block.transactionsList.length }}
+                                            {{ block.transactionsList.length > 1 ? "transactions" : "transaction" }}</router-link>
                                         <span v-else>0 transaction</span>
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="time">{{ timeConversion(Date.now() - block.localTimestamp + block.timeDiff) }} ago</div>
+                                    <div class="time">{{ timeConversion(Date.now() - block.signedHeader.header.timestamp.utcSeconds*1000) }} ago</div>
                                 </td>
                             </tr>
                         </transition-group>
@@ -713,31 +715,31 @@
                         <div class="item-title">Transactions</div>
                         <router-link :to='fragApi + "/txs/"' class="showall">View All ></router-link>
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
-                            <tr v-for="(tx, i) in txs" v-if="i < 5" :key="tx.hash">
+                            <tr v-for="(tx, i) in txs" v-if="i < 5" :key="tx.trxId.hash">
                                 <td>
                                     <img src="/static/img/icon-tx.png?v=20190116" width="50" height="50">
                                 </td>
                                 <td>
                                     Tx#
                                     <router-link :to='fragApi + "/tx/" + tx.hash'>
-                                        <span class="monospace">{{ tx.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.hash.slice(-4) }}</span>
+                                        <span class="monospace">{{ tx.trxId.hash.slice(0, 6) }}</span>...<span class="monospace">{{ tx.trxId.hash.slice(-6) }}</span>
                                     </router-link>
                                     <br>
                                     <span class="fromto d-none d-sm-inline">
                                         From
-                                        <router-link :to='fragApi + "/address/" + tx.from.hash'>
-                                            <span class="monospace">{{ tx.from.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.from.hash.slice(-4) }}</span>
-                                        </router-link>
+                                        <!--<router-link :to='fragApi + "/address/" + tx.from.hash'>-->
+                                            <!--<span class="monospace">{{ tx.from.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.from.hash.slice(-4) }}</span>-->
+                                        <!--</router-link>-->
                                     </span>
-                                    <span class="fromto d-none d-sm-inline">
-                                        To
-                                        <router-link :to='fragApi + "/address/" + tx.from.hash'>
-                                            <span class="monospace">{{ tx.to.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.to.hash.slice(-4) }}</span>
-                                        </router-link>
-                                    </span>
+                                    <!--<span class="fromto d-none d-sm-inline">-->
+                                        <!--To-->
+                                        <!--<router-link :to='fragApi + "/address/" + tx.from.hash'>-->
+                                            <!--<span class="monospace">{{ tx.to.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.to.hash.slice(-4) }}</span>-->
+                                        <!--</router-link>-->
+                                    <!--</span>-->
                                 </td>
                                 <td>
-                                    <div class="time">{{ timeConversion(Date.now() - tx.localTimestamp + tx.timeDiff) }} ago</div>
+                                    <div class="time">{{ timeConversion(Date.now() - tx.blockTime.utcSeconds*1000) }} ago</div>
                                 </td>
                             </tr>
                         </transition-group>
@@ -988,45 +990,83 @@
                 };
                 return options;
             },
-            blockheight() {
-                if (this.blocks.length > 0) return this.numberAddComma(this.blocks[0].height);
-                return '0';
-            }
+            // blockheight() {
+            //     if (this.blocks.length > 0) return this.numberAddComma(this.blocks[0].height);
+            //     return '0';
+            // }
         },
         mounted() {
-            window.getStateInfo(info => {
-                if (typeof(info.props) != "undefined" ) {
-                    this.stateInfo = info.props;
+           //fetch state info
+            api.fetchStateInfo(info => {
+                if (typeof(info.state.dgpo) != "undefined" ) {
+                    this.stateInfo = info.state.dgpo;
                 }else {
                     console.log("return empty props");
                 }
             },(errCode,msg) => {
-                console.log("Get state info fail");
-                console.log("error code is %s,msg is %s",errCode,msg);
+                console.log("Get state info fail,error code is %s,msg is %s",errCode,msg);
             });
+
+            //fetch latest block list
+            api.fetchBlockList(0,Number.MAX_SAFE_INTEGER, blkList => {
+                let cnt = blkList.length;
+                if (cnt > 0) {
+                    if (cnt > 5) {
+                        this.blocks = blkList.reverse().slice(0,5);
+                    }else {
+                        this.blocks = blkList.reverse();
+                    }
+                }
+            },(errCode,msg) => {
+                console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+            });
+
+            //fetch recent 7 day total trx count
+            // api.fetchDailyTotalTrxInfoList(null,null,infoList => {
+            //     if (infoList.length > 0) {
+            //         console.log("the daily trx list count is %d",infoList.length);
+            //         console.log(infoList.listList);
+            //        // this.dailyTxData = infoList;
+            //     }
+            // },(errCode,msg) => {
+            //     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+            // });
 
             api.getTx("cnt_static", o => this.dailyTxData = o);                     //recent daily trx volume i
             api.getMarketCap(o => this.market = o);                                 //coin price and market
-            api.getBlock({ type: "latest" }, o => this.blocks = this.addLocalTimestamp(o));           //recent blocks
-            api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));                       //recent latest trx
+            // api.getBlock({ type: "latest" }, o => this.blocks = this.addLocalTimestamp(o));           //recent blocks
+            // api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));                       //recent latest trx
             api.getTodayTxCnt(o => this.todayTxCnt = o);                            //today trx volume
             api.getStaticInfo(o => this.staticInfo = o);                            //contract address
 
+            //fetch latest trx list
+            api.fetchTrxListByTime(null,null,trxList => {
+                if (trxList.length > 0) {
+                    this.txs = trxList.reverse().slice(0,5);
+                }
+            },(errCode,msg) => {
+                console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+            });
             this.shortIntervalID = setInterval(() => {
-                api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));        //recent latest trx
-                api.getBlock({ type: "newblock" }, o => {                           //fetch the latest block
-                    this.addLocalTimestamp(o);
-                    try {
-                        if (o[0].height != this.blocks[0].height) {
-                            this.blocks.splice(0, 0, o[0]);
+                api.fetchTrxListByTime(null,null,trxList => {
+                    if (trxList.length > 0) {
+                        this.txs = trxList.reverse().slice(0,5);
+                    }
+                },(errCode,msg) => {
+                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+                });
+                // api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));        //recent latest trx
+                api.fetchBlockList(0,Number.MAX_SAFE_INTEGER, blkList => {
+                    let cnt = blkList.length;
+                    if (cnt > 0) {
+                        if (cnt > 5) {
+                            this.blocks = blkList.reverse().slice(0,5);
+                        }else {
+                            this.blocks = blkList.reverse();
                         }
-                    } catch(error) {}
-
-                    try {
-                        if (o.data[0].height != this.blocks[0].height) {
-                            this.blocks.splice(0, 0, o.data[0]);
-                        }
-                    } catch(error) {}
+                    }
+                },(errCode,msg) => {
+                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                 });
             }, 5000);
 
@@ -1035,9 +1075,9 @@
                 api.getMarketCap(o => this.market = o);                             //coin price and market
                 api.getStaticInfo(o => this.staticInfo = o);                        //contract address
                 //fetch latest tps
-                window.getStateInfo(info => {
-                    if (typeof(info.props) != "undefined" ) {
-                        this.stateInfo = info.props;
+                api.fetchStateInfo(info => {
+                    if (typeof(info.state.dgpo) != "undefined" ) {
+                        this.stateInfo = info.state.dgpo;
                     }else {
                         console.log("return empty props");
                     }

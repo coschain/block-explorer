@@ -1,7 +1,171 @@
 
 var { ajax, ajaxSplitAction, getContentosNetHost } = require("@/assets/utility");
+import * as cos_sdk from "../sdk.min"
+const cos_host = 'http://' + window.location.hostname + ':8080';
+const grpc_web = require("@improbable-eng/grpc-web").grpc;
 
 module.exports = {
+     cos_host ,
+    /** get user account info by account name
+     * get Account
+     * @param name: user name
+     * @param success:  the request success callback
+     * @param fail:  the request fail callBack
+     * @returns nil
+     */
+     async fetchAccountInfoByName(name,success,fail) {
+         if (typeof success != "function" || typeof fail != "function") {
+             console.log("The success or fail is not a callBack function");
+             return
+         }
+        let req = new  cos_sdk.grpc.GetAccountByNameRequest();
+        let accountName = new cos_sdk.raw_type.account_name();
+        accountName.setValue(name);
+        req.setAccountName(accountName);
+        let promise = new Promise(function (resolve, reject) {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetAccountByName, {
+                request: req,
+                host: cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.toObject();
+                        resolve(obj)
+                    } else {
+                        reject(status,statusMessage)
+                    }
+                }
+            });
+        });
+        promise.then(success,fail);
+    },
+
+    /**
+     * get some state info from chain like tps、maxTps
+     * @param success:  the request success callback
+     * @param fail:     the  request fail callback
+     */
+    async fetchStateInfo(success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.NonParamsRequest();
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetStatInfo,{
+                 request:req,
+                 host:cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.toObject();
+                        resolve(obj);
+                    }else {
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success,fail);
+    },
+
+    /**
+     * get block list in range
+     * @param start: the start block height in range, if value null,query from the first in db
+     * @param end: the end block height in range,if value is null,query to the end in db
+     * @param success: the request success callback
+     * @param fail: the  request fail callback
+     */
+    async fetchBlockList(start,end,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetBlockListRequest();
+        req.setEnd(start);
+        req.setEnd(end);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockList, {
+                request:req,
+                host:cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.toObject();
+                        resolve(obj.blocksList)
+                    }else {
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success,fail);
+    },
+
+    /**
+     * get trx list by time in reverse order
+     * @param start: the  start time in request range, if value null,query from the first in db
+     * @param end: the end time  in request range, if value is null,query to the end in db
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async fetchTrxListByTime(start,end,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetTrxListByTimeRequest();
+        req.setStart(start);
+        req.setEnd(end);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxListByTime, {
+                request:req,
+                host:cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.toObject();
+                        resolve(obj.listList)
+                    }else {
+                        console.log("error code is %s,msg is %s",status,statusMessage);
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success,fail)
+    },
+
+    async fetchDailyTotalTrxInfoList(start,end,success,fail){
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetDailyTotalTrxRequest();
+        req.setStart(start);
+        req.setEnd(end);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetDailyTotalTrxInfo, {
+                request:req,
+                host:cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        console.log("fetch daily total trxs list");
+                        let obj = message.toObject();
+                        console.log(obj);
+                        resolve(obj.listList)
+                    }else {
+                        console.log("error code is %s,msg is %s",status,statusMessage);
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success,fail)
+    },
+
+
     // get api/account?
     // - p      - 页码, 默认 1
     getAccount(p, done, fail) {
