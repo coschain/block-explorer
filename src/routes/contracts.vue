@@ -38,20 +38,20 @@
 <template>
     <!-- https://etherscan.io/txs -->
     <div class="vue-contracts fullfill">
-        <vue-bread title="Smart Contracts"></vue-bread>
+        <vue-bread title="Posted Articles"></vue-bread>
 
         <div v-if="arr" class="container mt20">
             <div class="align-items-center info-and-pagination mt20 row">
-                <div class="col info font-color-000000 font-24 font-bold title">{{ numberAddComma(totalCts) }} smart contracts found</div>
+                <div class="col info font-color-000000 font-24 font-bold title">{{ numberAddComma(totalCts) }} articles found</div>
                 <!--(showing the last {{ maxDisplayCnt }} records)-->
             </div>
 
             <div class="explorer-table-container font-14">
                 <table class="mt20 explorer-table list-table">
                     <tr class="list-header font-12 font-bold font-color-000000">
-                        <th style="padding-left: 24px;">Smart Contract</th>
-                        <th v-if="$route.params.api === 'testnet'">Creator Address</th>
-                        <th>Type</th>
+                        <th style="padding-left: 24px;">Smart Author</th>
+                        <th v-if="$route.params.api === 'testnet'">Title</th>
+                        <th>Category</th>
                         <th class=text-right style="padding-right: 24px; width: 120px">Date Created</th>
                     </tr>
 

@@ -82,7 +82,7 @@ module.exports = {
             return
         }
         let req = new cos_sdk.grpc.GetBlockListRequest();
-        req.setEnd(start);
+        req.setStart(start);
         req.setEnd(end);
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockList, {
@@ -91,8 +91,8 @@ module.exports = {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
-                        let obj = message.toObject();
-                        resolve(obj.blocksList)
+                        let obj = message.getBlocksList();
+                        resolve(obj)
                     }else {
                         reject(status,statusMessage)
                     }
@@ -172,6 +172,39 @@ module.exports = {
         promise.then(success,fail)
     },
 
+    /**
+     * get trx info by trxId
+     * @param hashValue: trxId hash value
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async fetchTrxInfoById(hashValue,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetTrxByIdRequest();
+        let trxId = new cos_sdk.raw_type.sha256();
+        trxId.setHash(hashValue);
+        req.setTrxId(trxId);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxInfoById, {
+                request:req,
+                host:cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getInfo();
+                        resolve(obj)
+                    }else {
+                        console.log("error code is %s,msg is %s",status,statusMessage);
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success,fail)
+    },
 
     // get api/account?
     // - p      - 页码, 默认 1

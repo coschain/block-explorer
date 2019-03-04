@@ -86,13 +86,15 @@
                 heightFrom: 0,
                 heightTo: 0,
                 totalBlocks: 0,
-                totalPage: 0
+                totalPage: 0,
+                blocks: null,
             };
         },
         methods: {
             nthPage() {
                 var p = this.$route.query.p || 1;
-
+                console.log("start request");
+                console.log(p);
                 if (p == this.currentPage)
                     console.log("nthPage - 请求的第", p, "页正是当前页, 忽略此次调用");
                 else {
@@ -116,6 +118,14 @@
                     }, xhr => {
                         this.$root.showModalLoading = false;
                         this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                    });
+
+                    api.fetchBlockList(0,Number.MAX_SAFE_INTEGER, blkList => {
+                        if (blkList.length > 0) {
+                            this.blocks = blkList;
+                        }
+                    },(errCode,msg) => {
+                        console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                     });
                 }
             },

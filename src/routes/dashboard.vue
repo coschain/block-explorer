@@ -655,28 +655,28 @@
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ stateInfo.headBlockNumber }}</div>
-                        <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/blocks/"'>Block Height ></router-link>
+                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/blocks/"'>Block Height ></router-link>
                         <img src=/static/img/dashboard-1.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalTrxCnt) }}</div>
-                        <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/txs/"'>Total Transactions ></router-link>
+                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/txs/"'>Total Transactions ></router-link>
                         <img src=/static/img/dashboard-2.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalPostCnt) }}</div>
-                        <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/contracts/"'>Total articles ></router-link>
+                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/contracts/"'>Total articles ></router-link>
                         <img src=/static/img/dashboard-3.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalUserCnt) }}</div>
-                        <router-link v-if="staticInfo" class="link link-style" :to='fragApi + "/accounts/"'>Total Account ></router-link>
+                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/accounts/"'>Total Account ></router-link>
                         <img src=/static/img/dashboard-4.png width=44 alt="">
                     </div>
                 </div>
@@ -688,23 +688,23 @@
                         <div class="item-title">Blocks</div>
                         <router-link :to='fragApi + "/blocks/"' class="showall">View All ></router-link>
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
-                            <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.signedHeader.header.timestamp.utcSeconds">
+                            <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.id().blockNum()">
                                 <td>
                                     <img src="/static/img/icon-block.png?v=20190116" width="50" height="50">
                                 </td>
                                 <td>
                                     Block#
-                                    <router-link :to='fragApi + "/block/" + block.height' class="monospace">{{blocks.length-i}}</router-link>
+                                    <router-link :to='fragApi + "/block/" + block.id().blockNum()' class="monospace">{{block.id().blockNum()}}</router-link>
                                     <br>
                                     <span class="txcnt monospace">
-                                        <router-link v-if="block.transactionsList.length" :to='fragApi + "/txs?block="
-                                        + block.height'>{{ block.transactionsList.length }}
-                                            {{ block.transactionsList.length > 1 ? "transactions" : "transaction" }}</router-link>
+                                        <router-link v-if="block.toObject().transactionsList.length" :to='fragApi + "/txs?block="
+                                        + block.height'>{{ block.toObject().transactionsList.length }}
+                                            {{ block.toObject().transactionsList.length > 1 ? "transactions" : "transaction" }}</router-link>
                                         <span v-else>0 transaction</span>
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="time">{{ timeConversion(Date.now() - block.signedHeader.header.timestamp.utcSeconds*1000) }} ago</div>
+                                    <div class="time">{{ timeConversion(Date.now() - block.toObject().signedHeader.header.timestamp.utcSeconds*1000) }} ago</div>
                                 </td>
                             </tr>
                         </transition-group>
@@ -721,7 +721,7 @@
                                 </td>
                                 <td>
                                     Tx#
-                                    <router-link :to='fragApi + "/tx/" + tx.hash'>
+                                    <router-link :to='fragApi + "/tx/" + tx.trxId.hash'>
                                         <span class="monospace">{{ tx.trxId.hash.slice(0, 6) }}</span>...<span class="monospace">{{ tx.trxId.hash.slice(-6) }}</span>
                                     </router-link>
                                     <br>

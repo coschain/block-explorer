@@ -78,7 +78,7 @@
 <template>
     <div class="vue-tx fullfill" v-bind:triggerComputed=urlChange>
         <vue-bread title='TxHash' :subtitle="$route.params.id" :subtitlemonospaced="$route.params.id"></vue-bread>
-        <div v-if="tx" class="container">
+        <div v-if="trx" class="container">
             <div class="font-24 font-bold font-color-000000 table-title">
                 Overview
             </div>
@@ -86,15 +86,15 @@
                 <table class="explorer-table">
                     <tr>
                         <td class="td-left font-16 font-color-555555" style="padding-left: 24px;">TxHash:</td>
-                        <td class="font-16 font-color-000000 monospace">{{ tx.hash }}</td>
+                        <td class="font-16 font-color-000000 monospace">{{ trx.getTrxId().toObject().hash }}</td>
                     </tr>
                     <tr class="font-16">
                         <td class="font-color-555555" style="padding-left: 24px;">TxReceipt Status:</td>
-                        <td class="d-flex align-items-center" v-if="tx.status === 0" style="height: inherit">
+                        <td class="d-flex align-items-center" v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
                             <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
                         </td>
-                        <td class="d-flex align-items-center" v-else-if="tx.status === 1" style="height: inherit">
+                        <td class="d-flex align-items-center" v-else-if="trx.getTrxWrap().getInvoice().getStatus() === 200" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
                             <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
                         </td>
@@ -106,64 +106,65 @@
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Block Height:</td>
                         <td>
-                            <template v-if=tx.isPending>
-                                <span class="font-color-000000 font-16"> pending </span>
-                            </template>
-                            <template v-else>
-                                <router-link v-if=tx.block v-bind:to='fragApi +"/block/" + tx.block.height'>
-                                    <span class="font-16">{{tx.block.height}}</span>
+                            <!--<template v-if=tx.isPending>-->
+                                <!--<span class="font-color-000000 font-16"> pending </span>-->
+                            <!--</template>-->
+                            <template >
+                                <router-link v-if=trx.getBlockHeight() v-bind:to='fragApi +"/block/" + trx.getBlockHeight()'>
+                                    <span class="font-16">{{trx.getBlockHeight()}}</span>
                                 </router-link>
                             </template>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">TimeStamp:</td>
-                        <td class="font-16 font-color-000000">{{ timeConversion(tx.timeDiff) }} ago ({{ new Date(tx.timestamp).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ tx.timestamp }})</td>
+                        <td class="font-16 font-color-000000">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</td>
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">From:</td>
                         <td>
-                            <router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>
-                                <span class="font-16 monospace">{{ tx.from.hash }}</span>
-                            </router-link>
+                            <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
+                                <!--<span class="font-16 monospace">{{ tx.from.hash }}</span>-->
+                            <!--</router-link>-->
                         </td>
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">To:</td>
-                        <td v-if="tx.type === 'call'">
-                            <span class="font-color-000000 font-16">Contract</span>
-                            <router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>
-                                <span style="margin-left: 20px;" class="font-16 monospace">{{ tx.to.hash }}</span>
-                            </router-link>
-                            <div class="token-name font-16 font-color-000000" style="margin-left: 14px;" v-if="isTokenTransfer && tx.tokenName">{{ '(' + tx.tokenName + ' Token)' }}</div>
-                        </td>
-                        <td v-else>
-                            <router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>
-                                <span class="font-16 monospace">{{ tx.to.hash }}</span>
-                            </router-link>
-                        </td>
+                        <td class="detail"></td>
+                        <!--<td v-if="tx.type === 'call'">-->
+                            <!--<span class="font-color-000000 font-16">Contract</span>-->
+                            <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>-->
+                                <!--<span style="margin-left: 20px;" class="font-16 monospace">{{ tx.to.hash }}</span>-->
+                            <!--</router-link>-->
+                            <!--<div class="token-name font-16 font-color-000000" style="margin-left: 14px;" v-if="isTokenTransfer && tx.tokenName">{{ '(' + tx.tokenName + ' Token)' }}</div>-->
+                        <!--</td>-->
+                        <!--<td v-else>-->
+                            <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>-->
+                                <!--<span class="font-16 monospace">{{ tx.to.hash }}</span>-->
+                            <!--</router-link>-->
+                        <!--</td>-->
                     </tr>
-                    <tr  v-if=isTokenTransfer class="font-16">
-                        <td class="font-color-555555" style="padding-left: 24px;">Token Transfered:</td>
-                        <td>
-                            <span class="font-color-000000">From</span>
-                            <router-link class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + tx.from.hash'>
-                                <span class="monospace">{{ tx.from.hash }}</span>
-                            </router-link>
-                            <span class="font-color-000000">To </span>
-                            <router-link  class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + JSON.parse(JSON.parse(tx.data).Args)[0]'>
-                                <span class="monospace">{{ JSON.parse(JSON.parse(tx.data).Args)[0] }} </span>
-                            </router-link>
-                            <span class="font-color-000000">for {{ tokenAmount }}</span>
-                            <div class="token-name" v-if="tx.tokenName">
-                                <a href=# @click="search(tx.tokenName)">{{ tx.tokenName }}</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Value:</td>
-                        <td class="font-16 font-color-000000">{{ nasAmount(tx.value) }} COS</td>
-                    </tr>
+                    <!--<tr  v-if=isTokenTransfer class="font-16">-->
+                        <!--<td class="font-color-555555" style="padding-left: 24px;">Token Transfered:</td>-->
+                        <!--<td>-->
+                            <!--<span class="font-color-000000">From</span>-->
+                            <!--<router-link class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
+                                <!--<span class="monospace">{{ tx.from.hash }}</span>-->
+                            <!--</router-link>-->
+                            <!--<span class="font-color-000000">To </span>-->
+                            <!--<router-link  class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + JSON.parse(JSON.parse(tx.data).Args)[0]'>-->
+                                <!--<span class="monospace">{{ JSON.parse(JSON.parse(tx.data).Args)[0] }} </span>-->
+                            <!--</router-link>-->
+                            <!--<span class="font-color-000000">for {{ tokenAmount }}</span>-->
+                            <!--<div class="token-name" v-if="tx.tokenName">-->
+                                <!--<a href=# @click="search(tx.tokenName)">{{ tx.tokenName }}</a>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">Value:</td>-->
+                        <!--<td class="font-16 font-color-000000">{{ nasAmount(tx.value) }} COS</td>-->
+                    <!--</tr>-->
 
                 </table>
             </div>
@@ -171,15 +172,16 @@
             <div class="mobile-detail d-md-none">
                 <div>
                     TxHash:
-                    <div class="detail monospace">{{ tx.hash }}</div>
+                    <!--<div class="detail monospace">{{ tx.hash }}</div>-->
+                    <div class="detail monospace">{{ trx.getTrxId().getHash() }}</div>
                 </div>
                 <div>
                     TxReceipt Status:
-                    <td class="detail d-flex align-items-center" v-if="tx.status === 0" style="height: inherit">
+                    <td class="detail d-flex align-items-center" v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
                             <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
                         </td>
-                        <td class="detail d-flex align-items-center" v-else-if="tx.status === 1" style="height: inherit">
+                        <td class="detail d-flex align-items-center" v-else-if="trx.getTrxWrap().getInvoice().getStatus() === 200" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
                             <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
                         </td>
@@ -191,64 +193,65 @@
                 <div>
                     Block Height:
                     <div class="detail">
-                        <template v-if=tx.isPending>
-                            <span class="font-color-000000"> pending </span>
-                        </template>
-                        <template v-else>
-                            <router-link v-if=tx.block v-bind:to='fragApi +"/block/" + tx.block.height'>
-                                <span>{{tx.block.height}}</span>
+                        <!--<template v-if=tx.isPending>-->
+                            <!--<span class="font-color-000000"> pending </span>-->
+                        <!--</template>-->
+                        <template >
+                            <router-link v-if=trx.getBlockHeight() v-bind:to='fragApi +"/block/" + trx.getBlockHeight()'>
+                                <span>{{trx.getBlockHeight()}}</span>
                             </router-link>
                         </template>
                     </div>
                 </div>
                 <div>
                     TimeStamp:
-                    <div class="detail">{{ timeConversion(tx.timeDiff) }} ago ({{ new Date(tx.timestamp).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ tx.timestamp }})</div>
+                    <div class="detail">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</div>
                 </div>
                 <div>
                     From:
                     <div class="detail">
-                        <router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>
-                            <span class="monospace">{{ tx.from.hash }}</span>
-                        </router-link>
+                        <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
+                            <!--<span class="monospace">{{ tx.from.hash }}</span>-->
+                        <!--</router-link>-->
                     </div>
                 </div>
                 <div>
                     To:
-                    <div v-if="tx.type == 'call'" class="detail">
-                        <span class="font-color-000000" style="margin-right: 20px;">Contract</span>
-                        <router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash' style="margin-right: 14px;">
-                            <span class="monospace">{{ tx.to.hash }}</span>
-                        </router-link>
-                        <div class="token-name font-color-000000" v-if="isTokenTransfer && tx.tokenName">{{ '(' + tx.tokenName + ' Token)' }}</div>
-                    </div>
-                    <div v-else class="detail">
-                        <router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>
-                            <span class="monospace">{{ tx.to.hash }}</span>
-                        </router-link>
-                    </div>
+                    <div class="detail"></div>
+                    <!--<div v-if="tx.type == 'call'" class="detail">-->
+                        <!--<span class="font-color-000000" style="margin-right: 20px;">Contract</span>-->
+                        <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash' style="margin-right: 14px;">-->
+                            <!--<span class="monospace">{{ tx.to.hash }}</span>-->
+                        <!--</router-link>-->
+                        <!--<div class="token-name font-color-000000" v-if="isTokenTransfer && tx.tokenName">{{ '(' + tx.tokenName + ' Token)' }}</div>-->
+                    <!--</div>-->
+                    <!--<div v-else class="detail">-->
+                        <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>-->
+                            <!--<span class="monospace">{{ tx.to.hash }}</span>-->
+                        <!--</router-link>-->
+                    <!--</div>-->
                 </div>
-                <div v-if=isTokenTransfer>
-                    Token Transfered:
-                    <div class="detail">
-                        <span class="font-color-000000">From</span>
-                        <router-link class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + tx.from.hash'>
-                            <span class="monospace">{{ tx.from.hash }}</span>
-                        </router-link>
-                        <span class="font-color-000000">To </span>
-                        <router-link class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + JSON.parse(JSON.parse(tx.data).Args)[0]'>
-                            <span class="monospace">{{ JSON.parse(JSON.parse(tx.data).Args)[0] }} </span>
-                        </router-link>
-                        <span class="font-color-000000">for {{ tokenAmount }}</span>
-                        <div class="token-name" v-if="tx.tokenName">
-                            <a href=# @click="search(tx.tokenName)">{{ tx.tokenName }}</a>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    Value:
-                    <div class="detail">{{ nasAmount(tx.value) }} COS</div>
-                </div>
+                <!--<div v-if=isTokenTransfer>-->
+                    <!--Token Transfered:-->
+                    <!--<div class="detail">-->
+                        <!--<span class="font-color-000000">From</span>-->
+                        <!--<router-link class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
+                            <!--<span class="monospace">{{ tx.from.hash }}</span>-->
+                        <!--</router-link>-->
+                        <!--<span class="font-color-000000">To </span>-->
+                        <!--<router-link class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + JSON.parse(JSON.parse(tx.data).Args)[0]'>-->
+                            <!--<span class="monospace">{{ JSON.parse(JSON.parse(tx.data).Args)[0] }} </span>-->
+                        <!--</router-link>-->
+                        <!--<span class="font-color-000000">for {{ tokenAmount }}</span>-->
+                        <!--<div class="token-name" v-if="tx.tokenName">-->
+                            <!--<a href=# @click="search(tx.tokenName)">{{ tx.tokenName }}</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--Value:-->
+                    <!--<div class="detail">{{ nasAmount(tx.value) }} COS</div>-->
+                <!--</div>-->
             </div>
         </div>
 
@@ -299,18 +302,28 @@
             },
             urlChange() {
                 this.$root.showModalLoading = true;
-                api.getTx(this.$route.params.id, o => {
+                api.fetchTrxInfoById(this.$route.params.id, info => {
+                    if (typeof info != "undefined") {
+                       this.trx = info;
+                    }
                     this.$root.showModalLoading = false;
-                    this.tx = o;
-                    // if (!o.tokenName || o.tokenName.length == 0) {
-                    //     if (o.to.hash == this.atpAddress()) {
-                    //         this.tx.tokenName ="ATP";
-                    //     }
-                    // }
-                }, xhr => {
+                },(errCode,msg) => {
+                    console.log("Get trx info fail,error code is %s,msg is %s",errCode,msg);
                     this.$root.showModalLoading = false;
-                    this.$router.replace((this.$route.params.api ?"/" + this.$route.params.api :"") +"/404");
                 });
+
+                // api.getTx(this.$route.params.id, o => {
+                //     this.$root.showModalLoading = false;
+                //     this.tx = o;
+                //     // if (!o.tokenName || o.tokenName.length == 0) {
+                //     //     if (o.to.hash == this.atpAddress()) {
+                //     //         this.tx.tokenName ="ATP";
+                //     //     }
+                //     // }
+                // }, xhr => {
+                //     this.$root.showModalLoading = false;
+                //     this.$router.replace((this.$route.params.api ?"/" + this.$route.params.api :"") +"/404");
+                // });
             },
             isTokenTransfer() {
                 try {
@@ -328,12 +341,10 @@
                 return amount.div(decimals).toFormat();
             },
             errMsg() {
-                if (this.tx.executeError === 'insufficient balance') {
-                    return 'Insufficient Balance of Transfer Address';
-                } else if (this.tx.executeError === 'insufficient gas') {
-                    return 'Out of Gas';
+                if (this.trx.getTrxWrap().getInvoice().getErrorInfo()) {
+                    return this.trx.getTrxWrap().getInvoice().getErrorInfo().getValue();
                 } else {
-                    return 'Contract Execution Failed';
+                    return 'Apply Transaction Failed';
                 }
             }
         },
@@ -343,6 +354,7 @@
                 tab: 0,
                 tabButtons: ["Overview"],
                 tx: null,
+                trx: null,
                 isShowPayload: false
             };
         },
@@ -368,10 +380,10 @@
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat();
             },
-            atpAddress() {
-                var api = this.$route.params.api ? this.$route.params.api :"mainnet";
-                return appConfig.apiPrefixes[api].atp;
-            },
+            // atpAddress() {
+            //     var api = this.$route.params.api ? this.$route.params.api :"mainnet";
+            //     return appConfig.apiPrefixes[api].atp;
+            // },
             search(keyword) {
                 if (keyword.trim().length === 0) {
                     return;
@@ -399,25 +411,6 @@
             }
         },
         mounted() {
-            if (this.$root.showAtpAds) {
-                /*初始化ATPSDK，并设置partnerID (init ATP-SDK ,Set partnerID)*/
-                var atpAds = AtlasAds('pbg91eenif2mbsoo3g1qg');
-
-                //获取广告 传入div containerId和广告的宽高（getAd set the containerId and dimension wide high）
-                atpAds.getAd('#atlaspAds-bottom', 'nas_1200x100_002');
-                atpAds.getAd('#atlaspAds-side', 'nas_360x300_002');
-                atpAds.getAd('#atlaspAds-mobile', 'nas_720x200_002');
-
-                //侧栏广告尺寸限制
-                window.onresize = function () {
-                    if (window.innerWidth >= 1600) {
-                        $('#atlaspAds-side').show();
-                    } else {
-                        $('#atlaspAds-side').hide();
-                    }
-                }
-                window.onresize();
-            }
         },
     };
 </script>

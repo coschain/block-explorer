@@ -34,7 +34,7 @@
     <!-- https://etherscan.io/block/4951841 -->
     <div class="vue-block fullfill" v-bind:triggerComputed=urlChange>
         <vue-bread title='Block' :subtitle="$route.params.id"></vue-bread>
-        <div v-if="block" class="container">
+        <div v-if="blockInfo" class="container">
             <div class="font-24 font-bold font-color-000000 table-title">
                 Overview
             </div>
@@ -47,13 +47,13 @@
                             <nav aria-label="Page navigation" class=navgation-tab>
                                 <ul class=pagination>
                                     <li>
-                                        <router-link v-if="block.height > 1" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                        <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                             <span aria-hidden=true>&lt; Prev</span>
                                         </router-link>
                                     </li>
-                                    <li>&nbsp; {{ block.height }} &nbsp;</li>
+                                    <li>&nbsp; {{$route.params.id}} &nbsp;</li>
                                     <li>
-                                        <router-link v-if="$root.timestamp - block.timestamp > 16000" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
+                                        <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
                                             <span aria-hidden=true>Next &gt;</span>
                                         </router-link>
                                     </li>
@@ -63,59 +63,60 @@
                     </tr>
                     <tr>
                         <td class="font-color-555555">TimeStamp</td>
-                        <td class="font-color-000000">{{ timeConversion(Date.now() - block.localTimestamp + block.timeDiff) }} ago ({{ new Date(block.timestamp).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.timestamp }})</td>
+                        <td class="font-color-000000">{{ timeConversion(Date.now() - bTime) }} ago ({{ new Date(bTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ bTime }})</td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Transactions</td>
                         <td class="font-color-000000">
-                            <router-link v-bind:to='fragApi + "/txs?block=" + block.height'>
-                                <span>{{ block.blkSummary.txCnt }}</span>
+                            <router-link v-bind:to='fragApi + "/txs?block=" + this.$route.params.id'>
+                                <span>{{ blockInfo.transactionsList.length }}</span>
                             </router-link>
                             tx in this block
                         </td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Hash</td>
-                        <td class="font-color-000000 monospace">{{ block.hash }}</td>
+                        <td class="font-color-000000 monospace">{{ blockInfo.signedHeader.header.previous.hash}}</td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Parent Hash</td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/block/" + block.parentHash'>
-                                <span class="monospace">{{ block.parentHash }}</span>
+                            <router-link v-bind:to='fragApi + "/block/" + blockInfo.signedHeader.header.previous.hash'>
+                                <span class="monospace">{{ blockInfo.signedHeader.header.previous.hash }}</span>
                             </router-link>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Minted</td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/address/" + block.miner.hash'>
-                                <span class="monospace">{{ block.miner.hash }}</span>
+                            <router-link v-bind:to='fragApi + "/address/" + blockInfo.signedHeader.header.witness.value'>
+                                <span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>
                             </router-link>
-                            <span v-if=block.miner.alias> | {{ block.miner.alias }}</span>
+                            <!--<span v-if=block.miner.alias> | {{ block.miner.alias }}</span>-->
                         </td>
                     </tr>
-                    <tr>
-                        <td class="font-color-555555" style="vertical-align: top; padding-top: 12px;">Dynasty</td>
-                        <td style="vertical-align: top; padding-top: 12px;">
-                            <a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapse-mobile" aria-expanded="false" aria-controls="collapseExample">
-                                <span>
-                                    Show Dynasty
-                                </span>
-                                <img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />
-                            </a>
-                            <div class="collapse" id="collapse-mobile">
-                                <div class="card card-body dynasty">
-                                    <router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>
-                                        <span class="font-16 font-bold  monospace"> {{ dynasty }}</span>
-                                    </router-link>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    <!--<tr>-->
+                        <!--<td class="font-color-555555" style="vertical-align: top; padding-top: 12px;">Dynasty</td>-->
+                        <!--<td style="vertical-align: top; padding-top: 12px;">-->
+                            <!--<a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapse-mobile" aria-expanded="false" aria-controls="collapseExample">-->
+                                <!--<span>-->
+                                    <!--Show Dynasty-->
+                                <!--</span>-->
+                                <!--<img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />-->
+                            <!--</a>-->
+                            <!--<div class="collapse" id="collapse-mobile">-->
+                                <!--<div class="card card-body dynasty">-->
+                                    <!--<router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>-->
+                                        <!--<span class="font-16 font-bold  monospace"> {{ dynasty }}</span>-->
+                                    <!--</router-link>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
                     <tr>
                         <td class="font-color-555555">Gas Reward</td>
-                        <td class="font-color-000000">{{ toWei(block.blkSummary.gasReward) }}</td>
+                        <!--<td class="font-color-000000">{{ toWei(block.blkSummary.gasReward) }}</td>-->
+                        <td class="font-color-000000"></td>
                     </tr>
                 </table>
             </div>
@@ -127,13 +128,13 @@
                         <nav aria-label="Page navigation" class=navgation-tab>
                             <ul class=pagination>
                                 <li>
-                                    <router-link v-if="block.height > 1" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                    <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                         <span aria-hidden=true>&lt; Prev</span>
                                     </router-link>
                                 </li>
-                                <li>&nbsp; {{ block.height }} &nbsp;</li>
+                                <li>&nbsp; {{$route.params.id}} &nbsp;</li>
                                 <li>
-                                    <router-link v-if="$root.timestamp - block.timestamp > 16000" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
+                                    <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
                                         <span aria-hidden=true>Next &gt;</span>
                                     </router-link>
                                 </li>
@@ -143,67 +144,69 @@
                 </div>
                 <div>
                     TimeStamp:
-                    <div class="detail">{{ timeConversion(Date.now() - block.localTimestamp + block.timeDiff) }} ago ({{ new Date(block.timestamp).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.timestamp }})</div>
+                    <td class="font-color-000000">{{ timeConversion(Date.now() - bTime) }} ago ({{ new Date(bTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ bTime }})</td>
                 </div>
                 <div>
                     Transactions:
                     <div class="detail">
-                        <router-link v-bind:to='fragApi + "/txs?block=" + block.height'>
-                            <span>{{ block.blkSummary.txCnt }}</span>
+                        <router-link v-bind:to='fragApi + "/txs?block=" + this.$route.params.id'>
+                            <span>{{ blockInfo.transactionsList.length }}</span>
                         </router-link>
                         tx in this block
                     </div>
                 </div>
                 <div>
                     Hash:
-                    <div class="detail monospace">{{ block.hash }}</div>
+                    <div class="detail monospace">{{ blockInfo.signedHeader.header.previous.hash }}</div>
                 </div>
                 <div>
                     Parent Hash:
                     <div class="detail">
-                        <router-link v-bind:to='fragApi + "/block/" + block.parentHash'>
-                            <span class="monospace">{{ block.parentHash }}</span>
+                        <router-link v-bind:to='fragApi + "/block/" + blockInfo.signedHeader.header.previous.hash'>
+                            <span class="monospace">{{ blockInfo.signedHeader.header.previous.hash }}</span>
                         </router-link>
                     </div>
                 </div>
                 <div>
                     Minted:
                     <div class="detail">
-                        <router-link v-bind:to='fragApi + "/address/" + block.miner.hash'>
-                            <span class="monospace">{{ block.miner.hash }}</span>
-                        </router-link>
-                        <span v-if=block.miner.alias> | {{ block.miner.alias }}</span>
-                    </div>
-                </div>
-                <div>
-                    Coinbase:
-                    <div class="detail">
-                        <router-link v-bind:to='fragApi + "/address/" + block.coinbase'>
-                            <span class="monospace">{{ block.coinbase }}</span>
+                        <!--<router-link v-bind:to='fragApi + "/address/" + block.miner.hash'>-->
+                            <!--<span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>-->
+                        <!--</router-link>-->
+                        <router-link v-bind:to='fragApi + "/address/" + blockInfo.signedHeader.header.witness.value'>
+                            <span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>
                         </router-link>
                     </div>
                 </div>
-                <div>
-                    Dynasty:
-                    <div class="detail">
-                        <a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            <span>
-                                Show Dynasty
-                            </span>
-                            <img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />
-                        </a>
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body dynasty">
-                                <router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>
-                                    <span class="font-16 font-bold "> {{ dynasty }}</span>
-                                </router-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--<div>-->
+                    <!--Coinbase:-->
+                    <!--<div class="detail">-->
+                        <!--<router-link v-bind:to='fragApi + "/address/" + block.coinbase'>-->
+                            <!--<span class="monospace">{{ block.coinbase }}</span>-->
+                        <!--</router-link>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--Dynasty:-->
+                    <!--<div class="detail">-->
+                        <!--<a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
+                            <!--<span>-->
+                                <!--Show Dynasty-->
+                            <!--</span>-->
+                            <!--<img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />-->
+                        <!--</a>-->
+                        <!--<div class="collapse" id="collapseExample">-->
+                            <!--<div class="card card-body dynasty">-->
+                                <!--<router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>-->
+                                    <!--<span class="font-16 font-bold "> {{ dynasty }}</span>-->
+                                <!--</router-link>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div>
                     Gas Reward:
-                    <div class="detail">{{ toWei(block.blkSummary.gasReward) }}</div>
+                    <div class="detail"></div>
                 </div>
             </div>
         </div>
@@ -231,6 +234,19 @@
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
+
+                //fetch block info
+                api.fetchBlockList(this.$route.params.id,this.$route.params.id, blkInfo => {
+                    if (blkInfo.length > 0 ) {
+                        this.blockInfo = blkInfo[0].toObject();
+                        this.bTime = this.blockInfo.signedHeader.header.timestamp.utcSeconds*1000;
+                        console.log(this.blockInfo)
+                    }
+                    this.$root.showModalLoading = false;
+                },(errCode,msg) => {
+                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+                    this.$root.showModalLoading = false;
+                });
             }
         },
         methods: {
@@ -254,7 +270,9 @@
                 tab: 0,
                 tabButtons: ["Overview"],
                 isShowDynasty: false,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                blockInfo: null,
+                bTime: null,
             };
         }
     };

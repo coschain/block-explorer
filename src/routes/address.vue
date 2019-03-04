@@ -226,37 +226,37 @@
                    v-bind:subtitlemonospaced="!!$route.params.id"
                    v-bind:blockies="$route.params.id">
         </vue-bread>
-        <div class="container explorer-table-container" v-if=obj>
+        <div class="container explorer-table-container" v-if=accountInfo>
             <div class="font-24 font-bold font-color-000000 table-title">
                 Overview
-                <span class=c777 v-show=obj.address.alias> | {{ obj.address.alias }}</span>
+                <!--<span class=c777 v-show=obj.address.alias> | {{ obj.address.alias }}</span>-->
             </div>
             <table class="explorer-table d-none d-md-table">
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">COS Balance:
                     </td>
                     <td class="font-16 font-color-000000">
-                        {{ nasAmount(obj.address.balance) }} COS
+                        {{ nasAmount(accountInfo.coin) }} COS
                     </td>
                 </tr>
-                <tr v-if="creator && deployTxHash">
-                    <td class="base-info-key font-16 font-color-555555 pl-16">
-                        Contract Creator:
-                    </td>
-                    <td class="contract-creator font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/address/" + creator'
-                                     title="Creator Address">
-                            <span>{{ toShortStr(creator) }}</span>
-                            <div class="popover down-arrow-tip">Creator Address</div>
-                        </router-link>
-                        at txn
-                        <router-link v-bind:to='fragApi + "/tx/" + deployTxHash'
-                                     title="Creator TxHash">
-                            <span>{{ toShortStr(deployTxHash) }}</span>
-                            <div class="popover down-arrow-tip">Creator TxHash</div>
-                        </router-link>
-                    </td>
-                </tr>
+                <!--<tr v-if="creator && deployTxHash">-->
+                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">-->
+                        <!--Contract Creator:-->
+                    <!--</td>-->
+                    <!--<td class="contract-creator font-16 font-color-000000">-->
+                        <!--<router-link v-bind:to='fragApi + "/address/" + creator'-->
+                                     <!--title="Creator Address">-->
+                            <!--<span>{{ toShortStr(creator) }}</span>-->
+                            <!--<div class="popover down-arrow-tip">Creator Address</div>-->
+                        <!--</router-link>-->
+                        <!--at txn-->
+                        <!--<router-link v-bind:to='fragApi + "/tx/" + deployTxHash'-->
+                                     <!--title="Creator TxHash">-->
+                            <!--<span>{{ toShortStr(deployTxHash) }}</span>-->
+                            <!--<div class="popover down-arrow-tip">Creator TxHash</div>-->
+                        <!--</router-link>-->
+                    <!--</td>-->
+                <!--</tr>-->
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Nonce:</td>
                     <td class="font-16 font-color-000000">{{ obj.address.nonce }}</td>
@@ -398,6 +398,16 @@
                 this.nrc20TxList = [];
                 this.nrc20TxCnt = 0;
                 this.$root.showModalLoading = true;
+                api.fetchAccountInfoByName(this.$route.params.id, info => {
+                    console.log("fetch account info by name");
+                    if (typeof info != "undefined") {
+                        this.accountInfo = info;
+                    }
+                    console.log(info)
+                },(errCode,msg) => {
+                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+                });
+
                 api.getAddress(this.$route.params.id, o => {
                     this.$root.showModalLoading = false;
                     this.minted = o.mintedBlkList;
@@ -459,7 +469,8 @@
                 contractCode: null,
                 nrc20TxList: [],
                 nrc20TxCnt: 0,
-                isNoNrc20Tx: false
+                isNoNrc20Tx: false,
+                accountInfo: null,
             };
         },
         methods: {
