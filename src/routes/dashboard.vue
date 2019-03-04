@@ -715,14 +715,14 @@
                         <div class="item-title">Transactions</div>
                         <router-link :to='fragApi + "/txs/"' class="showall">View All ></router-link>
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
-                            <tr v-for="(tx, i) in txs" v-if="i < 5" :key="tx.trxId.hash">
+                            <tr v-for="(tx, i) in txs" v-if="i < 5" :key="tx.toObject().trxId.hash">
                                 <td>
                                     <img src="/static/img/icon-tx.png?v=20190116" width="50" height="50">
                                 </td>
                                 <td>
                                     Tx#
-                                    <router-link :to='fragApi + "/tx/" + tx.trxId.hash'>
-                                        <span class="monospace">{{ tx.trxId.hash.slice(0, 6) }}</span>...<span class="monospace">{{ tx.trxId.hash.slice(-6) }}</span>
+                                    <router-link :to='fragApi + "/tx/" + tx.toObject().trxId.hash'>
+                                        <span class="monospace">{{ tx.toObject().trxId.hash.slice(0, 6) }}</span>...<span class="monospace">{{ tx.toObject().trxId.hash.slice(-6) }}</span>
                                     </router-link>
                                     <br>
                                     <span class="fromto d-none d-sm-inline">
@@ -739,7 +739,7 @@
                                     <!--</span>-->
                                 </td>
                                 <td>
-                                    <div class="time">{{ timeConversion(Date.now() - tx.blockTime.utcSeconds*1000) }} ago</div>
+                                    <div class="time">{{ timeConversion(Date.now() - tx.toObject().blockTime.utcSeconds*1000) }} ago</div>
                                 </td>
                             </tr>
                         </transition-group>
@@ -780,6 +780,7 @@
                 trxTotalNum:0, //total trx number
                 articleTotalNum:0,//total article number
                 accountTotalNum:0,//total account number
+                trxStartTime:null,//the latest trx block time
             }
         },
         computed: {
@@ -1040,17 +1041,27 @@
             api.getStaticInfo(o => this.staticInfo = o);                            //contract address
 
             //fetch latest trx list
-            api.fetchTrxListByTime(null,null,trxList => {
-                if (trxList.length > 0) {
-                    this.txs = trxList.reverse().slice(0,5);
+            api.fetchTrxListByTime(null,this.trxStartTime,null,trxList => {
+                let trxLen = trxList.length;
+                if (trxLen > 0) {
+                    if (trxLen > 5) {
+                        this.txs = trxList.slice(0,5);
+                    }else {
+                        this.txs = trxList;
+                    }
                 }
             },(errCode,msg) => {
                 console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
             });
             this.shortIntervalID = setInterval(() => {
-                api.fetchTrxListByTime(null,null,trxList => {
-                    if (trxList.length > 0) {
-                        this.txs = trxList.reverse().slice(0,5);
+                api.fetchTrxListByTime(null,this.trxStartTime,null,trxList => {
+                    let trxLen = trxList.length;
+                    if (trxLen > 0) {
+                        if (trxLen > 5) {
+                            this.txs = trxList.slice(0,5);
+                        }else {
+                            this.txs = trxList;
+                        }
                     }
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);

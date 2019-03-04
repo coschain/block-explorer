@@ -92,6 +92,8 @@
         },
         methods: {
             nthPage() {
+                console.log("blocks");
+                console.log(this.$route.query.p);
                 var p = this.$route.query.p || 1;
                 console.log("start request");
                 console.log(p);

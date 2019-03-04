@@ -114,7 +114,7 @@ module.exports = {
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-    async fetchTrxListByTime(start,end,success,fail) {
+    async fetchTrxListByTime(start,end,lastInfo,success,fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -122,6 +122,9 @@ module.exports = {
         let req = new cos_sdk.grpc.GetTrxListByTimeRequest();
         req.setStart(start);
         req.setEnd(end);
+        if (lastInfo != null ) {
+            req.setLastInfo(lastInfo)
+        }
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxListByTime, {
                 request:req,
@@ -129,8 +132,8 @@ module.exports = {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
-                        let obj = message.toObject();
-                        resolve(obj.listList)
+                        let obj = message.getListList();
+                        resolve(obj)
                     }else {
                         console.log("error code is %s,msg is %s",status,statusMessage);
                         reject(status,statusMessage)
