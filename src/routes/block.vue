@@ -224,16 +224,16 @@
         computed: {
             urlChange() {
                 this.$root.showModalLoading = true;
-                api.getBlock(this.$route.params.id, o => {
-                    this.$root.showModalLoading = false;
-                    if (!o.localTimestamp) {
-                        o.localTimestamp = Date.now();
-                    }
-                    this.block = o;
-                }, xhr => {
-                    this.$root.showModalLoading = false;
-                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
+                // api.getBlock(this.$route.params.id, o => {
+                //     this.$root.showModalLoading = false;
+                //     if (!o.localTimestamp) {
+                //         o.localTimestamp = Date.now();
+                //     }
+                //     this.block = o;
+                // }, xhr => {
+                //     this.$root.showModalLoading = false;
+                //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                // });
 
                 //fetch block info
                 api.fetchBlockList(this.$route.params.id,this.$route.params.id, blkInfo => {
@@ -246,6 +246,7 @@
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                     this.$root.showModalLoading = false;
+                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
             }
         },

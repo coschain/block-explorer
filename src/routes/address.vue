@@ -236,7 +236,7 @@
                     <td class="base-info-key font-16 font-color-555555 pl-16">COS Balance:
                     </td>
                     <td class="font-16 font-color-000000">
-                        {{ nasAmount(accountInfo.coin) }} COS
+                        {{ accountInfo.coin.value }} COS
                     </td>
                 </tr>
                 <!--<tr v-if="creator && deployTxHash">-->
@@ -258,108 +258,108 @@
                     <!--</td>-->
                 <!--</tr>-->
                 <tr>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Nonce:</td>
-                    <td class="font-16 font-color-000000">{{ obj.address.nonce }}</td>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">AccountName:</td>
+                    <td class="font-16 font-color-000000">{{ accountInfo.accountName.value }}</td>
                 </tr>
                 <tr>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Number Of
-                        Transactions:
+                    <td class="base-info-key font-16 font-color-555555 pl-16">CreatedTime:
                     </td>
-                    <td class="font-16 font-color-000000">{{ obj.txCnt }}</td>
+                    <td class="font-16 font-color-000000">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
                 </tr>
-                <tr>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Minted:</td>
-                    <td class="font-16 font-color-000000">{{ obj.mintedBlkCnt }}</td>
-                </tr>
-                <tr v-if="obj.tokenName">
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Token Tracker:
-                    </td>
-                    <td class="font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/token/" + $route.params.id'>
-                            <span>{{ obj.tokenName }}</span>
-                        </router-link>
-                    </td>
-                </tr>
-                <tr v-if="!isContract && displayToken">
-                    <td class="base-info-key font-16 font-color-555555 pl-16">NRC20 Tokens:
-                    </td>
-                    <td>
-                        <div id="dropdown-tokens" data-toggle=dropdown>
-                            <span class="font-16 font-color-000000">{{ tokenAmount(displayToken.balance, displayToken.decimal) }}</span>
-                            <router-link v-bind:to='fragApi + "/token/" + displayToken.contract'>
-                                <span class="font-16 font-bold">{{ displayToken.tokenName }}</span>
-                            </router-link>
-                            <img src="../../static/img/icon_arrow_down_black.png" alt="" width="12">
-                        </div>
-                        <div v-if="validTokens.length > 1" class="dropdown-menu">
-                            <div class="dropdown-item text-right" v-for="(token, i) in validTokens" :key=i
-                            @click='displayToken = token;'>
-                                {{ tokenAmount(token.balance, token.decimal) }} {{ token.tokenName }}
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                <!--<tr>-->
+                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">Minted:</td>-->
+                    <!--<td class="font-16 font-color-000000">{{ obj.mintedBlkCnt }}</td>-->
+                <!--</tr>-->
+                <!--<tr v-if="obj.tokenName">-->
+                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">Token Tracker:-->
+                    <!--</td>-->
+                    <!--<td class="font-16 font-color-000000">-->
+                        <!--<router-link v-bind:to='fragApi + "/token/" + $route.params.id'>-->
+                            <!--<span>{{ obj.tokenName }}</span>-->
+                        <!--</router-link>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr v-if="!isContract && displayToken">-->
+                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">NRC20 Tokens:-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<div id="dropdown-tokens" data-toggle=dropdown>-->
+                            <!--<span class="font-16 font-color-000000">{{ tokenAmount(displayToken.balance, displayToken.decimal) }}</span>-->
+                            <!--<router-link v-bind:to='fragApi + "/token/" + displayToken.contract'>-->
+                                <!--<span class="font-16 font-bold">{{ displayToken.tokenName }}</span>-->
+                            <!--</router-link>-->
+                            <!--<img src="../../static/img/icon_arrow_down_black.png" alt="" width="12">-->
+                        <!--</div>-->
+                        <!--<div v-if="validTokens.length > 1" class="dropdown-menu">-->
+                            <!--<div class="dropdown-item text-right" v-for="(token, i) in validTokens" :key=i-->
+                            <!--@click='displayToken = token;'>-->
+                                <!--{{ tokenAmount(token.balance, token.decimal) }} {{ token.tokenName }}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</td>-->
+                <!--</tr>-->
             </table>
 
             <div class="mobile-detail d-md-none">
                 <div>
                     COS Balance:
-                    <div class="detail">{{ nasAmount(obj.address.balance) }} COS</div>
+                    <div class="detail">{{ accountInfo.coin.value }} COS</div>
                 </div>
-                <div v-if="creator && deployTxHash">
-                    Contract Creator:
-                    <div class="detail contract-creator font-color-000000">
-                        <router-link v-bind:to='fragApi + "/address/" + creator'
-                                     title="Creator Address">
-                            <span>{{ toShortStr(creator) }}</span>
-                            <!-- <div class="popover">Creator Address</div> -->
-                        </router-link>
-                        at txn
-                        <router-link v-bind:to='fragApi + "/tx/" + deployTxHash'
-                                     title="Creator TxHash">
-                            <span>{{ toShortStr(deployTxHash) }}</span>
-                            <!-- <div class="popover">Creator TxHash</div> -->
-                        </router-link>
-                    </div>
+                <!--<div v-if="creator && deployTxHash">-->
+                    <!--Contract Creator:-->
+                    <!--<div class="detail contract-creator font-color-000000">-->
+                        <!--<router-link v-bind:to='fragApi + "/address/" + creator'-->
+                                     <!--title="Creator Address">-->
+                            <!--<span>{{ toShortStr(creator) }}</span>-->
+                            <!--&lt;!&ndash; <div class="popover">Creator Address</div> &ndash;&gt;-->
+                        <!--</router-link>-->
+                        <!--at txn-->
+                        <!--<router-link v-bind:to='fragApi + "/tx/" + deployTxHash'-->
+                                     <!--title="Creator TxHash">-->
+                            <!--<span>{{ toShortStr(deployTxHash) }}</span>-->
+                            <!--&lt;!&ndash; <div class="popover">Creator TxHash</div> &ndash;&gt;-->
+                        <!--</router-link>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div>
+                    AccountName:
+                    <div class="detail">{{  accountInfo.accountName.value }}</div>
                 </div>
                 <div>
-                    Nonce:
-                    <div class="detail">{{ obj.address.nonce }}</div>
+                    CreatedTime:
+                    <!--<div class="detail">{{ accountInfo.createdTime.utcSeconds }}</div>-->
+                    <td class="detail">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
                 </div>
-                <div>
-                    Number Of Transactions:
-                    <div class="detail">{{ obj.txCnt }}</div>
-                </div>
-                <div>
-                    Minted:
-                    <div class="detail">{{ obj.mintedBlkCnt }}</div>
-                </div>
-                <div v-if="obj.tokenName">
-                    Token Tracker:
-                    <div class="detail">
-                        <router-link v-bind:to='fragApi + "/token/" + $route.params.id'>
-                            <span>{{ obj.tokenName }}</span>
-                        </router-link>
-                    </div>
-                </div>
-                <div v-if="!isContract && displayToken">
-                    NRC20 Tokens:
-                    <div class="detail">
-                        <div id="dropdown-tokens" data-toggle=dropdown>
-                            <span class="font-color-000000">{{ tokenAmount(displayToken.balance, displayToken.decimal) }}</span>
-                            <router-link v-bind:to='fragApi + "/token/" + displayToken.contract'>
-                                <span class="font-bold">{{ displayToken.tokenName }}</span>
-                            </router-link>
-                            <img src="../../static/img/icon_arrow_down_black.png" alt="" width="12">
-                        </div>
-                        <div v-if="validTokens.length > 1" class="dropdown-menu">
-                            <div class="dropdown-item text-right" v-for="(token, i) in validTokens" :key=i
-                            @click='displayToken = token;'>
-                                {{ tokenAmount(token.balance, token.decimal) }} {{ token.tokenName }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--<div>-->
+                    <!--Minted:-->
+                    <!--<div class="detail">{{ obj.mintedBlkCnt }}</div>-->
+                <!--</div>-->
+                <!--<div v-if="obj.tokenName">-->
+                    <!--Token Tracker:-->
+                    <!--<div class="detail">-->
+                        <!--<router-link v-bind:to='fragApi + "/token/" + $route.params.id'>-->
+                            <!--<span>{{ obj.tokenName }}</span>-->
+                        <!--</router-link>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div v-if="!isContract && displayToken">-->
+                    <!--NRC20 Tokens:-->
+                    <!--<div class="detail">-->
+                        <!--<div id="dropdown-tokens" data-toggle=dropdown>-->
+                            <!--<span class="font-color-000000">{{ tokenAmount(displayToken.balance, displayToken.decimal) }}</span>-->
+                            <!--<router-link v-bind:to='fragApi + "/token/" + displayToken.contract'>-->
+                                <!--<span class="font-bold">{{ displayToken.tokenName }}</span>-->
+                            <!--</router-link>-->
+                            <!--<img src="../../static/img/icon_arrow_down_black.png" alt="" width="12">-->
+                        <!--</div>-->
+                        <!--<div v-if="validTokens.length > 1" class="dropdown-menu">-->
+                            <!--<div class="dropdown-item text-right" v-for="(token, i) in validTokens" :key=i-->
+                            <!--@click='displayToken = token;'>-->
+                                <!--{{ tokenAmount(token.balance, token.decimal) }} {{ token.tokenName }}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -399,51 +399,53 @@
                 this.nrc20TxCnt = 0;
                 this.$root.showModalLoading = true;
                 api.fetchAccountInfoByName(this.$route.params.id, info => {
-                    console.log("fetch account info by name");
                     if (typeof info != "undefined") {
                         this.accountInfo = info;
+                        this.createTime = info.createdTime.utcSeconds*1000;
                     }
-                    console.log(info)
+                    this.$root.showModalLoading = false;
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                });
-
-                api.getAddress(this.$route.params.id, o => {
-                    this.$root.showModalLoading = false;
-                    this.minted = o.mintedBlkList;
-                    this.obj = o;
-                    this.decimal = o.decimal;
-                    this.tokens = o.tokens;
-                    this.txs = o.txList;
-                    this.contractCode = o.contractCode;
-                    this.creator = o.creator;
-                    this.deployTxHash = o.deployTxHash;
-                    this.isContract = o.address.type == 1;
-                    if (o.address.type == 1) {// this is a smart contract address
-                        api.getTransactionByContract({address: o.address.hash}, this.$route.params.api, (data) => {
-                            var data = JSON.parse(data);
-                            if (data && data.result && data.result.data) {
-                                this.contract = data.result;
-                                this.creator = this.contract.from;
-                                this.deployTxHash = this.contract.hash;
-                                this.contractCode = base64.decode(data.result.data);
-                            }
-                        })
-                    }
-
-                    var token = this.tokens[0];
-                    for (var index in this.tokens) {
-                        if (this.tokens[index].tokenName === 'ATP') {
-                            token = this.tokens[index];
-                            break;
-                        }
-                    }
-                    this.displayToken = token;
-
-                }, xhr => {
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
+
+            //     api.getAddress(this.$route.params.id, o => {
+            //         this.$root.showModalLoading = false;
+            //         this.minted = o.mintedBlkList;
+            //         this.obj = o;
+            //         this.decimal = o.decimal;
+            //         this.tokens = o.tokens;
+            //         this.txs = o.txList;
+            //         this.contractCode = o.contractCode;
+            //         this.creator = o.creator;
+            //         this.deployTxHash = o.deployTxHash;
+            //         this.isContract = o.address.type == 1;
+            //         if (o.address.type == 1) {// this is a smart contract address
+            //             api.getTransactionByContract({address: o.address.hash}, this.$route.params.api, (data) => {
+            //                 var data = JSON.parse(data);
+            //                 if (data && data.result && data.result.data) {
+            //                     this.contract = data.result;
+            //                     this.creator = this.contract.from;
+            //                     this.deployTxHash = this.contract.hash;
+            //                     this.contractCode = base64.decode(data.result.data);
+            //                 }
+            //             })
+            //         }
+            //
+            //         var token = this.tokens[0];
+            //         for (var index in this.tokens) {
+            //             if (this.tokens[index].tokenName === 'ATP') {
+            //                 token = this.tokens[index];
+            //                 break;
+            //             }
+            //         }
+            //         this.displayToken = token;
+            //
+            //     }, xhr => {
+            //         this.$root.showModalLoading = false;
+            //         this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+            //     });
             },
             navTitle() {
                 return this.isContract ? "Contract" : "Address";
@@ -471,6 +473,7 @@
                 nrc20TxCnt: 0,
                 isNoNrc20Tx: false,
                 accountInfo: null,
+                createTime: 0,
             };
         },
         methods: {
