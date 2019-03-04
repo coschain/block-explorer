@@ -29,8 +29,13 @@ module.exports = {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
-                        let obj = message.toObject();
-                        resolve(obj)
+                        if (message.hasAccountName()) {
+                            let obj = message.toObject();
+                            resolve(obj)
+                        }else {
+                            resolve(null)
+                        }
+
                     } else {
                         reject(status,statusMessage)
                     }
