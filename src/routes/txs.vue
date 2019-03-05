@@ -191,7 +191,6 @@
                 let start = this.listStart;
                 let isNext = true;
                 if (this.pageType === 1) {
-                    console.log(this.pageInfo.length);
                     let infoLen = this.pageInfo.length;
                     if (infoLen >= 2 && infoLen >= this.currentPage ) {
                         start = this.pageInfo[this.currentPage-2].end;

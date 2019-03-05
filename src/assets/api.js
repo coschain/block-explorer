@@ -75,11 +75,13 @@ module.exports = {
     },
 
     /**
-     * get block list in range
+     * get block list by block height
      * @param start: the start block height in range, if value null,query from the first in db
      * @param end: the end block height in range,if value is null,query to the end in db
      * @param success: the request success callback
      * @param fail: the  request fail callback
+     * if start = 0 and end = 0,fetch all the blocks data in chain;if start == end and start != 0,fetch single
+     * block which block number is from
      */
     async fetchBlockList(start,end,success,fail) {
         if (typeof success != "function" || typeof fail != "function") {

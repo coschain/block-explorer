@@ -781,6 +781,8 @@
                 articleTotalNum:0,//total article number
                 accountTotalNum:0,//total account number
                 trxStartTime:null,//the latest trx block time
+                blkStartNum: 0,
+                blkEndNum: 0,
             }
         },
         computed: {
@@ -1009,7 +1011,7 @@
             });
 
             //fetch latest block list
-            api.fetchBlockList(0,Number.MAX_SAFE_INTEGER, blkList => {
+            api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
                 let cnt = blkList.length;
                 if (cnt > 0) {
                     if (cnt > 5) {
@@ -1017,6 +1019,8 @@
                     }else {
                         this.blocks = blkList.reverse();
                     }
+                    this.blkStartNum += this.blocks[0].id().blockNum();
+                    this.blkEndNum = this.blkStartNum + 30;
                 }
             },(errCode,msg) => {
                 console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
@@ -1067,7 +1071,7 @@
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                 });
                 // api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));        //recent latest trx
-                api.fetchBlockList(0,Number.MAX_SAFE_INTEGER, blkList => {
+                api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
                     let cnt = blkList.length;
                     if (cnt > 0) {
                         if (cnt > 5) {
@@ -1075,6 +1079,8 @@
                         }else {
                             this.blocks = blkList.reverse();
                         }
+                        this.blkStartNum += this.blocks[0].id().blockNum();
+                        this.blkEndNum = this.blkStartNum + 30;
                     }
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
