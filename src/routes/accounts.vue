@@ -24,36 +24,36 @@
     <!-- https://etherscan.io/accounts  -->
     <div class="vue-accounts fullfill">
         <vue-bread title="Top Accounts By COS Balance"></vue-bread>
-        <div v-if="arr && arr.length" class="mt20 container">
+        <div v-if="accountList && accountList.length" class="mt20 container">
             <div class="d-block d-md-flex flex-row align-items-center mt20">
-                <div class="col-auto pl-0 pr-2 info font-color-000000 font-24 font-bold title">
-                    {{ numberAddComma(totalAccounts) }} accounts found
-                </div>
-                <span v-if="totalAccounts > 10000" class="col-auto pl-0 font-color-555555 font-16 align-text-bottom subtitle">(showing the last 10,000 top accounts)</span>
+                <!--<div class="col-auto pl-0 pr-2 info font-color-000000 font-24 font-bold title">-->
+                    <!--{{ numberAddComma(totalAccounts) }} accounts found-->
+                <!--</div>-->
+                <!--<span v-if="totalAccounts > 10000" class="col-auto pl-0 font-color-555555 font-16 align-text-bottom subtitle">(showing the last 10,000 top accounts)</span>-->
             </div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table list-table">
                     <tr class="list-header font-12 font-bold font-color-000000">
                         <th style="padding-left: 24px;">Rank</th>
-                        <th>Address</th>
+                        <th>Account</th>
                         <th class=text-right>Balance</th>
                         <th class=text-right>Percentage</th>
                     </tr>
-                    <tr v-for="(o, i) in arr" :key="i" class="font-14">
-                        <td style="padding-left: 24px;" class="font-color-000000">{{ o.rank }}</td>
+                    <tr v-for="(account, i) in accountList" :key="i" class="font-14">
+                        <td style="padding-left: 24px;" class="font-color-000000">{{(currentPage-1)*accountList.length+i+1}}</td>
                         <td class="tdxxxwddd">
-                            <vue-blockies v-bind:address='o.hash'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/address/" + o.hash'>
-                                <span class="monospace">{{ o.hash }}</span>
+                            <vue-blockies v-bind:address='account.getAccountName().getValue()'></vue-blockies>
+                            <router-link v-bind:to='fragApi + "/address/" + account.getAccountName().getValue()'>
+                                <span class="monospace">{{account.getAccountName().getValue()}}</span>
                             </router-link>
-                            <span v-show=o.alias> | {{ o.alias }}</span>
+                            <!--<span v-show=o.alias> | {{ o.alias }}</span>-->
                         </td>
-                        <td class="text-right font-color-555555">{{ nasAmount(o.balance) }}</td>
-                        <td class="text-right font-color-555555">{{ new Number(o.percentage).toFixed(4) }}%</td>
+                        <td class="text-right font-color-555555">{{ nasAmount(account.getCoin().getValue()) }}</td>
+                        <!--<td class="text-right font-color-555555">{{ new Number(o.percentage).toFixed(4) }}%</td>-->
                     </tr>
                 </table>
             </div>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev ></vue-pagination>
         </div>
     </div>
 </template>
@@ -75,7 +75,13 @@
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
                 totalAccounts: 0,
                 totalBalance: 0,
-                totalPage: 0
+                totalPage: 1,
+                accountList: [],
+                coinStart: null,
+                coinEnd: null,
+                accountPageInfo: [],
+                queryPageType:0,
+                lastAccount:null,
             };
         },
         methods: {
@@ -83,29 +89,80 @@
                 var p = this.$route.query.p || 1;
 
                 if (p == this.currentPage)
-                    console.log("nthPage - 请求的第", p, "页正是当前页, 忽略此次调用");
+                    console.log("nthPage -requesting the page ", p, "is current page,ignore");
                 else {
                     this.$root.showModalLoading = true;
-
-                    api.getAccount(p, o => {
-                        this.$root.showModalLoading = false;
-                        this.arr = o.addressList;
-                        this.currentPage = o.page;
-                        this.totalAccounts = o.totalAccountsCnt;
-                        this.totalBalance = o.totalBalance;
-                        this.totalPage = o.totalPage;
-
-                        if (this.arr.length) {
-                            this.heightFrom = this.arr[0].height;
-                            this.heightTo = this.arr[this.arr.length - 1].height;
-                        } else {
-                            this.heightFrom = 0;
-                            this.heightTo = 0;
+                    let start = this.coinStart;
+                    let isNextPage = true;
+                    let lastAccount = this.lastAccount;
+                    if (this.queryPageType === 1) {
+                        if (this.currentPage === 2 ) {
+                            start = null;
+                            lastAccount= null;
+                        }else {
+                            let infoLen = this.accountPageInfo.length;
+                            if (infoLen >= 3 && infoLen >= this.currentPage ) {
+                                let info = this.accountPageInfo[this.currentPage-3];
+                                start = info.start;
+                                lastAccount = info.account;
+                            }
                         }
-                    }, xhr => {
+
+                        isNextPage = false;
+                    }
+
+                    api.fetchAccountListByBalance(start,null,lastAccount,accountList => {
+                        if (accountList.length > 0) {
+                            this.accountList = accountList;
+                            this.lastAccount = accountList[accountList.length-1];
+                            this.coinStart = this.lastAccount.getCoin();
+                            if (this.currentPage === 0 && isNextPage) {
+                                this.coinEnd = null;
+                            }else {
+                                this.coinEnd = accountList[0].getCoin();
+                            }
+                            if (isNextPage) {
+                                if (this.currentPage + 1 === this.totalPage) {
+                                    this.totalPage += 1;
+                                }
+                                this.currentPage += 1;
+                                let curPageLen = this.accountPageInfo.length;
+                                let info = {start:this.coinStart,account:this.lastAccount};
+                                if (curPageLen === 0) {
+                                    info.end = this.coinEnd;
+                                }else if (curPageLen >= 1) {
+                                    info.end = this.accountPageInfo[curPageLen - 1].start;
+                                }
+                                this.accountPageInfo.push(info);
+                            }else {
+                                this.currentPage -= 1;
+                            }
+                        }
+                        this.$root.showModalLoading = false;
+                    },(errCode,msg) => {
+                        console.log("Get Account list fail,error code is %s,msg is %s",errCode,msg);
                         this.$root.showModalLoading = false;
                         this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                     });
+                    // api.getAccount(p, o => {
+                    //     this.$root.showModalLoading = false;
+                    //     this.arr = o.addressList;
+                    //     this.currentPage = o.page;
+                    //     this.totalAccounts = o.totalAccountsCnt;
+                    //     this.totalBalance = o.totalBalance;
+                    //     this.totalPage = o.totalPage;
+                    //
+                    //     if (this.arr.length) {
+                    //         this.heightFrom = this.arr[0].height;
+                    //         this.heightTo = this.arr[this.arr.length - 1].height;
+                    //     } else {
+                    //         this.heightFrom = 0;
+                    //         this.heightTo = 0;
+                    //     }
+                    // }, xhr => {
+                    //     this.$root.showModalLoading = false;
+                    //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                    // });
                 }
             },
             numberAddComma(n) {
@@ -115,35 +172,39 @@
                 return utility.toWei(n);
             },
             onFirst() {
+                this.queryPageType = 1;
                 this.$router.push({
                     path: this.$route.path,
                     query: { p: 1 }
                 });
             },
             onLast() {
+                this.queryPageType = 0;
                 this.$router.push({
                     path: this.$route.path,
                     query: { p: this.totalPage }
                 });
             },
             onNext() {
+                this.queryPageType = 0;
                 this.$router.push({
                     path: this.$route.path,
                     query: { p: this.currentPage + 1 }
                 });
             },
             onPrev() {
+                this.queryPageType = 1;
                 this.$router.push({
                     path: this.$route.path,
                     query: { p: this.currentPage - 1 }
                 });
             },
-            onTo(n) {
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: n }
-                });
-            },
+            // onTo(n) {
+            //     this.$router.push({
+            //         path: this.$route.path,
+            //         query: { p: n }
+            //     });
+            // },
             nasAmount(n) {
                 BigNumber.config({DECIMAL_PLACES: 8})
                 var amount = BigNumber(n);

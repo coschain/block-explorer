@@ -46,6 +46,45 @@ module.exports = {
     },
 
     /**
+     *  fetch the account list by account balance in reverse order
+     * @param start: the account balance for query start
+     * @param end: the account balance for query end
+     * @param lastAccount:the account info of the last one in last page
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async fetchAccountListByBalance(start,end,lastAccount,success,fail){
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new  cos_sdk.grpc.GetAccountListByBalanceRequest();
+        req.setStart(start);
+        req.setEnd(end);
+        if (lastAccount != null) {
+            console.log("last account is :");
+            console.log(lastAccount.toObject());
+            req.setLastAccount(lastAccount);
+        }
+        let promise = new Promise(function (resolve, reject) {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetAccountListByBalance, {
+                request: req,
+                host: cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getListList();
+                        resolve(obj);
+                    } else {
+                        reject(status,statusMessage)
+                    }
+                }
+            });
+        });
+        promise.then(success,fail);
+    },
+
+    /**
      * get some state info from chain like tps、maxTps
      * @param success:  the request success callback
      * @param fail:     the  request fail callback

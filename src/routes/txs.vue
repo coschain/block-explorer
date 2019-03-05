@@ -204,7 +204,9 @@
                         this.listStart = this.lastInfo.getBlockTime();
                         this.listEnd = trxList[0].getBlockTime();
                         if (isNext) {
-                            this.totalPage += 1;
+                            if (this.currentPage + 1 === this.totalPage) {
+                                this.totalPage += 1;
+                            }
                             this.currentPage += 1;
                             let curPageLen = this.pageInfo.length;
                             let info = {start:this.listStart};
