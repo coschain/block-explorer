@@ -721,7 +721,7 @@
                                 </td>
                                 <td>
                                     Tx#
-                                    <router-link :to='fragApi + "/tx/" + tx.toObject().trxId.hash'>
+                                    <router-link :to='fragApi + "/tx/" + tx.toObject().trxId.hash.prefix'>
                                         <span class="monospace">{{ tx.toObject().trxId.hash.slice(0, 6) }}</span>...<span class="monospace">{{ tx.toObject().trxId.hash.slice(-6) }}</span>
                                     </router-link>
                                     <br>
@@ -1001,7 +1001,7 @@
         mounted() {
            //fetch state info
             api.fetchStateInfo(info => {
-                if (typeof(info.state.dgpo) != "undefined" ) {
+                if (info != null && typeof info.state.dgpo != "undefined" ) {
                     this.stateInfo = info.state.dgpo;
                 }else {
                     console.log("return empty props");
@@ -1021,6 +1021,9 @@
                     }
                     this.blkStartNum += this.blocks[0].id().blockNum();
                     this.blkEndNum = this.blkStartNum + 30;
+                    console.log("start is %d",this.blkStartNum);
+                    console.log("end is %d",this.blkEndNum)
+
                 }
             },(errCode,msg) => {
                 console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
@@ -1079,8 +1082,10 @@
                         }else {
                             this.blocks = blkList.reverse();
                         }
-                        this.blkStartNum += this.blocks[0].id().blockNum();
+                        this.blkStartNum = this.blocks[0].id().blockNum();
                         this.blkEndNum = this.blkStartNum + 30;
+                        console.log("start is %d",this.blkStartNum);
+                        console.log("end is %d",this.blkEndNum)
                     }
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
@@ -1093,7 +1098,7 @@
                 api.getStaticInfo(o => this.staticInfo = o);                        //contract address
                 //fetch latest tps
                 api.fetchStateInfo(info => {
-                    if (typeof(info.state.dgpo) != "undefined" ) {
+                    if (info != null && typeof(info.state.dgpo) != "undefined" ) {
                         this.stateInfo = info.state.dgpo;
                     }else {
                         console.log("return empty props");

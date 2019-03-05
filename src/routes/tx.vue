@@ -88,7 +88,7 @@
                         <td class="td-left font-16 font-color-555555" style="padding-left: 24px;">TxHash:</td>
                         <td class="font-16 font-color-000000 monospace">{{ trx.getTrxId().toObject().hash }}</td>
                     </tr>
-                    <tr class="font-16">
+                    <tr v-if="trx.hasTrxWrap()" class="font-16">
                         <td class="font-color-555555" style="padding-left: 24px;">TxReceipt Status:</td>
                         <td class="d-flex align-items-center" v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
@@ -118,7 +118,9 @@
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">TimeStamp:</td>
-                        <td class="font-16 font-color-000000">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</td>
+                        <td v-if="trx.hasBlockTime()" class="font-16 font-color-000000">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</td>
+                        <td v-else-if="!trx.hasBlockTime()" class="detail"></td>
+
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">From:</td>
@@ -169,7 +171,7 @@
                 </table>
             </div>
 
-            <div class="mobile-detail d-md-none">
+            <div v-if="trx" class="mobile-detail d-md-none">
                 <div>
                     TxHash:
                     <!--<div class="detail monospace">{{ tx.hash }}</div>-->
@@ -177,18 +179,20 @@
                 </div>
                 <div>
                     TxReceipt Status:
-                    <td class="detail d-flex align-items-center" v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" style="height: inherit">
-                            <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
-                            <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
-                        </td>
-                        <td class="detail d-flex align-items-center" v-else-if="trx.getTrxWrap().getInvoice().getStatus() === 200" style="height: inherit">
-                            <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
-                            <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
-                        </td>
-                        <td class="detail d-flex align-items-center" v-else style="height: inherit">
-                            <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
-                            <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
-                        </td>
+                    <div v-if="trx.hasTrxWrap()">
+                        <td class="detail d-flex align-items-center" v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" style="height: inherit">
+                                <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
+                                <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
+                            </td>
+                            <td class="detail d-flex align-items-center" v-else-if="trx.getTrxWrap().getInvoice().getStatus() === 200" style="height: inherit">
+                                <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
+                                <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
+                            </td>
+                            <td class="detail d-flex align-items-center" v-else style="height: inherit">
+                                <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
+                                <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
+                            </td>
+                    </div>
                 </div>
                 <div>
                     Block Height:
@@ -205,7 +209,9 @@
                 </div>
                 <div>
                     TimeStamp:
-                    <div class="detail">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</div>
+                    <div v-if="trx.hasBlockTime()" class="detail">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</div>
+                    <div v-else-if="!trx.hasBlockTime()" class="detail"></div>
+
                 </div>
                 <div>
                     From:
@@ -303,7 +309,7 @@
             urlChange() {
                 this.$root.showModalLoading = true;
                 api.fetchTrxInfoById(this.$route.params.id, info => {
-                    if (typeof info != "undefined") {
+                    if (info != null && typeof info != "undefined") {
                        this.trx = info;
                     }
                     this.$root.showModalLoading = false;
@@ -341,7 +347,7 @@
                 return amount.div(decimals).toFormat();
             },
             errMsg() {
-                if (this.trx.getTrxWrap().getInvoice().getErrorInfo()) {
+                if (trx != null  && this.trx.getTrxWrap().getInvoice().getErrorInfo()) {
                     return this.trx.getTrxWrap().getInvoice().getErrorInfo().getValue();
                 } else {
                     return 'Apply Transaction Failed';

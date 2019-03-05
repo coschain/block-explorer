@@ -100,8 +100,13 @@ module.exports = {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
-                        let obj = message.toObject();
-                        resolve(obj);
+                        if (message.hasState()) {
+                            let obj = message.toObject();
+                            resolve(obj);
+                        }else {
+                            resolve(null)
+                        }
+
                     }else {
                         reject(status,statusMessage)
                     }
@@ -205,9 +210,7 @@ module.exports = {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
-                        console.log("fetch daily total trxs list");
                         let obj = message.toObject();
-                        console.log(obj);
                         resolve(obj.listList)
                     }else {
                         console.log("error code is %s,msg is %s",status,statusMessage);
@@ -241,8 +244,13 @@ module.exports = {
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
-                        let obj = message.getInfo();
-                        resolve(obj)
+                        if (message.hasInfo()&&message.getInfo().hasTrxId()) {
+                            let obj = message.getInfo();
+                            resolve(obj)
+                        }else {
+                            resolve(null)
+                        }
+
                     }else {
                         console.log("error code is %s,msg is %s",status,statusMessage);
                         reject(status,statusMessage)
@@ -272,7 +280,6 @@ module.exports = {
                      const { status, statusMessage, headers, message, trailers } = res;
                      if (status === grpc_web.Code.OK && message) {
                          let obj = message.getPostedListList();
-                         console.log(obj);
                          resolve(obj)
                      }else {
                          console.log("error code is %s,msg is %s",status,statusMessage);
