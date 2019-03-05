@@ -176,14 +176,14 @@
                 this.queryPageType = 1;
                 this.$router.push({
                     path: this.$route.path,
-                    query: { p: 1 }
+                    query: { p: this.currentPage - 1 }
                 });
             },
             onLast() {
                 this.queryPageType = 0;
                 this.$router.push({
                     path: this.$route.path,
-                    query: { p: this.totalPage }
+                    query: { p: this.currentPage + 1 }
                 });
             },
             onNext() {

@@ -64,7 +64,7 @@
                     </tr>
                 </table>
             </div>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev ></vue-pagination>
+            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext ></vue-pagination>
         </div>
     </div>
 </template>
@@ -97,7 +97,6 @@
         },
         methods: {
             nthPage() {
-                console.log(this.$route.query.p);
                 var p = this.$route.query.p || 1;
                 if (p == this.currentPage)
                     console.log("nthPage - request page", p, "request current page,ignore it");

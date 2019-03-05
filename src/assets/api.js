@@ -62,8 +62,6 @@ module.exports = {
         req.setStart(start);
         req.setEnd(end);
         if (lastAccount != null) {
-            console.log("last account is :");
-            console.log(lastAccount.toObject());
             req.setLastAccount(lastAccount);
         }
         let promise = new Promise(function (resolve, reject) {
@@ -254,6 +252,37 @@ module.exports = {
         });
         promise.then(success,fail)
     },
+
+     async fetchArticleListByCreateTime(start,end,lastArticle,success,fail) {
+         if (typeof success != "function" || typeof fail != "function") {
+             console.log("The success or fail is not a callBack function");
+             return
+         }
+         let req = new cos_sdk.grpc.GetPostListByCreateTimeRequest();
+         req.setStart(start);
+         req.setEnd(end);
+         if (lastArticle != null) {
+             req.setLastPost()
+         }
+         let promise = new Promise((resolve, reject) => {
+             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByCreateTime, {
+                 request:req,
+                 host:cos_host,
+                 onEnd: res => {
+                     const { status, statusMessage, headers, message, trailers } = res;
+                     if (status === grpc_web.Code.OK && message) {
+                         let obj = message.getPostedListList();
+                         console.log(obj);
+                         resolve(obj)
+                     }else {
+                         console.log("error code is %s,msg is %s",status,statusMessage);
+                         reject(status,statusMessage)
+                     }
+                 }
+             })
+         });
+         promise.then(success,fail)
+     },
 
     // get api/account?
     // - p      - 页码, 默认 1
