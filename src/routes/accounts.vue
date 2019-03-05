@@ -124,16 +124,17 @@
                             if (isNextPage) {
                                 if (this.currentPage + 1 === this.totalPage) {
                                     this.totalPage += 1;
+                                    let curPageLen = this.accountPageInfo.length;
+                                    let info = {start:this.coinStart,account:this.lastAccount};
+                                    if (curPageLen === 0) {
+                                        info.end = this.coinEnd;
+                                    }else if (curPageLen >= 1) {
+                                        info.end = this.accountPageInfo[curPageLen - 1].start;
+                                    }
+                                    this.accountPageInfo.push(info);
                                 }
                                 this.currentPage += 1;
-                                let curPageLen = this.accountPageInfo.length;
-                                let info = {start:this.coinStart,account:this.lastAccount};
-                                if (curPageLen === 0) {
-                                    info.end = this.coinEnd;
-                                }else if (curPageLen >= 1) {
-                                    info.end = this.accountPageInfo[curPageLen - 1].start;
-                                }
-                                this.accountPageInfo.push(info);
+
                             }else {
                                 this.currentPage -= 1;
                             }

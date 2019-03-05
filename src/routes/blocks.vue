@@ -122,21 +122,20 @@
                         let cnt = blkList.length;
                         if (cnt > 0) {
                             this.blocks = blkList.reverse();
+                            let listLen = blkList.length;
+                            this.blkStart = this.blocks[listLen-1].id().blockNum();
+                            this.blkEnd = this.blocks[0].id().blockNum();
                             if (isNext) {
-                                this.totalPage += 1;
+                                if (this.currentPage+1 === this.totalPage) {
+                                    this.totalPage += 1;
+                                    let info = {start:this.blkStart,end:this.blkEnd};
+                                    this.blkPageInfo.push(info);
+                                }
                                 this.currentPage += 1;
-                                let listLen = blkList.length;
-                                this.blkStart = this.blocks[listLen-1].id().blockNum();
-                                this.blkEnd = this.blocks[0].id().blockNum();
-                                let info = {start:this.blkStart,end:this.blkEnd};
-                                this.blkPageInfo.push(info);
-                                console.log("info is:");
-                                console.log(info)
                             }else {
                                 this.currentPage -= 1;
                             }
                         }
-                        console.log("kkkkkkkkkkk");
                         this.$root.showModalLoading = false;
                     },(errCode,msg) => {
                         console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
