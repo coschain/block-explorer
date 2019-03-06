@@ -1021,8 +1021,6 @@
                     }
                     this.blkStartNum += this.blocks[0].id().blockNum();
                     this.blkEndNum = this.blkStartNum + 30;
-                    console.log("start is %d",this.blkStartNum);
-                    console.log("end is %d",this.blkEndNum)
 
                 }
             },(errCode,msg) => {
@@ -1084,8 +1082,6 @@
                         }
                         this.blkStartNum = this.blocks[0].id().blockNum();
                         this.blkEndNum = this.blkStartNum + 30;
-                        console.log("start is %d",this.blkStartNum);
-                        console.log("end is %d",this.blkEndNum)
                     }
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
