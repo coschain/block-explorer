@@ -36,21 +36,18 @@
 
 </style>
 <template>
-    <!-- https://etherscan.io/txs -->
     <div class="vue-contracts fullfill">
-        <vue-bread title="Posted Articles"></vue-bread>
-
+        <vue-bread v-bind:title='"Posted Articles by:"'
+                   v-bind:subtitle="$route.params.author"
+                   v-bind:subtitlemonospaced="!!$route.params.author"
+                   v-bind:blockies="$route.params.author">
+        </vue-bread>
         <div v-if="postList" class="container mt20">
-            <!--<div class="align-items-center info-and-pagination mt20 row">-->
-                <!--<div class="col info font-color-000000 font-24 font-bold title">{{ numberAddComma(totalCts) }} articles found</div>-->
-                <!--&lt;!&ndash;(showing the last {{ maxDisplayCnt }} records)&ndash;&gt;-->
-            <!--</div>-->
 
             <div class="explorer-table-container font-14">
                 <table class="mt20 explorer-table list-table">
                     <tr class="list-header font-12 font-bold font-color-000000">
                         <th style="padding-left: 24px;">Author</th>
-                        <!--<th v-if="$route.params.api === 'testnet'">Title</th>-->
                         <th >Title</th>
                         <th>Id</th>
                         <th class=text-right style="padding-right: 24px; width: 120px">Date Created</th>
@@ -63,15 +60,16 @@
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>
                         </td>
-                         <span class="hash-normal monospace">{{ post.getTitle() }}</span>
+                        <span class="hash-normal monospace">{{ post.getTitle() }}</span>
                         <td class="font-color-000000">{{ post.getPostId()}} </td>
-                        <td class="text-right font-color-555555" style="padding-right: 24px;">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
+                        <td v-if="post.getCreated()" class="text-right font-color-555555" style="padding-right: 24px;">{{ post.getCreated()?new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }): "" }}</td>
+
                     </tr>
                 </table>
             </div>
 
             <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
-                v-on:prev=onPrev ></vue-pagination>
+                            v-on:prev=onPrev ></vue-pagination>
         </div>
     </div>
 </template>
@@ -79,6 +77,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
+    import {cos_sdk} from "../../src/assets/api"
 
     module.exports = {
         components: {
@@ -94,12 +93,14 @@
                 maxDisplayCnt: 0,
                 totalPage: 1,
                 totalCts: 0,
-                postList:null,
+                postList: null,
                 postPageType:0,
                 postPageInfo:[],
                 postListStart: null,
                 postListEnd: null,
                 lastPost: null,
+                firstPageStart: null,
+                firstPageEnd: null,
             };
         },
         methods: {
@@ -112,11 +113,12 @@
             nthPage() {
                 this.$root.showModalLoading = true;
                 let start = this.postListStart;
+                let end = this.postListEnd;
                 let isNextPage = true;
                 let lastPost = this.lastPost;
                 if (this.postPageType === 1) {
                     if (this.currentPage === 2 ) {
-                        start = null;
+                        start = this.firstPageStart;
                         lastPost= null;
                     }else {
                         let infoLen = this.postPageInfo.length;
@@ -124,19 +126,26 @@
                             let info = this.postPageInfo[this.currentPage-3];
                             start = info.start;
                             lastPost = info.post;
+                            end = info.end;
                         }
                     }
                     isNextPage = false;
                 }
-                api.fetchArticleListByCreateTime(start,null,lastPost,postList => {
+                api.fetchArticleListByName(start,end,lastPost,postList => {
                     if (postList.length) {
                         this.postList = postList;
                         this.lastPost = postList[postList.length-1];
-                        this.postListStart = this.lastPost.getCreated();
+                        let listStart = new cos_sdk.multi_id.user_post_create_order();
+                        listStart.setCreate(this.lastPost.getCreated());
+                        listStart.setAuthor(this.lastPost.getAuthor());
+                        this.postListStart = listStart;
                         if (this.currentPage === 0 && isNextPage) {
-                            this.postListEnd = null;
+                            this.postListEnd = this.firstPageEnd;
                         }else {
-                            this.postListEnd = postList[0].getCreated();
+                            let listEnd = new cos_sdk.multi_id.user_post_create_order();
+                            listEnd.setCreate(postList[0].getCreated());
+                            listEnd.setAuthor(postList[0].getAuthor());
+                            this.postListEnd = listEnd;
                         }
                         if (isNextPage) {
                             if (this.currentPage + 1 === this.totalPage) {
@@ -157,7 +166,7 @@
                     }
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {
-                    console.log("Get Post list fail,error code is %s,msg is %s",errCode,msg);
+                    console.log("Get user's Post list fail,error code is %s,msg is %s",errCode,msg);
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
@@ -188,7 +197,7 @@
             // },
             timeConversion(ms) {
                 return utility.timeConversion(ms);
-            },  
+            },
             toWei(n) {
                 return utility.toWei(n);
             },
@@ -196,13 +205,30 @@
                 return utility.easyNumber(n);
             },
             tokenAmount(n) {
-                BigNumber.config({ DECIMAL_PLACES: 18 })
+                BigNumber.config({ DECIMAL_PLACES: 18 });
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount();
             }
         },
         mounted() {
+            let name = this.$route.params.author;
+            let accountName = new cos_sdk.raw_type.account_name();
+            accountName.setValue(name);
+            let startTime = new cos_sdk.raw_type.time_point_sec();
+            let endTime = new cos_sdk.raw_type.time_point_sec();
+            startTime.setUtcSeconds(Math.ceil(Date.now()/1000)+86400);
+            endTime.setUtcSeconds(1);
+            let start = new cos_sdk.multi_id.user_post_create_order();
+            start.setAuthor(accountName);
+            start.setCreate(startTime);
+            let end = new cos_sdk.multi_id.user_post_create_order();
+            end.setAuthor(accountName);
+            end.setCreate(endTime);
+            this.postListStart = start;
+            this.postListEnd = end;
+            this.firstPageStart = start;
+            this.firstPageEnd = end;
             this.nthPage();
         },
         watch: {

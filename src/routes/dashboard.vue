@@ -176,6 +176,12 @@
         margin-left: 30px;
         vertical-align: bottom;
     }
+    .vue-dashboard .irreversible {
+        position: absolute;
+        margin-top: 150px;
+        margin-left: 30px;
+        vertical-align: bottom;
+    }
 
     .vue-dashboard .nas-price .detail *:nth-child(1) {
         font-size: 28px;
@@ -638,11 +644,15 @@
                         <div v-if="stateInfo" class="detail">
                             <span>{{ stateInfo.tps }}</span>
                         </div>
-                        <div v-if="market" class="market container">
+                        <div class="irreversible">
+                            LastIrreversibleBlockTime
+                            <div v-if="lastIrreversibleBlockTime">{{ lastIrreversibleBlockTime }}</div>
+                        </div>
+
+                        <div v-if="stateInfo" class="market container">
                             <div class="row">
                                 <div class="col-6">
                                     Peak
-                                    <!--<div>{{ numberAddComma(market.marketCap) }}</div>-->
                                     <div v-if="stateInfo">{{ stateInfo.maxTps }}</div>
                                 </div>
                             </div>
@@ -783,6 +793,7 @@
                 trxStartTime:null,//the latest trx block time
                 blkStartNum: 0,
                 blkEndNum: 0,
+                lastIrreversibleBlockTime: null,
             }
         },
         computed: {
@@ -1003,6 +1014,7 @@
             api.fetchStateInfo(info => {
                 if (info != null && typeof info.state.dgpo != "undefined" ) {
                     this.stateInfo = info.state.dgpo;
+                    this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
                 }else {
                     console.log("return empty props");
                 }
@@ -1096,6 +1108,7 @@
                 api.fetchStateInfo(info => {
                     if (info != null && typeof(info.state.dgpo) != "undefined" ) {
                         this.stateInfo = info.state.dgpo;
+                        this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
                     }else {
                         console.log("return empty props");
                     }

@@ -266,6 +266,25 @@
                     </td>
                     <td class="font-16 font-color-000000">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
                 </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">PublicKey:
+                    </td>
+                    <td class="font-16 font-color-000000">{{accountInfo.publicKey?accountInfo.publicKey.data:""}}</td>
+                </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Vest:
+                    </td>
+                    <td class="font-16 font-color-000000">{{accountInfo.vest?accountInfo.vest.value:""}}</td>
+                </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Posted:
+                    </td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id'>
+                        <span>{{accountInfo.postCount}}</span>
+                        </router-link>
+                    </td>
+                </tr>
                 <!--<tr>-->
                     <!--<td class="base-info-key font-16 font-color-555555 pl-16">Minted:</td>-->
                     <!--<td class="font-16 font-color-000000">{{ obj.mintedBlkCnt }}</td>-->
@@ -329,6 +348,25 @@
                     CreatedTime:
                     <!--<div class="detail">{{ accountInfo.createdTime.utcSeconds }}</div>-->
                     <td class="detail">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
+                </div>
+                <div>
+                    <div class="base-info-key font-16 font-color-555555 pl-16">PublicKey:
+                    </div>
+                    <div class="font-16 font-color-000000">{{accountInfo.publicKey?accountInfo.publicKey.data:""}}</div>
+                </div>
+                <div>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Vest:
+                    </td>
+                    <td class="font-16 font-color-000000">{{accountInfo.vest?accountInfo.vest.value:""}}</td>
+                </div>
+                <div>
+                    <div class="base-info-key font-16 font-color-555555 pl-16">Posted:
+                    </div>
+                    <div class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id'>
+                            <span>{{accountInfo.postCount}}</span>
+                        </router-link>
+                    </div>
                 </div>
                 <!--<div>-->
                     <!--Minted:-->

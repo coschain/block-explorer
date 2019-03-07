@@ -6,6 +6,7 @@ const grpc_web = require("@improbable-eng/grpc-web").grpc;
 
 module.exports = {
      cos_host ,
+     cos_sdk,
     /*
      * get user account info by account name
      * @param name: user name
@@ -94,7 +95,7 @@ module.exports = {
         }
         let req = new cos_sdk.grpc.NonParamsRequest();
         let promise = new Promise((resolve, reject) => {
-            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetStatInfo,{
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetStatisticsInfo,{
                  request:req,
                  host:cos_host,
                 onEnd: res => {
@@ -261,6 +262,14 @@ module.exports = {
         promise.then(success,fail)
     },
 
+    /**
+     * fetch article list by create time in reverse order
+     * @param start: the start time in request range
+     * @param end: the end time in request range
+     * @param lastArticle: the article info of the last one in last page
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
      async fetchArticleListByCreateTime(start,end,lastArticle,success,fail) {
          if (typeof success != "function" || typeof fail != "function") {
              console.log("The success or fail is not a callBack function");
@@ -269,9 +278,7 @@ module.exports = {
          let req = new cos_sdk.grpc.GetPostListByCreateTimeRequest();
          req.setStart(start);
          req.setEnd(end);
-         if (lastArticle != null) {
-             req.setLastPost()
-         }
+        req.setLastPost(lastArticle);
          let promise = new Promise((resolve, reject) => {
              grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByCreateTime, {
                  request:req,
@@ -290,6 +297,33 @@ module.exports = {
          });
          promise.then(success,fail)
      },
+
+    fetchArticleListByName(start,end,lastArticle,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetPostListByNameRequest();
+        req.setStart(start);
+        req.setEnd(end);
+        req.setLastPost(lastArticle);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByName, {
+                request:req,
+                host:cos_host,
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getPostedListList();
+                        resolve(obj)
+                    }else {
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success,fail)
+    },
 
     // get api/account?
     // - p      - 页码, 默认 1

@@ -27,6 +27,10 @@ module.exports = [{
     component: require("@/routes/block-trxs").default,
     meta: { headerActive: 2 },
     path: "/:api?/block-trxs/:blockNumber"
+},{
+    component: require("@/routes/user-article").default,
+    meta: { headerActive: 2 },
+    path: "/:api?/user-article/:author"
 }, {
     component: require("@/routes/txs-nrc20").default,
     meta: { headerActive: 2 },
