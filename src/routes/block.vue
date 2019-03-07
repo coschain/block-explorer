@@ -47,13 +47,13 @@
                             <nav aria-label="Page navigation" class=navgation-tab>
                                 <ul class=pagination>
                                     <li>
-                                        <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                        <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                             <span aria-hidden=true>&lt; Prev</span>
                                         </router-link>
                                     </li>
                                     <li>&nbsp; {{$route.params.id}} &nbsp;</li>
                                     <li>
-                                        <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
+                                        <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
                                             <span aria-hidden=true>Next &gt;</span>
                                         </router-link>
                                     </li>
@@ -68,29 +68,32 @@
                     <tr>
                         <td class="font-color-555555">Transactions</td>
                         <td class="font-color-000000">
-                            <router-link v-bind:to='fragApi + "/txs?block=" + this.$route.params.id'>
-                                <span>{{ blockInfo.transactionsList.length }}</span>
+                            <!--<router-link v-bind:to='fragApi + "/txs?block=" + this.$route.params.id'>-->
+                                <!--<span>{{ blockInfo.transactionsList.length }}</span>-->
+                            <!--</router-link>-->
+                            <router-link v-bind:to='fragApi + "/block-trxs/" + this.$route.params.id'>
+                                <span>{{ blockInfo.toObject().transactionsList.length }}</span>
                             </router-link>
                             tx in this block
                         </td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Hash</td>
-                        <td class="font-color-000000 monospace">{{ blockInfo.signedHeader.header.previous.hash}}</td>
+                        <td class="font-color-000000 monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash}}</td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Parent Hash</td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/block/" + blockInfo.signedHeader.header.previous.hash'>
-                                <span class="monospace">{{ blockInfo.signedHeader.header.previous.hash }}</span>
+                            <router-link v-bind:to='fragApi + "/block/" + blockInfo.toObject().signedHeader.header.previous.hash'>
+                                <span class="monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash }}</span>
                             </router-link>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Minted</td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/address/" + blockInfo.signedHeader.header.witness.value'>
-                                <span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>
+                            <router-link v-bind:to='fragApi + "/address/" + blockInfo.toObject().signedHeader.header.witness.value'>
+                                <span class="monospace">{{ blockInfo.toObject().signedHeader.header.witness.value }}</span>
                             </router-link>
                             <!--<span v-if=block.miner.alias> | {{ block.miner.alias }}</span>-->
                         </td>
@@ -128,13 +131,13 @@
                         <nav aria-label="Page navigation" class=navgation-tab>
                             <ul class=pagination>
                                 <li>
-                                    <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                    <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                         <span aria-hidden=true>&lt; Prev</span>
                                     </router-link>
                                 </li>
                                 <li>&nbsp; {{$route.params.id}} &nbsp;</li>
                                 <li>
-                                    <router-link v-if="blockInfo.signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
+                                    <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
                                         <span aria-hidden=true>Next &gt;</span>
                                     </router-link>
                                 </li>
@@ -150,20 +153,20 @@
                     Transactions:
                     <div class="detail">
                         <router-link v-bind:to='fragApi + "/txs?block=" + this.$route.params.id'>
-                            <span>{{ blockInfo.transactionsList.length }}</span>
+                            <span>{{ blockInfo.toObject().transactionsList.length }}</span>
                         </router-link>
                         tx in this block
                     </div>
                 </div>
                 <div>
                     Hash:
-                    <div class="detail monospace">{{ blockInfo.signedHeader.header.previous.hash }}</div>
+                    <div class="detail monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash }}</div>
                 </div>
                 <div>
                     Parent Hash:
                     <div class="detail">
-                        <router-link v-bind:to='fragApi + "/block/" + blockInfo.signedHeader.header.previous.hash'>
-                            <span class="monospace">{{ blockInfo.signedHeader.header.previous.hash }}</span>
+                        <router-link v-bind:to='fragApi + "/block/" + blockInfo.toObject().signedHeader.header.previous.hash'>
+                            <span class="monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash }}</span>
                         </router-link>
                     </div>
                 </div>
@@ -173,8 +176,8 @@
                         <!--<router-link v-bind:to='fragApi + "/address/" + block.miner.hash'>-->
                             <!--<span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>-->
                         <!--</router-link>-->
-                        <router-link v-bind:to='fragApi + "/address/" + blockInfo.signedHeader.header.witness.value'>
-                            <span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>
+                        <router-link v-bind:to='fragApi + "/address/" + blockInfo.toObject().signedHeader.header.witness.value'>
+                            <span class="monospace">{{ blockInfo.toObject().signedHeader.header.witness.value }}</span>
                         </router-link>
                     </div>
                 </div>
@@ -238,9 +241,8 @@
                 //fetch block info
                 api.fetchBlockList(this.$route.params.id,this.$route.params.id, blkInfo => {
                     if (blkInfo.length > 0 ) {
-                        this.blockInfo = blkInfo[0].toObject();
-                        this.bTime = this.blockInfo.signedHeader.header.timestamp.utcSeconds*1000;
-                        console.log(this.blockInfo)
+                        this.blockInfo = blkInfo[0];
+                        this.bTime = this.blockInfo.toObject().signedHeader.header.timestamp.utcSeconds*1000;
                     }
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {

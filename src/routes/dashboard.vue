@@ -721,7 +721,7 @@
                                 </td>
                                 <td>
                                     Tx#
-                                    <router-link :to='fragApi + "/tx/" + tx.toObject().trxId.hash.prefix'>
+                                    <router-link :to='fragApi + "/tx/" + tx.toObject().trxId.hash'>
                                         <span class="monospace">{{ tx.toObject().trxId.hash.slice(0, 6) }}</span>...<span class="monospace">{{ tx.toObject().trxId.hash.slice(-6) }}</span>
                                     </router-link>
                                     <br>
