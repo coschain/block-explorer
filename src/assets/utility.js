@@ -25,7 +25,9 @@ module.exports = {
     getContentosNetHost: getContentosNetHost,
     weekNumber: weekNumber,
     moment: moment,
-    searchType: judgeSearchType
+    searchType: judgeSearchType,
+    byteToHexStr: convertByteToHexString,
+    hexStrToByte: convertHexStringToByteArray,
 };
 
 ////////////////////////////////////////////////////////////
@@ -273,4 +275,50 @@ function judgeSearchType(content) {
           return 3;
       }
      return -1;
+}
+
+/**
+ * convert byte array to 16 Hex
+ */
+function convertByteToHexString(arrBytes) {
+    console.log("origin bytes is:");
+    console.log(arrBytes);
+    let str = "";
+    for (let i = 0; i < arrBytes.length; i++) {
+        let tmp;
+        let num=arrBytes[i];
+        if (num < 0) {
+            tmp =(255+num+1).toString(16);
+        } else {
+            tmp = num.toString(16);
+        }
+        if (tmp.length === 1) {
+            tmp = "0" + tmp;
+        }
+        str += tmp;
+    }
+    console.log("the str after convert is:");
+    console.log(str);
+    return str;
+}
+
+function convertHexStringToByteArray(str) {
+    console.log("origin str is:");
+    console.log(str);
+    let pos = 0;
+    let len = str.length;
+    if (len % 2 !== 0) {
+        return null;
+    }
+    len /= 2;
+    let arrBytes = [];
+    for (let i = 0; i < len; i++) {
+        let s = str.substr(pos, 2);
+        let v = parseInt(s, 16);
+        arrBytes.push(v);
+        pos += 2;
+    }
+    console.log("the byte after convert is:");
+    console.log(arrBytes);
+    return arrBytes;
 }

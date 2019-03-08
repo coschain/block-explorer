@@ -86,7 +86,7 @@
                 <table class="explorer-table">
                     <tr>
                         <td class="td-left font-16 font-color-555555" style="padding-left: 24px;">TxHash:</td>
-                        <td class="font-16 font-color-000000 monospace">{{ trx.getTrxId().toObject().hash }}</td>
+                        <td class="font-16 font-color-000000 monospace">{{ trx.getTrxId().getHexHash() }}</td>
                     </tr>
                     <tr v-if="trx.hasTrxWrap()" class="font-16">
                         <td class="font-color-555555" style="padding-left: 24px;">TxReceipt Status:</td>
@@ -125,18 +125,18 @@
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">From:</td>
                         <td>
-                            <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
-                                <!--<span class="font-16 monospace">{{ tx.from.hash }}</span>-->
-                            <!--</router-link>-->
+                            <router-link  v-bind:to='fragApi +"/address/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                                <span class="font-16 monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
+                            </router-link>
                         </td>
                     </tr>
                     <tr>
-                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>
-                        <td>
-                            <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
-                            <!--<span class="font-16 monospace">{{ tx.from.hash }}</span>-->
-                            <!--</router-link>-->
-                        </td>
+                        <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>-->
+                        <!--<td>-->
+                            <!--&lt;!&ndash;<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span class="font-16 monospace">{{ tx.from.hash }}</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+                        <!--</td>-->
                     </tr>
                     <!--<tr>-->
                         <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">To:</td>-->
@@ -183,7 +183,7 @@
                 <div>
                     TxHash:
                     <!--<div class="detail monospace">{{ tx.hash }}</div>-->
-                    <div class="detail monospace">{{ trx.getTrxId().getHash() }}</div>
+                    <div class="detail monospace">{{ trx.getTrxId().getHexHash() }}</div>
                 </div>
                 <div>
                     TxReceipt Status:
@@ -224,18 +224,18 @@
                 <div>
                     From:
                     <div class="detail">
-                        <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
-                            <!--<span class="monospace">{{ tx.from.hash }}</span>-->
-                        <!--</router-link>-->
+                        <router-link  v-bind:to='fragApi +"/address/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                            <span class="font-16 monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
+                        </router-link>
                     </div>
                 </div>
                 <tr>
-                    <td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>
-                    <td>
-                        <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
-                        <!--<span class="font-16 monospace">{{ tx.from.hash }}</span>-->
-                        <!--</router-link>-->
-                    </td>
+                    <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>-->
+                    <!--<td>-->
+                        <!--&lt;!&ndash;<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span class="font-16 monospace">{{ tx.from.hash }}</span>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+                    <!--</td>-->
                 </tr>
                 <!--<div>-->
                     <!--To:-->
@@ -288,6 +288,7 @@
         BigNumber = require("bignumber.js");
 
     require("prismjs/themes/prism.css");
+    const cos_sdk = require("cos-grpc-js");
 
     module.exports = {
         components: {
@@ -324,7 +325,7 @@
             },
             urlChange() {
                 this.$root.showModalLoading = true;
-                api.fetchTrxInfoById(this.$route.params.id, info => {
+                api.fetchTrxInfoById( this.trxId, info => {
                     if (info != null && typeof info != "undefined") {
                        this.trx = info;
                     }
@@ -377,7 +378,8 @@
                 tabButtons: ["Overview"],
                 tx: null,
                 trx: null,
-                isShowPayload: false
+                isShowPayload: false,
+                trxId: null,
             };
         },
         methods: {
@@ -401,6 +403,9 @@
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat();
+            },
+            hexTobyte(str) {
+                return utility.hexStrToByte(str);
             },
             // atpAddress() {
             //     var api = this.$route.params.api ? this.$route.params.api :"mainnet";
@@ -434,6 +439,10 @@
             // }
         },
         mounted() {
+            let hexHash = this.$route.params.id;
+            let trxHash = new cos_sdk.raw_type.sha256();
+            trxHash.setHexHash(hexHash);
+            this.trxId = trxHash.getHash();
         },
     };
 </script>

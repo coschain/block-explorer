@@ -33,7 +33,7 @@
 <template>
     <!-- https://etherscan.io/block/4951841 -->
     <div class="vue-block fullfill" v-bind:triggerComputed=urlChange>
-        <vue-bread title='Block' :subtitle="$route.params.id"></vue-bread>
+        <vue-bread title='Block' :subtitle='this.blkHash'></vue-bread>
         <div v-if="blockInfo" class="container">
             <div class="font-24 font-bold font-color-000000 table-title">
                 Overview
@@ -79,14 +79,12 @@
                     </tr>
                     <tr>
                         <td class="font-color-555555">Hash</td>
-                        <td class="font-color-000000 monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash}}</td>
+                        <td class="font-color-000000 monospace">{{ blockInfo.hash()}}</td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Parent Hash</td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/block/" + blockInfo.toObject().signedHeader.header.previous.hash'>
-                                <span class="monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash }}</span>
-                            </router-link>
+                            <span class="font-color-000000 monospace">{{ blockInfo.getSignedHeader().getHeader().getPrevious().getHexHash()}}</span>
                         </td>
                     </tr>
                     <tr>
@@ -165,9 +163,9 @@
                 <div>
                     Parent Hash:
                     <div class="detail">
-                        <router-link v-bind:to='fragApi + "/block/" + blockInfo.toObject().signedHeader.header.previous.hash'>
-                            <span class="monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash }}</span>
-                        </router-link>
+                        <!--<router-link v-bind:to='fragApi + "/block/" + blockInfo.toObject().signedHeader.header.previous.hash'>-->
+                            <span class="font-color-000000 monospace">{{ blockInfo.getSignedHeader().getHeader().getPrevious().getHexHash()}}</span>
+                        <!--</router-link>-->
                     </div>
                 </div>
                 <div>
@@ -243,6 +241,7 @@
                     if (blkInfo.length > 0 ) {
                         this.blockInfo = blkInfo[0];
                         this.bTime = this.blockInfo.toObject().signedHeader.header.timestamp.utcSeconds*1000;
+                        this.blkHash = this.blockInfo.hash();
                     }
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {
@@ -276,6 +275,7 @@
                 timestamp: Date.now(),
                 blockInfo: null,
                 bTime: null,
+                blkHash: null,
             };
         }
     };

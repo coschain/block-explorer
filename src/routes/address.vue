@@ -236,7 +236,7 @@
                     <td class="base-info-key font-16 font-color-555555 pl-16">COS Balance:
                     </td>
                     <td class="font-16 font-color-000000">
-                        {{ accountInfo.coin.value }} COS
+                        {{ accountInfo.getCoin().toString() }}
                     </td>
                 </tr>
                 <!--<tr v-if="creator && deployTxHash">-->
@@ -259,7 +259,7 @@
                 <!--</tr>-->
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">AccountName:</td>
-                    <td class="font-16 font-color-000000">{{ accountInfo.accountName.value }}</td>
+                    <td class="font-16 font-color-000000">{{ accountInfo.toObject().accountName.value }}</td>
                 </tr>
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">CreatedTime:
@@ -269,19 +269,22 @@
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">PublicKey:
                     </td>
-                    <td class="font-16 font-color-000000">{{accountInfo.publicKey?accountInfo.publicKey.data:""}}</td>
+                    <td class="font-16 font-color-000000">{{accountInfo.hasPublicKey?accountInfo.getPublicKey().toWIF(): ""}}</td>
+
                 </tr>
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Vest:
                     </td>
-                    <td class="font-16 font-color-000000">{{accountInfo.vest?accountInfo.vest.value:""}}</td>
+                    <!--<td class="font-16 font-color-000000">{{accountInfo.hasVest?accountInfo.getVest().toString():""}}</td>-->
+                    <td class="font-16 font-color-000000">{{accountInfo.hasVest()?accountInfo.getVest().toString():""}}</td>
+
                 </tr>
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Posted:
                     </td>
                     <td class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id'>
-                        <span>{{accountInfo.postCount}}</span>
+                        <span>{{accountInfo.toObject().postCount}}</span>
                         </router-link>
                     </td>
                 </tr>
@@ -322,7 +325,7 @@
             <div class="mobile-detail d-md-none">
                 <div>
                     COS Balance:
-                    <div class="detail">{{ accountInfo.coin.value }} COS</div>
+                    <div class="detail">{{ accountInfo.getCoin().toString() }} </div>
                 </div>
                 <!--<div v-if="creator && deployTxHash">-->
                     <!--Contract Creator:-->
@@ -342,7 +345,7 @@
                 <!--</div>-->
                 <div>
                     AccountName:
-                    <div class="detail">{{  accountInfo.accountName.value }}</div>
+                    <div class="detail">{{  accountInfo.toObject().accountName.value }}</div>
                 </div>
                 <div>
                     CreatedTime:
@@ -352,19 +355,19 @@
                 <div>
                     <div class="base-info-key font-16 font-color-555555 pl-16">PublicKey:
                     </div>
-                    <div class="font-16 font-color-000000">{{accountInfo.publicKey?accountInfo.publicKey.data:""}}</div>
+                    <div class="font-16 font-color-000000">{{accountInfo.hasPublicKey()?accountInfo.getPublicKey().toWIF():""}}</div>
                 </div>
                 <div>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Vest:
                     </td>
-                    <td class="font-16 font-color-000000">{{accountInfo.vest?accountInfo.vest.value:""}}</td>
+                    <td class="font-16 font-color-000000">{{accountInfo.hasVest()?accountInfo.getVest().toString():""}}</td>
                 </div>
                 <div>
                     <div class="base-info-key font-16 font-color-555555 pl-16">Posted:
                     </div>
                     <div class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id'>
-                            <span>{{accountInfo.postCount}}</span>
+                            <span>{{accountInfo.toObject().postCount}}</span>
                         </router-link>
                     </div>
                 </div>
@@ -409,6 +412,7 @@
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js"),
         base64 = require("js-base64").Base64;
+    const crypto = require('cos-grpc-js').crypto;
 
     module.exports = {
         components: {
@@ -439,7 +443,7 @@
                 api.fetchAccountInfoByName(this.$route.params.id, info => {
                     this.accountInfo = info;
                     if ( info != null) {
-                        this.createTime = info.createdTime.utcSeconds*1000;
+                        this.createTime = info.toObject().createdTime.utcSeconds*1000;
                     }
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {
@@ -587,7 +591,8 @@
                     return s.substring(0, 17) + '...';
                 }
                 return s;
-            }
+            },
+
         },
         watch: {
             tab: function (newTab, oldTaB) {

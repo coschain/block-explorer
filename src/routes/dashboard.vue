@@ -646,7 +646,7 @@
                         </div>
                         <div v-if="lastIrreversibleBlockTime" class="irreversible">
                             LastIrreversibleBlockTime
-                            <div v-if="lastIrreversibleBlockTime">{{ lastIrreversibleBlockTime }}</div>
+                            <div v-if="lastIrreversibleBlockTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }}</div>
                         </div>
 
                         <div v-if="stateInfo" class="market container">
@@ -731,15 +731,16 @@
                                 </td>
                                 <td>
                                     Tx#
-                                    <router-link :to='fragApi + "/tx/" + tx.toObject().trxId.hash'>
-                                        <span class="monospace">{{ tx.toObject().trxId.hash.slice(0, 6) }}</span>...<span class="monospace">{{ tx.toObject().trxId.hash.slice(-6) }}</span>
+                                    <router-link :to='fragApi + "/tx/" + tx.getTrxId().getHexHash()'>
+                                        <!--<span class="monospace"> {{tx.getTrxId().getHexHash()}} </span>-->
+                                        <span class="monospace"> {{trimTrxId(tx.getTrxId().getHexHash())}} </span>
                                     </router-link>
                                     <br>
                                     <span class="fromto d-none d-sm-inline">
                                         From
-                                        <!--<router-link :to='fragApi + "/address/" + tx.from.hash'>-->
-                                            <!--<span class="monospace">{{ tx.from.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.from.hash.slice(-4) }}</span>-->
-                                        <!--</router-link>-->
+                                        <router-link :to='fragApi + "/address/" + tx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                                            <span class="monospace">{{  tx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
+                                        </router-link>
                                     </span>
                                     <!--<span class="fromto d-none d-sm-inline">-->
                                         <!--To-->
@@ -766,7 +767,6 @@
     var ECharts = require('vue-echarts/components/ECharts').default;
     require('echarts/lib/chart/line');
     require('echarts/lib/component/tooltip');
-
     module.exports = {
         components: {
             'vchart': ECharts,
@@ -794,6 +794,8 @@
                 blkStartNum: 0,
                 blkEndNum: 0,
                 lastIrreversibleBlockTime: null,
+                byteToHex: utility.byteToHexStr,
+                hexTobyte: utility.hexStrToByte,
             }
         },
         computed: {
@@ -1194,7 +1196,13 @@
                     }
                 }
                 return n;
-            }
+            },
+            trimTrxId(trxId) {
+                if (trxId.length >= 20) {
+                    return trxId.substr(0, 6) + "..." + trxId.substr(-6, 6)
+                }
+                return trxId;
+            },
         },
         updated() {
             if (window.isIE()) {
