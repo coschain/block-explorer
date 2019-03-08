@@ -24,7 +24,8 @@ module.exports = {
     yyyymmdd: yyyymmdd,
     getContentosNetHost: getContentosNetHost,
     weekNumber: weekNumber,
-    moment: moment
+    moment: moment,
+    searchType: judgeSearchType
 };
 
 ////////////////////////////////////////////////////////////
@@ -247,4 +248,29 @@ function getContentosNetHost(net){
 
 function weekNumber(date) {
     return moment(date).week();
+}
+
+/**
+ * judge the search type 1：search block 2:search account name 3: search trx
+ */
+function judgeSearchType(content) {
+      //judge block
+      let blkPatrn=/^[0-9]{1,20}$/;
+      if (blkPatrn.test(content)) {
+          //search block number
+          return 1;
+      }
+
+      //judge account
+      let accountPatrn = /^[A-Za-z0-9]*$/;
+      if (accountPatrn.test(content)) {
+          return 2;
+      }
+
+      //judge trx
+     let trxPatrn = /^[0][x][0-9a-fA-F]+$/;
+      if (trxPatrn.test(content)) {
+          return 3;
+      }
+     return -1;
 }

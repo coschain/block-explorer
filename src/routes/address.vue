@@ -437,8 +437,8 @@
                 this.nrc20TxCnt = 0;
                 this.$root.showModalLoading = true;
                 api.fetchAccountInfoByName(this.$route.params.id, info => {
+                    this.accountInfo = info;
                     if ( info != null) {
-                        this.accountInfo = info;
                         this.createTime = info.createdTime.utcSeconds*1000;
                     }
                     this.$root.showModalLoading = false;

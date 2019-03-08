@@ -131,8 +131,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="font-16 font-color-555555" style="padding-left: 24px;">To:</td>
-                        <td class="detail"></td>
+                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>
+                        <td>
+                            <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
+                            <!--<span class="font-16 monospace">{{ tx.from.hash }}</span>-->
+                            <!--</router-link>-->
+                        </td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">To:</td>-->
+                        <!--<td class="detail"></td>-->
                         <!--<td v-if="tx.type === 'call'">-->
                             <!--<span class="font-color-000000 font-16">Contract</span>-->
                             <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>-->
@@ -145,7 +153,7 @@
                                 <!--<span class="font-16 monospace">{{ tx.to.hash }}</span>-->
                             <!--</router-link>-->
                         <!--</td>-->
-                    </tr>
+                    <!--</tr>-->
                     <!--<tr  v-if=isTokenTransfer class="font-16">-->
                         <!--<td class="font-color-555555" style="padding-left: 24px;">Token Transfered:</td>-->
                         <!--<td>-->
@@ -221,9 +229,17 @@
                         <!--</router-link>-->
                     </div>
                 </div>
-                <div>
-                    To:
-                    <div class="detail"></div>
+                <tr>
+                    <td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>
+                    <td>
+                        <!--<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
+                        <!--<span class="font-16 monospace">{{ tx.from.hash }}</span>-->
+                        <!--</router-link>-->
+                    </td>
+                </tr>
+                <!--<div>-->
+                    <!--To:-->
+                    <!--<div class="detail"></div>-->
                     <!--<div v-if="tx.type == 'call'" class="detail">-->
                         <!--<span class="font-color-000000" style="margin-right: 20px;">Contract</span>-->
                         <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash' style="margin-right: 14px;">-->
@@ -236,7 +252,7 @@
                             <!--<span class="monospace">{{ tx.to.hash }}</span>-->
                         <!--</router-link>-->
                     <!--</div>-->
-                </div>
+                <!--</div>-->
                 <!--<div v-if=isTokenTransfer>-->
                     <!--Token Transfered:-->
                     <!--<div class="detail">-->
@@ -390,31 +406,32 @@
             //     var api = this.$route.params.api ? this.$route.params.api :"mainnet";
             //     return appConfig.apiPrefixes[api].atp;
             // },
-            search(keyword) {
-                if (keyword.trim().length === 0) {
-                    return;
-                }
-                this.$root.showModalLoading = true;
-                api.getSearch(keyword.trim(), o => {
-                    this.$root.showModalLoading = false;
-                    this.search = "";
-
-                    if (o.type == "block")
-                        this.$router.push(this.fragApi + "/block/" + o.q);
-                    else if (o.type == "address")
-                        this.$router.push(this.fragApi + "/address/" + o.q);
-                    else if (o.type == "tx")
-                        this.$router.push(this.fragApi + "/tx/" + o.q);
-                    else if (o.type == "contract")
-                        this.$router.push(this.fragApi + "/token/" + o.q);
-                    else {
-                        this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/nothing");
-                    }
-                }, () => {
-                    this.$root.showModalLoading = false;
-                    this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
-            }
+            // search(keyword) {
+            //     console.log("tx search");
+            //     if (keyword.trim().length === 0) {
+            //         return;
+            //     }
+            //     this.$root.showModalLoading = true;
+            //     api.getSearch(keyword.trim(), o => {
+            //         this.$root.showModalLoading = false;
+            //         this.search = "";
+            //
+            //         if (o.type == "block")
+            //             this.$router.push(this.fragApi + "/block/" + o.q);
+            //         else if (o.type == "address")
+            //             this.$router.push(this.fragApi + "/address/" + o.q);
+            //         else if (o.type == "tx")
+            //             this.$router.push(this.fragApi + "/tx/" + o.q);
+            //         else if (o.type == "contract")
+            //             this.$router.push(this.fragApi + "/token/" + o.q);
+            //         else {
+            //             this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/nothing");
+            //         }
+            //     }, () => {
+            //         this.$root.showModalLoading = false;
+            //         this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+            //     });
+            // }
         },
         mounted() {
         },

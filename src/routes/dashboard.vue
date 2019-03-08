@@ -644,7 +644,7 @@
                         <div v-if="stateInfo" class="detail">
                             <span>{{ stateInfo.tps }}</span>
                         </div>
-                        <div class="irreversible">
+                        <div v-if="lastIrreversibleBlockTime" class="irreversible">
                             LastIrreversibleBlockTime
                             <div v-if="lastIrreversibleBlockTime">{{ lastIrreversibleBlockTime }}</div>
                         </div>
@@ -1116,9 +1116,7 @@
                 //update today total trx count
                 let start = Math.ceil(Date.now()/1000);
                 let end = Math.ceil(Date.now()/1000)+86400;
-                console.log("start fetch today trx count:");
                 api.fetchDailyTotalTrxInfoList(start,end,infoList => {
-                    console.log("fetch today trx count:");
                     if (infoList.length > 0) {
                         this.todayTxCnt =  infoList[0].count;
                     }

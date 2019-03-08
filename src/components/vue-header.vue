@@ -115,7 +115,7 @@
             <div class="collapse navbar-collapse mr-28" id=navbarSupportedContent>
                 <form class=form-inline v-on:submit.prevent=onSubmit>
                     <img src=/static/img/icon_search.png width=16 alt="">
-                    <input class="mr-sm-2 font-12" v-model=search type=search placeholder="Search by Address / Txhash / Block">
+                    <input class="mr-sm-2 font-12" v-model=search type=search placeholder="Search by Account / Txhash / Block">
                 </form>
                 <ul class="navbar-nav ml-auto">
                     <li class=nav-item v-bind:class="{ active: $route.meta.headerActive == 1 }">
@@ -150,9 +150,10 @@
     </nav>
 </template>
 <script>
-    var api = require("@/assets/api"),
-        appConfig = require("@/assets/app-config");
-
+    let api = require("@/assets/api"),
+        appConfig = require("@/assets/app-config"),
+        utility = require("@/assets/utility");
+    import {searchUtil} from "../assets/utility";
     module.exports = {
         data() {
             return {
@@ -173,33 +174,24 @@
                 location.reload();
             },
             onSubmit() {
-                if (this.search.trim().length === 0) {
+                let content = this.search.trim();
+                if (content.length === 0) {
                     this.search = "";
                     return;
                 }
-                this.$root.showModalLoading = true;
-                api.getSearch(this.search.trim(), o => {
-                    this.$root.showModalLoading = false;
-                    this.search = "";
+                let sType = utility.searchType(this.search.trim());
+                console.log(sType);
+                if (sType === 1 ) {
+                    this.$router.push(this.fragApi + "/block/" + content);
+                }else if (sType === 2) {
+                    this.$router.push(this.fragApi + "/address/" + content);
+                }else if (sType === 3) {
+                    this.$router.push(this.fragApi + "/tx/" + content);
+                }else  {
+                    this.$root.search =content;
+                    this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/nothing");
+                }
 
-                    if (o.type == "block")
-                        this.$router.push(this.fragApi + "/block/" + o.q);
-                    else if (o.type == "address")
-                        this.$router.push(this.fragApi + "/address/" + o.q);
-                    else if (o.type == "tx")
-                        this.$router.push(this.fragApi + "/tx/" + o.q);
-                    // else if (o.type == "contract")
-                    //     this.$router.push(this.fragApi + "/token/" + o.q);
-                    else {
-                        this.$root.search = o.q;
-                        this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/nothing");
-                    }
-                }, () => {
-                    this.$root.search = this.search;
-                    this.$root.showModalLoading = false;
-                    this.search = "";
-                    this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
             },
             atpAddress() {
                 var api = this.$route.params.api ? this.$route.params.api : "mainnet";
