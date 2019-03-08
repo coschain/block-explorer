@@ -37,7 +37,7 @@
                         <th style="padding-left: 24px;">Rank</th>
                         <th>Account</th>
                         <th class=text-right>Balance</th>
-                        <th class=text-right>Percentage</th>
+                        <!--<th class=text-right>Percentage</th>-->
                     </tr>
                     <tr v-for="(account, i) in accountList" :key="i" class="font-14">
                         <td style="padding-left: 24px;" class="font-color-000000">{{(currentPage-1)*accountList.length+i+1}}</td>
@@ -48,7 +48,7 @@
                             </router-link>
                             <!--<span v-show=o.alias> | {{ o.alias }}</span>-->
                         </td>
-                        <td class="text-right font-color-555555">{{ nasAmount(account.getCoin().getValue()) }}</td>
+                        <td class="text-right font-color-555555">{{ account.getCoin().getValue() }}</td>
                         <!--<td class="text-right font-color-555555">{{ new Number(o.percentage).toFixed(4) }}%</td>-->
                     </tr>
                 </table>

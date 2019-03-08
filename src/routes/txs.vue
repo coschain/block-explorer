@@ -145,7 +145,7 @@
             </div>
 
             <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
-                v-on:prev=onPrev v-on:to=onTo></vue-pagination>
+                v-on:prev=onPrev ></vue-pagination>
         </div>
         <vue-nothing v-if="trxList && trxList.length === 0" title="0 transaction found"></vue-nothing>
     </div>

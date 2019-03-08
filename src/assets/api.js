@@ -202,8 +202,22 @@ module.exports = {
             return
         }
         let req = new cos_sdk.grpc.GetDailyTotalTrxRequest();
-        req.setStart(start);
-        req.setEnd(end);
+        if (typeof start == "number") {
+            let sTime = new cos_sdk.raw_type.time_point_sec();
+            sTime.setUtcSeconds(start);
+            req.setStart(sTime);
+        }else {
+            req.setStart(start);
+        }
+
+        if (typeof end == "number") {
+            let eTime = new cos_sdk.raw_type.time_point_sec();
+            eTime.setUtcSeconds(end);
+            req.setEnd(eTime);
+        }else {
+            req.setEnd(end);
+        }
+
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetDailyTotalTrxInfo, {
                 request:req,

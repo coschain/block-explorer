@@ -775,8 +775,8 @@
         data() {
             return {
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
-                todayTxCnt: -1,
-                dailyTxData: null,
+                todayTxCnt: 0,
+                dailyTxData: [],
                 market: null,
                 blocks: [],
                 staticInfo: null,
@@ -799,22 +799,27 @@
         computed: {
             dailyTxChartOptions() {
                 if (!this.dailyTxData) return null;
-                var arr = [],
-                    dates = [],
+                var dates = [],
                     nums = [];
-                for (var k in this.dailyTxData) {
-                    arr.push([k, this.dailyTxData[k]]);
-                }
-                arr.sort(function (a, b) { return Date.parse(a[0]) - Date.parse(b[0]); });
-                // if (arr.length > 13) {
-                //     arr.splice(0, arr.length - 13);
-                // }
-                for (var i in arr) {
-                    dates.push(arr[i][0]);
-                    nums.push(arr[i][1]);
-                }
+
+                this.dailyTxData.forEach(function (info) {
+                    if (info.date) {
+                        let date = new Date(info.date.utcSeconds*1000);
+                        let Y = date.getFullYear() + '-';
+                        let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                        let D = date.getDate() + ' ';
+                        let dateStr = Y+M+D;
+                        dates.push(dateStr);
+                    }
+                    if (info.count) {
+                        nums.push(info.count);
+                    }else {
+                        nums.push(0);
+                    }
+                });
 
                 let vm = this;
+
                 var options = {
                     grid: { left: '40', bottom: '50', right: '17', top: '10', containLabel: false },
                     xAxis: {
@@ -877,6 +882,8 @@
                         transitionDuration: 0,
                         position: 'top',
                         formatter: function(params, ticket, callback) {
+                            console.log("params");
+                            console.log(params);
                             let date = new Date(params.name);
                             let dateStr = date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
                             return dateStr + '<div>Transactions: ' + vm.numberAddComma(params.value) + '</div><div class=daily-echart-down-arrow></div>';
@@ -893,117 +900,117 @@
                 };
                 return options;
             },
-            accountsChartOptions() {
-                if (!this.staticInfo || !this.staticInfo.addressWeekList || this.staticInfo.addressWeekList.length == 0) {
-                    return null;
-                }
-                var arr = this.staticInfo.addressWeekList;
-                var dates = [],
-                    nums = [];
-
-                arr.sort(function (a, b) { return a.timestamp > b.timestamp; });
-                if (arr.length > 8) {
-                    arr.splice(0, arr.length - 8);
-                }
-
-                for (var i in arr) {
-                    nums.push(arr[i].addressCount);
-                    dates.push(arr[i].timestamp);
-                }
-
-                let vm = this;
-                var options = {
-                    grid: { left: '30', bottom: '50', right: '17', top: '10', containLabel: false },
-                    xAxis: {
-                        data: dates,
-                        axisLine: {
-                            show: false
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                        axisLabel: {
-                            textStyle: {
-                                color: '#B2B2B2'
-                            },
-                            margin: 18,
-                            formatter: function(value) {
-                                return vm.shortDate(new Number(value));
-                            }
-                        }
-                    },
-                    yAxis: {
-                        min: Math.floor(nums[0] / 1000) * 1000 - 1000,
-                        axisLine: {
-                            show: false
-                        },
-                        axisLabel: {
-                            textStyle: {
-                                color: '#B2B2B2'
-                            },
-                            margin: 0,
-                            formatter: function (value) {
-                                return value / 1000 + 'k';
-                            }
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                        splitLine: {
-                            show: false
-                        },
-                        // splitNumber: 5,
-                        // maxInterval: 3000,
-                        minInterval: 1000
-                    },
-                    series: {
-                        type: 'line',
-                        data: nums,
-                        smooth: true,
-                        symbol: 'emptyCircle',
-                        symbolSize: 7,
-                        lineStyle: {
-                            color: '#0057FF',
-                            width: 3
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: '#FFFFFF',
-                                borderWidth: 3,
-                                borderColor: '#0057FF'
-                            },
-                            emphasis: {
-                                color: '#FFFFFF',
-                                borderWidth: 3,
-                                borderColor: '#0057FF'
-                            }
-                        },
-                        areaStyle: {
-                            color: '#0057FF',
-                            opacity: 1
-                        }
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        transitionDuration: 0,
-                        position: 'top',
-                        formatter: function(params, ticket, callback) {
-                            let date = new Date(new Number(params.name));
-                            let dateStr = date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
-                            return dateStr + '<div>Amount: ' + vm.numberAddComma(params.value) + '</div><div class=account-echart-down-arrow></div>';
-                        },
-                        backgroundColor: '#0057FF',
-                        padding: 8,
-                        extraCssText: 'border-radius: 2px;box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);',
-                        textStyle: {
-                            fontFamily: 'menlo, consolas',
-                            fontSize: 12,
-                            lineHeight: 18
-                        }
-                    }
-                };
-                return options;
-            },
+            // accountsChartOptions() {
+            //     if (!this.staticInfo || !this.staticInfo.addressWeekList || this.staticInfo.addressWeekList.length == 0) {
+            //         return null;
+            //     }
+            //     var arr = this.staticInfo.addressWeekList;
+            //     var dates = [],
+            //         nums = [];
+            //
+            //     arr.sort(function (a, b) { return a.timestamp > b.timestamp; });
+            //     if (arr.length > 8) {
+            //         arr.splice(0, arr.length - 8);
+            //     }
+            //
+            //     for (var i in arr) {
+            //         nums.push(arr[i].addressCount);
+            //         dates.push(arr[i].timestamp);
+            //     }
+            //
+            //     let vm = this;
+            //     var options = {
+            //         grid: { left: '30', bottom: '50', right: '17', top: '10', containLabel: false },
+            //         xAxis: {
+            //             data: dates,
+            //             axisLine: {
+            //                 show: false
+            //             },
+            //             axisTick: {
+            //                 show: false
+            //             },
+            //             axisLabel: {
+            //                 textStyle: {
+            //                     color: '#B2B2B2'
+            //                 },
+            //                 margin: 18,
+            //                 formatter: function(value) {
+            //                     return vm.shortDate(new Number(value));
+            //                 }
+            //             }
+            //         },
+            //         yAxis: {
+            //             min: Math.floor(nums[0] / 1000) * 1000 - 1000,
+            //             axisLine: {
+            //                 show: false
+            //             },
+            //             axisLabel: {
+            //                 textStyle: {
+            //                     color: '#B2B2B2'
+            //                 },
+            //                 margin: 0,
+            //                 formatter: function (value) {
+            //                     return value / 1000 + 'k';
+            //                 }
+            //             },
+            //             axisTick: {
+            //                 show: false
+            //             },
+            //             splitLine: {
+            //                 show: false
+            //             },
+            //             // splitNumber: 5,
+            //             // maxInterval: 3000,
+            //             minInterval: 1000
+            //         },
+            //         series: {
+            //             type: 'line',
+            //             data: nums,
+            //             smooth: true,
+            //             symbol: 'emptyCircle',
+            //             symbolSize: 7,
+            //             lineStyle: {
+            //                 color: '#0057FF',
+            //                 width: 3
+            //             },
+            //             itemStyle: {
+            //                 normal: {
+            //                     color: '#FFFFFF',
+            //                     borderWidth: 3,
+            //                     borderColor: '#0057FF'
+            //                 },
+            //                 emphasis: {
+            //                     color: '#FFFFFF',
+            //                     borderWidth: 3,
+            //                     borderColor: '#0057FF'
+            //                 }
+            //             },
+            //             areaStyle: {
+            //                 color: '#0057FF',
+            //                 opacity: 1
+            //             }
+            //         },
+            //         tooltip: {
+            //             trigger: 'item',
+            //             transitionDuration: 0,
+            //             position: 'top',
+            //             formatter: function(params, ticket, callback) {
+            //                 let date = new Date(new Number(params.name));
+            //                 let dateStr = date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
+            //                 return dateStr + '<div>Amount: ' + vm.numberAddComma(params.value) + '</div><div class=account-echart-down-arrow></div>';
+            //             },
+            //             backgroundColor: '#0057FF',
+            //             padding: 8,
+            //             extraCssText: 'border-radius: 2px;box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);',
+            //             textStyle: {
+            //                 fontFamily: 'menlo, consolas',
+            //                 fontSize: 12,
+            //                 lineHeight: 18
+            //             }
+            //         }
+            //     };
+            //     return options;
+            // },
             // blockheight() {
             //     if (this.blocks.length > 0) return this.numberAddComma(this.blocks[0].height);
             //     return '0';
@@ -1040,21 +1047,26 @@
             });
 
             //fetch recent 7 day total trx count
-            // api.fetchDailyTotalTrxInfoList(null,null,infoList => {
-            //     if (infoList.length > 0) {
-            //         console.log("the daily trx list count is %d",infoList.length);
-            //         console.log(infoList.listList);
-            //        // this.dailyTxData = infoList;
-            //     }
-            // },(errCode,msg) => {
-            //     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-            // });
+            let start = Math.ceil(Date.now()/1000)-7*86400;
+            let end = Math.ceil(Date.now()/1000)+86400;
+            api.fetchDailyTotalTrxInfoList(start,end,infoList => {
+                if (infoList.length > 0) {
+                   this.dailyTxData = infoList;
+                   let finalInfo = infoList[infoList.length-1];
+                   if (Math.floor(finalInfo.date.utcSeconds/86400) ===  Math.floor(Date.now()/1000/86400)) {
+                       this.todayTxCnt = finalInfo.count;
+                       this.dailyTxData.pop();
+                   }
+                }
+            },(errCode,msg) => {
+                console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+            });
 
-            api.getTx("cnt_static", o => this.dailyTxData = o);                     //recent daily trx volume i
+            // api.getTx("cnt_static", o => this.dailyTxData = o);                     //recent daily trx volume i
             api.getMarketCap(o => this.market = o);                                 //coin price and market
             // api.getBlock({ type: "latest" }, o => this.blocks = this.addLocalTimestamp(o));           //recent blocks
             // api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));                       //recent latest trx
-            api.getTodayTxCnt(o => this.todayTxCnt = o);                            //today trx volume
+            // api.getTodayTxCnt(o => this.todayTxCnt = o);                            //today trx volume
             api.getStaticInfo(o => this.staticInfo = o);                            //contract address
 
             //fetch latest trx list
@@ -1101,7 +1113,19 @@
             }, 5000);
 
             this.longIntervalID = setInterval(() => {
-                api.getTodayTxCnt(o => this.todayTxCnt = o);                        //today trx volume
+                //update today total trx count
+                let start = Math.ceil(Date.now()/1000);
+                let end = Math.ceil(Date.now()/1000)+86400;
+                console.log("start fetch today trx count:");
+                api.fetchDailyTotalTrxInfoList(start,end,infoList => {
+                    console.log("fetch today trx count:");
+                    if (infoList.length > 0) {
+                        this.todayTxCnt =  infoList[0].count;
+                    }
+                },(errCode,msg) => {
+                    console.log("Get today trx count fail,error code is %s,msg is %s",errCode,msg);
+                });
+                // api.getTodayTxCnt(o => this.todayTxCnt = o);                        //today trx volume
                 api.getMarketCap(o => this.market = o);                             //coin price and market
                 api.getStaticInfo(o => this.staticInfo = o);                        //contract address
                 //fetch latest tps
@@ -1116,7 +1140,7 @@
                     console.log("Get state info fail");
                     console.log("error code is %s,msg is %s",errCode,msg);
                 });
-            }, 60000);
+            }, 6000);
 
             // if (this.$root.showAtpAds) {
             //     /*init ATPSDK，set partnerID (init ATP-SDK ,Set partnerID)*/
