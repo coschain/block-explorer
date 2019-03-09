@@ -80,23 +80,23 @@
                 coinStart: null,
                 coinEnd: null,
                 accountPageInfo: [],
-                queryPageType:0,
                 lastAccount:null,
             };
         },
         methods: {
             nthPage() {
-                var p = this.$route.query.p || 1;
-
+                let p = this.$route.query.p || 1;
                 if (p == this.currentPage)
                     console.log("nthPage -requesting the page ", p, "is current page,ignore");
                 else {
                     this.$root.showModalLoading = true;
+                    let p = this.$route.query.p || 1;
                     let start = this.coinStart;
                     let isNextPage = true;
                     let lastAccount = this.lastAccount;
-                    if (this.queryPageType === 1) {
-                        if (this.currentPage === 2 ) {
+                    let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+                    if (p < this.currentPage) {
+                        if (this.currentPage == 2 ) {
                             start = null;
                             lastAccount= null;
                         }else {
@@ -107,7 +107,7 @@
                                 lastAccount = info.account;
                             }
                         }
-
+                        pReqType = 0;
                         isNextPage = false;
                     }
 
@@ -121,8 +121,8 @@
                             }else {
                                 this.coinEnd = accountList[0].getCoin();
                             }
-                            if (isNextPage) {
-                                if (this.currentPage + 1 === this.totalPage) {
+                            if (pReqType == 1) {
+                                if (this.currentPage + 1 == this.totalPage) {
                                     this.totalPage += 1;
                                     let curPageLen = this.accountPageInfo.length;
                                     let info = {start:this.coinStart,account:this.lastAccount};
@@ -135,7 +135,7 @@
                                 }
                                 this.currentPage += 1;
 
-                            }else {
+                            }else if (pReqType == 0) {
                                 this.currentPage -= 1;
                             }
                         }
@@ -172,33 +172,30 @@
             toWei(n) {
                 return utility.toWei(n);
             },
+            nav(n) {
+                if (n < this.totalPage) {
+                    if (n < this.currentPage) {
+                        this.$router.back();
+                    }else {
+                        this.$router.forward();
+                    }
+                } else {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = n;
+                    this.$router.push({ path: this.$route.path, query });
+                }
+            },
             onFirst() {
-                this.queryPageType = 1;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: this.currentPage - 1 }
-                });
+                this.nav(this.currentPage - 1);
             },
             onLast() {
-                this.queryPageType = 0;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: this.currentPage + 1 }
-                });
+                this.nav(this.currentPage + 1);
             },
             onNext() {
-                this.queryPageType = 0;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: this.currentPage + 1 }
-                });
+                this.nav(this.currentPage + 1);
             },
             onPrev() {
-                this.queryPageType = 1;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: this.currentPage - 1 }
-                });
+                this.nav(this.currentPage - 1);
             },
             // onTo(n) {
             //     this.$router.push({

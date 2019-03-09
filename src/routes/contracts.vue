@@ -95,7 +95,6 @@
                 totalPage: 1,
                 totalCts: 0,
                 postList:null,
-                postPageType:0,
                 postPageInfo:[],
                 postListStart: null,
                 postListEnd: null,
@@ -104,29 +103,55 @@
         },
         methods: {
             nav(n) {
-                var query = JSON.parse(window.JSON.stringify(this.$route.query));
-
-                query.p = n;
-                this.$router.push({ path: this.$route.path, query });
+                if (n < this.totalPage) {
+                    if (n < this.currentPage) {
+                        console.log("back to page:");
+                        this.$router.back();
+                    }else {
+                        console.log("froward to page:");
+                        this.$router.forward();
+                    }
+                } else {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = n;
+                    this.$router.push({ path: this.$route.path, query });
+                }
             },
             nthPage() {
+
+                let p = this.$route.query.p || 1;
                 this.$root.showModalLoading = true;
                 let start = this.postListStart;
                 let isNextPage = true;
                 let lastPost = this.lastPost;
-                if (this.postPageType === 1) {
-                    if (this.currentPage === 2 ) {
+                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+                let infoLen = this.postPageInfo.length;
+
+                if (p < this.currentPage) {
+                    //fetch next pre page
+                    if (this.currentPage == 2 ) {
                         start = null;
                         lastPost= null;
                     }else {
-                        let infoLen = this.postPageInfo.length;
                         if (infoLen >= 3 && infoLen >= this.currentPage ) {
                             let info = this.postPageInfo[this.currentPage-3];
                             start = info.start;
                             lastPost = info.post;
                         }
                     }
+                    pReqType = 0;
                     isNextPage = false;
+                }else if (this.currentPage === p) {
+                    //refresh current page
+                    pReqType = 3;
+                    if (this.currentPage === 1) {
+                        start = null;
+                    }else if (infoLen >= 2) {
+                        let info = this.postPageInfo[this.currentPage-2];
+                        start = info.start;
+                        lastPost = info.post;
+                    }
+
                 }
                 api.fetchArticleListByCreateTime(start,null,lastPost,postList => {
                     if (postList.length) {
@@ -138,8 +163,8 @@
                         }else {
                             this.postListEnd = postList[0].getCreated();
                         }
-                        if (isNextPage) {
-                            if (this.currentPage + 1 === this.totalPage) {
+                        if (pReqType == 1) {
+                            if (this.currentPage + 1 == this.totalPage) {
                                 this.totalPage += 1;
                                 let curPageLen = this.postPageInfo.length;
                                 let info = {start:this.postListStart,post:this.lastPost};
@@ -151,7 +176,7 @@
                                 this.postPageInfo.push(info);
                             }
                             this.currentPage += 1;
-                        }else {
+                        }else if (pReqType == 0) {
                             this.currentPage -= 1;
                         }
                     }
@@ -166,21 +191,15 @@
                 return utility.numberAddComma(n);
             },
             onFirst() {
-                this.postPageType = 1;
-                // this.nav(1);
                 this.nav(this.currentPage - 1);
             },
             onLast() {
-                this.postPageType = 0;
-                // this.nav(this.totalPage);
                 this.nav(this.currentPage + 1);
             },
             onNext() {
-                this.postPageType = 0;
                 this.nav(this.currentPage + 1);
             },
             onPrev() {
-                this.postPageType = 1;
                 this.nav(this.currentPage - 1);
             },
             // onTo(n) {

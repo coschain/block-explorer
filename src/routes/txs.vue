@@ -174,49 +174,69 @@
                 listEnd:null,
                 lastInfo:null,
                 trxList: null,
-                pageType:0,//0 fetch the next page ,1:fetch the pre page
                 pageInfo:[],
             };
         },
         methods: {
             nav(n) {
-                var query = JSON.parse(window.JSON.stringify(this.$route.query));
-
-                query.p = n;
-                this.$router.push({ path: this.$route.path, query });
+                if (n < this.totalPage) {
+                    if (n < this.currentPage) {
+                        this.$router.back();
+                    }else {
+                        this.$router.forward();
+                    }
+                } else {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = n;
+                    this.$router.push({ path: this.$route.path, query });
+                }
             },
             nthPage() {
                 this.$root.showModalLoading = true;
-
+                let p = this.$route.query.p || 1;
                 let start = this.listStart;
                 let isNext = true;
-                if (this.pageType === 1) {
-                    let infoLen = this.pageInfo.length;
-                    if (infoLen >= 2 && infoLen >= this.currentPage ) {
-                        start = this.pageInfo[this.currentPage-2].end;
+                let lastTrx = this.lastInfo;
+                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+                if (p < this.currentPage) {
+                    if (this.currentPage == 2 ) {
+                        start = null;
+                        lastTrx= null;
+                    }else {
+                        let infoLen = this.pageInfo.length;
+                        if (infoLen >= 3 && infoLen >= this.currentPage ) {
+                            let info = this.pageInfo[this.currentPage-3];
+                            start = info.start;
+                            lastTrx = info.lastPost;
+                        }
                     }
+                    pReqType = 0;
                     isNext = false;
                 }
-                api.fetchTrxListByTime(start,null,this.lastInfo,trxList => {
+                api.fetchTrxListByTime(start,null,lastTrx,trxList => {
                     if (trxList.length > 0) {
                         this.trxList = trxList;
                         this.lastInfo = trxList[trxList.length-1];
                         this.listStart = this.lastInfo.getBlockTime();
-                        this.listEnd = trxList[0].getBlockTime();
-                        if (isNext) {
-                            if (this.currentPage + 1 === this.totalPage) {
+                        if (this.currentPage === 0 && isNext) {
+                            this.coinEnd = null;
+                        }else {
+                            this.listEnd = trxList[0].getBlockTime();
+                        }
+                        if (pReqType == 1) {
+                            if (this.currentPage + 1 == this.totalPage) {
                                 this.totalPage += 1;
+                                let curPageLen = this.pageInfo.length;
+                                let info = {start:this.listStart,lastPost:this.lastInfo};
+                                if (curPageLen === 0) {
+                                    info.end = this.listEnd;
+                                }else if (curPageLen >= 1) {
+                                    info.end = this.pageInfo[curPageLen - 1].start;
+                                }
+                                this.pageInfo.push(info);
                             }
                             this.currentPage += 1;
-                            let curPageLen = this.pageInfo.length;
-                            let info = {start:this.listStart};
-                            if (curPageLen === 0) {
-                                info.end = this.listEnd;
-                            }else if (curPageLen >= 1) {
-                                info.end = this.pageInfo[curPageLen - 1].start;
-                            }
-                            this.pageInfo.push(info);
-                        }else {
+                        }else if (pReqType == 0) {
                             this.currentPage -= 1;
                         }
                     }
@@ -249,20 +269,16 @@
             },
             onFirst() {
                 // this.nav(1);
-                this.pageType = 1;
                 this.nav(this.currentPage - 1);
             },
             onLast() {
-                this.pageType = 0;
                 // this.nav(this.totalPage);
                 this.nav(this.currentPage + 1);
             },
             onNext() {
-                this.pageType = 0;
                 this.nav(this.currentPage + 1);
             },
             onPrev() {
-                this.pageType = 1;
                 this.nav(this.currentPage - 1);
             },
             // onTo(n) {

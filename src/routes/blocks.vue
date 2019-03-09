@@ -64,7 +64,7 @@
                     </tr>
                 </table>
             </div>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext ></vue-pagination>
+            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext  v-on:prev=onPrev></vue-pagination>
         </div>
     </div>
 </template>
@@ -97,7 +97,7 @@
         },
         methods: {
             nthPage() {
-                var p = this.$route.query.p || 1;
+                let p = this.$route.query.p || 1;
                 if (p == this.currentPage)
                     console.log("nthPage - request page", p, "request current page,ignore it");
                 else {
@@ -105,7 +105,8 @@
                     let end = this.blkStart > 1 ?this.blkStart -1:this.blkStart;
                     let start = 0;
                     let isNext = true;
-                    if (this.pageSwitchType === 1) {
+                    let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+                    if (p < this.currentPage) {
                         //fetch the pre page
                         let infoLen = this.blkPageInfo.length;
                         if (infoLen >= 2 && infoLen >= this.currentPage ) {
@@ -113,7 +114,10 @@
                             start = info.start;
                             end = info.end;
                         }
+                        pReqType = 0;
                         isNext = false;
+                    }else  if (p == this.currentPage) {
+                        pReqType = 3;
                     }else  if (end >= this.maxPageSizeLimit) {
                         start = end - this.maxPageSizeLimit;
                     }
@@ -124,7 +128,7 @@
                             let listLen = blkList.length;
                             this.blkStart = this.blocks[listLen-1].id().blockNum();
                             this.blkEnd = this.blocks[0].id().blockNum();
-                            if (isNext) {
+                            if (pReqType == 1) {
                                 if (this.currentPage+1 === this.totalPage) {
                                     this.totalPage += 1;
                                     let info = {start:this.blkStart,end:this.blkEnd};
@@ -148,32 +152,30 @@
                 return utility.numberAddComma(n);
             },
             onFirst() {
-                this.pageSwitchType = 1;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: 1 }
-                });
+                this.nav(this.currentPage - 1);
             },
             onLast() {
-                this.pageSwitchType = 0;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: this.totalPage }
-                });
+                this.nav(this.currentPage + 1);
             },
             onNext() {
-                this.pageSwitchType = 0;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: this.currentPage + 1 }
-                });
+                this.nav(this.currentPage + 1);
             },
             onPrev() {
-                this.pageSwitchType = 1;
-                this.$router.push({
-                    path: this.$route.path,
-                    query: { p: this.currentPage - 1 }
-                });
+                console.log("fetch pre page");
+                this.nav(this.currentPage - 1);
+            },
+            nav(n) {
+                if (n < this.totalPage) {
+                    if (n < this.currentPage) {
+                        this.$router.back();
+                    }else {
+                        this.$router.forward();
+                    }
+                } else {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = n;
+                    this.$router.push({ path: this.$route.path, query });
+                }
             },
             // onTo(n) {
             //     this.$router.push({
