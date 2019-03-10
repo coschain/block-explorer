@@ -257,21 +257,21 @@ function weekNumber(date) {
  */
 function judgeSearchType(content) {
       //judge block
-      let blkPatrn=/^[0-9]{1,20}$/;
-      if (blkPatrn.test(content)) {
+      let blkRegular=/^[0-9]{1,20}$/;
+      if (blkRegular.test(content)) {
           //search block number
           return 1;
       }
 
       //judge account
-      let accountPatrn = /^[A-Za-z0-9]*$/;
-      if (accountPatrn.test(content)) {
+      let accountRegular = /^[A-Za-z0-9]*$/;
+      if (accountRegular.test(content)) {
           return 2;
       }
 
       //judge trx
-     let trxPatrn = /^[0][x][0-9a-fA-F]+$/;
-      if (trxPatrn.test(content)) {
+     let trxRegular = /^[0][x][0-9a-fA-F]+$/;
+      if (trxRegular.test(content)) {
           return 3;
       }
      return -1;
