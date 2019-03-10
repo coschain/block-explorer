@@ -742,12 +742,6 @@
                                             <span class="monospace">{{  tx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
                                         </router-link>
                                     </span>
-                                    <!--<span class="fromto d-none d-sm-inline">-->
-                                        <!--To-->
-                                        <!--<router-link :to='fragApi + "/address/" + tx.from.hash'>-->
-                                            <!--<span class="monospace">{{ tx.to.hash.slice(0, 4) }}</span>...<span class="monospace">{{ tx.to.hash.slice(-4) }}</span>-->
-                                        <!--</router-link>-->
-                                    <!--</span>-->
                                 </td>
                                 <td>
                                     <div class="time">{{ timeConversion(Date.now() - tx.toObject().blockTime.utcSeconds*1000) }} ago</div>
@@ -777,7 +771,6 @@
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
                 todayTxCnt: 0,
                 dailyTxData: [],
-                market: null,
                 blocks: [],
                 staticInfo: null,
                 txs: [],
@@ -1089,6 +1082,20 @@
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                 });
+
+                //fetch latest tps
+                api.fetchStateInfo(info => {
+                    if (info != null && typeof(info.state.dgpo) != "undefined" ) {
+                        this.stateInfo = info.state.dgpo;
+                        this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
+                    }else {
+                        console.log("return empty props");
+                    }
+                },(errCode,msg) => {
+                    console.log("Get state info fail");
+                    console.log("error code is %s,msg is %s",errCode,msg);
+                });
+
                 api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
                     let cnt = blkList.length;
                     if (cnt > 0) {
@@ -1113,19 +1120,6 @@
                     }
                 },(errCode,msg) => {
                     console.log("Get today trx count fail,error code is %s,msg is %s",errCode,msg);
-                });
-
-                //fetch latest tps
-                api.fetchStateInfo(info => {
-                    if (info != null && typeof(info.state.dgpo) != "undefined" ) {
-                        this.stateInfo = info.state.dgpo;
-                        this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
-                    }else {
-                        console.log("return empty props");
-                    }
-                },(errCode,msg) => {
-                    console.log("Get state info fail");
-                    console.log("error code is %s,msg is %s",errCode,msg);
                 });
 
             }, 60000);
