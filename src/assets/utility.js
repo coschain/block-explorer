@@ -266,6 +266,10 @@ function judgeSearchType(content) {
       //judge account
       let accountRegular = /^[A-Za-z0-9]*$/;
       if (accountRegular.test(content)) {
+          if (content.length >= 64) {
+              //judge trx
+              return 3;
+          }
           return 2;
       }
 

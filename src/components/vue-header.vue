@@ -180,7 +180,6 @@
                     return;
                 }
                 let sType = utility.searchType(this.search.trim());
-                console.log(sType);
                 if (sType === 1 ) {
                     this.$router.push(this.fragApi + "/block/" + content);
                 }else if (sType === 2) {
