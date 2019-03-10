@@ -100,8 +100,8 @@
                             <img v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>
                         </td>
                         <td class="txs-hash">
-                            <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().toObject().hash'>
-                                <span v-bind:class="[trx.getTrxWrap().getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().toObject().hash }}</span>
+                            <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()'>
+                                <span v-bind:class="[trx.getTrxWrap().getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
                             </router-link>
                         </td>
 
