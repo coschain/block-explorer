@@ -782,7 +782,6 @@
                 staticInfo: null,
                 txs: [],
                 shortIntervalID: null,
-                longIntervalID: null,
                 stateInfo: null,//chain props
                 curTps: 0, //current tps
                 maxTps: 0,//Historical max tps
@@ -1064,13 +1063,6 @@
                 console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
             });
 
-            // api.getTx("cnt_static", o => this.dailyTxData = o);                     //recent daily trx volume i
-            api.getMarketCap(o => this.market = o);                                 //coin price and market
-            // api.getBlock({ type: "latest" }, o => this.blocks = this.addLocalTimestamp(o));           //recent blocks
-            // api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));                       //recent latest trx
-            // api.getTodayTxCnt(o => this.todayTxCnt = o);                            //today trx volume
-            api.getStaticInfo(o => this.staticInfo = o);                            //contract address
-
             //fetch latest trx list
             api.fetchTrxListByTime(null,this.trxStartTime,null,trxList => {
                 let trxLen = trxList.length;
@@ -1097,7 +1089,6 @@
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                 });
-                // api.getTx({ type: "latest" }, o => this.txs = this.addLocalTimestamp(o));        //recent latest trx
                 api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
                     let cnt = blkList.length;
                     if (cnt > 0) {
@@ -1112,9 +1103,7 @@
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                 });
-            }, 5000);
 
-            this.longIntervalID = setInterval(() => {
                 //update today total trx count
                 let start = Math.ceil(Date.now()/1000);
                 let end = Math.ceil(Date.now()/1000)+86400;
@@ -1125,9 +1114,7 @@
                 },(errCode,msg) => {
                     console.log("Get today trx count fail,error code is %s,msg is %s",errCode,msg);
                 });
-                // api.getTodayTxCnt(o => this.todayTxCnt = o);                        //today trx volume
-                api.getMarketCap(o => this.market = o);                             //coin price and market
-                api.getStaticInfo(o => this.staticInfo = o);                        //contract address
+
                 //fetch latest tps
                 api.fetchStateInfo(info => {
                     if (info != null && typeof(info.state.dgpo) != "undefined" ) {
@@ -1140,27 +1127,9 @@
                     console.log("Get state info fail");
                     console.log("error code is %s,msg is %s",errCode,msg);
                 });
-            }, 6000);
 
-            // if (this.$root.showAtpAds) {
-            //     /*init ATPSDK，set partnerID (init ATP-SDK ,Set partnerID)*/
-            //     var atpAds = AtlasAds('pbg91eenif2mbsoo3g1qg');
-            //
-            //     //fetch ads set div containerId and width、height（getAd set the containerId and dimension wide high）
-            //     atpAds.getAd('#atlaspAds-bottom', 'nas_1200x100_001');
-            //     atpAds.getAd('#atlaspAds-side', 'nas_360x300_001');
-            //     atpAds.getAd('#atlaspAds-middle-mobile', 'nas_720x200_001');
-            //
-            //     //Sidebar size limit
-            //     window.onresize = function () {
-            //         if (window.innerWidth >= 1600) {
-            //             $('#atlaspAds-side').show();
-            //         } else {
-            //             $('#atlaspAds-side').hide();
-            //         }
-            //     }
-            //     window.onresize();
-            // }
+            }, 60000);
+
         },
         methods: {
             numberAddComma(n) {
@@ -1211,7 +1180,6 @@
         },
         destroyed() {
             clearInterval(this.shortIntervalID);
-            clearInterval(this.longIntervalID);
         }
     }
 </script>
