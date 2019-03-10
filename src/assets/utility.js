@@ -274,7 +274,7 @@ function judgeSearchType(content) {
       }
 
       //judge trx
-     let trxRegular = /^[0][x][0-9a-fA-F]+$/;
+     let trxRegular = /^[0-9a-fA-F]+$/;
       if (trxRegular.test(content)) {
           return 3;
       }

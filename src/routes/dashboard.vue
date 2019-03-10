@@ -646,7 +646,7 @@
                         </div>
                         <div v-if="lastIrreversibleBlockTime" class="irreversible">
                             LastIrreversibleBlockTime
-                            <div v-if="lastIrreversibleBlockTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }}</div>
+                            <div v-if="lastIrreversibleBlockTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }} ago</div>
                         </div>
 
                         <div v-if="stateInfo" class="market container">
