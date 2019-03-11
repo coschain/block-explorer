@@ -127,7 +127,7 @@
 
                 if (p < this.currentPage) {
                     //fetch next pre page
-                    if (this.currentPage == 2 ) {
+                    if (this.currentPage === 2 ) {
                         start = null;
                         lastPost= null;
                     }else {
@@ -139,7 +139,7 @@
                     }
                     pReqType = 0;
                     isNextPage = false;
-                }else if (this.currentPage == p) {
+                }else if (this.currentPage === p) {
                     //refresh current page
                     pReqType = 3;
                 }
@@ -154,8 +154,8 @@
                         }else {
                             this.postListEnd = postList[0].getCreated();
                         }
-                        if (pReqType == 1) {
-                            if (this.currentPage + 1 == this.totalPage) {
+                        if (pReqType === 1) {
+                            if (this.currentPage + 1 === this.totalPage) {
                                 this.totalPage += 1;
                                 let curPageLen = this.postPageInfo.length;
                                 let info = {start:this.postListStart,post:this.lastPost};
@@ -167,9 +167,9 @@
                                 this.postPageInfo.push(info);
                             }
                             this.currentPage += 1;
-                        }else if (pReqType == 0) {
+                        }else if (pReqType === 0) {
                             this.currentPage -= 1;
-                        }else if (pReqType == 3) {
+                        }else if (pReqType === 3) {
                             this.currentPage = parseInt(p);
                         }
                     }
@@ -209,7 +209,7 @@
                 return utility.easyNumber(n);
             },
             tokenAmount(n) {
-                BigNumber.config({ DECIMAL_PLACES: 18 })
+                BigNumber.config({ DECIMAL_PLACES: 18 });
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount();
@@ -280,7 +280,7 @@
                     });
                     this.postPageInfo = list;
                 }
-                if (this.currentPage == 1) {
+                if (this.currentPage === 1) {
                     this.postListStart = null;
                     this.lastPost = null;
                 }else if (this.postPageInfo.length > 1){

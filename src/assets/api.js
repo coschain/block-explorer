@@ -1,7 +1,8 @@
 
 var { ajax, ajaxSplitAction, getContentosNetHost } = require("@/assets/utility");
 const cos_sdk = require("cos-grpc-js");
-const cos_host = 'http://' + window.location.hostname + ':8080';
+// const cos_host = 'http://' + window.location.hostname + ':8080';
+const cos_host = process.env.VUE_APP_CHAIN;
 const grpc_web = require("@improbable-eng/grpc-web").grpc;
 
 module.exports = {
