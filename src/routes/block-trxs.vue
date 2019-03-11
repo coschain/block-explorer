@@ -162,25 +162,46 @@
                 totalPage: 1,
                 totalTxs: 0,
                 trxList: null,//all trx in block
-                pageType:0,//0 fetch the next page ,1:fetch the pre page
                 blockHeight: 0,
                 curPageList: null,//trx in current page
                 blkTime:0,
+                loadedPageIndex: 0,
             };
         },
         methods: {
             nav(n) {
-                var query = JSON.parse(window.JSON.stringify(this.$route.query));
+                // var query = JSON.parse(window.JSON.stringify(this.$route.query));
+                //
+                // query.p = n;
+                // this.$router.push({ path: this.$route.path, query });
 
-                query.p = n;
-                this.$router.push({ path: this.$route.path, query });
+                if (n <= this.loadedPageIndex) {
+                    if (n < this.currentPage) {
+                        this.$router.back();
+                    }else {
+                        this.$router.forward();
+                    }
+                } else {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = n;
+                    this.$router.push({ path: this.$route.path, query });
+                }
             },
             nthPage() {
-                let isFirstFetch = false;
-                if (!this.trxList ||  this.trxList.length < 1) {
-                   isFirstFetch = true;
+
+                let p = this.$route.query.p || 1;
+                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+                let isNeedRequest = false;
+                if (!this.trxList ||  this.trxList.length < 1 || p == this.currentPage) {
+                    isNeedRequest = true;
                 }
-                if (isFirstFetch) {
+                if (p < this.currentPage) {
+                    pReqType = 0;
+                }else if (p == this.currentPage) {
+                    //need reload data from chain
+                    pReqType = 3;
+                }
+                if (isNeedRequest) {
                     //there is no data ,request and fetch data from chain
                     this.$root.showModalLoading = true;
                     api.fetchBlockList(this.blockHeight,this.$route.params.id, blkInfo => {
@@ -191,9 +212,19 @@
                             this.totalPage = Math.ceil(listLen.toFixed(1)/30);
                             let end = listLen <= 30 ? listLen : 30;
                             this.curPageList = this.trxList.slice(0,end);
-                            this.currentPage = 1;
+                            if (pReqType == 3) {
+                                console.log("kkkkk");
+                                this.currentPage = parseInt(p);
+                                if (this.currentPage > 1) {
+                                    this.curPageList = this.trxList.slice((this.currentPage-1)*30,this.currentPage*30);
+                                }
+                            }else {
+                                this.currentPage = 1;
+                            }
+                            this.savePageInfo();
                         }
                         this.$root.showModalLoading = false;
+                        this.loadedPageIndex += 1;
                     },(errCode,msg) => {
                         console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                         this.$root.showModalLoading = false;
@@ -202,15 +233,20 @@
                 }else {
                     //update curPageList use current page data in trxList
                     let isNextPage = true;
-                    if (this.pageType === 1) {
+                    if (pReqType == 0) {
                         isNextPage = false
                     }
                     if (!isNextPage && this.currentPage > 1) {
                         this.curPageList = this.trxList.slice((this.currentPage-2)*30,(this.currentPage-1)*30);
                         this.currentPage -= 1;
+                        this.savePageInfo();
                     }else if (isNextPage && this.currentPage < this.totalPage) {
                         this.curPageList = this.trxList.slice(this.currentPage*30,(this.currentPage+1)*30);
+                        if (this.loadedPageIndex < this.totalPage) {
+                            this.loadedPageIndex += 1;
+                        }
                         this.currentPage += 1;
+                        this.savePageInfo();
                     }
                 }
 
@@ -219,19 +255,15 @@
                 return utility.numberAddComma(n);
             },
             onFirst() {
-                this.pageType = 1;
                 this.nav(this.currentPage - 1);
             },
             onLast() {
-                this.pageType = 0;
                 this.nav(this.currentPage + 1);
             },
             onNext() {
-                this.pageType = 0;
                 this.nav(this.currentPage + 1);
             },
             onPrev() {
-                this.pageType = 1;
                 this.nav(this.currentPage - 1);
             },
 
@@ -249,9 +281,34 @@
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount();
+            },
+            savePageInfo() {
+                let cacheData = {};
+                cacheData.currentPage = this.currentPage;
+                cacheData.totalPage = this.totalPage;
+                cacheData.loadedPage = this.loadedPageIndex;
+                localStorage.setItem("blockTxsCache",JSON.stringify(cacheData));
+            },
+            getPageInfo() {
+                let info = localStorage.getItem("blockTxsCache");
+                if (info != null) {
+                    return JSON.parse(info);
+                }
+                return null;
+            },
+            clearCachePageInfo() {
+                if (localStorage.getItem("blockTxsCache") != null) {
+                    localStorage.removeItem("blockTxsCache");
+                }
             }
         },
         mounted() {
+            let cacheData = this.getPageInfo();
+            if (cacheData != null) {
+                this.currentPage =  parseInt(cacheData.currentPage);
+                this.totalPage = parseInt(cacheData.totalPage);
+                this.loadedPageIndex = parseInt(cacheData.loadedPage);
+            }
             this.blockHeight = this.$route.params.blockNumber;
             this.nthPage();
         },
@@ -259,6 +316,9 @@
             $route() {
                 this.nthPage();
             }
+        },
+        destroyed() {
+            this.clearCachePageInfo();
         }
     };
 </script>

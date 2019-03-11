@@ -43,7 +43,7 @@
                         <td style="padding-left: 24px;" class="font-color-000000">{{(currentPage-1)*accountList.length+i+1}}</td>
                         <td class="tdxxxwddd">
                             <vue-blockies v-bind:address='account.getAccountName().getValue()'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/address/" + account.getAccountName().getValue()'>
+                            <router-link v-bind:to='fragApi + "/account/" + account.getAccountName().getValue()'>
                                 <span class="monospace">{{account.getAccountName().getValue()}}</span>
                             </router-link>
                             <!--<span v-show=o.alias> | {{ o.alias }}</span>-->

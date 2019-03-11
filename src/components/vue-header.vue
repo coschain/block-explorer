@@ -183,7 +183,7 @@
                 if (sType === 1 ) {
                     this.$router.push(this.fragApi + "/block/" + content);
                 }else if (sType === 2) {
-                    this.$router.push(this.fragApi + "/address/" + content);
+                    this.$router.push(this.fragApi + "/account/" + content);
                 }else if (sType === 3) {
                     this.$router.push(this.fragApi + "/tx/" + content);
                 }else  {

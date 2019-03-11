@@ -127,7 +127,7 @@
                         <td class="tdxxxwddd txs-from-to">
                             <vue-blockies v-bind:address='o.from.alias || o.from.hash'></vue-blockies>
                             <span class="fromTo font-color-000000 font-14" v-if="o.from.hash === $route.query.a">{{ o.from.alias || o.from.hash }}</span>
-                            <router-link v-else v-bind:to='fragApi + "/address/" + o.from.hash'>
+                            <router-link v-else v-bind:to='fragApi + "/account/" + o.from.hash'>
                                 <span class="fromTo font-14  monospace">{{ o.from.hash }}</span>
                             </router-link>
                         </td>
@@ -137,7 +137,7 @@
                         <td class="tdxxxwddd txs-from-to">
                             <vue-blockies v-bind:address='o.to.alias || o.to.hash'></vue-blockies>
                             <span class="fromTo font-color-000000 font-14" v-if="o.to.hash === $route.query.a">{{ o.to.alias || o.to.hash }}</span>
-                            <router-link v-else v-bind:to='fragApi + "/address/" + o.to.hash'>
+                            <router-link v-else v-bind:to='fragApi + "/account/" + o.to.hash'>
                                 <span class="fromTo font-14  monospace">{{ o.to.hash }}</span>
                             </router-link>
                         </td>

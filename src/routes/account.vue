@@ -1,58 +1,58 @@
 <style>
 
-    .vue-address td.out {
+    .vue-account td.out {
         width: 50px;
     }
 
-    .vue-address td.in::before,
-    .vue-address td.out::before {
+    .vue-account td.in::before,
+    .vue-account td.out::before {
         border-radius: 4px;
         color: white;
         padding: 3px 5px;
     }
 
-    .vue-address td.in::before {
+    .vue-account td.in::before {
         background-color: var(--green);
         content: "in";
     }
 
-    .vue-address td.out::before {
+    .vue-account td.out::before {
         background-color: var(--orange);
         content: "out";
     }
 
-    .vue-address {
+    .vue-account {
         background-color: white;
     }
 
-    .vue-address .container .table th {
+    .vue-account .container .table th {
         border-top: 0;
     }
 
-    .vue-address .container .title {
+    .vue-account .container .title {
         overflow: auto;
     }
 
-    .vue-address .txfee {
+    .vue-account .txfee {
         font-size: 14px;
         /* font-family: OpenSans; */
         color: rgba(85, 85, 85, 1);
         line-height: 20px;
     }
 
-    .vue-address .fail {
+    .vue-account .fail {
         background: url(../../static/img/warning_icon.png) no-repeat 0 10px;
         padding-left: 28px;
     }
 
-    .vue-address .fail a {
+    .vue-account .fail a {
         display: inline-block;
         max-width: 142px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    .vue-address .tdxxxwddd {
+    .vue-account .tdxxxwddd {
         padding: .75rem 0.4rem;
     }
 
@@ -205,22 +205,22 @@
         line-height: 17px;
     }
 
-    .vue-address .dropdown-menu {
+    .vue-account .dropdown-menu {
         min-width: initial;
     }
 
-    .vue-address .block {
+    .vue-account .block {
         margin-right: 8px;
     }
 
-    .vue-address .pl-16 {
+    .vue-account .pl-16 {
         padding-left: 16px;
     }
 
 </style>
 <template>
-    <!-- https://etherscan.io/address/0xea674fdde714fd979de3edf0f56aa9716b898ec8 -->
-    <div class="vue-address fullfill" v-bind:triggerComputed=urlChange>
+    <!-- https://etherscan.io/account/0xea674fdde714fd979de3edf0f56aa9716b898ec8 -->
+    <div class="vue-account fullfill" v-bind:triggerComputed=urlChange>
         <vue-bread v-bind:title='navTitle'
                    v-bind:subtitle="$route.params.id"
                    v-bind:subtitlemonospaced="!!$route.params.id"
@@ -229,7 +229,7 @@
         <div class="container explorer-table-container" v-if=accountInfo>
             <div class="font-24 font-bold font-color-000000 table-title">
                 Overview
-                <!--<span class=c777 v-show=obj.address.alias> | {{ obj.address.alias }}</span>-->
+                <!--<span class=c777 v-show=obj.account.alias> | {{ obj.account.alias }}</span>-->
             </div>
             <table class="explorer-table d-none d-md-table">
                 <tr>
@@ -244,10 +244,10 @@
                         <!--Contract Creator:-->
                     <!--</td>-->
                     <!--<td class="contract-creator font-16 font-color-000000">-->
-                        <!--<router-link v-bind:to='fragApi + "/address/" + creator'-->
-                                     <!--title="Creator Address">-->
+                        <!--<router-link v-bind:to='fragApi + "/account/" + creator'-->
+                                     <!--title="Creator account">-->
                             <!--<span>{{ toShortStr(creator) }}</span>-->
-                            <!--<div class="popover down-arrow-tip">Creator Address</div>-->
+                            <!--<div class="popover down-arrow-tip">Creator account</div>-->
                         <!--</router-link>-->
                         <!--at txn-->
                         <!--<router-link v-bind:to='fragApi + "/tx/" + deployTxHash'-->
@@ -330,10 +330,10 @@
                 <!--<div v-if="creator && deployTxHash">-->
                     <!--Contract Creator:-->
                     <!--<div class="detail contract-creator font-color-000000">-->
-                        <!--<router-link v-bind:to='fragApi + "/address/" + creator'-->
-                                     <!--title="Creator Address">-->
+                        <!--<router-link v-bind:to='fragApi + "/account/" + creator'-->
+                                     <!--title="Creator account">-->
                             <!--<span>{{ toShortStr(creator) }}</span>-->
-                            <!--&lt;!&ndash; <div class="popover">Creator Address</div> &ndash;&gt;-->
+                            <!--&lt;!&ndash; <div class="popover">Creator account</div> &ndash;&gt;-->
                         <!--</router-link>-->
                         <!--at txn-->
                         <!--<router-link v-bind:to='fragApi + "/tx/" + deployTxHash'-->
@@ -452,7 +452,7 @@
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
 
-            //     api.getAddress(this.$route.params.id, o => {
+            //     api.getaccount(this.$route.params.id, o => {
             //         this.$root.showModalLoading = false;
             //         this.minted = o.mintedBlkList;
             //         this.obj = o;
@@ -462,9 +462,9 @@
             //         this.contractCode = o.contractCode;
             //         this.creator = o.creator;
             //         this.deployTxHash = o.deployTxHash;
-            //         this.isContract = o.address.type == 1;
-            //         if (o.address.type == 1) {// this is a smart contract address
-            //             api.getTransactionByContract({address: o.address.hash}, this.$route.params.api, (data) => {
+            //         this.isContract = o.account.type == 1;
+            //         if (o.account.type == 1) {// this is a smart contract account
+            //             api.getTransactionByContract({account: o.account.hash}, this.$route.params.api, (data) => {
             //                 var data = JSON.parse(data);
             //                 if (data && data.result && data.result.data) {
             //                     this.contract = data.result;
@@ -490,7 +490,8 @@
             //     });
             },
             navTitle() {
-                return this.isContract ? "Contract" : "Address";
+                // return this.isContract ? "Contract" : "account";
+                return "Account";
             },
             validTokens() {
                 return this.tokens;//.filter(token => token.balance > 0);

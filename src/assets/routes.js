@@ -1,8 +1,8 @@
 
 module.exports = [{
-    component: require("@/routes/address").default,
+    component: require("@/routes/account").default,
     meta: { headerActive: 2, uaview: "Explorer_Address_Show" },
-    path: "/:api?/address/:id"
+    path: "/:api?/account/:id"
 }, {
     component: require("@/routes/accounts").default,
     meta: { headerActive: 2 },
@@ -60,9 +60,9 @@ module.exports = [{
     meta: { headerActive: 2, uaview: "Explorer_NRC20token_Show" },
     path: "/:api?/contract/:id"
 }, {
-    component: require("@/routes/contracts").default,
+    component: require("@/routes/articles").default,
     meta: { headerActive: 2 },
-    path: "/:api?/contracts"
+    path: "/:api?/articles"
 }, {
     component: require("@/routes/contract-txs").default,
     meta: { headerActive: 2 },

@@ -125,7 +125,7 @@
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">From:</td>
                         <td>
-                            <router-link  v-bind:to='fragApi +"/address/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                            <router-link  v-bind:to='fragApi +"/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
                                 <span class="font-16 monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
                             </router-link>
                         </td>
@@ -224,7 +224,7 @@
                 <div>
                     From:
                     <div class="detail">
-                        <router-link  v-bind:to='fragApi +"/address/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                        <router-link  v-bind:to='fragApi +"/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
                             <span class="font-16 monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
                         </router-link>
                     </div>

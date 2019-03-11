@@ -55,8 +55,8 @@
                             </router-link>
                         </td>
                         <td style="padding-left: 30px">
-                            <router-link v-bind:to='fragApi + "/address/" + block.toObject().signedHeader.header.witness.value'>
-                                <vue-blockies class="d-inline" v-bind:address='block.toObject().signedHeader.header.witness.value'></vue-blockies>
+                            <router-link v-bind:to='fragApi + "/account/" + block.toObject().signedHeader.header.witness.value'>
+                                <vue-blockies class="d-inline" v-bind:account='block.toObject().signedHeader.header.witness.value'></vue-blockies>
                                 <span class="font-14 monospace">{{ block.toObject().signedHeader.header.witness.value }}</span>
                             </router-link>
                         </td>

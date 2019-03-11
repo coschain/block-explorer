@@ -679,7 +679,7 @@
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalPostCnt) }}</div>
-                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/contracts/"'>Total articles ></router-link>
+                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/articles/"'>Total articles ></router-link>
                         <img src=/static/img/dashboard-3.png width=44 alt="">
                     </div>
                 </div>
@@ -738,7 +738,7 @@
                                     <br>
                                     <span class="fromto d-none d-sm-inline">
                                         From
-                                        <router-link :to='fragApi + "/address/" + tx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                                        <router-link :to='fragApi + "/account/" + tx.getTrxWrap().getSigTrx().getTrx().sender()'>
                                             <span class="monospace">{{  tx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
                                         </router-link>
                                     </span>

@@ -1,18 +1,18 @@
 <style>
-    .vue-contracts {
+    .vue-user-article {
         background-color: white;
     }
 
-    .vue-contracts .info-and-pagination .info a {
+    .vue-user-article .info-and-pagination .info a {
         color: inherit;
     }
 
-    .vue-contracts td,
-    .vue-contracts th {
+    .vue-user-article td,
+    .vue-user-article th {
         border-top-color: #ddd;
     }
 
-    .vue-contracts .hash {
+    .vue-user-article .hash {
         max-width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -20,23 +20,23 @@
         white-space: nowrap;
     }
 
-    .vue-contracts .hash>* {
+    .vue-user-article .hash>* {
         display: inline;
     }
 
-    .vue-contracts .block {
+    .vue-user-article .block {
         margin-right: 8px;
     }
 
     @media (max-width: 767.98px) {
-        .vue-contracts .title {
+        .vue-user-article .title {
             font-size: 20px;
         }
     }
 
 </style>
 <template>
-    <div class="vue-contracts fullfill">
+    <div class="vue-user-article fullfill">
         <vue-bread v-bind:title='"Posted Articles by:"'
                    v-bind:subtitle="$route.params.author"
                    v-bind:subtitlemonospaced="!!$route.params.author"
@@ -55,8 +55,8 @@
 
                     <tr v-for="(post, i) in postList" :key="i">
                         <td style="padding-left: 24px;" class="hash">
-                            <vue-blockies v-bind:address='post.getAuthor().getValue()'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/address/" + post.getAuthor().getValue()'>
+                            <vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>
+                            <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>
                         </td>
