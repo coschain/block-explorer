@@ -1,28 +1,28 @@
 <style>
-    .vue-txs {
+    .vue-block-trxs {
         background-color: white;
     }
-    .vue-txs .tip a {
+    .vue-block-trxs .tip a {
         color: rgb(76, 32, 133);
     }
 
-    .vue-txs td,
-    .vue-txs th {
+    .vue-block-trxs td,
+    .vue-block-trxs th {
         border-top-color: #ddd;
     }
 
-    .vue-txs .fail {
+    .vue-block-trxs .fail {
         background: url(../../static/img/warning_icon.png)no-repeat 0 10px;
         padding-left: 28px;
     }
 
-    .vue-txs .fail a {
+    .vue-block-trxs .fail a {
         display: inline-block;
         max-width: 142px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .vue-txs .hash-normal {
+    .vue-block-trxs .hash-normal {
         height: 20px;
         font-size: 14px;
         /* font-family: OpenSans; */
@@ -30,7 +30,7 @@
         line-height: 20px;
     }
 
-    .vue-txs .hash-failed {
+    .vue-block-trxs .hash-failed {
         height: 20px;
         font-size: 14px;
         /* font-family: OpenSans; */
@@ -38,7 +38,7 @@
         color: rgba(240, 68, 52, 1);
     }
 
-    .vue-txs .txs-hash {
+    .vue-block-trxs .txs-hash {
         max-width: 185px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -46,7 +46,7 @@
         padding: 0;
     }
 
-    .vue-txs .txs-block {
+    .vue-block-trxs .txs-block {
         max-width: 120px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -54,23 +54,31 @@
         padding: 0;
     }
 
-    .vue-txs .fromTo {
+    .vue-block-trxs .fromTo {
         line-height: 24px;
     }
 
-    .vue-txs .block {
+    .vue-block-trxs .block {
         margin-right: 8px;
     }
 
+    .vue-block-trxs .actions {
+        display:inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 10px;
+    }
+
     @media (max-width: 767.98px) {
-        .vue-txs .title {
+        .vue-block-trxs .title {
             font-size: 20px;
         }
     }
 
 </style>
 <template>
-    <div class="vue-txs fullfill">
+    <div class="vue-block-trxs fullfill">
         <vue-bread :title='"Transactions of" ' :subtitle='$route.params.blockNumber ? ("Block #" + $route.params.blockNumber) : $route.query.a' :subtitlemonospaced='!!$route.query.a' :blockies='$route.query.a'></vue-bread>
 
         <div v-if="curPageList && curPageList.length" class="container mt20">
@@ -82,8 +90,8 @@
                         <th>Block</th>
                         <th>Time</th>
                         <th>From</th>
+                        <th>Action</th>
                         <th></th>
-                        <th>To</th>
                         <!--<th class=text-right>Value</th>-->
                     </tr>
 
@@ -110,15 +118,13 @@
                             </div>
                         </td>
                         <td class="tdxxxwddd txs-from-to">
-                            <!--<vue-blockies v-bind:address='o.from.alias || o.from.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.from.hash === $route.query.a">{{ o.from.alias || o.from.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.from.hash'>-->
-                            <!--<span class="fromTo font-14  monospace">{{ o.from.hash }}</span>-->
-                            <!--</router-link>-->
+                            <vue-blockies v-bind:address='trx.getSigTrx().getTrx().sender()'></vue-blockies>
+                            <router-link v-bind:to='fragApi + "/account/" + trx.getSigTrx().getTrx().sender()'>
+                                <span class="fromTo font-14  monospace">{{ trx.getSigTrx().getTrx().sender() }}</span>
+                            </router-link>
                         </td>
-                        <td style="padding: 10px;">
-                            <img class="icon16" src="../../static/img/ic_arrow_right.png"/>
-                            <div style="width: 10px;"></div>
+                        <td class="tdxxxwddd txs-from-to actions">
+                            <div>{{convertOpActionsToStr(trx.getSigTrx().getTrx().getAllActions())}}</div>
                         </td>
                         <td class="tdxxxwddd txs-from-to">
                             <!--<div v-if="o.type==='call'" class="container-tip">-->
@@ -213,7 +219,6 @@
                             let end = listLen <= 30 ? listLen : 30;
                             this.curPageList = this.trxList.slice(0,end);
                             if (pReqType == 3) {
-                                console.log("kkkkk");
                                 this.currentPage = parseInt(p);
                                 if (this.currentPage > 1) {
                                     this.curPageList = this.trxList.slice((this.currentPage-1)*30,this.currentPage*30);
@@ -300,6 +305,12 @@
                 if (localStorage.getItem("blockTxsCache") != null) {
                     localStorage.removeItem("blockTxsCache");
                 }
+            },
+            convertOpActionsToStr(actionArray) {
+                if (actionArray.length) {
+                    return actionArray.join(",");
+                }
+                return ""
             }
         },
         mounted() {
