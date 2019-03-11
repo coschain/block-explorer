@@ -62,6 +62,14 @@
         margin-right: 8px;
     }
 
+    .vue-txs .actions {
+          display:inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin-top: 10px;
+      }
+
     @media (max-width: 767.98px) {
         .vue-txs .title {
             font-size: 20px;
@@ -90,8 +98,8 @@
                         <th>Block</th>
                         <th>Time</th>
                         <th>From</th>
+                        <th>Action</th>
                         <th></th>
-                        <th>To</th>
                         <!--<th class=text-right>Value</th>-->
                     </tr>
 
@@ -118,16 +126,15 @@
                             </div>
                         </td>
                         <td class="tdxxxwddd txs-from-to">
-                            <!--<vue-blockies v-bind:address='o.from.alias || o.from.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.from.hash === $route.query.a">{{ o.from.alias || o.from.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.from.hash'>-->
-                            <!--<span class="fromTo font-14  monospace">{{ o.from.hash }}</span>-->
-                        <!--</router-link>-->
+                            <vue-blockies v-bind:address='trx.getTrxWrap().getSigTrx().getTrx().sender()'></vue-blockies>
+                            <router-link v-bind:to='fragApi + "/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                            <span class="fromTo font-14  monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
+                        </router-link>
                         </td>
-                        <td style="padding: 10px;">
-                            <img class="icon16" src="../../static/img/ic_arrow_right.png"/>
-                            <div style="width: 10px;"></div>
+                        <td class="tdxxxwddd txs-from-to actions">
+                            <div>{{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}</div>
                         </td>
+
                         <td class="tdxxxwddd txs-from-to">
                             <!--<div v-if="o.type==='call'" class="container-tip">-->
                                 <!--<span class="tip down-arrow-tip font-15 shadow">Smart Contract</span>-->
@@ -252,23 +259,6 @@
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
-
-                // api.getTx({
-                //     a: this.$route.query.a,
-                //     block: this.$route.query.block,
-                //     p: this.$route.query.p || 1,
-                //     isPending: this.$route.query.isPending
-                // }, o => {
-                //     this.$root.showModalLoading = false;
-                //     this.arr = o.txnList;
-                //     this.currentPage = o.currentPage;
-                //     this.maxDisplayCnt = o.maxDisplayCnt;
-                //     this.totalPage = o.totalPage;
-                //     this.totalTxs = o.txnCnt;
-                // }, xhr => {
-                //     this.$root.showModalLoading = false;
-                //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                // });
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
@@ -348,6 +338,12 @@
                     localStorage.removeItem("txsCache");
                 }
             },
+            convertOpActionsToStr(actionArray) {
+                if (actionArray.length) {
+                    return actionArray.join(",");
+                }
+                return ""
+            }
         },
         mounted() {
             let cacheData = this.getPageInfo();
