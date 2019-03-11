@@ -212,6 +212,9 @@
                     }
                     pReqType = 0;
                     isNext = false;
+                }else if (this.currentPage == p) {
+                    //refresh current page
+                    pReqType = 3;
                 }
                 api.fetchTrxListByTime(start,null,lastTrx,trxList => {
                     if (trxList.length > 0) {
@@ -219,7 +222,7 @@
                         this.lastInfo = trxList[trxList.length-1];
                         this.listStart = this.lastInfo.getBlockTime();
                         if (this.currentPage === 0 && isNext) {
-                            this.coinEnd = null;
+                            this.listEnd = null;
                         }else {
                             this.listEnd = trxList[0].getBlockTime();
                         }
@@ -238,9 +241,12 @@
                             this.currentPage += 1;
                         }else if (pReqType == 0) {
                             this.currentPage -= 1;
+                        }else if (pReqType == 3) {
+                            this.currentPage = parseInt(p);
                         }
                     }
                     this.$root.showModalLoading = false;
+                    this.savePageInfo();
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                     this.$root.showModalLoading = false;
@@ -298,15 +304,103 @@
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount();
-            }
+            },
+            savePageInfo() {
+                let cacheData = {};
+                cacheData.currentPage = this.currentPage;
+                cacheData.totalPage = this.totalPage;
+                let listLen = this.pageInfo.length;
+                if ( listLen > 0) {
+                    let pageList = [];
+                    this.pageInfo.forEach(function (info) {
+                        let obj = {};
+                        obj.start = info.start?info.start.getUtcSeconds():null;
+                        obj.end = info.end?info.end.getUtcSeconds():null;
+                        if (info.lastPost) {
+                            let lastInfo = {blkTime:info.lastPost.getBlockTime().getUtcSeconds()};
+                            lastInfo.trxId = info.lastPost.getTrxId().getHexHash();
+                            obj.lastPost = lastInfo;
+                        }else {
+                            obj.lastPost = null;
+                        }
+
+                        // obj.lastPost = info.lastPost?info.lastPost.toObject():null;
+                        pageList.push(obj);
+                    });
+                    cacheData.pageInfo = pageList;
+                }else {
+                    cacheData.pageInfo = null;
+                    cacheData.lastInfo = null;
+                }
+                localStorage.setItem("txsCache",JSON.stringify(cacheData));
+
+            },
+
+            getPageInfo() {
+                let info = localStorage.getItem("txsCache");
+                if (info != null) {
+                    return JSON.parse(info);
+                }
+                return null;
+            },
+            clearCachePageInfo() {
+                if (localStorage.getItem("txsCache") != null) {
+                    localStorage.removeItem("txsCache");
+                }
+            },
         },
         mounted() {
+            let cacheData = this.getPageInfo();
+            if (cacheData != null) {
+                this.currentPage = parseInt(cacheData.currentPage);
+                this.totalPage = parseInt(cacheData.totalPage);
+                if (cacheData.pageInfo != null) {
+                    let list = [];
+                    cacheData.pageInfo.forEach(function (obj) {
+                        let info = {};
+                        if (obj.start != null) {
+                            let start = new api.cos_sdk.raw_type.time_point_sec();
+                            start.setUtcSeconds(obj.start);
+                            info.start = start;
+                        }
+                        if (obj.end != null ) {
+                            let end = new api.cos_sdk.raw_type.time_point_sec();
+                            end.setUtcSeconds(obj.end);
+                            info.end = end;
+                        }
+                        if (obj.lastPost != null) {
+                            let lastInfo = new api.cos_sdk.grpc.TrxInfo();
+                            let time = new api.cos_sdk.raw_type.time_point_sec();
+                            time.setUtcSeconds(obj.lastPost.blkTime);
+                            lastInfo.setBlockTime(time);
+                            let trxId = new api.cos_sdk.raw_type.sha256();
+                            trxId.setHexHash(obj.lastPost.trxId);
+                            lastInfo.setTrxId(trxId);
+                            info.lastPost = lastInfo;
+                        }
+                        list.push(info);
+                    });
+                    this.pageInfo = list;
+                }
+                if (this.currentPage == 1) {
+                    this.postListStart = null;
+                    this.lastPost = null;
+                }else if (this.pageInfo.length > 1){
+                    let lastInfo = this.pageInfo [this.pageInfo.length-2];
+                    this.listStart = lastInfo.start;
+                    this.lastInfo = lastInfo.lastPost;
+                }
+            }
             this.nthPage();
         },
+
         watch: {
             $route() {
                 this.nthPage();
             }
+        },
+        destroyed() {
+            this.clearCachePageInfo();
         }
     };
 </script>

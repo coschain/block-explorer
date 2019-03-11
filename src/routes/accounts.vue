@@ -48,7 +48,7 @@
                             </router-link>
                             <!--<span v-show=o.alias> | {{ o.alias }}</span>-->
                         </td>
-                        <td class="text-right font-color-555555">{{ account.getCoin().getValue() }}</td>
+                        <td class="text-right font-color-555555">{{ account.getCoin().toString() }}</td>
                         <!--<td class="text-right font-color-555555">{{ new Number(o.percentage).toFixed(4) }}%</td>-->
                     </tr>
                 </table>
@@ -85,86 +85,68 @@
         },
         methods: {
             nthPage() {
+                this.$root.showModalLoading = true;
                 let p = this.$route.query.p || 1;
-                if (p == this.currentPage)
-                    console.log("nthPage -requesting the page ", p, "is current page,ignore");
-                else {
-                    this.$root.showModalLoading = true;
-                    let p = this.$route.query.p || 1;
-                    let start = this.coinStart;
-                    let isNextPage = true;
-                    let lastAccount = this.lastAccount;
-                    let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
-                    if (p < this.currentPage) {
-                        if (this.currentPage == 2 ) {
-                            start = null;
-                            lastAccount= null;
-                        }else {
-                            let infoLen = this.accountPageInfo.length;
-                            if (infoLen >= 3 && infoLen >= this.currentPage ) {
-                                let info = this.accountPageInfo[this.currentPage-3];
-                                start = info.start;
-                                lastAccount = info.account;
-                            }
+                let start = this.coinStart;
+                let isNextPage = true;
+                let lastAccount = this.lastAccount;
+                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+                if (p < this.currentPage) {
+                    if (this.currentPage == 2 ) {
+                        start = null;
+                        lastAccount= null;
+                    }else {
+                        let infoLen = this.accountPageInfo.length;
+                        if (infoLen >= 3 && infoLen >= this.currentPage ) {
+                            let info = this.accountPageInfo[this.currentPage-3];
+                            start = info.start;
+                            lastAccount = info.account;
                         }
-                        pReqType = 0;
-                        isNextPage = false;
                     }
-
-                    api.fetchAccountListByBalance(start,null,lastAccount,accountList => {
-                        if (accountList.length > 0) {
-                            this.accountList = accountList;
-                            this.lastAccount = accountList[accountList.length-1];
-                            this.coinStart = this.lastAccount.getCoin();
-                            if (this.currentPage === 0 && isNextPage) {
-                                this.coinEnd = null;
-                            }else {
-                                this.coinEnd = accountList[0].getCoin();
-                            }
-                            if (pReqType == 1) {
-                                if (this.currentPage + 1 == this.totalPage) {
-                                    this.totalPage += 1;
-                                    let curPageLen = this.accountPageInfo.length;
-                                    let info = {start:this.coinStart,account:this.lastAccount};
-                                    if (curPageLen === 0) {
-                                        info.end = this.coinEnd;
-                                    }else if (curPageLen >= 1) {
-                                        info.end = this.accountPageInfo[curPageLen - 1].start;
-                                    }
-                                    this.accountPageInfo.push(info);
-                                }
-                                this.currentPage += 1;
-
-                            }else if (pReqType == 0) {
-                                this.currentPage -= 1;
-                            }
-                        }
-                        this.$root.showModalLoading = false;
-                    },(errCode,msg) => {
-                        console.log("Get Account list fail,error code is %s,msg is %s",errCode,msg);
-                        this.$root.showModalLoading = false;
-                        this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                    });
-                    // api.getAccount(p, o => {
-                    //     this.$root.showModalLoading = false;
-                    //     this.arr = o.addressList;
-                    //     this.currentPage = o.page;
-                    //     this.totalAccounts = o.totalAccountsCnt;
-                    //     this.totalBalance = o.totalBalance;
-                    //     this.totalPage = o.totalPage;
-                    //
-                    //     if (this.arr.length) {
-                    //         this.heightFrom = this.arr[0].height;
-                    //         this.heightTo = this.arr[this.arr.length - 1].height;
-                    //     } else {
-                    //         this.heightFrom = 0;
-                    //         this.heightTo = 0;
-                    //     }
-                    // }, xhr => {
-                    //     this.$root.showModalLoading = false;
-                    //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                    // });
+                    pReqType = 0;
+                    isNextPage = false;
+                }else if (p == this.currentPage) {
+                    pReqType = 3;
                 }
+
+                api.fetchAccountListByBalance(start,null,lastAccount,accountList => {
+                    if (accountList.length > 0) {
+                        this.accountList = accountList;
+                        this.lastAccount = accountList[accountList.length-1];
+                        this.coinStart = this.lastAccount.getCoin();
+                        if (this.currentPage === 0 && isNextPage) {
+                            this.coinEnd = null;
+                        }else {
+                            this.coinEnd = accountList[0].getCoin();
+                        }
+                        if (pReqType == 1) {
+                            if (this.currentPage + 1 == this.totalPage) {
+                                this.totalPage += 1;
+                                let curPageLen = this.accountPageInfo.length;
+                                let info = {start:this.coinStart,account:this.lastAccount};
+                                if (curPageLen === 0) {
+                                    info.end = this.coinEnd;
+                                }else if (curPageLen >= 1) {
+                                    info.end = this.accountPageInfo[curPageLen - 1].start;
+                                }
+                                this.accountPageInfo.push(info);
+                            }
+                            this.currentPage += 1;
+
+                        }else if (pReqType == 0) {
+                            this.currentPage -= 1;
+                        }else if (pReqType == 3) {
+                            this.currentPage = parseInt(p);
+                        }
+                    }
+                    this.$root.showModalLoading = false;
+                    this.savePageInfo();
+                },(errCode,msg) => {
+                    console.log("Get Account list fail,error code is %s,msg is %s",errCode,msg);
+                    this.$root.showModalLoading = false;
+                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                });
+
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
@@ -208,15 +190,95 @@
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount() + ' COS';
+            },
+            savePageInfo() {
+                let cacheData = {};
+                cacheData.currentPage = this.currentPage;
+                cacheData.totalPage = this.totalPage;
+                let listLen = this.accountPageInfo.length;
+                if ( listLen > 0) {
+                    let pageList = [];
+                    this.accountPageInfo.forEach(function (info) {
+                        let obj = {};
+                        obj.start = info.start?info.start.getValue():null;
+                        obj.end = info.end?info.end.getValue():null;
+                        obj.account = info.account?info.account.toObject():null;
+                        pageList.push(obj);
+                    });
+                    cacheData.pageInfo = pageList;
+                }else {
+                    cacheData.pageInfo = null;
+                    cacheData.lastInfo = null;
+                }
+                localStorage.setItem("accountsCache",JSON.stringify(cacheData));
+
+            },
+            getPageInfo() {
+                let info = localStorage.getItem("accountsCache");
+                if (info != null) {
+                   return JSON.parse(info);
+                }
+                return null;
+            },
+            clearCachePageInfo() {
+                if (localStorage.getItem("accountsCache") != null) {
+                    localStorage.removeItem("accountsCache");
+                }
             }
+
         },
         mounted() {
+            let cacheData = this.getPageInfo();
+            if (cacheData != null) {
+                this.currentPage = parseInt(cacheData.currentPage);
+                this.totalPage = parseInt(cacheData.totalPage);
+                if (cacheData.pageInfo != null) {
+                    let list = [];
+                    cacheData.pageInfo.forEach(function (obj) {
+                        let info = {};
+                        if (obj.start != null) {
+                            let start = new api.cos_sdk.raw_type.coin();
+                            start.setValue(obj.start);
+                            info.start = start;
+                        }
+                        if (obj.end != null ) {
+                            let end = new api.cos_sdk.raw_type.coin();
+                            end.setValue(obj.end);
+                            info.end = end;
+                        }
+                        if (obj.account != null) {
+                            let lastInfo = new api.cos_sdk.grpc.AccountResponse();
+                            let name = new api.cos_sdk.raw_type.account_name();
+                            name.setValue(obj.account.accountName.value);
+                            lastInfo.setAccountName(name);
+                            let coin = new api.cos_sdk.raw_type.coin();
+                            coin.setValue(obj.account.coin.value);
+                            lastInfo.setCoin(coin);
+                            info.account = lastInfo;
+                        }
+                        list.push(info);
+                    });
+                    this.accountPageInfo = list;
+                }
+                if (this.currentPage == 1) {
+                    this.coinStart = null;
+                    this.lastAccount = null;
+                }else if (this.accountPageInfo.length > 1){
+                    let lastInfo = this.accountPageInfo [this.accountPageInfo.length-2];
+                    this.coinStart = lastInfo.start;
+                    this.lastAccount = lastInfo.account;
+                }
+
+            }
             this.nthPage();
         },
         watch: {
             $route() {
                 this.nthPage();
             }
+        },
+        destroyed() {
+            this.clearCachePageInfo();
         }
     };
 </script>
