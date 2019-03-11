@@ -124,8 +124,8 @@
                             </div>
                         </td>
                         <td class="tdxxxwddd txs-from-to">
-                            <vue-blockies v-bind:address='o.from'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/address/" + o.from'>
+                            <vue-blockies v-bind:account='o.from'></vue-blockies>
+                            <router-link v-bind:to='fragApi + "/account/" + o.from'>
                                 <span class="fromTo font-14  monospace">{{ o.from }}</span>
                             </router-link>
                         </td>
@@ -134,7 +134,7 @@
                         </td>
                         <td class="tdxxxwddd txs-from-to">
                             <vue-blockies v-bind:address='o.to'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/address/" + o.to'>
+                            <router-link v-bind:to='fragApi + "/account/" + o.to'>
                                 <span class="fromTo font-14  monospace">{{ o.to }}</span>
                             </router-link>
                         </td>

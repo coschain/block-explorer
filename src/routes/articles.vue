@@ -1,18 +1,18 @@
 <style>
-    .vue-contracts {
+    .vue-articles {
         background-color: white;
     }
 
-    .vue-contracts .info-and-pagination .info a {
+    .vue-articles .info-and-pagination .info a {
         color: inherit;
     }
 
-    .vue-contracts td,
-    .vue-contracts th {
+    .vue-articles td,
+    .vue-articles th {
         border-top-color: #ddd;
     }
 
-    .vue-contracts .hash {
+    .vue-articles .hash {
         max-width: 200px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -20,16 +20,16 @@
         white-space: nowrap;
     }
 
-    .vue-contracts .hash>* {
+    .vue-articles .hash>* {
         display: inline;
     }
 
-    .vue-contracts .block {
+    .vue-articles .block {
         margin-right: 8px;
     }
 
     @media (max-width: 767.98px) {
-        .vue-contracts .title {
+        .vue-articles .title {
             font-size: 20px;
         }
     }
@@ -37,7 +37,7 @@
 </style>
 <template>
     <!-- https://etherscan.io/txs -->
-    <div class="vue-contracts fullfill">
+    <div class="vue-articles fullfill">
         <vue-bread title="Posted Articles"></vue-bread>
 
         <div v-if="postList" class="container mt20">
@@ -58,8 +58,8 @@
 
                     <tr v-for="(post, i) in postList" :key="i">
                         <td style="padding-left: 24px;" class="hash">
-                            <vue-blockies v-bind:address='post.getAuthor().getValue()'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/address/" + post.getAuthor().getValue()'>
+                            <vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>
+                            <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>
                         </td>
