@@ -150,7 +150,7 @@
                 <div>
                     Transactions:
                     <div class="detail">
-                        <router-link v-bind:to='fragApi + "/txs?block=" + this.$route.params.id'>
+                        <router-link v-bind:to='fragApi + "/block-trxs/" + this.$route.params.id'>
                             <span>{{ blockInfo.toObject().transactionsList.length }}</span>
                         </router-link>
                         tx in this block
