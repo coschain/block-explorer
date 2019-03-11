@@ -58,7 +58,7 @@
 
                     <tr v-for="(post, i) in postList" :key="i">
                         <td style="padding-left: 24px;" class="hash">
-                            <vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>
+                            <!--<vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>-->
                             <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>

@@ -223,8 +223,7 @@
     <div class="vue-account fullfill" v-bind:triggerComputed=urlChange>
         <vue-bread v-bind:title='navTitle'
                    v-bind:subtitle="$route.params.id"
-                   v-bind:subtitlemonospaced="!!$route.params.id"
-                   v-bind:blockies="$route.params.id">
+                   v-bind:subtitlemonospaced="!!$route.params.id">
         </vue-bread>
         <div class="container explorer-table-container" v-if=accountInfo>
             <div class="font-24 font-bold font-color-000000 table-title">

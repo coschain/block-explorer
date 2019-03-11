@@ -126,7 +126,6 @@
                             </div>
                         </td>
                         <td class="tdxxxwddd txs-from-to">
-                            <vue-blockies v-bind:address='trx.getTrxWrap().getSigTrx().getTrx().sender()'></vue-blockies>
                             <router-link v-bind:to='fragApi + "/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
                             <span class="fromTo font-14  monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
                         </router-link>
@@ -136,15 +135,6 @@
                         </td>
 
                         <td class="tdxxxwddd txs-from-to">
-                            <!--<div v-if="o.type==='call'" class="container-tip">-->
-                                <!--<span class="tip down-arrow-tip font-15 shadow">Smart Contract</span>-->
-                                <!--<img class="icon24" src="../../static/img/icon_tx_type_contract.png" />-->
-                            <!--</div>-->
-                            <!--<vue-blockies v-bind:address='o.to.alias || o.to.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.to.hash === $route.query.a">{{ o.to.alias || o.to.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.to.hash'>-->
-                                <!--<span class="fromTo font-14  monospace">{{ o.to.hash }}</span>-->
-                            <!--</router-link>-->
                         </td>
                         <!--<td class="text-right font-color-000000 font-14">{{ tokenAmount(o.value) }} NAS</td>-->
                     </tr>

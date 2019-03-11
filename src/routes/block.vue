@@ -93,31 +93,7 @@
                             <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().signedHeader.header.witness.value'>
                                 <span class="monospace">{{ blockInfo.toObject().signedHeader.header.witness.value }}</span>
                             </router-link>
-                            <!--<span v-if=block.miner.alias> | {{ block.miner.alias }}</span>-->
                         </td>
-                    </tr>
-                    <!--<tr>-->
-                        <!--<td class="font-color-555555" style="vertical-align: top; padding-top: 12px;">Dynasty</td>-->
-                        <!--<td style="vertical-align: top; padding-top: 12px;">-->
-                            <!--<a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapse-mobile" aria-expanded="false" aria-controls="collapseExample">-->
-                                <!--<span>-->
-                                    <!--Show Dynasty-->
-                                <!--</span>-->
-                                <!--<img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />-->
-                            <!--</a>-->
-                            <!--<div class="collapse" id="collapse-mobile">-->
-                                <!--<div class="card card-body dynasty">-->
-                                    <!--<router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>-->
-                                        <!--<span class="font-16 font-bold  monospace"> {{ dynasty }}</span>-->
-                                    <!--</router-link>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <tr>
-                        <td class="font-color-555555">Gas Reward</td>
-                        <!--<td class="font-color-000000">{{ toWei(block.blkSummary.gasReward) }}</td>-->
-                        <td class="font-color-000000"></td>
                     </tr>
                 </table>
             </div>
@@ -178,36 +154,6 @@
                             <span class="monospace">{{ blockInfo.toObject().signedHeader.header.witness.value }}</span>
                         </router-link>
                     </div>
-                </div>
-                <!--<div>-->
-                    <!--Coinbase:-->
-                    <!--<div class="detail">-->
-                        <!--<router-link v-bind:to='fragApi + "/address/" + block.coinbase'>-->
-                            <!--<span class="monospace">{{ block.coinbase }}</span>-->
-                        <!--</router-link>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--Dynasty:-->
-                    <!--<div class="detail">-->
-                        <!--<a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
-                            <!--<span>-->
-                                <!--Show Dynasty-->
-                            <!--</span>-->
-                            <!--<img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />-->
-                        <!--</a>-->
-                        <!--<div class="collapse" id="collapseExample">-->
-                            <!--<div class="card card-body dynasty">-->
-                                <!--<router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>-->
-                                    <!--<span class="font-16 font-bold "> {{ dynasty }}</span>-->
-                                <!--</router-link>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <div>
-                    Gas Reward:
-                    <div class="detail"></div>
                 </div>
             </div>
         </div>
