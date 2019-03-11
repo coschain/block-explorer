@@ -7,6 +7,16 @@
         color: inherit;
     }
 
+    .vue-user-article .tagAndContent {
+        display:inline-block;
+        width: 20%;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     .vue-user-article td,
     .vue-user-article th {
         border-top-color: #ddd;
@@ -47,22 +57,25 @@
             <div class="explorer-table-container font-14">
                 <table class="mt20 explorer-table list-table">
                     <tr class="list-header font-12 font-bold font-color-000000">
-                        <th style="padding-left: 24px;">Author</th>
-                        <th >Title</th>
-                        <th>Id</th>
-                        <th class=text-right style="padding-right: 24px; width: 120px">Date Created</th>
+                        <th class="tagAndContent">Id</th>
+                        <th class="tagAndContent">Title</th>
+                        <th class="tagAndContent">Content</th>
+                        <th class="tagAndContent">Tag</th>
+                        <th class="tagAndContent">Vote Count</th>
                     </tr>
 
                     <tr v-for="(post, i) in postList" :key="i">
-                        <td style="padding-left: 24px;" class="hash">
-                            <vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
-                                <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
-                            </router-link>
-                        </td>
-                        <span class="hash-normal monospace">{{ post.getTitle() }}</span>
-                        <td class="font-color-000000">{{ post.getPostId()}} </td>
-                        <td v-if="post.getCreated()" class="text-right font-color-555555" style="padding-right: 24px;">{{ post.getCreated()?new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }): "" }}</td>
+                        <!--<td style="padding-left: 24px;" class="hash">-->
+                            <!--<vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>-->
+                            <!--<router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>-->
+                                <!--<span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>-->
+                            <!--</router-link>-->
+                        <!--</td>-->
+                        <td  class="font-color-000000 tagAndContent"> {{post.getPostId()}} </td>
+                        <td class="hash-normal monospace tagAndContent">{{ post.getTitle() }}</td>
+                        <td class="font-color-000000 tagAndContent ">{{ post.getBody()}} </td>
+                        <td class="font-color-000000 tagAndContent">{{fetchArticleTag(post.getTagsList())}}</td>
+                        <td  class="tagAndContent">{{post.getVoteCnt()}}</td>
 
                     </tr>
                 </table>
@@ -209,6 +222,14 @@
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount();
+            },
+            fetchArticleTag(tagsArray) {
+                let tag = "";
+                if (tagsArray.length > 0) {
+                    tag = tagsArray.join(",");
+                }
+
+                return tag;
             }
         },
         mounted() {
