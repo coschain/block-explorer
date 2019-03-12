@@ -118,7 +118,7 @@
                             </div>
                         </td>
                         <td class="tdxxxwddd txs-from-to">
-                            <vue-blockies v-bind:address='trx.getSigTrx().getTrx().sender()'></vue-blockies>
+                            <!--<vue-blockies v-bind:address='trx.getSigTrx().getTrx().sender()'></vue-blockies>-->
                             <router-link v-bind:to='fragApi + "/account/" + trx.getSigTrx().getTrx().sender()'>
                                 <span class="fromTo font-14  monospace">{{ trx.getSigTrx().getTrx().sender() }}</span>
                             </router-link>
@@ -176,11 +176,6 @@
         },
         methods: {
             nav(n) {
-                // var query = JSON.parse(window.JSON.stringify(this.$route.query));
-                //
-                // query.p = n;
-                // this.$router.push({ path: this.$route.path, query });
-
                 if (n <= this.loadedPageIndex) {
                     if (n < this.currentPage) {
                         this.$router.back();
@@ -229,7 +224,9 @@
                             this.savePageInfo();
                         }
                         this.$root.showModalLoading = false;
-                        this.loadedPageIndex += 1;
+                        if (pReqType == 1) {
+                            this.loadedPageIndex += 1;
+                        }
                     },(errCode,msg) => {
                         console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                         this.$root.showModalLoading = false;
@@ -237,15 +234,11 @@
                     });
                 }else {
                     //update curPageList use current page data in trxList
-                    let isNextPage = true;
-                    if (pReqType == 0) {
-                        isNextPage = false
-                    }
-                    if (!isNextPage && this.currentPage > 1) {
+                    if (pReqType == 0 && this.currentPage > 1) {
                         this.curPageList = this.trxList.slice((this.currentPage-2)*30,(this.currentPage-1)*30);
                         this.currentPage -= 1;
                         this.savePageInfo();
-                    }else if (isNextPage && this.currentPage < this.totalPage) {
+                    }else if (pReqType == 1 && this.currentPage < this.totalPage) {
                         this.curPageList = this.trxList.slice(this.currentPage*30,(this.currentPage+1)*30);
                         if (this.loadedPageIndex < this.totalPage) {
                             this.loadedPageIndex += 1;
