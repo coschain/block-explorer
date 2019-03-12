@@ -136,6 +136,8 @@
                             <router-link class=dropdown-item v-bind:to="fragApi + '/blocks'">Blocks</router-link>
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/accounts'">Accounts</router-link>
+                            <div class="dropdown-divider"></div>
+                            <a href= "http://testwallet.contentos.io/" target="_blank" class="dropdown-item">Create Account</a>
                         </div>
                     </li>
                     <li class="nav-item">
