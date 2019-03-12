@@ -134,7 +134,7 @@
                 </div>
                 <div>
                     Hash:
-                    <div class="detail monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash }}</div>
+                    <div class="detail monospace">{{ blockInfo.hash() }}</div>
                 </div>
                 <div>
                     Parent Hash:
