@@ -371,8 +371,8 @@
                 if (this.currentPage == 1) {
                     this.postListStart = null;
                     this.lastPost = null;
-                }else if (this.pageInfo.length > 1){
-                    let lastInfo = this.pageInfo [this.pageInfo.length-2];
+                }else if (this.currentPage >= 2 && this.pageInfo.length >= this.currentPage){
+                    let lastInfo = this.pageInfo [this.currentPage-2];
                     this.listStart = lastInfo.start;
                     this.lastInfo = lastInfo.lastPost;
                 }

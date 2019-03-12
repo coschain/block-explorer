@@ -263,8 +263,8 @@
                 if (this.currentPage == 1) {
                     this.coinStart = null;
                     this.lastAccount = null;
-                }else if (this.accountPageInfo.length > 1){
-                    let lastInfo = this.accountPageInfo [this.accountPageInfo.length-2];
+                }else if (this.currentPage >= 2 && this.accountPageInfo.length >= this.currentPage){
+                    let lastInfo = this.accountPageInfo [this.currentPage-2];
                     this.coinStart = lastInfo.start;
                     this.lastAccount = lastInfo.account;
                 }

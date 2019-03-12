@@ -248,8 +248,8 @@
                 if (this.currentPage == 1) {
                     this.blkStart = 0;
                     this.blkEnd = 0;
-                }else if (this.blkPageInfo.length > 1){
-                    let lastInfo = this.blkPageInfo[this.blkPageInfo.length-1];
+                }else if (this.currentPage >= 2 && this.blkPageInfo.length >= this.currentPage){
+                    let lastInfo = this.blkPageInfo[this.currentPage-1];
                     this.blkStart = lastInfo.start;
                     this.blkEnd = lastInfo.end;
                 }
