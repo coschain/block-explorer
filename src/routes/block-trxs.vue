@@ -205,10 +205,10 @@
                 if (isNeedRequest) {
                     //there is no data ,request and fetch data from chain
                     this.$root.showModalLoading = true;
-                    api.fetchBlockList(this.blockHeight,this.$route.params.id, blkInfo => {
-                        if (blkInfo.length > 0 ) {
-                            this.trxList = blkInfo[0].getTransactionsList();
-                            this.blkTime = blkInfo[0].toObject().signedHeader.header.timestamp.utcSeconds*1000;
+                    api.fetchSignedBlock(this.blockHeight, blkInfo => {
+                        if (blkInfo) {
+                            this.trxList = blkInfo.getTransactionsList();
+                            this.blkTime = blkInfo.toObject().signedHeader.header.timestamp.utcSeconds*1000;
                             let listLen = this.trxList.length;
                             this.totalPage = Math.ceil(listLen.toFixed(1)/30);
                             let end = listLen <= 30 ? listLen : 30;

@@ -39,25 +39,25 @@
                     <tr v-for="(block, i) in blocks" :key="i">
                         <td></td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/block/" + block.id().blockNum()'>
-                                <span class="font-14">{{ block.id().blockNum() }}</span>
+                            <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()'>
+                                <span class="font-14">{{ block.getBlockHeight() }}</span>
                             </router-link>
                         </td>
                         <td class=time>
                             <div>
-                                <div class="font-color-000000 font-14">{{ timeConversion(Date.now()-block.toObject().signedHeader.header.timestamp.utcSeconds*1000) }} ago</div>
-                                <div class="down-arrow-tip">{{ new Date(block.toObject().signedHeader.header.timestamp.utcSeconds*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.toObject().signedHeader.header.timestamp.utcSeconds*1000 }}</div>
+                                <div class="font-color-000000 font-14">{{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago</div>
+                                <div class="down-arrow-tip">{{ new Date(block.toObject().timestamp.utcSeconds*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.toObject().timestamp.utcSeconds*1000 }}</div>
                             </div>
                         </td>
                         <td style="padding-left: 20px">
-                            <router-link v-bind:to='fragApi + "/txs?block=" + block.id().blockNum()'>
-                                <span class="font-14">{{ numberAddComma(block.toObject().transactionsList.length) }}</span>
+                            <router-link v-bind:to='fragApi + "/txs?block=" + block.getBlockHeight()'>
+                                <span class="font-14">{{ numberAddComma(block.toObject().trxCount) }}</span>
                             </router-link>
                         </td>
                         <td style="padding-left: 30px">
-                            <router-link v-bind:to='fragApi + "/account/" + block.toObject().signedHeader.header.witness.value'>
-                                <vue-blockies class="d-inline" v-bind:account='block.toObject().signedHeader.header.witness.value'></vue-blockies>
-                                <span class="font-14 monospace">{{ block.toObject().signedHeader.header.witness.value }}</span>
+                            <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value'>
+                                <vue-blockies class="d-inline" v-bind:account='block.toObject().witness.value'></vue-blockies>
+                                <span class="font-14 monospace">{{ block.toObject().witness.value }}</span>
                             </router-link>
                         </td>
                         <td></td>
@@ -133,8 +133,8 @@
                     if (cnt > 0) {
                         this.blocks = blkList.reverse();
                         let listLen = blkList.length;
-                        this.blkStart = this.blocks[listLen-1].id().blockNum();
-                        this.blkEnd = this.blocks[0].id().blockNum();
+                        this.blkStart = this.blocks[listLen-1].getBlockHeight();
+                        this.blkEnd = this.blocks[0].getBlockHeight();
                         if (pReqType == 1) {
                             if (this.currentPage+1 == this.totalPage) {
                                 this.totalPage += 1;

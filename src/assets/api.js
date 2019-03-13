@@ -149,6 +149,31 @@ module.exports = {
         promise.then(success,fail);
     },
 
+    async fetchSignedBlock(blkNumber,success,fail){
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetSignedBlockRequest();
+        req.setStart(blkNumber);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetSignedBlock, {
+                request:req,
+                host:getHost(),
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getBlock();
+                        resolve(obj)
+                    }else {
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success,fail);
+    },
+
     /**
      * get trx list by time in reverse order
      * @param start: the  start time in request range, if value null,query from the first in db
