@@ -299,7 +299,6 @@ function judgeSearchType(content) {
  * convert byte array to 16 Hex
  */
 function convertByteToHexString(arrBytes) {
-    console.log("origin bytes is:");
     console.log(arrBytes);
     let str = "";
     for (let i = 0; i < arrBytes.length; i++) {
@@ -315,14 +314,10 @@ function convertByteToHexString(arrBytes) {
         }
         str += tmp;
     }
-    console.log("the str after convert is:");
-    console.log(str);
     return str;
 }
 
 function convertHexStringToByteArray(str) {
-    console.log("origin str is:");
-    console.log(str);
     let pos = 0;
     let len = str.length;
     if (len % 2 !== 0) {
@@ -336,7 +331,5 @@ function convertHexStringToByteArray(str) {
         arrBytes.push(v);
         pos += 2;
     }
-    console.log("the byte after convert is:");
-    console.log(arrBytes);
     return arrBytes;
 }
