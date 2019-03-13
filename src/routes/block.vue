@@ -79,7 +79,7 @@
                     </tr>
                     <tr>
                         <td class="font-color-555555">Hash</td>
-                        <td class="font-color-000000 monospace">{{ blockInfo.hash()}}</td>
+                        <td class="font-color-000000 monospace">{{ blockInfo.id().toString() }}</td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Parent Hash</td>
