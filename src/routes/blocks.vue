@@ -69,9 +69,9 @@
     </div>
 </template>
 <script>
-    var api = require("@/assets/api"),
+    let api = require("@/assets/api"),
         utility = require("@/assets/utility");
-
+    const blksPageCacheKey = "blocksCacheKey";
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -214,19 +214,19 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem("blocksCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(blksPageCacheKey,JSON.stringify(cacheData));
 
             },
             getPageInfo() {
-                let info = localStorage.getItem("blocksCache");
+                let info = sessionStorage.getItem(blksPageCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("blocksCache") != null) {
-                    localStorage.removeItem("blocksCache");
+                if (sessionStorage.getItem(blksPageCacheKey) != null) {
+                    sessionStorage.removeItem(blksPageCacheKey);
                 }
             }
         },

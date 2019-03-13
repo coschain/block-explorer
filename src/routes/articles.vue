@@ -78,7 +78,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-
+    let articlesPageCacheKey = "articlesPageCache";
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -231,19 +231,19 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem("articlesCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(articlesPageCacheKey,JSON.stringify(cacheData));
 
             },
             getPageInfo() {
-                let info = localStorage.getItem("articlesCache");
+                let info = sessionStorage.getItem(articlesPageCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("articlesCache") != null) {
-                    localStorage.removeItem("articlesCache");
+                if (sessionStorage.getItem(articlesPageCacheKey) != null) {
+                    sessionStorage.removeItem(articlesPageCacheKey);
                 }
             }
         },

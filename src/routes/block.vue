@@ -47,7 +47,7 @@
                             <nav aria-label="Page navigation" class=navgation-tab>
                                 <ul class=pagination>
                                     <li>
-                                        <router-link v-if="blockInfo" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                        <router-link v-if="blockInfo.hasBlockId()" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                             <span aria-hidden=true>&lt; Prev</span>
                                         </router-link>
                                     </li>

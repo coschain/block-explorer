@@ -61,6 +61,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
+    let accountsCacheKey = "accountsCache";
 
     module.exports = {
         components: {
@@ -210,19 +211,19 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem("accountsCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(accountsCacheKey,JSON.stringify(cacheData));
 
             },
             getPageInfo() {
-                let info = localStorage.getItem("accountsCache");
+                let info = sessionStorage.getItem(accountsCacheKey);
                 if (info != null) {
                    return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("accountsCache") != null) {
-                    localStorage.removeItem("accountsCache");
+                if (sessionStorage.getItem(accountsCacheKey) != null) {
+                    sessionStorage.removeItem(accountsCacheKey);
                 }
             }
 

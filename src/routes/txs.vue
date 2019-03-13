@@ -83,13 +83,6 @@
         <vue-bread :title='"Transactions" + (($route.query.a || $route.query.block) ? " of" : "")' :subtitle='$route.query.block ? ("Block #" + $route.query.block) : $route.query.a' :subtitlemonospaced='!!$route.query.a' :blockies='$route.query.a'></vue-bread>
 
         <div v-if="trxList && trxList.length" class="container mt20">
-            <!--<div class="d-block d-md-flex flex-row align-items-center mt20">-->
-                <!--<span class="col-auto pl-0 pr-2 info font-color-000000 font-24 font-bold title">-->
-                    <!--{{ (totalTxs > 0 && !$route.query.a && !$route.query.block) ? 'More than' : '' }} {{ totalTxs > 1000000  ? (Math.floor(totalTxs / 1000000) +  (Math.floor(totalTxs / 1000000) > 2 ? ' millions' : ' million')) : numberAddComma(totalTxs) }} transactions found-->
-                <!--</span>-->
-                <!--<span v-if="totalTxs > 500" class="col-auto pl-0 font-color-555555 font-16 align-text-bottom subtitle">(showing the last 500 records)</span>-->
-            <!--</div>-->
-
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table list-table">
                     <tr class="list-header font-12 font-bold font-color-000000">
@@ -151,7 +144,8 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-
+    let txsPageCacheKey = "txsPageCache";
+    
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -312,20 +306,20 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem("txsCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(txsPageCacheKey,JSON.stringify(cacheData));
 
             },
 
             getPageInfo() {
-                let info = localStorage.getItem("txsCache");
+                let info = sessionStorage.getItem(txsPageCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("txsCache") != null) {
-                    localStorage.removeItem("txsCache");
+                if (sessionStorage.getItem(txsPageCacheKey) != null) {
+                    sessionStorage.removeItem(txsPageCacheKey);
                 }
             },
             convertOpActionsToStr(actionArray) {
