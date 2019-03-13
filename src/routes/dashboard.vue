@@ -1011,6 +1011,23 @@
             // }
         },
         mounted() {
+
+            this.$root.eBus.$on("changeRpcAddress",address => {
+                this.dailyTxData = [];
+                this.blocks = [];
+                this.stateInfo = null;
+                this.txs = [];
+                this.curTps = 0;
+                this.maxTps = 0;
+                this.blkTotalNum = 0;
+                this.trxTotalNum = 0;
+                this.articleTotalNum = 0;
+                this.accountTotalNum = 0;
+                this.trxStartTime = null;
+                this.blkStartNum = 0;
+                this.blkEndNum = 0;
+                this.lastIrreversibleBlockTime = null;
+            });
            //fetch state info
             api.fetchStateInfo(info => {
                 if (info != null && typeof info.state.dgpo != "undefined" ) {

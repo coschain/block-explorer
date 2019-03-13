@@ -1,12 +1,9 @@
 
-var { ajax, ajaxSplitAction, getContentosNetHost } = require("@/assets/utility");
+var { ajax, ajaxSplitAction, getContentosNetHost,getHost } = require("@/assets/utility");
 const cos_sdk = require("cos-grpc-js");
-// const cos_host = 'http://' + window.location.hostname + ':8080';
-const cos_host = process.env.VUE_APP_CHAIN;
 const grpc_web = require("@improbable-eng/grpc-web").grpc;
 
 module.exports = {
-     cos_host ,
      cos_sdk,
     /*
      * get user account info by account name
@@ -27,7 +24,7 @@ module.exports = {
         let promise = new Promise(function (resolve, reject) {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetAccountByName, {
                 request: req,
-                host: cos_host,
+                host: getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
@@ -68,7 +65,7 @@ module.exports = {
         let promise = new Promise(function (resolve, reject) {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetAccountListByBalance, {
                 request: req,
-                host: cos_host,
+                host: getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
@@ -97,7 +94,7 @@ module.exports = {
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetStatisticsInfo,{
                  request:req,
-                 host:cos_host,
+                 host:getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
@@ -137,7 +134,7 @@ module.exports = {
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockList, {
                 request:req,
-                host:cos_host,
+                host:getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
@@ -173,7 +170,7 @@ module.exports = {
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxListByTime, {
                 request:req,
-                host:cos_host,
+                host:getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
@@ -221,7 +218,7 @@ module.exports = {
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetDailyTotalTrxInfo, {
                 request:req,
-                host:cos_host,
+                host:getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
@@ -255,7 +252,7 @@ module.exports = {
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxInfoById, {
                 request:req,
-                host:cos_host,
+                host:getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {
@@ -296,7 +293,7 @@ module.exports = {
          let promise = new Promise((resolve, reject) => {
              grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByCreateTime, {
                  request:req,
-                 host:cos_host,
+                 host:getHost(),
                  onEnd: res => {
                      const { status, statusMessage, headers, message, trailers } = res;
                      if (status === grpc_web.Code.OK && message) {
@@ -324,7 +321,7 @@ module.exports = {
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByName, {
                 request:req,
-                host:cos_host,
+                host:getHost(),
                 onEnd: res => {
                     const { status, statusMessage, headers, message, trailers } = res;
                     if (status === grpc_web.Code.OK && message) {

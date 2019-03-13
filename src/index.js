@@ -8,7 +8,7 @@ var Vue = require("vue").default,
 // Expose jQuery to the global object
 const jQuery = require('jquery');
 window.jQuery = window.$ = jQuery;
-
+const eBus = new Vue();
 require("bootstrap");
 require("bootstrap/dist/css/bootstrap.min.css");
 require("font-awesome/css/font-awesome.min.css");
@@ -86,14 +86,16 @@ vApp = new Vue({
         //"vue-popmsg": require("@/components/vue-popmsg").default,
         "vue-footer": require("@/components/vue-footer").default,
         "vue-header": require("@/components/vue-header").default,
-        "vue-modal": require("@/components/vue-modal").default
+        "vue-modal": require("@/components/vue-modal").default,
+        "vue-modify-rpc": require("@/components/vue-modify-rpc").default
     },
     data: {
         timestamp: Date.now(),
         showModalLoading: false,
         showAtpAds: true,
         testnetDipStarted: true,
-        testnetGotDipWinners: true
+        testnetGotDipWinners: true,
+        eBus
     },
     el: ".vue",
     router: vRouter

@@ -102,6 +102,7 @@
 </style>
 <template>
     <nav class="bg-black navbar navbar-expand-lg navbar-dark vue-header">
+        <vue-modify-rpc v-show="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress"></vue-modify-rpc>
         <div class=container>
             <div>
                 <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
@@ -157,23 +158,28 @@
         utility = require("@/assets/utility");
     import {searchUtil} from "../assets/utility";
     module.exports = {
+        components: {
+            "vue-modify-rpc": require("@/components/vue-modify-rpc").default
+        },
         data() {
             return {
                 apiPrefixes: null,
                 fragApi: "",
                 paramsApi: "",
                 search: "",
-                MenuMisc:"MAINNET"
+                MenuMisc:"Change RPC",
+                isShowRpcAlert: false,
             };
         },
         methods: {
             apiSwitch() {
-                if (this.$route.params.api === 'testnet') {
-                    this.$router.replace("/");
-                } else {
-                    this.$router.replace("/testnet");
-                }
-                location.reload();
+                // if (this.$route.params.api === 'testnet') {
+                //     this.$router.replace("/");
+                // } else {
+                //     this.$router.replace("/testnet");
+                // }
+                this.isShowRpcAlert = true;
+                // location.reload();
             },
             onSubmit() {
                 let content = this.search.trim();
@@ -198,6 +204,32 @@
                 var api = this.$route.params.api ? this.$route.params.api : "mainnet";
                 return appConfig.apiPrefixes[api].atp;
             },
+            closeRpcSwitchAlert() {
+                this.isShowRpcAlert = false;
+            },
+            modifyRpcAddress(address) {
+                this.isShowRpcAlert = false;
+                if (address) {
+                    let isNetAddress = false;
+                    if (address.length >= 4) {
+                        let prefix = address.substring(0,4);
+                        if (prefix === "http") {
+                            isNetAddress = true;
+                        }
+
+                    }
+                    if (isNetAddress) {
+                        let curAddress = utility.getHost();
+                        if (curAddress === address) {
+                            return
+                        }
+                        this.$root.eBus.$emit("changeRpcAddress",address);
+                        this.$router.replace("/testnet");
+                        utility.setHost(address);
+                        location.reload();
+                    }
+                }
+            }
         },
         mounted() {
             var paramsApi = this.$route.params.api, apiPrefixes = {}, i, first = true;
@@ -212,7 +244,7 @@
             if (!(paramsApi in apiPrefixes))
                 paramsApi = "";
 
-            paramsApi == 'testnet' ? this.MenuMisc = 'TESTNET' : this.MenuMisc = 'MAINNET';
+            // paramsApi == 'testnet' ? this.MenuMisc = 'TESTNET' : this.MenuMisc = 'MAINNET';
             this.apiPrefixes = apiPrefixes;
             this.fragApi = paramsApi ? "/" + paramsApi : "";
             this.paramsApi = paramsApi;

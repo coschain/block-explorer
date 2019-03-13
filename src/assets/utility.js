@@ -7,6 +7,7 @@ moment.updateLocale("en", {
     }
 });
 
+const rpcCacheKey = "rpcAddress";
 module.exports = {
     ajax: ajax,
     ajaxSplitAction: ajaxSplitAction,
@@ -28,13 +29,27 @@ module.exports = {
     searchType: judgeSearchType,
     byteToHexStr: convertByteToHexString,
     hexStrToByte: convertHexStringToByteArray,
+    getHost: getRpcHost,
+    setHost: modifyRpcHost,
 };
 
 ////////////////////////////////////////////////////////////
-//
-// 函数
 
-// ajax.all, 重试
+function getRpcHost() {
+    let cachedAddr = sessionStorage.getItem(rpcCacheKey);
+    if (cachedAddr) {
+        return cachedAddr;
+    }
+    return process.env.VUE_APP_CHAIN;
+}
+
+function modifyRpcHost(address) {
+    if (address && address.length > 0) {
+        sessionStorage.setItem(rpcCacheKey,address)
+    }
+}
+
+//
 function ajax(action, args, done, fail) {
     var a = ajaxSplitAction(action), i,
         method = a[0], url = a[1],
@@ -60,9 +75,9 @@ function ajax(action, args, done, fail) {
     if (args)
         xhr.setRequestHeader("content-type", "application/json; charset=utf-8");
     else
-        args = undefined; // 把 null 之类的统一成 undefined, JSON.stringify(undefined) 不产生字符串
+        args = undefined; // convert null  to undefined, JSON.stringify(undefined) not create string
 
-    // wtf - webpack 要求 window.JSON.stringify
+    // wtf - webpack require window.JSON.stringify
     xhr.send(window.JSON.stringify(args));
     return xhr;
 }
@@ -122,7 +137,6 @@ function q(elementOrSelector, selectorOrAll, all) {
 }
 
 // http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
-// 修改使结果不包含 max
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
