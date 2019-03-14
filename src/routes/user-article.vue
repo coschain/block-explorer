@@ -152,7 +152,7 @@
                     //refresh current page
                     pReqType = 3;
                 }
-                api.fetchArticleListByName(start,end,lastPost,postList => {
+                api.fetchArticleListByName(start,this.firstPageEnd,lastPost,postList => {
                     if (postList.length) {
                         this.postList = postList;
                         this.lastPost = postList[postList.length-1];
@@ -263,18 +263,19 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem(this.userArticlesCache,JSON.stringify(cacheData));
+                sessionStorage.setItem(userArticlesCache,JSON.stringify(cacheData));
             },
             getPageInfo() {
-                let info = localStorage.getItem(this.userArticlesCache);
+                let info = sessionStorage.getItem(userArticlesCache);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem(this.userArticlesCache) != null) {
-                    localStorage.removeItem(this.userArticlesCache);
+                if (sessionStorage.getItem(userArticlesCache) != null) {
+                    console.log("clear user article cache");
+                    sessionStorage.removeItem(userArticlesCache);
                 }
             },
             loadData() {
@@ -319,9 +320,10 @@
                         }
                         this.postPageInfo = list;
                     }
+                    this.loadData();
                     if (this.currentPage == 1) {
                         this.lastPost = null;
-                        this.loadData();
+                        // this.loadData();
                     }else if (this.currentPage >= 2 && this.postPageInfo.length >= this.currentPage){
                         let lastInfo = this.postPageInfo[this.currentPage-2];
                         this.postListStart = lastInfo.start;
