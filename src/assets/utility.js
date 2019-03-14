@@ -7,8 +7,18 @@ moment.updateLocale("en", {
     }
 });
 
+const pageCacheType = {
+    blocksList : 1,//blocks list page
+    txsList : 2,//txs list page
+    articleList : 3,//article list page
+    accountsList : 4,//account list page
+    usrArticleList : 5,//user posted articles list page
+    blkTxsList : 6, //txs list in single block
+};
+
 const rpcCacheKey = "rpcAddress";
 module.exports = {
+    pageCacheType:pageCacheType,
     ajax: ajax,
     ajaxSplitAction: ajaxSplitAction,
     millisecondsToMinutesAndSeconds: millisecondsToMinutesAndSeconds,
@@ -31,6 +41,8 @@ module.exports = {
     hexStrToByte: convertHexStringToByteArray,
     getHost: getRpcHost,
     setHost: modifyRpcHost,
+    clearPagesInfoCache: clearAllPageListDataCache,
+    getPageCacheKey: getPageInfoCacheKey,
 };
 
 ////////////////////////////////////////////////////////////
@@ -48,6 +60,38 @@ function modifyRpcHost(address) {
         sessionStorage.setItem(rpcCacheKey,address)
     }
 }
+
+function clearAllPageListDataCache() {
+    for (let type in pageCacheType) {
+        clearCacheFromSession(getPageInfoCacheKey(pageCacheType[type]));
+    }
+}
+
+function clearCacheFromSession(keyStr) {
+    if (typeof keyStr == "string") {
+        if (sessionStorage.getItem(keyStr)) {
+            sessionStorage.removeItem(keyStr);
+        }
+    }
+}
+
+function getPageInfoCacheKey(pType) {
+    if (pType === pageCacheType.blocksList) {
+        return "blocksVueCache";
+    }else if (pType === pageCacheType.txsList) {
+        return "txsPageCache";
+    }else if (pType === pageCacheType.articleList) {
+        return "articlesPageCache";
+    }else if (pType === pageCacheType.accountsList) {
+        return "accountsPageCache";
+    }else if (pType === pageCacheType.usrArticleList) {
+        return "userArticlesPageCache";
+    }else if (pType === pageCacheType.blkTxsList) {
+        return "blockTxsPageCache";
+    }
+    return "cacheKey"
+}
+
 
 //
 function ajax(action, args, done, fail) {

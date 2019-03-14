@@ -144,7 +144,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    let txsPageCacheKey = "txsPageCache";
+    const txsPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.txsList);
     
     module.exports = {
         components: {
@@ -380,7 +380,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

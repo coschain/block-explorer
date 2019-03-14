@@ -152,7 +152,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-
+    const blockTxsCacheKey = utility.getPageCacheKey(utility.pageCacheType.blkTxsList);
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -285,18 +285,18 @@
                 cacheData.currentPage = this.currentPage;
                 cacheData.totalPage = this.totalPage;
                 cacheData.loadedPage = this.loadedPageIndex;
-                localStorage.setItem("blockTxsCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(blockTxsCacheKey,JSON.stringify(cacheData));
             },
             getPageInfo() {
-                let info = localStorage.getItem("blockTxsCache");
+                let info = sessionStorage.getItem(blockTxsCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("blockTxsCache") != null) {
-                    localStorage.removeItem("blockTxsCache");
+                if (sessionStorage.getItem(blockTxsCacheKey) != null) {
+                    sessionStorage.removeItem(blockTxsCacheKey);
                 }
             },
             convertOpActionsToStr(actionArray) {
@@ -322,7 +322,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

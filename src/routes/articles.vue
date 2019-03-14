@@ -78,7 +78,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    let articlesPageCacheKey = "articlesPageCache";
+    const articlesPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.articleList);
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -295,7 +295,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

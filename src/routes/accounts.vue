@@ -61,7 +61,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    let accountsCacheKey = "accountsCache";
+    const accountsCacheKey = utility.getPageCacheKey(utility.pageCacheType.accountsList);
 
     module.exports = {
         components: {
@@ -279,7 +279,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

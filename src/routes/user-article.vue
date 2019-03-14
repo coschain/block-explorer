@@ -85,7 +85,7 @@
         BigNumber = require("bignumber.js");
     import {cos_sdk} from "../../src/assets/api"
 
-    let userArticlesCache = "userArticlesCache";
+    const userArticlesCache = utility.getPageCacheKey(utility.pageCacheType.usrArticleList);
 
     module.exports = {
         components: {
@@ -274,7 +274,6 @@
             },
             clearCachePageInfo() {
                 if (sessionStorage.getItem(userArticlesCache) != null) {
-                    console.log("clear user article cache");
                     sessionStorage.removeItem(userArticlesCache);
                 }
             },
@@ -364,7 +363,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

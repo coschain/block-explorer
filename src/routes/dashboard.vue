@@ -1011,7 +1011,7 @@
             // }
         },
         mounted() {
-
+            utility.clearPagesInfoCache();
             //clear data when change rpc address
             this.$root.eBus.$on("changeRpcAddress",address => {
                 this.dailyTxData = [];
