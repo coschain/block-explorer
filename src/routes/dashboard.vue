@@ -707,7 +707,7 @@
                                     <router-link :to='fragApi + "/block/" + convertBlkNum(block.getBlockHeight())' class="monospace">{{block.getBlockHeight()}}</router-link>
                                     <br>
                                     <span class="txcnt monospace">
-                                        <router-link v-if="block.getTrxCount()" :to='fragApi + "/txs?block="
+                                        <router-link v-if="block.getTrxCount()" :to='fragApi + "/block-trxs/"
                                         + convertBlkNum(block.getBlockHeight())'>{{ block.getTrxCount() }}
                                             {{ block.getTrxCount() > 1 ? "transactions" : "transaction" }}</router-link>
                                         <span v-else>0 transaction</span>

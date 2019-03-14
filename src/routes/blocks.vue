@@ -50,7 +50,7 @@
                             </div>
                         </td>
                         <td style="padding-left: 20px">
-                            <router-link v-bind:to='fragApi + "/txs?block=" + block.getBlockHeight()'>
+                            <router-link v-bind:to='fragApi + "/block-trxs/" + block.getBlockHeight()'>
                                 <span class="font-14">{{ numberAddComma(block.toObject().trxCount) }}</span>
                             </router-link>
                         </td>
