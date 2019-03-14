@@ -117,4 +117,21 @@
         margin-left: 20px;
     }
 
+    @media (max-width:  576px) {
+        .vue-modify-rpc-headerTitle {
+            font-size: 8px;
+        }
+
+        .vue-modify-rpc-close {
+            font-size: 8px;
+        }
+
+        .vue-modify-rpc-btn {
+            font-size: 7px;
+        }
+
+        .vue-modify-rpc-input {
+            font-size: 4px;
+        }
+    }
 </style>

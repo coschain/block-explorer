@@ -215,8 +215,11 @@
     }
 
     @media (max-width: 575.98px) {
-        .vue-dashboard .nas-price .market .row div div {
+        .vue-dashboard .nas-price .market .row  div div {
             font-size: 22px;
+        }
+        .vue-dashboard .daily-transactions .details *:nth-child(2) {
+            font-size: 12px;
         }
     }
 

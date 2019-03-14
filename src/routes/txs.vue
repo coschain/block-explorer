@@ -70,6 +70,32 @@
           margin-top: 10px;
       }
 
+    .vue-txs .trxListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+    .vue-txs .trxListHeadCol {
+        width: 20%;
+    }
+
+    .vue-txs .txContentCol {
+        display:inline-block;
+        width: 20%;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     @media (max-width: 767.98px) {
         .vue-txs .title {
             font-size: 20px;
@@ -84,52 +110,47 @@
 
         <div v-if="trxList && trxList.length" class="container mt20">
             <div class="explorer-table-container">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th></th>
-                        <th>TxHash</th>
-                        <th>Block</th>
-                        <th>Time</th>
-                        <th>From</th>
-                        <th>Action</th>
-                        <th></th>
+                <table class="mt20 explorer-table">
+                    <tr class="trxListHeader  font-bold font-color-000000">
+                        <th class="trxListHeadCol">TxHash</th>
+                        <th class="trxListHeadCol">Block</th>
+                        <th class="trxListHeadCol">Time</th>
+                        <th class="trxListHeadCol">From</th>
+                        <th class="trxListHeadCol">Action</th>
                         <!--<th class=text-right>Value</th>-->
                     </tr>
 
                     <tr v-for="(trx, i) in trxList" :key="i">
-                        <td>
-                            <img v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>
-                        </td>
-                        <td class="txs-hash">
+                        <!--<td>-->
+                            <!--<img v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                        <!--</td>-->
+                        <td class="txContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()'>
                                 <span v-bind:class="[trx.getTrxWrap().getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
                             </router-link>
                         </td>
 
-                        <td class="txs-block">
+                        <td class="txContentCol">
                             <router-link class="font-14" v-if='trx.getBlockHeight()' v-bind:to='fragApi + "/block/" + trx.getBlockHeight()'>
                                 <span>{{ trx.getBlockHeight() }}</span>
                             </router-link>
-                            <i class="font-14 font-color-000000" v-else>pending</i>
+                            <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
                         </td>
-                        <td class="time font-14 font-color-555555">
-                            <div>
-                                <div>{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago</div>
-                                <div class="down-arrow-tip">{{ new Date(trx.getBlockTime().getUtcSeconds()*1000 ).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000  }}</div>
-                            </div>
+                        <td class="txContentCol">
+                            <!--<div>-->
+                                <!--<div>{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago</div>-->
+                                <!--<div class="down-arrow-tip">{{ new Date(trx.getBlockTime().getUtcSeconds()*1000 ).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000  }}</div>-->
+                            <!--</div>-->
+                            {{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago
                         </td>
-                        <td class="tdxxxwddd txs-from-to">
+                        <td class="txContentCol">
                             <router-link v-bind:to='fragApi + "/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
-                            <span class="fromTo font-14  monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
-                        </router-link>
+                            <span class="monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
+                             </router-link>
                         </td>
-                        <td class="tdxxxwddd txs-from-to actions">
+                        <td class="txContentCol">
                             <div>{{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}</div>
                         </td>
-
-                        <td class="tdxxxwddd txs-from-to">
-                        </td>
-                        <!--<td class="text-right font-color-000000 font-14">{{ tokenAmount(o.value) }} NAS</td>-->
                     </tr>
                 </table>
             </div>

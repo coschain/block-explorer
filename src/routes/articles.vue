@@ -28,11 +28,39 @@
         margin-right: 8px;
     }
 
+    .vue-articles .articlesListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-articles .articlesListHeadCol {
+        width: 25%;
+    }
+
+    .vue-articles .articlesListContentCol {
+        display:inline-block;
+        width: 25%;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     @media (max-width: 767.98px) {
         .vue-articles .title {
             font-size: 20px;
         }
     }
+
 
 </style>
 <template>
@@ -46,25 +74,25 @@
                 <!--&lt;!&ndash;(showing the last {{ maxDisplayCnt }} records)&ndash;&gt;-->
             <!--</div>-->
 
-            <div class="explorer-table-container font-14">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th style="padding-left: 24px;">Author</th>
-                        <th>Title</th>
-                        <th>Id</th>
-                        <th class=text-right style="padding-right: 24px; width: 120px">Date Created</th>
+            <div class="explorer-table-container">
+                <table class="mt20 explorer-table">
+                    <tr class="articlesListHeader font-bold font-color-000000">
+                        <th class="articlesListHeadCol">Author</th>
+                        <th class="articlesListHeadCol">Title</th>
+                        <th class="articlesListHeadCol">Id</th>
+                        <th class="articlesListHeadCol">Date Created</th>
                     </tr>
 
                     <tr v-for="(post, i) in postList" :key="i">
-                        <td style="padding-left: 24px;" class="hash">
+                        <td class="articlesListContentCol">
                             <!--<vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>-->
                             <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>
                         </td>
-                         <td class="font-color-000000">{{post.getTitle()}}</td>
-                        <td class="font-color-000000">{{ post.getPostId()}} </td>
-                        <td class="text-right font-color-555555" style="padding-right: 24px;">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
+                        <td class="articlesListContentCol">{{post.getTitle()}}</td>
+                        <td class="articlesListContentCol">{{ post.getPostId()}} </td>
+                        <td class="articlesListContentCol">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
                     </tr>
                 </table>
             </div>

@@ -70,6 +70,34 @@
         margin-top: 10px;
     }
 
+    .vue-block-trxs .blkTxsListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-block-trxs .blkTxsListHeadCol {
+        width: 20%;
+    }
+
+    .vue-block-trxs .blkTxsListContentCol {
+        display:inline-block;
+        width: 20%;
+        height: 50px;
+        vertical-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     @media (max-width: 767.98px) {
         .vue-block-trxs .title {
             font-size: 20px;
@@ -83,61 +111,46 @@
 
         <div v-if="curPageList && curPageList.length" class="container mt20">
             <div class="explorer-table-container">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th></th>
-                        <th>TxHash</th>
-                        <th>Block</th>
-                        <th>Time</th>
-                        <th>From</th>
-                        <th>Action</th>
-                        <th></th>
-                        <!--<th class=text-right>Value</th>-->
+                <table class="mt20 explorer-table">
+                    <tr class="blkTxsListHeader font-bold font-color-000000">
+                        <th class="blkTxsListHeadCol">TxHash</th>
+                        <th class="blkTxsListHeadCol">Block</th>
+                        <th class="blkTxsListHeadCol">Time</th>
+                        <th class="blkTxsListHeadCol">From</th>
+                        <th class="blkTxsListHeadCol">Action</th>
                     </tr>
 
                     <tr v-for="(trx, i) in curPageList" :key="i">
-                        <td>
-                            <img v-if="trx.getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>
-                        </td>
-                        <td class="txs-hash">
+                        <!--<td>-->
+                            <!--<img v-if="trx.getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                        <!--</td>-->
+                        <td class="blkTxsListContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getSigTrx().id().getHexHash()'>
                                 <span v-bind:class="[trx.getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getSigTrx().id().getHexHash() }}</span>
                             </router-link>
                         </td>
 
-                        <td class="txs-block">
+                        <td class="blkTxsListContentCol">
                             <router-link class="font-14" v-if='blockHeight' v-bind:to='fragApi + "/block/" + blockHeight'>
                                 <span>{{ blockHeight }}</span>
                             </router-link>
-                            <i class="font-14 font-color-000000" v-else>pending</i>
+                            <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
                         </td>
-                        <td class="time font-14 font-color-555555">
-                            <div>
-                                <div>{{ timeConversion(Date.now()- blkTime) }} ago</div>
-                                <div class="down-arrow-tip">{{ new Date(blkTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ blkTime }}</div>
-                            </div>
-                        </td>
-                        <td class="tdxxxwddd txs-from-to">
+                        <td class="blkTxsListContentCol">{{ timeConversion(Date.now()- blkTime) }} ago </td>
+                            <!--<div>-->
+                                <!--<div>{{ timeConversion(Date.now()- blkTime) }} ago</div>-->
+                                <!--<div class="down-arrow-tip">{{ new Date(blkTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ blkTime }}</div>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                        <td class="blkTxsListContentCol">
                             <!--<vue-blockies v-bind:address='trx.getSigTrx().getTrx().sender()'></vue-blockies>-->
                             <router-link v-bind:to='fragApi + "/account/" + trx.getSigTrx().getTrx().sender()'>
-                                <span class="fromTo font-14  monospace">{{ trx.getSigTrx().getTrx().sender() }}</span>
+                                <span class="monospace">{{ trx.getSigTrx().getTrx().sender() }}</span>
                             </router-link>
                         </td>
-                        <td class="tdxxxwddd txs-from-to actions">
+                        <td class="blkTxsListContentCol">
                             <div>{{convertOpActionsToStr(trx.getSigTrx().getTrx().getAllActions())}}</div>
                         </td>
-                        <td class="tdxxxwddd txs-from-to">
-                            <!--<div v-if="o.type==='call'" class="container-tip">-->
-                            <!--<span class="tip down-arrow-tip font-15 shadow">Smart Contract</span>-->
-                            <!--<img class="icon24" src="../../static/img/icon_tx_type_contract.png" />-->
-                            <!--</div>-->
-                            <!--<vue-blockies v-bind:address='o.to.alias || o.to.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.to.hash === $route.query.a">{{ o.to.alias || o.to.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.to.hash'>-->
-                            <!--<span class="fromTo font-14  monospace">{{ o.to.hash }}</span>-->
-                            <!--</router-link>-->
-                        </td>
-                        <!--<td class="text-right font-color-000000 font-14">{{ tokenAmount(o.value) }} NAS</td>-->
                     </tr>
                 </table>
             </div>

@@ -38,6 +38,27 @@
         margin-right: 8px;
     }
 
+    .vue-user-article .header {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-user-article .headCol {
+        width: 20%;
+    }
+
+    .vue-user-article .content {
+        width: 10%;
+    }
+
     @media (max-width: 767.98px) {
         .vue-user-article .title {
             font-size: 20px;
@@ -54,13 +75,13 @@
         <div v-if="postList" class="container mt20">
 
             <div class="explorer-table-container font-14">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th class="tagAndContent">Id</th>
-                        <th class="tagAndContent">Title</th>
-                        <th class="tagAndContent">Content</th>
-                        <th class="tagAndContent">Tag</th>
-                        <th class="tagAndContent">Vote Count</th>
+                <table class="mt20 explorer-table">
+                    <tr class=" header font-bold font-color-000000">
+                        <th class=" headCol">Id</th>
+                        <th class=" headCol">Title</th>
+                        <th class="headCol">Content</th>
+                        <th class="headCol">Tag</th>
+                        <th class="headCol">Vote Count</th>
                     </tr>
 
                     <tr v-for="(post, i) in postList" :key="i">
@@ -69,7 +90,6 @@
                         <td class="font-color-000000 tagAndContent ">{{ post.getBody()}} </td>
                         <td class="font-color-000000 tagAndContent">{{fetchArticleTag(post.getTagsList())}}</td>
                         <td  class="ont-color-000000 tagAndContent">{{post.getVoteCnt()}}</td>
-
                     </tr>
                 </table>
             </div>

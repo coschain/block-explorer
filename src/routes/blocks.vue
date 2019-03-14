@@ -7,6 +7,33 @@
         margin-right: 8px;
     }
 
+    .vue-blocks .blkListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-blocks .blkListHeadCol {
+        width: 25%;
+    }
+
+    .vue-blocks .contentCol {
+        display:inline-block;
+        width: 25%;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     @media (max-width: 767.98px) {
         .vue-blocks .title {
             font-size: 20px;
@@ -26,41 +53,38 @@
                     <!--&lt;!&ndash; <span v-if="totalTxs > 500" class="font-color-555555 font-16" style="vertical-align: text-bottom;">(showing the last 500 records)</span> &ndash;&gt;-->
                 <!--</div>-->
             <!--</div>-->
-            <div class="explorer-table-container">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th style="width: 20px;"></th>
-                        <th style="width: 130px;">Height</th>
-                        <th style="width: 130px;">Age</th>
-                        <th style="padding-left: 20px">txn</th>
-                        <th style="padding-left: 30px">Minted</th>
-                        <th style="width: 20px;"></th>
+            <div class="explorer-table-container ">
+                <table class="mt20 explorer-table ">
+                    <tr class=" blkListHeader font-12 font-bold font-color-000000">
+                        <th class="blkListHeadCol">Height</th>
+                        <th class="blkListHeadCol">Age</th>
+                        <th class="blkListHeadCol">txn</th>
+                        <th class="blkListHeadCol">Minted</th>
                     </tr>
                     <tr v-for="(block, i) in blocks" :key="i">
-                        <td></td>
-                        <td>
+                        <td class="contentCol">
                             <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()'>
                                 <span class="font-14">{{ block.getBlockHeight() }}</span>
                             </router-link>
                         </td>
-                        <td class=time>
-                            <div>
-                                <div class="font-color-000000 font-14">{{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago</div>
-                                <div class="down-arrow-tip">{{ new Date(block.toObject().timestamp.utcSeconds*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.toObject().timestamp.utcSeconds*1000 }}</div>
-                            </div>
+                        <td class="contentCol">
+                            <!--<div>-->
+                                <!--<div class="font-color-000000 font-14">{{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago</div>-->
+                                <!--<div class="down-arrow-tip">{{ new Date(block.toObject().timestamp.utcSeconds*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.toObject().timestamp.utcSeconds*1000 }}</div>-->
+                            <!--</div>-->
+                            {{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago
                         </td>
-                        <td style="padding-left: 20px">
+                        <td class="contentCol">
                             <router-link v-bind:to='fragApi + "/block-trxs/" + block.getBlockHeight()'>
                                 <span class="font-14">{{ numberAddComma(block.toObject().trxCount) }}</span>
                             </router-link>
                         </td>
-                        <td style="padding-left: 30px">
+                        <td class="contentCol">
                             <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value'>
                                 <vue-blockies class="d-inline" v-bind:account='block.toObject().witness.value'></vue-blockies>
                                 <span class="font-14 monospace">{{ block.toObject().witness.value }}</span>
                             </router-link>
                         </td>
-                        <td></td>
                     </tr>
                 </table>
             </div>
