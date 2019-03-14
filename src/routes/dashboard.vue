@@ -645,14 +645,14 @@
                             <span>{{ stateInfo.tps }}</span>
                         </div>
                         <div v-if="lastIrreversibleBlockTime" class="irreversible">
-                            LastIrreversibleBlockTime
+                            Confirm delay Time
                             <div v-if="lastIrreversibleBlockTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }} ago</div>
                         </div>
 
                         <div v-if="stateInfo" class="market container">
                             <div class="row">
                                 <div class="col-6">
-                                    Peak
+                                    Max TPS
                                     <div v-if="stateInfo">{{ stateInfo.maxTps }}</div>
                                 </div>
                             </div>
