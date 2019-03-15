@@ -47,13 +47,13 @@
                             <nav aria-label="Page navigation" class=navgation-tab>
                                 <ul class=pagination>
                                     <li>
-                                        <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                        <router-link v-if="blockInfo.hasBlockId()" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                             <span aria-hidden=true>&lt; Prev</span>
                                         </router-link>
                                     </li>
                                     <li>&nbsp; {{$route.params.id}} &nbsp;</li>
                                     <li>
-                                        <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
+                                        <router-link v-if="blockInfo" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
                                             <span aria-hidden=true>Next &gt;</span>
                                         </router-link>
                                     </li>
@@ -72,52 +72,28 @@
                                 <!--<span>{{ blockInfo.transactionsList.length }}</span>-->
                             <!--</router-link>-->
                             <router-link v-bind:to='fragApi + "/block-trxs/" + this.$route.params.id'>
-                                <span>{{ blockInfo.toObject().transactionsList.length }}</span>
+                                <span>{{ blockInfo.toObject().trxCount }}</span>
                             </router-link>
                             tx in this block
                         </td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Hash</td>
-                        <td class="font-color-000000 monospace">{{ blockInfo.hash()}}</td>
+                        <td class="font-color-000000 monospace">{{ blockInfo.getBlockId().getHexHash()}}</td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Parent Hash</td>
                         <td>
-                            <span class="font-color-000000 monospace">{{ blockInfo.getSignedHeader().getHeader().getPrevious().getHexHash()}}</span>
+                            <span class="font-color-000000 monospace">{{ blockInfo.getPreId().getHexHash()}}</span>
                         </td>
                     </tr>
                     <tr>
                         <td class="font-color-555555">Minted</td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().signedHeader.header.witness.value'>
-                                <span class="monospace">{{ blockInfo.toObject().signedHeader.header.witness.value }}</span>
+                            <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().witness.value'>
+                                <span class="monospace">{{ blockInfo.toObject().witness.value }}</span>
                             </router-link>
-                            <!--<span v-if=block.miner.alias> | {{ block.miner.alias }}</span>-->
                         </td>
-                    </tr>
-                    <!--<tr>-->
-                        <!--<td class="font-color-555555" style="vertical-align: top; padding-top: 12px;">Dynasty</td>-->
-                        <!--<td style="vertical-align: top; padding-top: 12px;">-->
-                            <!--<a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapse-mobile" aria-expanded="false" aria-controls="collapseExample">-->
-                                <!--<span>-->
-                                    <!--Show Dynasty-->
-                                <!--</span>-->
-                                <!--<img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />-->
-                            <!--</a>-->
-                            <!--<div class="collapse" id="collapse-mobile">-->
-                                <!--<div class="card card-body dynasty">-->
-                                    <!--<router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>-->
-                                        <!--<span class="font-16 font-bold  monospace"> {{ dynasty }}</span>-->
-                                    <!--</router-link>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <tr>
-                        <td class="font-color-555555">Gas Reward</td>
-                        <!--<td class="font-color-000000">{{ toWei(block.blkSummary.gasReward) }}</td>-->
-                        <td class="font-color-000000"></td>
                     </tr>
                 </table>
             </div>
@@ -129,13 +105,13 @@
                         <nav aria-label="Page navigation" class=navgation-tab>
                             <ul class=pagination>
                                 <li>
-                                    <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                    <router-link v-if="blockInfo" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                         <span aria-hidden=true>&lt; Prev</span>
                                     </router-link>
                                 </li>
                                 <li>&nbsp; {{$route.params.id}} &nbsp;</li>
                                 <li>
-                                    <router-link v-if="blockInfo.toObject().signedHeader" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
+                                    <router-link v-if="blockInfo" v-bind:to='fragApi + "/block/" + (+$route.params.id + 1)' aria-label=Next>
                                         <span aria-hidden=true>Next &gt;</span>
                                     </router-link>
                                 </li>
@@ -151,20 +127,20 @@
                     Transactions:
                     <div class="detail">
                         <router-link v-bind:to='fragApi + "/block-trxs/" + this.$route.params.id'>
-                            <span>{{ blockInfo.toObject().transactionsList.length }}</span>
+                            <span>{{ blockInfo.toObject().trxCount }}</span>
                         </router-link>
                         tx in this block
                     </div>
                 </div>
                 <div>
                     Hash:
-                    <div class="detail monospace">{{ blockInfo.toObject().signedHeader.header.previous.hash }}</div>
+                    <div class="detail monospace">{{ blockInfo.getBlockId().getHexHash() }}</div>
                 </div>
                 <div>
                     Parent Hash:
                     <div class="detail">
                         <!--<router-link v-bind:to='fragApi + "/block/" + blockInfo.toObject().signedHeader.header.previous.hash'>-->
-                            <span class="font-color-000000 monospace">{{ blockInfo.getSignedHeader().getHeader().getPrevious().getHexHash()}}</span>
+                            <span class="font-color-000000 monospace">{{ blockInfo.getPreId().getHexHash()}}</span>
                         <!--</router-link>-->
                     </div>
                 </div>
@@ -174,40 +150,10 @@
                         <!--<router-link v-bind:to='fragApi + "/address/" + block.miner.hash'>-->
                             <!--<span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>-->
                         <!--</router-link>-->
-                        <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().signedHeader.header.witness.value'>
-                            <span class="monospace">{{ blockInfo.toObject().signedHeader.header.witness.value }}</span>
+                        <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().witness.value'>
+                            <span class="monospace">{{ blockInfo.toObject().witness.value }}</span>
                         </router-link>
                     </div>
-                </div>
-                <!--<div>-->
-                    <!--Coinbase:-->
-                    <!--<div class="detail">-->
-                        <!--<router-link v-bind:to='fragApi + "/address/" + block.coinbase'>-->
-                            <!--<span class="monospace">{{ block.coinbase }}</span>-->
-                        <!--</router-link>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--Dynasty:-->
-                    <!--<div class="detail">-->
-                        <!--<a class="d-flex align-items-center" href=# v-on:click="showOrHideDynasty()" style="text-decoration: none;" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">-->
-                            <!--<span>-->
-                                <!--Show Dynasty-->
-                            <!--</span>-->
-                            <!--<img style="margin-left: 12px; margin-top: 3px; vertical-align: middle;" class="icon16" v-bind:src="isShowDynasty ? '../../static/img/ic_payload_arrow_up.png' : '../../static/img/ic_payload_arrow_down.png'" />-->
-                        <!--</a>-->
-                        <!--<div class="collapse" id="collapseExample">-->
-                            <!--<div class="card card-body dynasty">-->
-                                <!--<router-link v-for="dynasty in block.dynasty" v-bind:key=dynasty v-bind:to='fragApi + "/address/" + dynasty'>-->
-                                    <!--<span class="font-16 font-bold "> {{ dynasty }}</span>-->
-                                <!--</router-link>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <div>
-                    Gas Reward:
-                    <div class="detail"></div>
                 </div>
             </div>
         </div>
@@ -225,23 +171,13 @@
         computed: {
             urlChange() {
                 this.$root.showModalLoading = true;
-                // api.getBlock(this.$route.params.id, o => {
-                //     this.$root.showModalLoading = false;
-                //     if (!o.localTimestamp) {
-                //         o.localTimestamp = Date.now();
-                //     }
-                //     this.block = o;
-                // }, xhr => {
-                //     this.$root.showModalLoading = false;
-                //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                // });
 
                 //fetch block info
                 api.fetchBlockList(this.$route.params.id,this.$route.params.id, blkInfo => {
                     if (blkInfo.length > 0 ) {
                         this.blockInfo = blkInfo[0];
-                        this.bTime = this.blockInfo.toObject().signedHeader.header.timestamp.utcSeconds*1000;
-                        this.blkHash = this.blockInfo.hash();
+                        this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
+                        this.blkHash = this.blockInfo.getBlockId().getHexHash();
                     }
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {

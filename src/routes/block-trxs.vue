@@ -1,28 +1,28 @@
 <style>
-    .vue-txs {
+    .vue-block-trxs {
         background-color: white;
     }
-    .vue-txs .tip a {
+    .vue-block-trxs .tip a {
         color: rgb(76, 32, 133);
     }
 
-    .vue-txs td,
-    .vue-txs th {
+    .vue-block-trxs td,
+    .vue-block-trxs th {
         border-top-color: #ddd;
     }
 
-    .vue-txs .fail {
+    .vue-block-trxs .fail {
         background: url(../../static/img/warning_icon.png)no-repeat 0 10px;
         padding-left: 28px;
     }
 
-    .vue-txs .fail a {
+    .vue-block-trxs .fail a {
         display: inline-block;
         max-width: 142px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .vue-txs .hash-normal {
+    .vue-block-trxs .hash-normal {
         height: 20px;
         font-size: 14px;
         /* font-family: OpenSans; */
@@ -30,7 +30,7 @@
         line-height: 20px;
     }
 
-    .vue-txs .hash-failed {
+    .vue-block-trxs .hash-failed {
         height: 20px;
         font-size: 14px;
         /* font-family: OpenSans; */
@@ -38,7 +38,7 @@
         color: rgba(240, 68, 52, 1);
     }
 
-    .vue-txs .txs-hash {
+    .vue-block-trxs .txs-hash {
         max-width: 185px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -46,7 +46,7 @@
         padding: 0;
     }
 
-    .vue-txs .txs-block {
+    .vue-block-trxs .txs-block {
         max-width: 120px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -54,84 +54,103 @@
         padding: 0;
     }
 
-    .vue-txs .fromTo {
+    .vue-block-trxs .fromTo {
         line-height: 24px;
     }
 
-    .vue-txs .block {
+    .vue-block-trxs .block {
         margin-right: 8px;
     }
 
+    .vue-block-trxs .actions {
+        display:inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 10px;
+    }
+
+    .vue-block-trxs .blkTxsListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-block-trxs .blkTxsListHeadCol {
+        width: 20%;
+    }
+
+    .vue-block-trxs .blkTxsListContentCol {
+        display:inline-block;
+        width: 20%;
+        height: 50px;
+        vertical-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     @media (max-width: 767.98px) {
-        .vue-txs .title {
+        .vue-block-trxs .title {
             font-size: 20px;
         }
     }
 
 </style>
 <template>
-    <div class="vue-txs fullfill">
+    <div class="vue-block-trxs fullfill">
         <vue-bread :title='"Transactions of" ' :subtitle='$route.params.blockNumber ? ("Block #" + $route.params.blockNumber) : $route.query.a' :subtitlemonospaced='!!$route.query.a' :blockies='$route.query.a'></vue-bread>
 
         <div v-if="curPageList && curPageList.length" class="container mt20">
             <div class="explorer-table-container">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th></th>
-                        <th>TxHash</th>
-                        <th>Block</th>
-                        <th>Time</th>
-                        <th>From</th>
-                        <th></th>
-                        <th>To</th>
-                        <!--<th class=text-right>Value</th>-->
+                <table class="mt20 explorer-table">
+                    <tr class="blkTxsListHeader font-bold font-color-000000">
+                        <th class="blkTxsListHeadCol">TxHash</th>
+                        <th class="blkTxsListHeadCol">Block</th>
+                        <th class="blkTxsListHeadCol">Time</th>
+                        <th class="blkTxsListHeadCol">From</th>
+                        <th class="blkTxsListHeadCol">Action</th>
                     </tr>
 
                     <tr v-for="(trx, i) in curPageList" :key="i">
-                        <td>
-                            <img v-if="trx.getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>
-                        </td>
-                        <td class="txs-hash">
+                        <!--<td>-->
+                            <!--<img v-if="trx.getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                        <!--</td>-->
+                        <td class="blkTxsListContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getSigTrx().id().getHexHash()'>
                                 <span v-bind:class="[trx.getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getSigTrx().id().getHexHash() }}</span>
                             </router-link>
                         </td>
 
-                        <td class="txs-block">
+                        <td class="blkTxsListContentCol">
                             <router-link class="font-14" v-if='blockHeight' v-bind:to='fragApi + "/block/" + blockHeight'>
                                 <span>{{ blockHeight }}</span>
                             </router-link>
-                            <i class="font-14 font-color-000000" v-else>pending</i>
+                            <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
                         </td>
-                        <td class="time font-14 font-color-555555">
-                            <div>
-                                <div>{{ timeConversion(Date.now()- blkTime) }} ago</div>
-                                <div class="down-arrow-tip">{{ new Date(blkTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ blkTime }}</div>
-                            </div>
-                        </td>
-                        <td class="tdxxxwddd txs-from-to">
-                            <!--<vue-blockies v-bind:address='o.from.alias || o.from.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.from.hash === $route.query.a">{{ o.from.alias || o.from.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.from.hash'>-->
-                            <!--<span class="fromTo font-14  monospace">{{ o.from.hash }}</span>-->
-                            <!--</router-link>-->
-                        </td>
-                        <td style="padding: 10px;">
-                            <img class="icon16" src="../../static/img/ic_arrow_right.png"/>
-                            <div style="width: 10px;"></div>
-                        </td>
-                        <td class="tdxxxwddd txs-from-to">
-                            <!--<div v-if="o.type==='call'" class="container-tip">-->
-                            <!--<span class="tip down-arrow-tip font-15 shadow">Smart Contract</span>-->
-                            <!--<img class="icon24" src="../../static/img/icon_tx_type_contract.png" />-->
+                        <td class="blkTxsListContentCol">{{ timeConversion(Date.now()- blkTime) }} ago </td>
+                            <!--<div>-->
+                                <!--<div>{{ timeConversion(Date.now()- blkTime) }} ago</div>-->
+                                <!--<div class="down-arrow-tip">{{ new Date(blkTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ blkTime }}</div>-->
                             <!--</div>-->
-                            <!--<vue-blockies v-bind:address='o.to.alias || o.to.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.to.hash === $route.query.a">{{ o.to.alias || o.to.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.to.hash'>-->
-                            <!--<span class="fromTo font-14  monospace">{{ o.to.hash }}</span>-->
-                            <!--</router-link>-->
+                        <!--</td>-->
+                        <td class="blkTxsListContentCol">
+                            <!--<vue-blockies v-bind:address='trx.getSigTrx().getTrx().sender()'></vue-blockies>-->
+                            <router-link v-bind:to='fragApi + "/account/" + trx.getSigTrx().getTrx().sender()'>
+                                <span class="monospace">{{ trx.getSigTrx().getTrx().sender() }}</span>
+                            </router-link>
                         </td>
-                        <!--<td class="text-right font-color-000000 font-14">{{ tokenAmount(o.value) }} NAS</td>-->
+                        <td class="blkTxsListContentCol">
+                            <div>{{convertOpActionsToStr(trx.getSigTrx().getTrx().getAllActions())}}</div>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -146,7 +165,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-
+    const blockTxsCacheKey = utility.getPageCacheKey(utility.pageCacheType.blkTxsList);
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -170,11 +189,6 @@
         },
         methods: {
             nav(n) {
-                // var query = JSON.parse(window.JSON.stringify(this.$route.query));
-                //
-                // query.p = n;
-                // this.$router.push({ path: this.$route.path, query });
-
                 if (n <= this.loadedPageIndex) {
                     if (n < this.currentPage) {
                         this.$router.back();
@@ -204,16 +218,15 @@
                 if (isNeedRequest) {
                     //there is no data ,request and fetch data from chain
                     this.$root.showModalLoading = true;
-                    api.fetchBlockList(this.blockHeight,this.$route.params.id, blkInfo => {
-                        if (blkInfo.length > 0 ) {
-                            this.trxList = blkInfo[0].getTransactionsList();
-                            this.blkTime = blkInfo[0].toObject().signedHeader.header.timestamp.utcSeconds*1000;
+                    api.fetchSignedBlock(this.blockHeight, blkInfo => {
+                        if (blkInfo) {
+                            this.trxList = blkInfo.getTransactionsList();
+                            this.blkTime = blkInfo.toObject().signedHeader.header.timestamp.utcSeconds*1000;
                             let listLen = this.trxList.length;
                             this.totalPage = Math.ceil(listLen.toFixed(1)/30);
                             let end = listLen <= 30 ? listLen : 30;
                             this.curPageList = this.trxList.slice(0,end);
                             if (pReqType == 3) {
-                                console.log("kkkkk");
                                 this.currentPage = parseInt(p);
                                 if (this.currentPage > 1) {
                                     this.curPageList = this.trxList.slice((this.currentPage-1)*30,this.currentPage*30);
@@ -224,7 +237,9 @@
                             this.savePageInfo();
                         }
                         this.$root.showModalLoading = false;
-                        this.loadedPageIndex += 1;
+                        if (pReqType == 1) {
+                            this.loadedPageIndex += 1;
+                        }
                     },(errCode,msg) => {
                         console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                         this.$root.showModalLoading = false;
@@ -232,15 +247,11 @@
                     });
                 }else {
                     //update curPageList use current page data in trxList
-                    let isNextPage = true;
-                    if (pReqType == 0) {
-                        isNextPage = false
-                    }
-                    if (!isNextPage && this.currentPage > 1) {
+                    if (pReqType == 0 && this.currentPage > 1) {
                         this.curPageList = this.trxList.slice((this.currentPage-2)*30,(this.currentPage-1)*30);
                         this.currentPage -= 1;
                         this.savePageInfo();
-                    }else if (isNextPage && this.currentPage < this.totalPage) {
+                    }else if (pReqType == 1 && this.currentPage < this.totalPage) {
                         this.curPageList = this.trxList.slice(this.currentPage*30,(this.currentPage+1)*30);
                         if (this.loadedPageIndex < this.totalPage) {
                             this.loadedPageIndex += 1;
@@ -287,19 +298,25 @@
                 cacheData.currentPage = this.currentPage;
                 cacheData.totalPage = this.totalPage;
                 cacheData.loadedPage = this.loadedPageIndex;
-                localStorage.setItem("blockTxsCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(blockTxsCacheKey,JSON.stringify(cacheData));
             },
             getPageInfo() {
-                let info = localStorage.getItem("blockTxsCache");
+                let info = sessionStorage.getItem(blockTxsCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("blockTxsCache") != null) {
-                    localStorage.removeItem("blockTxsCache");
+                if (sessionStorage.getItem(blockTxsCacheKey) != null) {
+                    sessionStorage.removeItem(blockTxsCacheKey);
                 }
+            },
+            convertOpActionsToStr(actionArray) {
+                if (actionArray.length) {
+                    return actionArray.join(",");
+                }
+                return ""
             }
         },
         mounted() {
@@ -318,7 +335,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

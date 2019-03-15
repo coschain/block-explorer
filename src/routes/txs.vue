@@ -62,6 +62,40 @@
         margin-right: 8px;
     }
 
+    .vue-txs .actions {
+          display:inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin-top: 10px;
+      }
+
+    .vue-txs .trxListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+    .vue-txs .trxListHeadCol {
+        width: 20%;
+    }
+
+    .vue-txs .txContentCol {
+        display:inline-block;
+        width: 20%;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     @media (max-width: 767.98px) {
         .vue-txs .title {
             font-size: 20px;
@@ -75,71 +109,48 @@
         <vue-bread :title='"Transactions" + (($route.query.a || $route.query.block) ? " of" : "")' :subtitle='$route.query.block ? ("Block #" + $route.query.block) : $route.query.a' :subtitlemonospaced='!!$route.query.a' :blockies='$route.query.a'></vue-bread>
 
         <div v-if="trxList && trxList.length" class="container mt20">
-            <!--<div class="d-block d-md-flex flex-row align-items-center mt20">-->
-                <!--<span class="col-auto pl-0 pr-2 info font-color-000000 font-24 font-bold title">-->
-                    <!--{{ (totalTxs > 0 && !$route.query.a && !$route.query.block) ? 'More than' : '' }} {{ totalTxs > 1000000  ? (Math.floor(totalTxs / 1000000) +  (Math.floor(totalTxs / 1000000) > 2 ? ' millions' : ' million')) : numberAddComma(totalTxs) }} transactions found-->
-                <!--</span>-->
-                <!--<span v-if="totalTxs > 500" class="col-auto pl-0 font-color-555555 font-16 align-text-bottom subtitle">(showing the last 500 records)</span>-->
-            <!--</div>-->
-
             <div class="explorer-table-container">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th></th>
-                        <th>TxHash</th>
-                        <th>Block</th>
-                        <th>Time</th>
-                        <th>From</th>
-                        <th></th>
-                        <th>To</th>
+                <table class="mt20 explorer-table">
+                    <tr class="trxListHeader  font-bold font-color-000000">
+                        <th class="trxListHeadCol">TxHash</th>
+                        <th class="trxListHeadCol">Block</th>
+                        <th class="trxListHeadCol">Time</th>
+                        <th class="trxListHeadCol">From</th>
+                        <th class="trxListHeadCol">Action</th>
                         <!--<th class=text-right>Value</th>-->
                     </tr>
 
                     <tr v-for="(trx, i) in trxList" :key="i">
-                        <td>
-                            <img v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>
-                        </td>
-                        <td class="txs-hash">
+                        <!--<td>-->
+                            <!--<img v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                        <!--</td>-->
+                        <td class="txContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()'>
                                 <span v-bind:class="[trx.getTrxWrap().getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
                             </router-link>
                         </td>
 
-                        <td class="txs-block">
+                        <td class="txContentCol">
                             <router-link class="font-14" v-if='trx.getBlockHeight()' v-bind:to='fragApi + "/block/" + trx.getBlockHeight()'>
                                 <span>{{ trx.getBlockHeight() }}</span>
                             </router-link>
-                            <i class="font-14 font-color-000000" v-else>pending</i>
+                            <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
                         </td>
-                        <td class="time font-14 font-color-555555">
-                            <div>
-                                <div>{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago</div>
-                                <div class="down-arrow-tip">{{ new Date(trx.getBlockTime().getUtcSeconds()*1000 ).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000  }}</div>
-                            </div>
-                        </td>
-                        <td class="tdxxxwddd txs-from-to">
-                            <!--<vue-blockies v-bind:address='o.from.alias || o.from.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.from.hash === $route.query.a">{{ o.from.alias || o.from.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.from.hash'>-->
-                            <!--<span class="fromTo font-14  monospace">{{ o.from.hash }}</span>-->
-                        <!--</router-link>-->
-                        </td>
-                        <td style="padding: 10px;">
-                            <img class="icon16" src="../../static/img/ic_arrow_right.png"/>
-                            <div style="width: 10px;"></div>
-                        </td>
-                        <td class="tdxxxwddd txs-from-to">
-                            <!--<div v-if="o.type==='call'" class="container-tip">-->
-                                <!--<span class="tip down-arrow-tip font-15 shadow">Smart Contract</span>-->
-                                <!--<img class="icon24" src="../../static/img/icon_tx_type_contract.png" />-->
+                        <td class="txContentCol">
+                            <!--<div>-->
+                                <!--<div>{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago</div>-->
+                                <!--<div class="down-arrow-tip">{{ new Date(trx.getBlockTime().getUtcSeconds()*1000 ).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000  }}</div>-->
                             <!--</div>-->
-                            <!--<vue-blockies v-bind:address='o.to.alias || o.to.hash'></vue-blockies>-->
-                            <!--&lt;!&ndash; <span class="fromTo font-color-000000 font-14" v-if="o.to.hash === $route.query.a">{{ o.to.alias || o.to.hash }}</span> &ndash;&gt;-->
-                            <!--<router-link v-bind:to='fragApi + "/address/" + o.to.hash'>-->
-                                <!--<span class="fromTo font-14  monospace">{{ o.to.hash }}</span>-->
-                            <!--</router-link>-->
+                            {{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago
                         </td>
-                        <!--<td class="text-right font-color-000000 font-14">{{ tokenAmount(o.value) }} NAS</td>-->
+                        <td class="txContentCol">
+                            <router-link v-bind:to='fragApi + "/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                            <span class="monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
+                             </router-link>
+                        </td>
+                        <td class="txContentCol">
+                            <div>{{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}</div>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -154,7 +165,8 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-
+    const txsPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.txsList);
+    
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -252,23 +264,6 @@
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
-
-                // api.getTx({
-                //     a: this.$route.query.a,
-                //     block: this.$route.query.block,
-                //     p: this.$route.query.p || 1,
-                //     isPending: this.$route.query.isPending
-                // }, o => {
-                //     this.$root.showModalLoading = false;
-                //     this.arr = o.txnList;
-                //     this.currentPage = o.currentPage;
-                //     this.maxDisplayCnt = o.maxDisplayCnt;
-                //     this.totalPage = o.totalPage;
-                //     this.totalTxs = o.txnCnt;
-                // }, xhr => {
-                //     this.$root.showModalLoading = false;
-                //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                // });
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
@@ -332,22 +327,28 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem("txsCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(txsPageCacheKey,JSON.stringify(cacheData));
 
             },
 
             getPageInfo() {
-                let info = localStorage.getItem("txsCache");
+                let info = sessionStorage.getItem(txsPageCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("txsCache") != null) {
-                    localStorage.removeItem("txsCache");
+                if (sessionStorage.getItem(txsPageCacheKey) != null) {
+                    sessionStorage.removeItem(txsPageCacheKey);
                 }
             },
+            convertOpActionsToStr(actionArray) {
+                if (actionArray.length) {
+                    return actionArray.join(",");
+                }
+                return ""
+            }
         },
         mounted() {
             let cacheData = this.getPageInfo();
@@ -385,8 +386,8 @@
                 if (this.currentPage == 1) {
                     this.postListStart = null;
                     this.lastPost = null;
-                }else if (this.pageInfo.length > 1){
-                    let lastInfo = this.pageInfo [this.pageInfo.length-2];
+                }else if (this.currentPage >= 2 && this.pageInfo.length >= this.currentPage){
+                    let lastInfo = this.pageInfo [this.currentPage-2];
                     this.listStart = lastInfo.start;
                     this.lastInfo = lastInfo.lastPost;
                 }
@@ -400,7 +401,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

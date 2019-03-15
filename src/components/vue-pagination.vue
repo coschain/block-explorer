@@ -103,7 +103,7 @@
             <div class="page_nav-item" style="width: auto; margin-left: 16px; margin-right: 16px;">
                 <span style="line-height: 34px;">Page</span>
                 <input style="margin-left: 10px;margin-right: 10px;" v-bind:value=current
-                       v-on:keyup.enter="$emit('to', $event.target.value)">
+                       v-on:keyup.enter="$emit('to', $event.target.value)" readonly="readonly">
                 <span style="line-height: 34px;">/{{ total }}</span>
             </div>
 

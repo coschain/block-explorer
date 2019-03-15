@@ -7,6 +7,16 @@
         color: inherit;
     }
 
+    .vue-user-article .tagAndContent {
+        display:inline-block;
+        width: 20%;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     .vue-user-article td,
     .vue-user-article th {
         border-top-color: #ddd;
@@ -28,6 +38,27 @@
         margin-right: 8px;
     }
 
+    .vue-user-article .header {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-user-article .headCol {
+        width: 20%;
+    }
+
+    .vue-user-article .content {
+        width: 10%;
+    }
+
     @media (max-width: 767.98px) {
         .vue-user-article .title {
             font-size: 20px;
@@ -39,31 +70,26 @@
     <div class="vue-user-article fullfill">
         <vue-bread v-bind:title='"Posted Articles by:"'
                    v-bind:subtitle="$route.params.author"
-                   v-bind:subtitlemonospaced="!!$route.params.author"
-                   v-bind:blockies="$route.params.author">
+                   v-bind:subtitlemonospaced="!!$route.params.author">
         </vue-bread>
         <div v-if="postList" class="container mt20">
 
             <div class="explorer-table-container font-14">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th style="padding-left: 24px;">Author</th>
-                        <th >Title</th>
-                        <th>Id</th>
-                        <th class=text-right style="padding-right: 24px; width: 120px">Date Created</th>
+                <table class="mt20 explorer-table">
+                    <tr class=" header font-bold font-color-000000">
+                        <th class=" headCol">Id</th>
+                        <th class=" headCol">Title</th>
+                        <th class="headCol">Content</th>
+                        <th class="headCol">Tag</th>
+                        <th class="headCol">Vote Count</th>
                     </tr>
 
                     <tr v-for="(post, i) in postList" :key="i">
-                        <td style="padding-left: 24px;" class="hash">
-                            <vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>
-                            <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
-                                <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
-                            </router-link>
-                        </td>
-                        <span class="hash-normal monospace">{{ post.getTitle() }}</span>
-                        <td class="font-color-000000">{{ post.getPostId()}} </td>
-                        <td v-if="post.getCreated()" class="text-right font-color-555555" style="padding-right: 24px;">{{ post.getCreated()?new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }): "" }}</td>
-
+                        <td  class="font-color-000000 tagAndContent"> {{post.getPostId()}} </td>
+                        <td class="font-color-000000 tagAndContent">{{ post.getTitle() }}</td>
+                        <td class="font-color-000000 tagAndContent ">{{ post.getBody()}} </td>
+                        <td class="font-color-000000 tagAndContent">{{fetchArticleTag(post.getTagsList())}}</td>
+                        <td  class="ont-color-000000 tagAndContent">{{post.getVoteCnt()}}</td>
                     </tr>
                 </table>
             </div>
@@ -78,6 +104,8 @@
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
     import {cos_sdk} from "../../src/assets/api"
+
+    const userArticlesCache = utility.getPageCacheKey(utility.pageCacheType.usrArticleList);
 
     module.exports = {
         components: {
@@ -94,7 +122,6 @@
                 totalPage: 1,
                 totalCts: 0,
                 postList: null,
-                postPageType:0,
                 postPageInfo:[],
                 postListStart: null,
                 postListEnd: null,
@@ -105,20 +132,30 @@
         },
         methods: {
             nav(n) {
-                var query = JSON.parse(window.JSON.stringify(this.$route.query));
-
-                query.p = n;
-                this.$router.push({ path: this.$route.path, query });
+                if (n < this.totalPage) {
+                    if (n < this.currentPage) {
+                        this.$router.back();
+                    }else {
+                        this.$router.forward();
+                    }
+                } else {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = n;
+                    this.$router.push({ path: this.$route.path, query });
+                }
             },
             nthPage() {
                 this.$root.showModalLoading = true;
+                let p = this.$route.query.p || 1;
                 let start = this.postListStart;
                 let end = this.postListEnd;
                 let isNextPage = true;
                 let lastPost = this.lastPost;
-                if (this.postPageType === 1) {
-                    if (this.currentPage === 2 ) {
+                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+                if (p < this.currentPage) {
+                    if (this.currentPage == 2 ) {
                         start = this.firstPageStart;
+                        end = this.firstPageEnd;
                         lastPost= null;
                     }else {
                         let infoLen = this.postPageInfo.length;
@@ -129,9 +166,13 @@
                             end = info.end;
                         }
                     }
+                    pReqType = 0;
                     isNextPage = false;
+                }else if (this.currentPage == p) {
+                    //refresh current page
+                    pReqType = 3;
                 }
-                api.fetchArticleListByName(start,end,lastPost,postList => {
+                api.fetchArticleListByName(start,this.firstPageEnd,lastPost,postList => {
                     if (postList.length) {
                         this.postList = postList;
                         this.lastPost = postList[postList.length-1];
@@ -139,7 +180,7 @@
                         listStart.setCreate(this.lastPost.getCreated());
                         listStart.setAuthor(this.lastPost.getAuthor());
                         this.postListStart = listStart;
-                        if (this.currentPage === 0 && isNextPage) {
+                        if (this.currentPage == 0 && isNextPage) {
                             this.postListEnd = this.firstPageEnd;
                         }else {
                             let listEnd = new cos_sdk.multi_id.user_post_create_order();
@@ -147,8 +188,8 @@
                             listEnd.setAuthor(postList[0].getAuthor());
                             this.postListEnd = listEnd;
                         }
-                        if (isNextPage) {
-                            if (this.currentPage + 1 === this.totalPage) {
+                        if (pReqType == 1) {
+                            if (this.currentPage + 1 == this.totalPage) {
                                 this.totalPage += 1;
                                 let curPageLen = this.postPageInfo.length;
                                 let info = {start:this.postListStart,post:this.lastPost};
@@ -160,11 +201,14 @@
                                 this.postPageInfo.push(info);
                             }
                             this.currentPage += 1;
-                        }else {
+                        }else if (pReqType == 0) {
                             this.currentPage -= 1;
+                        }else if (pReqType == 3) {
+                            this.currentPage = parseInt(p);
                         }
                     }
                     this.$root.showModalLoading = false;
+                    this.savePageInfo();
                 },(errCode,msg) => {
                     console.log("Get user's Post list fail,error code is %s,msg is %s",errCode,msg);
                     this.$root.showModalLoading = false;
@@ -175,21 +219,15 @@
                 return utility.numberAddComma(n);
             },
             onFirst() {
-                this.postPageType = 1;
-                // this.nav(1);
                 this.nav(this.currentPage - 1);
             },
             onLast() {
-                this.postPageType = 0;
-                // this.nav(this.totalPage);
                 this.nav(this.currentPage + 1);
             },
             onNext() {
-                this.postPageType = 0;
                 this.nav(this.currentPage + 1);
             },
             onPrev() {
-                this.postPageType = 1;
                 this.nav(this.currentPage - 1);
             },
             // onTo(n) {
@@ -209,31 +247,144 @@
                 var amount = BigNumber(n);
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount();
-            }
+            },
+            fetchArticleTag(tagsArray) {
+                let tag = "";
+                if (tagsArray.length > 0) {
+                    tag = tagsArray.join(",");
+                }
+
+                return tag;
+            },
+            savePageInfo() {
+                let cacheData = {};
+                cacheData.currentPage = this.currentPage;
+                cacheData.totalPage = this.totalPage;
+                let listLen = this.postPageInfo.length;
+                if ( listLen > 0) {
+                    let pageList = [];
+                    this.postPageInfo.forEach(function (info) {
+                        let start = {};
+                        start.create = info.start?info.start.getCreate().getUtcSeconds():null;
+                        start.author = info.start?info.start.getAuthor().getValue():null;
+
+                        let end = {};
+                        end.create = info.end?info.end.getCreate().getUtcSeconds():null;
+                        end.author = info.end?info.end.getAuthor().getValue():null;
+
+                        let obj = {};
+                        obj.start = start;
+                        obj.end = end;
+                        obj.post = info.post?info.post.toObject():null;
+                        pageList.push(obj);
+                    });
+                    cacheData.pageInfo = pageList;
+                }else {
+                    cacheData.pageInfo = null;
+                    cacheData.lastInfo = null;
+                }
+                sessionStorage.setItem(userArticlesCache,JSON.stringify(cacheData));
+            },
+            getPageInfo() {
+                let info = sessionStorage.getItem(userArticlesCache);
+                if (info != null) {
+                    return JSON.parse(info);
+                }
+                return null;
+            },
+            clearCachePageInfo() {
+                if (sessionStorage.getItem(userArticlesCache) != null) {
+                    sessionStorage.removeItem(userArticlesCache);
+                }
+            },
+            loadData() {
+                let name = this.$route.params.author;
+                let accountName = new cos_sdk.raw_type.account_name();
+                accountName.setValue(name);
+                let startTime = new cos_sdk.raw_type.time_point_sec();
+                let endTime = new cos_sdk.raw_type.time_point_sec();
+                startTime.setUtcSeconds(Math.ceil(Date.now()/1000)+86400);
+                endTime.setUtcSeconds(1);
+                let start = new cos_sdk.multi_id.user_post_create_order();
+                start.setAuthor(accountName);
+                start.setCreate(startTime);
+                let end = new cos_sdk.multi_id.user_post_create_order();
+                end.setAuthor(accountName);
+                end.setCreate(endTime);
+                this.postListStart = start;
+                this.postListEnd = end;
+                this.firstPageStart = start;
+                this.firstPageEnd = end;
+            },
+            getCacheData() {
+                let cacheData = this.getPageInfo();
+                if (cacheData) {
+                    this.currentPage = parseInt(cacheData.currentPage);
+                    this.totalPage = parseInt(cacheData.totalPage);
+                    if (cacheData.pageInfo) {
+                        let list = [];
+                        for (let data of cacheData.pageInfo) {
+                            let info = {};
+                            info.start = this.getUserPostObjFromCache(data.start);
+                            info.end = this.getUserPostObjFromCache(data.end);
+                            if (data.post) {
+                                let lastInfo = new api.cos_sdk.grpc.PostResponse();
+                                let time = new api.cos_sdk.raw_type.time_point_sec();
+                                time.setUtcSeconds(data.post.created.utcSeconds);
+                                lastInfo.setCreated(time);
+                                lastInfo.setPostId(data.post.postId);
+                                info.post = lastInfo;
+                            }
+                            list.push(info);
+                        }
+                        this.postPageInfo = list;
+                    }
+                    this.loadData();
+                    if (this.currentPage == 1) {
+                        this.lastPost = null;
+                        // this.loadData();
+                    }else if (this.currentPage >= 2 && this.postPageInfo.length >= this.currentPage){
+                        let lastInfo = this.postPageInfo[this.currentPage-2];
+                        this.postListStart = lastInfo.start;
+                        this.postListEnd = lastInfo.end;
+                        this.lastPost = lastInfo.post;
+                    }
+                }else {
+                    this.loadData()
+                }
+            },
+            getUserPostObjFromCache(data) {
+                if  (data) {
+                    let obj = new api.cos_sdk.multi_id.user_post_create_order();
+                    if (data.create) {
+                        let createTime = new api.cos_sdk.raw_type.time_point_sec();
+                        createTime.setUtcSeconds(data.create);
+                        obj.setCreate(createTime);
+                    }
+                    if (data.author) {
+                        let accountName = new api.cos_sdk.raw_type.account_name();
+                        accountName.setValue(data.author);
+                        obj.setAuthor(accountName);
+                    }
+                    return obj
+                }
+                return null;
+            },
         },
+
         mounted() {
-            let name = this.$route.params.author;
-            let accountName = new cos_sdk.raw_type.account_name();
-            accountName.setValue(name);
-            let startTime = new cos_sdk.raw_type.time_point_sec();
-            let endTime = new cos_sdk.raw_type.time_point_sec();
-            startTime.setUtcSeconds(Math.ceil(Date.now()/1000)+86400);
-            endTime.setUtcSeconds(1);
-            let start = new cos_sdk.multi_id.user_post_create_order();
-            start.setAuthor(accountName);
-            start.setCreate(startTime);
-            let end = new cos_sdk.multi_id.user_post_create_order();
-            end.setAuthor(accountName);
-            end.setCreate(endTime);
-            this.postListStart = start;
-            this.postListEnd = end;
-            this.firstPageStart = start;
-            this.firstPageEnd = end;
+            // this.loadData();
+            this.getCacheData();
             this.nthPage();
         },
         watch: {
             $route() {
                 this.nthPage();
+            }
+        },
+        destroyed() {
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
             }
         }
     };

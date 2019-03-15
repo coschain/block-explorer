@@ -215,8 +215,11 @@
     }
 
     @media (max-width: 575.98px) {
-        .vue-dashboard .nas-price .market .row div div {
+        .vue-dashboard .nas-price .market .row  div div {
             font-size: 22px;
+        }
+        .vue-dashboard .daily-transactions .details *:nth-child(2) {
+            font-size: 12px;
         }
     }
 
@@ -645,14 +648,14 @@
                             <span>{{ stateInfo.tps }}</span>
                         </div>
                         <div v-if="lastIrreversibleBlockTime" class="irreversible">
-                            LastIrreversibleBlockTime
+                            Confirm delay Time
                             <div v-if="lastIrreversibleBlockTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }} ago</div>
                         </div>
 
                         <div v-if="stateInfo" class="market container">
                             <div class="row">
                                 <div class="col-6">
-                                    Peak
+                                    Max TPS
                                     <div v-if="stateInfo">{{ stateInfo.maxTps }}</div>
                                 </div>
                             </div>
@@ -698,23 +701,23 @@
                         <div class="item-title">Blocks</div>
                         <router-link :to='fragApi + "/blocks/"' class="showall">View All ></router-link>
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
-                            <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.id().blockNum()">
+                            <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.getBlockHeight()">
                                 <td>
                                     <img src="/static/img/icon-block.png?v=20190116" width="50" height="50">
                                 </td>
                                 <td>
                                     Block#
-                                    <router-link :to='fragApi + "/block/" + block.id().blockNum()' class="monospace">{{block.id().blockNum()}}</router-link>
+                                    <router-link :to='fragApi + "/block/" + convertBlkNum(block.getBlockHeight())' class="monospace">{{block.getBlockHeight()}}</router-link>
                                     <br>
                                     <span class="txcnt monospace">
-                                        <router-link v-if="block.toObject().transactionsList.length" :to='fragApi + "/txs?block="
-                                        + block.height'>{{ block.toObject().transactionsList.length }}
-                                            {{ block.toObject().transactionsList.length > 1 ? "transactions" : "transaction" }}</router-link>
+                                        <router-link v-if="block.getTrxCount()" :to='fragApi + "/block-trxs/"
+                                        + convertBlkNum(block.getBlockHeight())'>{{ block.getTrxCount() }}
+                                            {{ block.getTrxCount() > 1 ? "transactions" : "transaction" }}</router-link>
                                         <span v-else>0 transaction</span>
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="time">{{ timeConversion(Date.now() - block.toObject().signedHeader.header.timestamp.utcSeconds*1000) }} ago</div>
+                                    <div class="time">{{ timeConversion(Date.now() - block.toObject().timestamp.utcSeconds*1000) }} ago</div>
                                 </td>
                             </tr>
                         </transition-group>
@@ -1011,35 +1014,30 @@
             // }
         },
         mounted() {
-           //fetch state info
-            api.fetchStateInfo(info => {
-                if (info != null && typeof info.state.dgpo != "undefined" ) {
-                    this.stateInfo = info.state.dgpo;
-                    this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
-                }else {
-                    console.log("return empty props");
-                }
-            },(errCode,msg) => {
-                console.log("Get state info fail,error code is %s,msg is %s",errCode,msg);
+            utility.clearPagesInfoCache();
+            //clear data when change rpc address
+            this.$root.eBus.$on("changeRpcAddress",address => {
+                this.dailyTxData = [];
+                this.blocks = [];
+                this.stateInfo = null;
+                this.txs = [];
+                this.curTps = 0;
+                this.maxTps = 0;
+                this.blkTotalNum = 0;
+                this.trxTotalNum = 0;
+                this.articleTotalNum = 0;
+                this.accountTotalNum = 0;
+                this.trxStartTime = null;
+                this.blkStartNum = 0;
+                this.blkEndNum = 0;
+                this.lastIrreversibleBlockTime = null;
             });
+
+           //fetch state info
+            this.fetchChainStateInfo();
 
             //fetch latest block list
-            api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
-                let cnt = blkList.length;
-                if (cnt > 0) {
-                    if (cnt > 5) {
-                        this.blocks = blkList.reverse().slice(0,5);
-                    }else {
-                        this.blocks = blkList.reverse();
-                    }
-                    this.blkStartNum += this.blocks[0].id().blockNum();
-                    this.blkEndNum = this.blkStartNum + 30;
-
-                }
-            },(errCode,msg) => {
-                console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-            });
-
+            this.fetchBlocksList();
             //fetch recent 7 day total trx count
             let start = Math.ceil(Date.now()/1000)-7*86400;
             let end = Math.ceil(Date.now()/1000)+86400;
@@ -1057,60 +1055,15 @@
             });
 
             //fetch latest trx list
-            api.fetchTrxListByTime(null,this.trxStartTime,null,trxList => {
-                let trxLen = trxList.length;
-                if (trxLen > 0) {
-                    if (trxLen > 5) {
-                        this.txs = trxList.slice(0,5);
-                    }else {
-                        this.txs = trxList;
-                    }
-                }
-            },(errCode,msg) => {
-                console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-            });
+            this.fetchTotalTrxList();
+
             this.shortIntervalID = setInterval(() => {
-                api.fetchTrxListByTime(null,this.trxStartTime,null,trxList => {
-                    let trxLen = trxList.length;
-                    if (trxLen > 0) {
-                        if (trxLen > 5) {
-                            this.txs = trxList.slice(0,5);
-                        }else {
-                            this.txs = trxList;
-                        }
-                    }
-                },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                });
-
+                //fetch latest trx list
+                this.fetchTotalTrxList();
                 //fetch latest tps
-                api.fetchStateInfo(info => {
-                    if (info != null && typeof(info.state.dgpo) != "undefined" ) {
-                        this.stateInfo = info.state.dgpo;
-                        this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
-                    }else {
-                        console.log("return empty props");
-                    }
-                },(errCode,msg) => {
-                    console.log("Get state info fail");
-                    console.log("error code is %s,msg is %s",errCode,msg);
-                });
-
-                api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
-                    let cnt = blkList.length;
-                    if (cnt > 0) {
-                        if (cnt > 5) {
-                            this.blocks = blkList.reverse().slice(0,5);
-                        }else {
-                            this.blocks = blkList.reverse();
-                        }
-                        this.blkStartNum = this.blocks[0].id().blockNum();
-                        this.blkEndNum = this.blkStartNum + 30;
-                    }
-                },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                });
-
+                this.fetchChainStateInfo();
+               //fetch latest blocks
+                this.fetchBlocksList();
                 //update today total trx count
                 let start = Math.ceil(Date.now()/1000);
                 let end = Math.ceil(Date.now()/1000)+86400;
@@ -1166,6 +1119,59 @@
                 }
                 return trxId;
             },
+            convertBlkNum(numStr) {
+                if (numStr.length > 0) {
+                    let num = BigNumber(numStr);
+                    return num.toNumber();
+                }
+                return 0;
+            },
+            fetchChainStateInfo() {
+                api.fetchStateInfo(info => {
+                    if (info != null && typeof info.state.dgpo != "undefined" ) {
+                        this.stateInfo = info.state.dgpo;
+                        this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
+                    }else {
+                        console.log("return empty props");
+                    }
+                },(errCode,msg) => {
+                    console.log("Get state info fail,error code is %s,msg is %s",errCode,msg);
+                });
+            },
+            fetchTotalTrxList() {
+                api.fetchTrxListByTime(null,this.trxStartTime,null,trxList => {
+                    let trxLen = trxList.length;
+                    if (trxLen > 0) {
+                        if (trxLen > 5) {
+                            this.txs = trxList.slice(0,5);
+                        }else {
+                            this.txs = trxList;
+                        }
+                    }
+                },(errCode,msg) => {
+                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+                });
+            },
+            fetchBlocksList(isFirst) {
+                api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
+                    let cnt = blkList.length;
+                    if (cnt > 0) {
+                        if (cnt > 5) {
+                            this.blocks = blkList.reverse().slice(0,5);
+                        }else {
+                            this.blocks = blkList.reverse();
+                        }
+                        if (isFirst) {
+                            this.blkStartNum = this.convertBlkNum(this.blocks[0].getBlockHeight());
+                        }else {
+                            this.blkStartNum += this.convertBlkNum(this.blocks[0].getBlockHeight());
+                        }
+                        this.blkEndNum = this.blkStartNum  + 30;
+                    }
+                },(errCode,msg) => {
+                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+                });
+            }
         },
         updated() {
             if (window.isIE()) {

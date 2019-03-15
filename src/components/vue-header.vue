@@ -102,6 +102,7 @@
 </style>
 <template>
     <nav class="bg-black navbar navbar-expand-lg navbar-dark vue-header">
+        <vue-modify-rpc v-show="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress" :currentAddress=currentHost></vue-modify-rpc>
         <div class=container>
             <div>
                 <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
@@ -136,6 +137,8 @@
                             <router-link class=dropdown-item v-bind:to="fragApi + '/blocks'">Blocks</router-link>
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/accounts'">Accounts</router-link>
+                            <div class="dropdown-divider"></div>
+                            <a href= "http://testwallet.contentos.io/" target="_blank" class="dropdown-item">Create Account</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -155,23 +158,29 @@
         utility = require("@/assets/utility");
     import {searchUtil} from "../assets/utility";
     module.exports = {
+        components: {
+            "vue-modify-rpc": require("@/components/vue-modify-rpc").default
+        },
         data() {
             return {
                 apiPrefixes: null,
                 fragApi: "",
                 paramsApi: "",
                 search: "",
-                MenuMisc:"MAINNET"
+                MenuMisc:"Change RPC",
+                isShowRpcAlert: false,
+                currentHost:this.getCurrentHostAddress(),
             };
         },
         methods: {
             apiSwitch() {
-                if (this.$route.params.api === 'testnet') {
-                    this.$router.replace("/");
-                } else {
-                    this.$router.replace("/testnet");
-                }
-                location.reload();
+                // if (this.$route.params.api === 'testnet') {
+                //     this.$router.replace("/");
+                // } else {
+                //     this.$router.replace("/testnet");
+                // }
+                this.isShowRpcAlert = true;
+                // location.reload();
             },
             onSubmit() {
                 let content = this.search.trim();
@@ -196,6 +205,35 @@
                 var api = this.$route.params.api ? this.$route.params.api : "mainnet";
                 return appConfig.apiPrefixes[api].atp;
             },
+            closeRpcSwitchAlert() {
+                this.isShowRpcAlert = false;
+            },
+            modifyRpcAddress(address) {
+                this.isShowRpcAlert = false;
+                if (address) {
+                    let isNetAddress = false;
+                    if (address.length >= 4) {
+                        let prefix = address.substring(0,4);
+                        if (prefix === "http") {
+                            isNetAddress = true;
+                        }
+
+                    }
+                    if (isNetAddress) {
+                        let curAddress = utility.getHost();
+                        if (curAddress === address) {
+                            return
+                        }
+                        this.$root.eBus.$emit("changeRpcAddress",address);
+                        this.$router.replace("/testnet");
+                        utility.setHost(address);
+                        location.reload();
+                    }
+                }
+            },
+            getCurrentHostAddress() {
+                return utility.getHost();
+            }
         },
         mounted() {
             var paramsApi = this.$route.params.api, apiPrefixes = {}, i, first = true;
@@ -210,7 +248,7 @@
             if (!(paramsApi in apiPrefixes))
                 paramsApi = "";
 
-            paramsApi == 'testnet' ? this.MenuMisc = 'TESTNET' : this.MenuMisc = 'MAINNET';
+            // paramsApi == 'testnet' ? this.MenuMisc = 'TESTNET' : this.MenuMisc = 'MAINNET';
             this.apiPrefixes = apiPrefixes;
             this.fragApi = paramsApi ? "/" + paramsApi : "";
             this.paramsApi = paramsApi;

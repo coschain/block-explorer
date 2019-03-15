@@ -202,6 +202,7 @@ label {
     /* padding-bottom: 10px; */
     background-color: transparent;
     overflow-x: scroll;
+    table-layout: fixed;
 }
 
 .table-title {

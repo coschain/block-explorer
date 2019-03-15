@@ -7,6 +7,48 @@
         margin-right: 8px;
     }
 
+    .vue-accounts .accountListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-accounts .headRank {
+        width: 20%;
+    }
+
+    .vue-accounts .headAccountAndCoin {
+        width: 40%;
+    }
+
+    .vue-accounts .accountListCol {
+        display:inline-block;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
+    .vue-accounts .rankContentCol {
+        width: 20%;
+    }
+
+    .vue-accounts .accountNameContentCol {
+        width: 40%;
+    }
+
+    .vue-accounts .coinContentCol {
+        width: 40%;
+    }
+
     @media (min-width: 576px) {
         .vue-accounts .tdxxxwddd>* {
             max-width: initial;
@@ -25,30 +67,30 @@
     <div class="vue-accounts fullfill">
         <vue-bread title="Top Accounts By COS Balance"></vue-bread>
         <div v-if="accountList && accountList.length" class="mt20 container">
-            <div class="d-block d-md-flex flex-row align-items-center mt20">
+            <!--<div class="d-block d-md-flex flex-row align-items-center mt20">-->
                 <!--<div class="col-auto pl-0 pr-2 info font-color-000000 font-24 font-bold title">-->
                     <!--{{ numberAddComma(totalAccounts) }} accounts found-->
                 <!--</div>-->
                 <!--<span v-if="totalAccounts > 10000" class="col-auto pl-0 font-color-555555 font-16 align-text-bottom subtitle">(showing the last 10,000 top accounts)</span>-->
-            </div>
+            <!--</div>-->
             <div class="explorer-table-container">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th style="padding-left: 24px;">Rank</th>
-                        <th>Account</th>
-                        <th class=text-right>Balance</th>
+                <table class="mt20 explorer-table">
+                    <tr class="accountListHeader font-bold font-color-000000">
+                        <th class="headRank">Rank</th>
+                        <th class="headAccountAndCoin">Account</th>
+                        <th class="headAccountAndCoin">Balance</th>
                         <!--<th class=text-right>Percentage</th>-->
                     </tr>
                     <tr v-for="(account, i) in accountList" :key="i" class="font-14">
-                        <td style="padding-left: 24px;" class="font-color-000000">{{(currentPage-1)*accountList.length+i+1}}</td>
-                        <td class="tdxxxwddd">
-                            <vue-blockies v-bind:address='account.getAccountName().getValue()'></vue-blockies>
+                        <td class="accountListCol rankContentCol">{{(currentPage-1)*accountList.length+i+1}}</td>
+                        <td class="accountListCol accountNameContentCol">
+                            <!--<vue-blockies v-bind:address='account.getAccountName().getValue()'></vue-blockies>-->
                             <router-link v-bind:to='fragApi + "/account/" + account.getAccountName().getValue()'>
                                 <span class="monospace">{{account.getAccountName().getValue()}}</span>
                             </router-link>
                             <!--<span v-show=o.alias> | {{ o.alias }}</span>-->
                         </td>
-                        <td class="text-right font-color-555555">{{ account.getCoin().toString() }}</td>
+                        <td class="accountListCol coinContentCol">{{ account.getCoin().toString() }}</td>
                         <!--<td class="text-right font-color-555555">{{ new Number(o.percentage).toFixed(4) }}%</td>-->
                     </tr>
                 </table>
@@ -61,6 +103,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
+    const accountsCacheKey = utility.getPageCacheKey(utility.pageCacheType.accountsList);
 
     module.exports = {
         components: {
@@ -210,19 +253,19 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem("accountsCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(accountsCacheKey,JSON.stringify(cacheData));
 
             },
             getPageInfo() {
-                let info = localStorage.getItem("accountsCache");
+                let info = sessionStorage.getItem(accountsCacheKey);
                 if (info != null) {
                    return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("accountsCache") != null) {
-                    localStorage.removeItem("accountsCache");
+                if (sessionStorage.getItem(accountsCacheKey) != null) {
+                    sessionStorage.removeItem(accountsCacheKey);
                 }
             }
 
@@ -263,8 +306,8 @@
                 if (this.currentPage == 1) {
                     this.coinStart = null;
                     this.lastAccount = null;
-                }else if (this.accountPageInfo.length > 1){
-                    let lastInfo = this.accountPageInfo [this.accountPageInfo.length-2];
+                }else if (this.currentPage >= 2 && this.accountPageInfo.length >= this.currentPage){
+                    let lastInfo = this.accountPageInfo [this.currentPage-2];
                     this.coinStart = lastInfo.start;
                     this.lastAccount = lastInfo.account;
                 }
@@ -278,7 +321,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>

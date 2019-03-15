@@ -7,7 +7,18 @@ moment.updateLocale("en", {
     }
 });
 
+const pageCacheType = {
+    blocksList : 1,//blocks list page
+    txsList : 2,//txs list page
+    articleList : 3,//article list page
+    accountsList : 4,//account list page
+    usrArticleList : 5,//user posted articles list page
+    blkTxsList : 6, //txs list in single block
+};
+
+const rpcCacheKey = "rpcAddress";
 module.exports = {
+    pageCacheType:pageCacheType,
     ajax: ajax,
     ajaxSplitAction: ajaxSplitAction,
     millisecondsToMinutesAndSeconds: millisecondsToMinutesAndSeconds,
@@ -28,13 +39,61 @@ module.exports = {
     searchType: judgeSearchType,
     byteToHexStr: convertByteToHexString,
     hexStrToByte: convertHexStringToByteArray,
+    getHost: getRpcHost,
+    setHost: modifyRpcHost,
+    clearPagesInfoCache: clearAllPageListDataCache,
+    getPageCacheKey: getPageInfoCacheKey,
 };
 
 ////////////////////////////////////////////////////////////
-//
-// 函数
 
-// ajax.all, 重试
+function getRpcHost() {
+    let cachedAddr = sessionStorage.getItem(rpcCacheKey);
+    if (cachedAddr) {
+        return cachedAddr;
+    }
+    return process.env.VUE_APP_CHAIN;
+}
+
+function modifyRpcHost(address) {
+    if (address && address.length > 0) {
+        sessionStorage.setItem(rpcCacheKey,address)
+    }
+}
+
+function clearAllPageListDataCache() {
+    for (let type in pageCacheType) {
+        clearCacheFromSession(getPageInfoCacheKey(pageCacheType[type]));
+    }
+}
+
+function clearCacheFromSession(keyStr) {
+    if (typeof keyStr == "string") {
+        if (sessionStorage.getItem(keyStr)) {
+            sessionStorage.removeItem(keyStr);
+        }
+    }
+}
+
+function getPageInfoCacheKey(pType) {
+    if (pType === pageCacheType.blocksList) {
+        return "blocksVueCache";
+    }else if (pType === pageCacheType.txsList) {
+        return "txsPageCache";
+    }else if (pType === pageCacheType.articleList) {
+        return "articlesPageCache";
+    }else if (pType === pageCacheType.accountsList) {
+        return "accountsPageCache";
+    }else if (pType === pageCacheType.usrArticleList) {
+        return "userArticlesPageCache";
+    }else if (pType === pageCacheType.blkTxsList) {
+        return "blockTxsPageCache";
+    }
+    return "cacheKey"
+}
+
+
+//
 function ajax(action, args, done, fail) {
     var a = ajaxSplitAction(action), i,
         method = a[0], url = a[1],
@@ -60,9 +119,9 @@ function ajax(action, args, done, fail) {
     if (args)
         xhr.setRequestHeader("content-type", "application/json; charset=utf-8");
     else
-        args = undefined; // 把 null 之类的统一成 undefined, JSON.stringify(undefined) 不产生字符串
+        args = undefined; // convert null  to undefined, JSON.stringify(undefined) not create string
 
-    // wtf - webpack 要求 window.JSON.stringify
+    // wtf - webpack require window.JSON.stringify
     xhr.send(window.JSON.stringify(args));
     return xhr;
 }
@@ -122,7 +181,6 @@ function q(elementOrSelector, selectorOrAll, all) {
 }
 
 // http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
-// 修改使结果不包含 max
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -285,7 +343,6 @@ function judgeSearchType(content) {
  * convert byte array to 16 Hex
  */
 function convertByteToHexString(arrBytes) {
-    console.log("origin bytes is:");
     console.log(arrBytes);
     let str = "";
     for (let i = 0; i < arrBytes.length; i++) {
@@ -301,14 +358,10 @@ function convertByteToHexString(arrBytes) {
         }
         str += tmp;
     }
-    console.log("the str after convert is:");
-    console.log(str);
     return str;
 }
 
 function convertHexStringToByteArray(str) {
-    console.log("origin str is:");
-    console.log(str);
     let pos = 0;
     let len = str.length;
     if (len % 2 !== 0) {
@@ -322,7 +375,5 @@ function convertHexStringToByteArray(str) {
         arrBytes.push(v);
         pos += 2;
     }
-    console.log("the byte after convert is:");
-    console.log(arrBytes);
     return arrBytes;
 }

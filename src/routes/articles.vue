@@ -28,11 +28,39 @@
         margin-right: 8px;
     }
 
+    .vue-articles .articlesListHeader {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: #e8e8e8;
+        font-size: 11px ;
+    }
+
+    .vue-articles .articlesListHeadCol {
+        width: 25%;
+    }
+
+    .vue-articles .articlesListContentCol {
+        display:inline-block;
+        width: 25%;
+        height: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 17px;
+    }
+
     @media (max-width: 767.98px) {
         .vue-articles .title {
             font-size: 20px;
         }
     }
+
 
 </style>
 <template>
@@ -46,26 +74,25 @@
                 <!--&lt;!&ndash;(showing the last {{ maxDisplayCnt }} records)&ndash;&gt;-->
             <!--</div>-->
 
-            <div class="explorer-table-container font-14">
-                <table class="mt20 explorer-table list-table">
-                    <tr class="list-header font-12 font-bold font-color-000000">
-                        <th style="padding-left: 24px;">Author</th>
-                        <!--<th v-if="$route.params.api === 'testnet'">Title</th>-->
-                        <th >Title</th>
-                        <th>Id</th>
-                        <th class=text-right style="padding-right: 24px; width: 120px">Date Created</th>
+            <div class="explorer-table-container">
+                <table class="mt20 explorer-table">
+                    <tr class="articlesListHeader font-bold font-color-000000">
+                        <th class="articlesListHeadCol">Author</th>
+                        <th class="articlesListHeadCol">Title</th>
+                        <th class="articlesListHeadCol">Id</th>
+                        <th class="articlesListHeadCol">Date Created</th>
                     </tr>
 
                     <tr v-for="(post, i) in postList" :key="i">
-                        <td style="padding-left: 24px;" class="hash">
-                            <vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>
+                        <td class="articlesListContentCol">
+                            <!--<vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>-->
                             <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>
                         </td>
-                         <span class="hash-normal monospace">{{ post.getTitle() }}</span>
-                        <td class="font-color-000000">{{ post.getPostId()}} </td>
-                        <td class="text-right font-color-555555" style="padding-right: 24px;">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
+                        <td class="articlesListContentCol">{{post.getTitle()}}</td>
+                        <td class="articlesListContentCol">{{ post.getPostId()}} </td>
+                        <td class="articlesListContentCol">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
                     </tr>
                 </table>
             </div>
@@ -79,7 +106,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-
+    const articlesPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.articleList);
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -116,7 +143,6 @@
                 }
             },
             nthPage() {
-
                 let p = this.$route.query.p || 1;
                 this.$root.showModalLoading = true;
                 let start = this.postListStart;
@@ -127,7 +153,7 @@
 
                 if (p < this.currentPage) {
                     //fetch next pre page
-                    if (this.currentPage === 2 ) {
+                    if (this.currentPage == 2 ) {
                         start = null;
                         lastPost= null;
                     }else {
@@ -139,7 +165,7 @@
                     }
                     pReqType = 0;
                     isNextPage = false;
-                }else if (this.currentPage === p) {
+                }else if (this.currentPage == p) {
                     //refresh current page
                     pReqType = 3;
                 }
@@ -154,8 +180,8 @@
                         }else {
                             this.postListEnd = postList[0].getCreated();
                         }
-                        if (pReqType === 1) {
-                            if (this.currentPage + 1 === this.totalPage) {
+                        if (pReqType == 1) {
+                            if (this.currentPage + 1 == this.totalPage) {
                                 this.totalPage += 1;
                                 let curPageLen = this.postPageInfo.length;
                                 let info = {start:this.postListStart,post:this.lastPost};
@@ -167,9 +193,9 @@
                                 this.postPageInfo.push(info);
                             }
                             this.currentPage += 1;
-                        }else if (pReqType === 0) {
+                        }else if (pReqType == 0) {
                             this.currentPage -= 1;
-                        }else if (pReqType === 3) {
+                        }else if (pReqType == 3) {
                             this.currentPage = parseInt(p);
                         }
                     }
@@ -233,19 +259,19 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                localStorage.setItem("articlesCache",JSON.stringify(cacheData));
+                sessionStorage.setItem(articlesPageCacheKey,JSON.stringify(cacheData));
 
             },
             getPageInfo() {
-                let info = localStorage.getItem("articlesCache");
+                let info = sessionStorage.getItem(articlesPageCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (localStorage.getItem("articlesCache") != null) {
-                    localStorage.removeItem("articlesCache");
+                if (sessionStorage.getItem(articlesPageCacheKey) != null) {
+                    sessionStorage.removeItem(articlesPageCacheKey);
                 }
             }
         },
@@ -280,11 +306,11 @@
                     });
                     this.postPageInfo = list;
                 }
-                if (this.currentPage === 1) {
+                if (this.currentPage == 1) {
                     this.postListStart = null;
                     this.lastPost = null;
-                }else if (this.postPageInfo.length > 1){
-                    let lastInfo = this.postPageInfo [this.postPageInfo.length-2];
+                }else if (this.currentPage >= 2 && this.postPageInfo.length >= this.currentPage){
+                    let lastInfo = this.postPageInfo[this.currentPage-2];
                     this.postListStart = lastInfo.start;
                     this.lastPost = lastInfo.post;
                 }
@@ -297,7 +323,9 @@
             }
         },
         destroyed() {
-            this.clearCachePageInfo();
+            if (this.currentPage <= 1) {
+                this.clearCachePageInfo();
+            }
         }
     };
 </script>
