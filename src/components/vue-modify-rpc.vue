@@ -11,7 +11,7 @@
             <div class="vue-modify-rpc-body">
                 <slot name="body">
                     <!-- Input -->
-                    <input type = "text"  placeholder= 'Input RPC Address' class= "vue-modify-rpc-input" id="rpcAddress"/>
+                    <input type = "text"   v-bind:placeholder=currentAddress class= "vue-modify-rpc-input" id="rpcAddress"/>
                 </slot>
             </div>
 
@@ -28,18 +28,23 @@
 <script>
     export default {
         name: "vue-modify-rpc",
+        props:["currentAddress"],
         data() {
             return {
-               rpcAddress: ""
+               rpcAddress: "",
             }
         },
         methods: {
             close: function () {
+                let input = document.getElementById("rpcAddress");
+                input.value = "";
                 this.$emit('close');
             },
             changeRpcAddress: function () {
                 let input = document.getElementById("rpcAddress");
-                this.$emit("changeRpcAddress",input.value)
+                let value = input.value;
+                input.value = "";
+                this.$emit("changeRpcAddress",value)
             }
         }
     }
