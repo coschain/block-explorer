@@ -225,7 +225,7 @@
                             return
                         }
                         this.$root.eBus.$emit("changeRpcAddress",address);
-                        this.$router.replace("/testnet");
+                        this.$router.replace(utility.getTestNetName());
                         utility.setHost(address);
                         location.reload();
                     }

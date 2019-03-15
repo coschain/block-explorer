@@ -3,10 +3,12 @@
             v-bind:current
             v-bind:right
             v-bind:total
+            v-on: home
             v-on:first
             v-on:prev
             v-on:next
             v-on:last
+
         ></tag>
         */
 
@@ -78,20 +80,35 @@
         display: inline;
     }
 
+    .pagination .homePageBtn {
+        color: blue;
+        border-radius: 6px;
+        height: 30px;
+        margin-top: 2px;
+    }
+    .pagination .homePageBtn:active {
+        opacity: 0.6;
+        outline-style: none;
+    }
+
+    .pagination .homePageBtn:active:after {
+        opacity: 1.0;
+    }
+
 </style>
 <template>
     <nav class=vue-pagination aria-label="Page navigation">
         <ul class=pagination v-bind:class='{ "justify-content-center justify-content-md-end": right }'>
 
-            <li>
-                <a href=# aria-label=First v-on:click.prevent="$emit(current != 1 ? 'first' : '')">
-                    <div :class='{"page_nav-item": true, "enable-item": current != 1}'>
-                        <img class="origin" :src="current != 1 ? '../../static/img/ic_pagination_first.png' : '../../static/img/ic_pagination_first_disable.png'"/>
-                        <img class="highlight" src="../../static/img/ic_pagination_first_highlight.png">
-                    </div>
-                </a>
-            </li>
-
+            <!--<li>-->
+                <!--<a href=# aria-label=First v-on:click.prevent="$emit(current != 1 ? 'first' : '')">-->
+                    <!--<div :class='{"page_nav-item": true, "enable-item": current != 1}'>-->
+                        <!--<img class="origin" :src="current != 1 ? '../../static/img/ic_pagination_first.png' : '../../static/img/ic_pagination_first_disable.png'"/>-->
+                        <!--<img class="highlight" src="../../static/img/ic_pagination_first_highlight.png">-->
+                    <!--</div>-->
+                <!--</a>-->
+            <!--</li>-->
+           <button  v-on:click.prevent="$emit('homePage')" class="homePageBtn">Home</button>
             <li>
                 <a href=# aria-label=Previous v-on:click.prevent="$emit(current != 1 ? 'prev' : '')">
                     <div :class='{"page_nav-item": true, "enable-item": current != 1}'>
@@ -116,14 +133,14 @@
                 </a>
             </li>
 
-            <li>
-                <a href=# aria-label=Last v-on:click.prevent="$emit(current != total ? 'last' : '')">
-                    <div :class='{"page_nav-item": true, "enable-item": current != total}'>
-                        <img class="origin" :src="current != total ? '../../static/img/ic_pagination_last.png' : '../../static/img/ic_pagination_last_disable.png'"/>
-                        <img class="highlight" src="../../static/img/ic_pagination_last_highlight.png">
-                    </div>
-                </a>
-            </li>
+            <!--<li>-->
+                <!--<a href=# aria-label=Last v-on:click.prevent="$emit(current != total ? 'last' : '')">-->
+                    <!--<div :class='{"page_nav-item": true, "enable-item": current != total}'>-->
+                        <!--<img class="origin" :src="current != total ? '../../static/img/ic_pagination_last.png' : '../../static/img/ic_pagination_last_disable.png'"/>-->
+                        <!--<img class="highlight" src="../../static/img/ic_pagination_last_highlight.png">-->
+                    <!--</div>-->
+                <!--</a>-->
+            <!--</li>-->
         </ul>
     </nav>
 </template>

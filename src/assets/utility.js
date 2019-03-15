@@ -43,6 +43,7 @@ module.exports = {
     setHost: modifyRpcHost,
     clearPagesInfoCache: clearAllPageListDataCache,
     getPageCacheKey: getPageInfoCacheKey,
+    getTestNetName:getTestNetName,
 };
 
 ////////////////////////////////////////////////////////////
@@ -92,6 +93,9 @@ function getPageInfoCacheKey(pType) {
     return "cacheKey"
 }
 
+function getTestNetName() {
+    return "/testnet";
+}
 
 //
 function ajax(action, args, done, fail) {

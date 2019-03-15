@@ -88,7 +88,7 @@
                     </tr>
                 </table>
             </div>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext  v-on:prev=onPrev></vue-pagination>
+            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext  v-on:prev=onPrev v-on:homePage=onGoHome></vue-pagination>
         </div>
     </div>
 </template>
@@ -207,6 +207,9 @@
                     query.p = n;
                     this.$router.push({ path: this.$route.path, query });
                 }
+            },
+            onGoHome() {
+                this.$router.replace(utility.getTestNetName());
             },
             // onTo(n) {
             //     this.$router.push({

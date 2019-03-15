@@ -156,7 +156,7 @@
             </div>
 
             <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
-                v-on:prev=onPrev ></vue-pagination>
+                v-on:prev=onPrev v-on:homePage=onGoHomePage></vue-pagination>
         </div>
         <vue-nothing v-if="trxList && trxList.length === 0" title="0 transaction found"></vue-nothing>
     </div>
@@ -281,6 +281,9 @@
             },
             onPrev() {
                 this.nav(this.currentPage - 1);
+            },
+            onGoHomePage() {
+                this.$router.replace(utility.getTestNetName());
             },
             // onTo(n) {
             //     this.nav(n);
