@@ -1152,7 +1152,7 @@
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                 });
             },
-            fetchBlocksList(isFirst) {
+            fetchBlocksList() {
                 api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
                     let cnt = blkList.length;
                     if (cnt > 0) {
@@ -1161,11 +1161,7 @@
                         }else {
                             this.blocks = blkList.reverse();
                         }
-                        if (isFirst) {
-                            this.blkStartNum = this.convertBlkNum(this.blocks[0].getBlockHeight());
-                        }else {
-                            this.blkStartNum += this.convertBlkNum(this.blocks[0].getBlockHeight());
-                        }
+                        this.blkStartNum = this.convertBlkNum(this.blocks[0].getBlockHeight()) + 30;
                         this.blkEndNum = this.blkStartNum  + 30;
                     }
                 },(errCode,msg) => {

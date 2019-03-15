@@ -81,7 +81,6 @@
                         </td>
                         <td class="contentCol">
                             <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value'>
-                                <vue-blockies class="d-inline" v-bind:account='block.toObject().witness.value'></vue-blockies>
                                 <span class="font-14 monospace">{{ block.toObject().witness.value }}</span>
                             </router-link>
                         </td>
@@ -100,7 +99,6 @@
         components: {
             "vue-bread": require("@/components/vue-bread").default,
             "vue-pagination": require("@/components/vue-pagination").default,
-            "vue-blockies": require("@/components/vue-blockies").default
         },
         data() {
             return {
