@@ -790,8 +790,6 @@
                 articleTotalNum:0,//total article number
                 accountTotalNum:0,//total account number
                 trxStartTime:null,//the latest trx block time
-                blkStartNum: 0,
-                blkEndNum: 0,
                 lastIrreversibleBlockTime: null,
                 byteToHex: utility.byteToHexStr,
                 hexTobyte: utility.hexStrToByte,
@@ -1157,7 +1155,7 @@
                 });
             },
             fetchBlocksList() {
-                api.fetchBlockList(this.blkStartNum,this.blkEndNum, blkList => {
+                api.fetchBlockList(0,0, blkList => {
                     let cnt = blkList.length;
                     if (cnt > 0) {
                         if (cnt > 5) {
@@ -1165,8 +1163,12 @@
                         }else {
                             this.blocks = blkList.reverse();
                         }
-                        this.blkStartNum = this.convertBlkNum(this.blocks[0].getBlockHeight()) + 30;
-                        this.blkEndNum = this.blkStartNum  + 30;
+                        if (this.stateInfo) {
+                            let headBlkNum = this.convertBlkNum(this.blocks[0].getBlockHeight());
+                            if (headBlkNum > this.stateInfo.headBlockNumber) {
+                                this.stateInfo.headBlockNumber = headBlkNum;
+                            }
+                        }
                     }
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
