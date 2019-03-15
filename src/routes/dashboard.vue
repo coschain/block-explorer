@@ -552,6 +552,10 @@
             margin-top: 128px;
         }
 
+        .vue-dashboard .row4 table {
+            font-size: 12px;
+        }
+
         .vue-dashboard .row4 td:first-child {
             width: 60px;
         }
@@ -739,7 +743,7 @@
                                         <span class="monospace"> {{trimTrxId(tx.getTrxId().getHexHash())}} </span>
                                     </router-link>
                                     <br>
-                                    <span class="fromto d-none d-sm-inline">
+                                    <span class="fromto d-sm-inline">
                                         From
                                         <router-link :to='fragApi + "/account/" + tx.getTrxWrap().getSigTrx().getTrx().sender()'>
                                             <span class="monospace">{{  tx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
