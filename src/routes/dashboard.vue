@@ -711,7 +711,7 @@
                                 </td>
                                 <td>
                                     Block#
-                                    <router-link :to='fragApi + "/block/" + convertBlkNum(block.getBlockHeight())' class="monospace">{{block.getBlockHeight()}}</router-link>
+                                    <router-link :to='fragApi + "/block/" + convertBlkNum(block.getBlockHeight())' class="monospace">{{convertBlkNum(block.getBlockHeight())}}</router-link>
                                     <br>
                                     <span class="txcnt monospace">
                                         <router-link v-if="block.getTrxCount()" :to='fragApi + "/block-trxs/"
@@ -1123,8 +1123,7 @@
             },
             convertBlkNum(numStr) {
                 if (numStr.length > 0) {
-                    let num = BigNumber(numStr);
-                    return num.toNumber();
+                    return BigInt(numStr);
                 }
                 return 0;
             },
