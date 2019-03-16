@@ -170,21 +170,61 @@
         color: rgba(255, 255, 255, 0.7);
     }
 
+    .vue-dashboard .tpsParts {
+        display: flex;
+        flex-direction: column;
+        vertical-align: center;
+        justify-items: center;
+        justify-content: center;
+    }
+
+    .vue-dashboard .currentTps {
+        display: flex;
+        flex-direction: column;
+        margin-left: 30px;
+
+    }
+
+    .vue-dashboard .currentTps .tpsTitle {
+        font-size: 20px;
+    }
+
+    .vue-dashboard .currentTps .tpsValue {
+        font-size: 16px;
+    }
+
     .vue-dashboard .nas-price .detail {
         position: absolute;
-        margin-top: 96px;
+        margin-top: 50px;
         margin-left: 30px;
         vertical-align: bottom;
     }
     .vue-dashboard .irreversible {
         position: absolute;
-        margin-top: 150px;
+        margin-top: 130px;
         margin-left: 30px;
         vertical-align: bottom;
+        font-size: 20px;
     }
 
+    .vue-dashboard .irreversible .confirmTime {
+        font-size: 16px;
+    }
+
+    .vue-dashboard .maxTPS {
+        font-size: 20px;
+        position: absolute;
+        margin-top: 234px;
+        margin-left: 30px;
+    }
+
+    .vue-dashboard .maxTPS .maxTpsValue {
+        font-size: 16px;
+    }
+
+
     .vue-dashboard .nas-price .detail *:nth-child(1) {
-        font-size: 28px;
+        font-size: 16px;
     }
 
     .vue-dashboard .nas-price .detail *:nth-child(2) {
@@ -647,22 +687,18 @@
                 <div class="nas-price flex-item col-12 col-lg-6 row1-item">
                     <div class="item-bg">
                         <div class="item-title">TPS</div>
-                        <div v-if="stateInfo" class="update-time">Update Time : {{ timeConversion(Date.now() - stateInfo.time.utcSeconds*1000) }} ago</div>
+                        <!--<div v-if="stateInfo" class="update-time">Update Time : {{ timeConversion(Date.now() - stateInfo.time.utcSeconds*1000) }} ago</div>-->
                         <div v-if="stateInfo" class="detail">
                             <span>{{ stateInfo.tps }}</span>
                         </div>
                         <div v-if="lastIrreversibleBlockTime" class="irreversible">
-                            Confirm delay Time
-                            <div v-if="lastIrreversibleBlockTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }} ago</div>
+                            <div>Confirm delay Time</div>
+                            <div v-if="lastIrreversibleBlockTime" class="confirmTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }} ago</div>
                         </div>
 
-                        <div v-if="stateInfo" class="market container">
-                            <div class="row">
-                                <div class="col-6">
-                                    Max TPS
-                                    <div v-if="stateInfo">{{ stateInfo.maxTps }}</div>
-                                </div>
-                            </div>
+                        <div v-if="stateInfo" class="maxTPS">
+                            <div> Max TPS</div>
+                            <div v-if="stateInfo" class="maxTpsValue">{{ stateInfo.maxTps }}</div>
                         </div>
                     </div>
                 </div>
@@ -672,7 +708,7 @@
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ stateInfo.headBlockNumber }}</div>
-                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/blocks/"'>Block Height ></router-link>
+                        <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/blocks/" + getLatestIrreversibleBlkNum()'>Block Height ></router-link>
                         <img src=/static/img/dashboard-1.png width=44 alt="">
                     </div>
                 </div>
@@ -703,7 +739,7 @@
                 <div class="flex-item col-12 col-lg-6 row4-item">
                     <div class="item-bg item-shadow">
                         <div class="item-title">Blocks</div>
-                        <router-link :to='fragApi + "/blocks/"' class="showall">View All ></router-link>
+                        <router-link :to='fragApi + "/blocks/" + getLatestIrreversibleBlkNum() ' class="showall">View All ></router-link>
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
                             <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.getBlockHeight()">
                                 <td>
@@ -1127,6 +1163,13 @@
                 }
                 return 0;
             },
+            getLatestIrreversibleBlkNum() {
+                if (this.stateInfo&&this.stateInfo.lastIrreversibleBlockNumber) {
+                    return this.stateInfo.lastIrreversibleBlockNumber;
+                }
+                return -1;
+            },
+
             fetchChainStateInfo() {
                 api.fetchStateInfo(info => {
                     if (info != null && typeof info.state.dgpo != "undefined" ) {

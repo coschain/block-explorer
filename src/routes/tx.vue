@@ -83,7 +83,7 @@
                 Overview
             </div>
             <div class="explorer-table-container d-none d-md-block">
-                <table class="explorer-table">
+                <table class="explorer-table " style="table-layout: auto">
                     <tr>
                         <td class="td-left font-16 font-color-555555" style="padding-left: 24px;">TxHash:</td>
                         <td class="font-16 font-color-000000 monospace">{{ trx.getTrxId().getHexHash() }}</td>
