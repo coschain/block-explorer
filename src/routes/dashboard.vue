@@ -747,11 +747,11 @@
                                 </td>
                                 <td>
                                     Block#
-                                    <router-link :to='fragApi + "/block/" + convertBlkNum(block.getBlockHeight())' class="monospace">{{convertBlkNum(block.getBlockHeight())}}</router-link>
+                                    <router-link :to='fragApi + "/block/" + block.getBlockHeight()' class="monospace">{{block.getBlockHeight()}}</router-link>
                                     <br>
                                     <span class="txcnt monospace">
                                         <router-link v-if="block.getTrxCount()" :to='fragApi + "/block-trxs/"
-                                        + convertBlkNum(block.getBlockHeight())'>{{ block.getTrxCount() }}
+                                        + block.getBlockHeight()'>{{ block.getTrxCount() }}
                                             {{ block.getTrxCount() > 1 ? "transactions" : "transaction" }}</router-link>
                                         <span v-else>0 transaction</span>
                                     </span>
@@ -1157,18 +1157,12 @@
                 }
                 return trxId;
             },
-            convertBlkNum(numStr) {
-                // if (numStr.length > 0) {
-                //     return BigInt(numStr);
-                // }
-                // return 0;
-                return numStr;
-            },
+
             getLatestIrreversibleBlkNum() {
                 if (this.stateInfo&&this.stateInfo.lastIrreversibleBlockNumber) {
                     return this.stateInfo.lastIrreversibleBlockNumber;
                 }
-                return -1;
+                return "120000";
             },
 
             fetchChainStateInfo() {
@@ -1207,10 +1201,12 @@
                             this.blocks = blkList.reverse();
                         }
                         if (this.stateInfo) {
-                            let headBlkNum = this.convertBlkNum(this.blocks[0].getBlockHeight());
-                            // if (headBlkNum > this.stateInfo.headBlockNumber) {
-                            //     this.stateInfo.headBlockNumber = headBlkNum;
-                            // }
+                            let headBlkNum = this.blocks[0].getBlockHeight();
+                            let curBlkNum = BigNumber(this.stateInfo.headBlockNumber);
+                            let result = BigNumber(headBlkNum).comparedTo(curBlkNum);
+                            if (result == 1) {
+                                this.stateInfo.headBlockNumber = headBlkNum;
+                            }
                         }
                     }
                 },(errCode,msg) => {

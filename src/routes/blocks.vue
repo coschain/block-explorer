@@ -157,7 +157,8 @@
 </template>
 <script>
     let api = require("@/assets/api"),
-        utility = require("@/assets/utility");
+        utility = require("@/assets/utility"),
+        BigNumber = require("bignumber.js");
     const blksPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.blocksList);
     let irreversibleBlkNum = 0;
     module.exports = {
@@ -320,7 +321,7 @@
                 }
             },
             judgeIsIrreverBlk(blkNum) {
-                if ((this.irreversibleBlkNum) == -1 ||  blkNum <= this.irreversibleBlkNum) {
+                if ( (this.irreversibleBlkNum) == -1 || (BigNumber(blkNum).comparedTo(BigNumber(this.irreversibleBlkNum)) <= 0) ) {
                     return true
                 }else {
                     return false;
