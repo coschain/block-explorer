@@ -997,16 +997,16 @@
             // last day
             let start = now / 1000 - 86400;
             let end = now / 1000;
-            let trxs = await this.fetchSpanTrxs(start, end);
-            this.incrementTrxs(trxs);
+            // let trxs = await this.fetchSpanTrxs(start, end);
+            // this.incrementTrxs(trxs);
             this.lastSync = end;
 
             this.shortIntervalID = setInterval( async () => {
                 //fetch latest trx list
                 let endTime = Date.now() / 1000;
                 // this.fetchTotalTrxList();
-                let trxList = await this.fetchSpanTrxs(this.lastSync, endTime);
-                this.incrementTrxs(trxList);
+                // let trxList = await this.fetchSpanTrxs(this.lastSync, endTime);
+                // this.incrementTrxs(trxList);
                 this.lastSync = endTime;
                 //fetch latest tps
                 // this.fetchChainStateInfo();
