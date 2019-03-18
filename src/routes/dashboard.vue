@@ -827,6 +827,7 @@
                 accountTotalNum:0,//total account number
                 trxStartTime:null,//the latest trx block time
                 lastIrreversibleBlockTime: null,
+                lastIrreversibleBlockNum: null,
                 byteToHex: utility.byteToHexStr,
                 hexTobyte: utility.hexStrToByte,
             }
@@ -1159,8 +1160,8 @@
             },
 
             getLatestIrreversibleBlkNum() {
-                if (this.stateInfo&&this.stateInfo.lastIrreversibleBlockNumber) {
-                    return this.stateInfo.lastIrreversibleBlockNumber;
+                if (this.lastIrreversibleBlockNum) {
+                    return this.lastIrreversibleBlockNum;
                 }
                 return -1;
             },
@@ -1170,6 +1171,7 @@
                     if (info != null && typeof info.state.dgpo != "undefined" ) {
                         this.stateInfo = info.state.dgpo;
                         this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
+                        this.lastIrreversibleBlockNum = info.state.lastIrreversibleBlockNumber;
                     }else {
                         console.log("return empty props");
                     }
