@@ -184,7 +184,7 @@
             };
         },
         methods: {
-            nthPage() {
+            async nthPage() {
                 let p = this.$route.query.p || 1;
 
                 this.$root.showModalLoading = true;
@@ -196,7 +196,7 @@
                     let infoLen = this.blkPageInfo.length;
 
                     //fetch the pre page
-                    if (this.currentPage == 2) {
+                    if (this.currentPage === 2) {
                         start = 0;
                         end = 0;
                     }else {
@@ -208,7 +208,7 @@
                     }
                     pReqType = 0;
                     isNext = false;
-                }else  if (p == this.currentPage) {
+                }else  if (p === this.currentPage) {
                     pReqType = 3;
                     start = this.blkStart;
                     end = this.blkEnd;
@@ -216,33 +216,28 @@
                     start = end - this.maxPageSizeLimit;
                 }
 
-                api.fetchBlockList(start,end, blkList => {
-                    let cnt = blkList.length;
-                    if (cnt > 0) {
-                        this.blocks = blkList.reverse();
-                        let listLen = blkList.length;
-                        this.blkStart = this.blocks[listLen-1].getBlockHeight();
-                        this.blkEnd = this.blocks[0].getBlockHeight();
-                        if (pReqType == 1) {
-                            if (this.currentPage+1 == this.totalPage) {
-                                this.totalPage += 1;
-                                let info = {start:this.blkStart,end:this.blkEnd};
-                                this.blkPageInfo.push(info);
-                            }
-                            this.currentPage += 1;
-                        }else if (pReqType == 0){
-                            this.currentPage -= 1;
-                        }else if (pReqType == 3) {
-                            this.currentPage = parseInt(p);
+                let blkList = await api.fetchBlockList(start,end, 30);
+                let cnt = blkList.length;
+                if (cnt > 0) {
+                    this.blocks = blkList.reverse();
+                    let listLen = blkList.length;
+                    this.blkStart = this.blocks[listLen-1].getBlockHeight();
+                    this.blkEnd = this.blocks[0].getBlockHeight();
+                    if (pReqType === 1) {
+                        if (this.currentPage+1 === this.totalPage) {
+                            this.totalPage += 1;
+                            let info = {start:this.blkStart,end:this.blkEnd};
+                            this.blkPageInfo.push(info);
                         }
+                        this.currentPage += 1;
+                    }else if (pReqType === 0){
+                        this.currentPage -= 1;
+                    }else if (pReqType === 3) {
+                        this.currentPage = parseInt(p);
                     }
-                    this.$root.showModalLoading = false;
-                    this.savePageInfo();
-                },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                    this.$root.showModalLoading = false;
-                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
+                }
+                this.$root.showModalLoading = false;
+                this.savePageInfo();
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
@@ -328,7 +323,7 @@
                 }
             }
         },
-        mounted() {
+        async mounted() {
             this.irreversibleBlkNum = this.$route.params.irreversibleBlkNum;
             let cacheData = this.getPageInfo();
             if (cacheData != null) {
@@ -344,7 +339,7 @@
                     });
                     this.blkPageInfo = list;
                 }
-                if (this.currentPage == 1) {
+                if (this.currentPage === 1) {
                     this.blkStart = 0;
                     this.blkEnd = 0;
                 }else if (this.currentPage >= 2 && this.blkPageInfo.length >= this.currentPage){
@@ -354,11 +349,11 @@
                 }
 
             }
-            this.nthPage();
+            await this.nthPage();
         },
         watch: {
-            $route() {
-                this.nthPage();
+            async $route() {
+                await this.nthPage();
             }
         },
         destroyed() {

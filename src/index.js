@@ -1,9 +1,13 @@
-var Vue = require("vue").default,
-    VueRouter = require("vue-router").default,
-    vApp = {},
-    vAppConfig = require("@/assets/app-config"),
-    vRouter = new VueRouter({ routes: require("@/assets/routes") }),
-    gaPage = require('vue-analytics').page;
+import Vue from "vue"
+import VueRouter from "vue-router"
+import Header from "./components/vue-header"
+import Footer from "./components/vue-footer"
+import Modal from "./components/vue-modal"
+import Rpc from "./components/vue-modify-rpc"
+const vAppConfig = require("@/assets/app-config");
+
+const vRouter = new VueRouter({routes: require("@/assets/routes")});
+let vApp = {};
 
 // Expose jQuery to the global object
 const jQuery = require('jquery');
@@ -15,34 +19,21 @@ require("font-awesome/css/font-awesome.min.css");
 require("./index.css");
 
 function isIE() {
-    if (!!window.ActiveXObject || "ActiveXObject" in window)
-        return true;
-    else
-        return false;
+    return !!window.ActiveXObject || "ActiveXObject" in window;
 }
 window.isIE = isIE;
 
 const isProd = process.env.NODE_ENV === 'production';
-const VueAnalytics = require('vue-analytics').default;
-Vue.use(VueAnalytics, {
-    id: 'UA-101203737-1',
-    customResourceURL: 'https://www.google-analytics.com/analytics.js',
-    debug: {
-        enabled: !isProd,
-        sendHitTask: isProd
-    }
-});
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = isProd;
 Vue.use(VueRouter);
 vRouter.beforeEach(onBeforeEach);
-vRouter.afterEach(onAfterEach);
 
 Number.prototype.pad = function (size) {
-    var s = String(this);
+    let s = String(this);
     while (s.length < (size || 2)) { s = "0" + s; }
     return s;
-}
+};
 
 String.prototype.shortAmount = function () {
     let dot_index = this.indexOf('.');
@@ -53,7 +44,7 @@ String.prototype.shortAmount = function () {
         return this.padEnd(5 + dot_index, '0');
     }
     return this;
-}
+};
 
 String.prototype.padDecimal = function () {
     let dot_index = this.indexOf('.');
@@ -64,30 +55,30 @@ String.prototype.padDecimal = function () {
         return this.padEnd(5 + dot_index, '0');
     }
     return this;
-}
+};
 
 String.prototype.shortHash = function () {
     if (this.length > 12) {
         return this.slice(0, 6) + '...' + this.slice(-6);
     }
     return this;
-}
+};
 
 Date.prototype.getWeekNumber = function () {
-    var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
-    var dayNum = d.getUTCDay() || 7;
+    let d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+    const dayNum = d.getUTCDay() || 7;
     d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
     return Math.ceil((((d - yearStart) / 86400000) + 1) / 7)
 };
 
 vApp = new Vue({
     components: {
         //"vue-popmsg": require("@/components/vue-popmsg").default,
-        "vue-footer": require("@/components/vue-footer").default,
-        "vue-header": require("@/components/vue-header").default,
-        "vue-modal": require("@/components/vue-modal").default,
-        "vue-modify-rpc": require("@/components/vue-modify-rpc").default
+        "vue-footer": Footer,
+        "vue-header": Header,
+        "vue-modal": Modal,
+        "vue-modify-rpc": Rpc
     },
     data: {
         timestamp: Date.now(),
@@ -97,7 +88,7 @@ vApp = new Vue({
         testnetGotDipWinners: true,
         eBus
     },
-    el: ".vue",
+    el: "#app",
     router: vRouter
 });
 
@@ -114,15 +105,15 @@ function onBeforeEach(to, from, next) {
 
     vApp.showModalLoading = false;
 
-    var apiPrefix, first, path;
+    let apiPrefix, first, path;
 
     for (first in vAppConfig.apiPrefixes) break;
 
-    if (to.name == "*") {
+    if (to.name === "*") {
         path = (from.params.api ? "/" + from.params.api : "") + "/404";
     } else if (to.params.api)
         if (to.params.api in vAppConfig.apiPrefixes)
-            if (to.params.api == first) {
+            if (to.params.api === first) {
                 // mainnet/xxx -> /xxx
                 to.params.api = undefined;
                 path = vRouter.resolve({ params: to.params }, to).resolved.fullPath;
@@ -137,10 +128,4 @@ function onBeforeEach(to, from, next) {
 
     sessionStorage.apiPrefix = apiPrefix;
     next(path);
-}
-
-function onAfterEach(to, from) {
-    if (to.meta && to.meta.uaview) {
-        gaPage(to.meta.uaview);
-    }
 }

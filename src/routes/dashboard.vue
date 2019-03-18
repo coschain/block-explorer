@@ -675,13 +675,12 @@
             <div class="row row1">
                 <div class="daily-transactions flex-item col-12 col-lg-6 row1-item">
                     <div class="item-bg">
-                        <div class="item-title" >Daily Transactions</div>
-                        <div class="details" v-if="dailyTxChartOptions">
-                            <!-- <div class="data-source">Data Sources: Nebulas</div> -->
-                            <span v-if="todayTxCnt >= 0">Today</span>
-                            <span v-if="todayTxCnt >= 0">{{ numberAddComma(todayTxCnt) }}</span>
-                        </div>
-                        <vchart class="daily-chart" v-if="dailyTxChartOptions" :options="dailyTxChartOptions" :autoResize='true'></vchart>
+                        <div class="item-title" >Each Hour Transactions</div>
+                        <!--<div class="details" v-if="hourTxChartOptions">-->
+                            <!--<span v-if="todayTxCnt >= 0">Today</span>-->
+                            <!--<span v-if="todayTxCnt >= 0">{{ numberAddComma(todayTxCnt) }}</span>-->
+                        <!--</div>-->
+                        <vchart class="daily-chart" v-if="hoursData.length > 0" :options="hourTxChartOptions" :autoResize='true'></vchart>
                     </div>
                 </div>
                 <div class="nas-price flex-item col-12 col-lg-6 row1-item">
@@ -798,24 +797,26 @@
     </div>
 </template>
 <script>
-    var api = require("@/assets/api"),
-   utility = require("@/assets/utility"),
-        BigNumber = require("bignumber.js");
-    var ECharts = require('vue-echarts/components/ECharts').default;
+    const api = require("@/assets/api");
+    const utility = require("@/assets/utility");
+    const BigNumber = require("bignumber.js");
+    const ECharts = require('vue-echarts/components/ECharts').default;
     require('echarts/lib/chart/line');
     require('echarts/lib/component/tooltip');
     module.exports = {
         components: {
             'vchart': ECharts,
-            //"vue-dip-banner": require("@/components/vue-dip-banner").default
         },
         data() {
             return {
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
                 todayTxCnt: 0,
-                dailyTxData: [],
+                // dailyTxData: [],
+                hours: [],
+                hoursData: [],
                 blocks: [],
                 staticInfo: null,
+                lastSync: Math.ceil(Date.now() / 1000),
                 txs: [],
                 shortIntervalID: null,
                 stateInfo: null,//chain props
@@ -825,41 +826,47 @@
                 trxTotalNum:0, //total trx number
                 articleTotalNum:0,//total article number
                 accountTotalNum:0,//total account number
+                curBlkNum: 0,
                 trxStartTime:null,//the latest trx block time
                 lastIrreversibleBlockTime: null,
                 lastIrreversibleBlockNum: null,
                 byteToHex: utility.byteToHexStr,
                 hexTobyte: utility.hexStrToByte,
+                xaxis: 6,
             }
         },
         computed: {
-            dailyTxChartOptions() {
-                if (!this.dailyTxData) return null;
-                var dates = [],
-                    nums = [];
+            // dailyTxChartOptions() {
+            hourTxChartOptions() {
+                // if (!this.dailyTxData) return null;
+                if (!this.hoursData) return null;
+                // let dates = [],
+                //     nums = [];
 
-                this.dailyTxData.forEach(function (info) {
-                    if (info.date) {
-                        let date = new Date(info.date.utcSeconds*1000);
-                        let Y = date.getFullYear() + '-';
-                        let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-                        let D = date.getDate() + ' ';
-                        let dateStr = Y+M+D;
-                        dates.push(dateStr);
-                    }
-                    if (info.count) {
-                        nums.push(info.count);
-                    }else {
-                        nums.push(0);
-                    }
-                });
+                // this.dailyTxData.forEach(function (info) {
+                //     if (info.date) {
+                //         let date = new Date(info.date.utcSeconds*1000);
+                //         let Y = date.getFullYear() + '-';
+                //         let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                //         let D = date.getDate() + ' ';
+                //         let dateStr = Y+M+D;
+                //         dates.push(dateStr);
+                //     }
+                //     if (info.count) {
+                //         nums.push(info.count);
+                //     }else {
+                //         nums.push(0);
+                //     }
+                // });
+
+                let hours = this.hours;
 
                 let vm = this;
 
-                var options = {
-                    grid: { left: '40', bottom: '50', right: '17', top: '10', containLabel: false },
+                return {
+                    grid: {left: '40', bottom: '50', right: '17', top: '10', containLabel: false},
                     xAxis: {
-                        data: dates,
+                        data: hours,
                         axisLine: {
                             show: false
                         },
@@ -871,8 +878,9 @@
                                 color: '#B2B2B2'
                             },
                             margin: 18,
-                            formatter: function(value) {
-                                return vm.shortDate(value);
+                            formatter: function (value) {
+                                // return vm.shortDate(value);
+                                return value + ':00'
                             },
                         }
                     },
@@ -896,7 +904,7 @@
                     },
                     series: {
                         type: 'line',
-                        data: nums,
+                        data: this.hoursData,
                         smooth: true,
                         symbol: 'circle',
                         symbolSize: 5,
@@ -917,11 +925,15 @@
                         trigger: 'item',
                         transitionDuration: 0,
                         position: 'top',
-                        formatter: function(params, ticket, callback) {
+                        formatter: function (params, ticket, callback) {
                             console.log("params");
                             console.log(params);
                             let date = new Date(params.name);
-                            let dateStr = date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
+                            let dateStr = date.toLocaleDateString('en', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                            });
                             return dateStr + '<div>Transactions: ' + vm.numberAddComma(params.value) + '</div><div class=daily-echart-down-arrow></div>';
                         },
                         backgroundColor: '#595C63',
@@ -934,129 +946,15 @@
                         }
                     }
                 };
-                return options;
             },
-            // accountsChartOptions() {
-            //     if (!this.staticInfo || !this.staticInfo.addressWeekList || this.staticInfo.addressWeekList.length == 0) {
-            //         return null;
-            //     }
-            //     var arr = this.staticInfo.addressWeekList;
-            //     var dates = [],
-            //         nums = [];
-            //
-            //     arr.sort(function (a, b) { return a.timestamp > b.timestamp; });
-            //     if (arr.length > 8) {
-            //         arr.splice(0, arr.length - 8);
-            //     }
-            //
-            //     for (var i in arr) {
-            //         nums.push(arr[i].addressCount);
-            //         dates.push(arr[i].timestamp);
-            //     }
-            //
-            //     let vm = this;
-            //     var options = {
-            //         grid: { left: '30', bottom: '50', right: '17', top: '10', containLabel: false },
-            //         xAxis: {
-            //             data: dates,
-            //             axisLine: {
-            //                 show: false
-            //             },
-            //             axisTick: {
-            //                 show: false
-            //             },
-            //             axisLabel: {
-            //                 textStyle: {
-            //                     color: '#B2B2B2'
-            //                 },
-            //                 margin: 18,
-            //                 formatter: function(value) {
-            //                     return vm.shortDate(new Number(value));
-            //                 }
-            //             }
-            //         },
-            //         yAxis: {
-            //             min: Math.floor(nums[0] / 1000) * 1000 - 1000,
-            //             axisLine: {
-            //                 show: false
-            //             },
-            //             axisLabel: {
-            //                 textStyle: {
-            //                     color: '#B2B2B2'
-            //                 },
-            //                 margin: 0,
-            //                 formatter: function (value) {
-            //                     return value / 1000 + 'k';
-            //                 }
-            //             },
-            //             axisTick: {
-            //                 show: false
-            //             },
-            //             splitLine: {
-            //                 show: false
-            //             },
-            //             // splitNumber: 5,
-            //             // maxInterval: 3000,
-            //             minInterval: 1000
-            //         },
-            //         series: {
-            //             type: 'line',
-            //             data: nums,
-            //             smooth: true,
-            //             symbol: 'emptyCircle',
-            //             symbolSize: 7,
-            //             lineStyle: {
-            //                 color: '#0057FF',
-            //                 width: 3
-            //             },
-            //             itemStyle: {
-            //                 normal: {
-            //                     color: '#FFFFFF',
-            //                     borderWidth: 3,
-            //                     borderColor: '#0057FF'
-            //                 },
-            //                 emphasis: {
-            //                     color: '#FFFFFF',
-            //                     borderWidth: 3,
-            //                     borderColor: '#0057FF'
-            //                 }
-            //             },
-            //             areaStyle: {
-            //                 color: '#0057FF',
-            //                 opacity: 1
-            //             }
-            //         },
-            //         tooltip: {
-            //             trigger: 'item',
-            //             transitionDuration: 0,
-            //             position: 'top',
-            //             formatter: function(params, ticket, callback) {
-            //                 let date = new Date(new Number(params.name));
-            //                 let dateStr = date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
-            //                 return dateStr + '<div>Amount: ' + vm.numberAddComma(params.value) + '</div><div class=account-echart-down-arrow></div>';
-            //             },
-            //             backgroundColor: '#0057FF',
-            //             padding: 8,
-            //             extraCssText: 'border-radius: 2px;box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);',
-            //             textStyle: {
-            //                 fontFamily: 'menlo, consolas',
-            //                 fontSize: 12,
-            //                 lineHeight: 18
-            //             }
-            //         }
-            //     };
-            //     return options;
-            // },
-            // blockheight() {
-            //     if (this.blocks.length > 0) return this.numberAddComma(this.blocks[0].height);
-            //     return '0';
-            // }
         },
-        mounted() {
+        async mounted() {
             utility.clearPagesInfoCache();
             //clear data when change rpc address
             this.$root.eBus.$on("changeRpcAddress",address => {
-                this.dailyTxData = [];
+                // this.dailyTxData = [];
+                this.hoursData = {};
+                this.hours = [];
                 this.blocks = [];
                 this.stateInfo = null;
                 this.txs = [];
@@ -1067,8 +965,7 @@
                 this.articleTotalNum = 0;
                 this.accountTotalNum = 0;
                 this.trxStartTime = null;
-                this.blkStartNum = 0;
-                this.blkEndNum = 0;
+                this.curBlkNum = 0;
                 this.lastIrreversibleBlockTime = null;
                 this.lastIrreversibleBlockNum = null;
             });
@@ -1077,45 +974,57 @@
             this.fetchChainStateInfo();
 
             //fetch latest block list
-            this.fetchBlocksList();
+            await this.fetchBlocksList();
             //fetch recent 7 day total trx count
-            let start = Math.ceil(Date.now()/1000)-7*86400;
-            let end = Math.ceil(Date.now()/1000)+86400;
-            api.fetchDailyTotalTrxInfoList(start,end,infoList => {
-                if (infoList.length > 0) {
-                   this.dailyTxData = infoList;
-                   let finalInfo = infoList[infoList.length-1];
-                   if (Math.floor(finalInfo.date.utcSeconds/86400) ===  Math.floor(Date.now()/1000/86400)) {
-                       this.todayTxCnt = finalInfo.count;
-                       this.dailyTxData.pop();
-                   }
-                }
-            },(errCode,msg) => {
-                console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-            });
+            // let start = Math.ceil(Date.now()/1000)-7*86400;
+            // let end = Math.ceil(Date.now()/1000)+86400;
+            // api.fetchDailyTotalTrxInfoList(start,end,infoList => {
+            //     if (infoList.length > 0) {
+            //        this.dailyTxData = infoList;
+            //        let finalInfo = infoList[infoList.length-1];
+            //        if (Math.floor(finalInfo.date.utcSeconds/86400) ===  Math.floor(Date.now()/1000/86400)) {
+            //            this.todayTxCnt = finalInfo.count;
+            //            this.dailyTxData.pop();
+            //        }
+            //     }
+            // },(errCode,msg) => {
+            //     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+            // });
 
             //fetch latest trx list
-            this.fetchTotalTrxList();
+            // this.fetchTotalTrxList();
+            let now = Date.now();
+            // last day
+            let start = now / 1000 - 86400;
+            let end = now / 1000;
+            let trxs = await this.fetchSpanTrxs(start, end);
+            this.incrementTrxs(trxs);
+            this.lastSync = end;
 
-            this.shortIntervalID = setInterval(() => {
+            this.shortIntervalID = setInterval( async () => {
                 //fetch latest trx list
-                this.fetchTotalTrxList();
+                let endTime = Date.now() / 1000;
+                // this.fetchTotalTrxList();
+                let trxList = await this.fetchSpanTrxs(this.lastSync, endTime);
+                this.incrementTrxs(trxList);
+                this.lastSync = endTime;
                 //fetch latest tps
-                this.fetchChainStateInfo();
+                // this.fetchChainStateInfo();
                //fetch latest blocks
-                this.fetchBlocksList();
+                await this.fetchBlocksList();
                 //update today total trx count
-                let start = Math.ceil(Date.now()/1000);
-                let end = Math.ceil(Date.now()/1000)+86400;
-                api.fetchDailyTotalTrxInfoList(start,end,infoList => {
-                    if (infoList.length > 0) {
-                        this.todayTxCnt =  infoList[0].count;
-                    }
-                },(errCode,msg) => {
-                    console.log("Get today trx count fail,error code is %s,msg is %s",errCode,msg);
-                });
+                // let start = Math.ceil(Date.now()/1000);
+                // let end = Math.ceil(Date.now()/1000)+86400;
+                // api.fetchDailyTotalTrxInfoList(start,end,infoList => {
+                //     if (infoList.length > 0) {
+                //         this.todayTxCnt =  infoList[0].count;
+                //     }
+                // },(errCode,msg) => {
+                //     console.log("Get today trx count fail,error code is %s,msg is %s",errCode,msg);
+                // });
+                this.todayTxCnt = this.txs.length;
 
-            }, 60000);
+            }, 5000);
 
         },
         methods: {
@@ -1145,7 +1054,7 @@
             },
             addLocalTimestamp(n) {
                 if (n instanceof Array) {
-                    for (var index in n) {
+                    for (let index in n) {
                         if (!n[index].localTimestamp) {
                             n[index].localTimestamp = Date.now();
                         }
@@ -1180,41 +1089,67 @@
                     console.log("Get state info fail,error code is %s,msg is %s",errCode,msg);
                 });
             },
-            fetchTotalTrxList() {
-                api.fetchTrxListByTime(null,this.trxStartTime,null,trxList => {
-                    let trxLen = trxList.length;
-                    if (trxLen > 0) {
-                        if (trxLen > 5) {
-                            this.txs = trxList.slice(0,5);
-                        }else {
-                            this.txs = trxList;
-                        }
-                    }
-                },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                });
-            },
-            fetchBlocksList() {
-                api.fetchBlockList(0,0, blkList => {
+            async fetchBlocksList() {
+                try {
+                    let blkList = await api.fetchBlockList(this.curBlkNum, 0, 5);
                     let cnt = blkList.length;
                     if (cnt > 0) {
-                        if (cnt > 5) {
-                            this.blocks = blkList.reverse().slice(0,5);
-                        }else {
-                            this.blocks = blkList.reverse();
+                        for (let b of blkList) {
+                            this.blocks.unshift(b)
                         }
+                        this.blocks.splice(10);
+                        this.curBlkNum = this.blocks[0].getBlockHeight();
                         if (this.stateInfo) {
-                            let headBlkNum = this.blocks[0].getBlockHeight();
-                            let curBlkNum = BigNumber(this.stateInfo.headBlockNumber);
-                            let result = BigNumber(headBlkNum).comparedTo(curBlkNum);
-                            if (result == 1) {
-                                this.stateInfo.headBlockNumber = headBlkNum;
-                            }
+                            this.stateInfo.headBlockNumber = this.curBlkNum;
                         }
                     }
-                },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                });
+                } catch (err) {
+                    console.log(err)
+                }
+            },
+            async fetchSpanTrxs(start, end) {
+                return await api.fetchTrxListByTime(start, end, 0, null);
+            },
+            incrementTrxs(trxList) {
+                let reversed = trxList.reverse();
+                for (let trx of reversed) {
+                    this.txs.unshift(trx)
+                }
+                let end = Math.ceil(Date.now() / 1000 - 3600 * this.xaxis);
+                let length = this.txs.length;
+                for (let i = length - 1; i >= 0; i--) {
+                    if (this.txs[i].getBlockTime().getUtcSeconds() < end) {
+                        this.txs.pop()
+                    }
+                }
+                this.adjustmentHourData(this.txs, this.xaxis);
+            },
+            adjustmentHourData(trxs, c_hours) {
+                let eachHour = {};
+                let hours = [];
+                let now = Date.now();
+                for (let i = 0 ; i < c_hours; i++) {
+                    let hour = new Date(now - 3600 * 1e3 * i).getHours();
+                    if (hour < 10){
+                        hour = '0' + hour
+                    } else {
+                        hour = '' + hour
+                    }
+                    hours.push(hour);
+                    eachHour[hour] = 0
+                }
+                for (let trx of trxs) {
+                    let hour = new Date(trx.getBlockTime()).getHours();
+                    if (hour < 10) hour = '0' + hour;
+                    else hour = '' + hour;
+                    if (hour in eachHour) eachHour[hour] += 1
+                }
+                let hoursData = [];
+                for (let hour of hours) {
+                    hoursData.push(eachHour[hour])
+                }
+                this.hoursData = hoursData.reverse();
+                this.hours = hours.reverse();
             }
         },
         updated() {

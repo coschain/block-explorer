@@ -118,20 +118,18 @@ module.exports = {
      * get block list by block height
      * @param start: the start block height in range, if value null,query from the first in db
      * @param end: the end block height in range,if value is null,query to the end in db
-     * @param success: the request success callback
-     * @param fail: the  request fail callback
+     * @param limit: as meaning of word
+     // * @param success: the request success callback
+     // * @param fail: the  request fail callback
      * if start = 0 and end = 0,fetch all the blocks data in chain;if start == end and start != 0,fetch single
      * block which block number is from
      */
-    async fetchBlockList(start,end,success,fail) {
-        if (typeof success != "function" || typeof fail != "function") {
-            console.log("The success or fail is not a callBack function");
-            return
-        }
+    async fetchBlockList(start, end, limit) {
         let req = new cos_sdk.grpc.GetBlockListRequest();
         req.setStart(start);
         req.setEnd(end);
-        let promise = new Promise((resolve, reject) => {
+        req.setLimit(limit);
+        return new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockList, {
                 request:req,
                 host:getHost(),
@@ -140,13 +138,13 @@ module.exports = {
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getBlocksList();
                         resolve(obj)
-                    }else {
+                    } else {
                         reject(status,statusMessage)
                     }
                 }
             })
         });
-        promise.then(success,fail);
+        // promise.then(success,fail);
     },
 
     async fetchSignedBlock(blkNumber,success,fail){
@@ -178,21 +176,27 @@ module.exports = {
      * get trx list by time in reverse order
      * @param start: the  start time in request range, if value null,query from the first in db
      * @param end: the end time  in request range, if value is null,query to the end in db
-     * @param success: the request success callback
-     * @param fail: the request fail callback
+     * @param limit: one pass return list restrict, set to zero meaning no limit.
+     * @param lastInfo: with start and end can not point an unique checkpoint
      */
-    async fetchTrxListByTime(start,end,lastInfo,success,fail) {
-        if (typeof success != "function" || typeof fail != "function") {
-            console.log("The success or fail is not a callBack function");
-            return
-        }
+    async fetchTrxListByTime(start,end,limit,lastInfo) {
+        // if (typeof success != "function" || typeof fail != "function") {
+        //     console.log("The success or fail is not a callBack function");
+        //     return
+        // }
         let req = new cos_sdk.grpc.GetTrxListByTimeRequest();
-        req.setStart(start);
-        req.setEnd(end);
+        let s = new cos_sdk.raw_type.time_point_sec();
+        s.setUtcSeconds(Math.ceil(start));
+        let e = new cos_sdk.raw_type.time_point_sec();
+        e.setUtcSeconds(Math.ceil(end));
+        // query should reverse start end end
+        req.setStart(e);
+        req.setEnd(s);
+        req.setLimit(limit);
         if (lastInfo != null ) {
             req.setLastInfo(lastInfo)
         }
-        let promise = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxListByTime, {
                 request:req,
                 host:getHost(),
@@ -208,7 +212,7 @@ module.exports = {
                 }
             })
         });
-        promise.then(success,fail)
+        // promise.then(success,fail)
     },
 
     /**
