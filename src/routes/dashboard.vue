@@ -1162,7 +1162,7 @@
                 if (this.stateInfo&&this.stateInfo.lastIrreversibleBlockNumber) {
                     return this.stateInfo.lastIrreversibleBlockNumber;
                 }
-                return "120000";
+                return -1;
             },
 
             fetchChainStateInfo() {
