@@ -32,11 +32,69 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         margin-top: 17px;
+        font-size: 14px;
     }
 
-    @media (max-width: 767.98px) {
-        .vue-blocks .title {
-            font-size: 20px;
+    .vue-blocks .blkNumCol {
+        display:flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .vue-blocks .blkNumCol .blkNum {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        flex-shrink: 2;
+    }
+
+    .vue-blocks .blkNumCol .blkStatus {
+        margin-left: 4px;
+        flex-shrink: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .vue-blocks .icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .vue-blocks .blkStatusTitle {
+        color: rgba(7, 166, 86, 1);
+        font-size: 14px;
+    }
+
+    @media (max-width: 575.98px) {
+        .vue-blocks .blkListHeader {
+            font-size: 2px;
+        }
+
+        .vue-blocks .contentCol {
+            font-size: 2px;
+        }
+
+        .vue-blocks .blkNumCol {
+            font-size: 2px;
+        }
+
+        .vue-blocks .blkNumCol .blkStatus {
+            font-size: 1px;
+            flex-shrink: 1;
+        }
+
+        .vue-blocks .blkStatusTitle {
+            font-size: 1px;
+        }
+
+        .vue-blocks .icon {
+            width: 8px;
+            height: 8px;
         }
     }
 </style>
@@ -63,9 +121,15 @@
                     </tr>
                     <tr v-for="(block, i) in blocks" :key="i">
                         <td class="contentCol">
-                            <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()'>
-                                <span class="font-14">{{ block.getBlockHeight() }}</span>
-                            </router-link>
+                            <div class="blkNumCol">
+                                <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()' class="blkNum">
+                                    {{block.getBlockHeight()}}
+                                </router-link>
+                                <div v-if=judgeIsIrreverBlk(block.getBlockHeight()) class="blkStatus">
+                                    <img class="icon" src="../../static/img/ic_tx_status_success.png" />
+                                    <span class="blkStatusTitle" style="margin-left: 5px;">Success</span>
+                                </div>
+                            </div>
                         </td>
                         <td class="contentCol">
                             <!--<div>-->
@@ -76,31 +140,31 @@
                         </td>
                         <td class="contentCol">
                             <router-link v-bind:to='fragApi + "/block-trxs/" + block.getBlockHeight()'>
-                                <span class="font-14">{{ numberAddComma(block.toObject().trxCount) }}</span>
+                                <span >{{ numberAddComma(block.toObject().trxCount) }}</span>
                             </router-link>
                         </td>
                         <td class="contentCol">
                             <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value'>
-                                <vue-blockies class="d-inline" v-bind:account='block.toObject().witness.value'></vue-blockies>
-                                <span class="font-14 monospace">{{ block.toObject().witness.value }}</span>
+                                <span class="monospace">{{ block.toObject().witness.value }}</span>
                             </router-link>
                         </td>
                     </tr>
                 </table>
             </div>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext  v-on:prev=onPrev></vue-pagination>
+            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext  v-on:prev=onPrev v-on:homePage=onGoHome></vue-pagination>
         </div>
     </div>
 </template>
 <script>
     let api = require("@/assets/api"),
-        utility = require("@/assets/utility");
+        utility = require("@/assets/utility"),
+        BigNumber = require("bignumber.js");
     const blksPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.blocksList);
+    let irreversibleBlkNum = 0;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
             "vue-pagination": require("@/components/vue-pagination").default,
-            "vue-blockies": require("@/components/vue-blockies").default
         },
         data() {
             return {
@@ -203,6 +267,9 @@
                     this.$router.push({ path: this.$route.path, query });
                 }
             },
+            onGoHome() {
+                this.$router.replace(utility.getTestNetName());
+            },
             // onTo(n) {
             //     this.$router.push({
             //         path: this.$route.path,
@@ -247,9 +314,17 @@
                 if (sessionStorage.getItem(blksPageCacheKey) != null) {
                     sessionStorage.removeItem(blksPageCacheKey);
                 }
+            },
+            judgeIsIrreverBlk(blkNum) {
+                if ( (this.irreversibleBlkNum) == -1 || (BigNumber(blkNum).comparedTo(BigNumber(this.irreversibleBlkNum)) <= 0) ) {
+                    return true
+                }else {
+                    return false;
+                }
             }
         },
         async mounted() {
+            this.irreversibleBlkNum = this.$route.params.irreversibleBlkNum;
             let cacheData = this.getPageInfo();
             if (cacheData != null) {
                 this.currentPage =  parseInt(cacheData.currentPage);

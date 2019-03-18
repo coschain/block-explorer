@@ -102,7 +102,7 @@
 </style>
 <template>
     <nav class="bg-black navbar navbar-expand-lg navbar-dark vue-header">
-        <vue-modify-rpc v-show="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress" :currentAddress=currentHost></vue-modify-rpc>
+        <vue-modify-rpc  v-if="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress" :currentAddress=currentHost></vue-modify-rpc>
         <div class=container>
             <div>
                 <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
@@ -225,7 +225,7 @@
                             return
                         }
                         this.$root.eBus.$emit("changeRpcAddress",address);
-                        this.$router.replace("/testnet");
+                        this.$router.replace(utility.getTestNetName());
                         utility.setHost(address);
                         location.reload();
                     }

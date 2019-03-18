@@ -40,7 +40,7 @@
             </div>
 
             <div class="explorer-table-container d-none d-md-block">
-                <table class="explorer-table font-16">
+                <table class="explorer-table  font-16" style="table-layout: auto">
                     <tr>
                         <td class="font-color-555555">Height</td>
                         <td class="font-color-000000">

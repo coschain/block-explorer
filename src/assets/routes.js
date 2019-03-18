@@ -14,7 +14,7 @@ module.exports = [{
 }, {
     component: require("@/routes/blocks").default,
     meta: { headerActive: 2 },
-    path: "/:api?/blocks"
+    path: "/:api?/blocks/:irreversibleBlkNum"
 }, {
     component: require("@/routes/tx").default,
     meta: { headerActive: 2, uaview: "Explorer_TxnsDetails_Show" },

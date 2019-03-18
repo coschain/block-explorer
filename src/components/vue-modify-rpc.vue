@@ -11,7 +11,7 @@
             <div class="vue-modify-rpc-body">
                 <slot name="body">
                     <!-- Input -->
-                    <input type = "text"   v-bind:placeholder=currentAddress class= "vue-modify-rpc-input" id="rpcAddress"/>
+                    <input  type = "text" autocomplete="off" v-bind:value=currentAddress class= "vue-modify-rpc-input" id="rpcAddress"/>
                 </slot>
             </div>
 
@@ -39,6 +39,7 @@
                 let input = document.getElementById("rpcAddress");
                 input.value = "";
                 this.$emit('close');
+
             },
             changeRpcAddress: function () {
                 let input = document.getElementById("rpcAddress");
