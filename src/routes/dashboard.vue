@@ -797,16 +797,15 @@
     </div>
 </template>
 <script>
-    const api = require("@/assets/api"),
-   utility = require("@/assets/utility"),
-        BigNumber = require("bignumber.js");
+    const api = require("@/assets/api");
+    const utility = require("@/assets/utility");
+    const BigNumber = require("bignumber.js");
     const ECharts = require('vue-echarts/components/ECharts').default;
     require('echarts/lib/chart/line');
     require('echarts/lib/component/tooltip');
     module.exports = {
         components: {
             'vchart': ECharts,
-            //"vue-dip-banner": require("@/components/vue-dip-banner").default
         },
         data() {
             return {
@@ -827,6 +826,7 @@
                 trxTotalNum:0, //total trx number
                 articleTotalNum:0,//total article number
                 accountTotalNum:0,//total account number
+                curBlkNum: 0,
                 trxStartTime:null,//the latest trx block time
                 lastIrreversibleBlockTime: null,
                 lastIrreversibleBlockNum: null,
@@ -965,8 +965,7 @@
                 this.articleTotalNum = 0;
                 this.accountTotalNum = 0;
                 this.trxStartTime = null;
-                this.blkStartNum = 0;
-                this.blkEndNum = 0;
+                this.curBlkNum = 0;
                 this.lastIrreversibleBlockTime = null;
                 this.lastIrreversibleBlockNum = null;
             });
@@ -975,7 +974,7 @@
             this.fetchChainStateInfo();
 
             //fetch latest block list
-            await this.fetchBlocksList(false);
+            await this.fetchBlocksList();
             //fetch recent 7 day total trx count
             // let start = Math.ceil(Date.now()/1000)-7*86400;
             // let end = Math.ceil(Date.now()/1000)+86400;
@@ -1012,7 +1011,7 @@
                 //fetch latest tps
                 // this.fetchChainStateInfo();
                //fetch latest blocks
-                await this.fetchBlocksList(false);
+                await this.fetchBlocksList();
                 //update today total trx count
                 // let start = Math.ceil(Date.now()/1000);
                 // let end = Math.ceil(Date.now()/1000)+86400;
@@ -1025,7 +1024,7 @@
                 // });
                 this.todayTxCnt = this.txs.length;
 
-            }, 10000);
+            }, 5000);
 
         },
         methods: {
@@ -1055,7 +1054,7 @@
             },
             addLocalTimestamp(n) {
                 if (n instanceof Array) {
-                    for (var index in n) {
+                    for (let index in n) {
                         if (!n[index].localTimestamp) {
                             n[index].localTimestamp = Date.now();
                         }
@@ -1090,23 +1089,18 @@
                     console.log("Get state info fail,error code is %s,msg is %s",errCode,msg);
                 });
             },
-            async fetchBlocksList(isFirst) {
+            async fetchBlocksList() {
                 try {
-                    let blkList = await api.fetchBlockList(this.blkStartNum, this.blkEndNum, 10);
+                    let blkList = await api.fetchBlockList(this.curBlkNum, 0, 5);
                     let cnt = blkList.length;
                     if (cnt > 0) {
-                        if (cnt > 5) {
-                            this.blocks = blkList.reverse().slice(0, 5);
-                        } else {
-                            this.blocks = blkList.reverse();
+                        for (let b of blkList) {
+                            this.blocks.unshift(b)
                         }
+                        this.blocks.splice(10);
+                        this.curBlkNum = this.blocks[0].getBlockHeight();
                         if (this.stateInfo) {
-                            let headBlkNum = this.blocks[0].getBlockHeight();
-                            let curBlkNum = BigNumber(this.stateInfo.headBlockNumber);
-                            let result = BigNumber(headBlkNum).comparedTo(curBlkNum);
-                            if (result == 1) {
-                                this.stateInfo.headBlockNumber = headBlkNum;
-                            }
+                            this.stateInfo.headBlockNumber = this.curBlkNum;
                         }
                     }
                 } catch (err) {
