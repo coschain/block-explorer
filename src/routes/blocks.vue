@@ -320,7 +320,7 @@
                 }
             },
             judgeIsIrreverBlk(blkNum) {
-                if (BigInt(this.irreversibleBlkNum) == -1 ||  BigInt(blkNum) <= BigInt(this.irreversibleBlkNum)) {
+                if ((this.irreversibleBlkNum) == -1 ||  blkNum <= this.irreversibleBlkNum) {
                     return true
                 }else {
                     return false;

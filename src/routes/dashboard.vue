@@ -1158,10 +1158,11 @@
                 return trxId;
             },
             convertBlkNum(numStr) {
-                if (numStr.length > 0) {
-                    return BigInt(numStr);
-                }
-                return 0;
+                // if (numStr.length > 0) {
+                //     return BigInt(numStr);
+                // }
+                // return 0;
+                return numStr;
             },
             getLatestIrreversibleBlkNum() {
                 if (this.stateInfo&&this.stateInfo.lastIrreversibleBlockNumber) {
@@ -1207,9 +1208,9 @@
                         }
                         if (this.stateInfo) {
                             let headBlkNum = this.convertBlkNum(this.blocks[0].getBlockHeight());
-                            if (headBlkNum > this.stateInfo.headBlockNumber) {
-                                this.stateInfo.headBlockNumber = headBlkNum;
-                            }
+                            // if (headBlkNum > this.stateInfo.headBlockNumber) {
+                            //     this.stateInfo.headBlockNumber = headBlkNum;
+                            // }
                         }
                     }
                 },(errCode,msg) => {
