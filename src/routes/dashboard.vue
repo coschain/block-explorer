@@ -1070,6 +1070,7 @@
                 this.blkStartNum = 0;
                 this.blkEndNum = 0;
                 this.lastIrreversibleBlockTime = null;
+                this.lastIrreversibleBlockNum = null;
             });
 
            //fetch state info
