@@ -1,8 +1,9 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import Header from "components/vue-header"
-import Footer from "components/vue-footer"
-import Modal from "components/vue-modal"
+import Header from "./components/vue-header"
+import Footer from "./components/vue-footer"
+import Modal from "./components/vue-modal"
+import Rpc from "./components/vue-modify-rpc"
 const vAppConfig = require("@/assets/app-config");
 
 const vRouter = new VueRouter({routes: require("@/assets/routes")});
@@ -74,10 +75,10 @@ Date.prototype.getWeekNumber = function () {
 vApp = new Vue({
     components: {
         //"vue-popmsg": require("@/components/vue-popmsg").default,
-        "vue-footer": require("@/components/vue-footer").default,
-        "vue-header": require("@/components/vue-header").default,
-        "vue-modal": require("@/components/vue-modal").default,
-        "vue-modify-rpc": require("@/components/vue-modify-rpc").default
+        "vue-footer": Footer,
+        "vue-header": Header,
+        "vue-modal": Modal,
+        "vue-modify-rpc": Rpc
     },
     data: {
         timestamp: Date.now(),
@@ -104,7 +105,7 @@ function onBeforeEach(to, from, next) {
 
     vApp.showModalLoading = false;
 
-    var apiPrefix, first, path;
+    let apiPrefix, first, path;
 
     for (first in vAppConfig.apiPrefixes) break;
 

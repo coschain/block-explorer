@@ -203,7 +203,7 @@
                     this.$router.push({ path: this.$route.path, query });
                 }
             },
-            nthPage() {
+            async nthPage() {
                 this.$root.showModalLoading = true;
                 let p = this.$route.query.p || 1;
                 let start = this.listStart;
@@ -211,7 +211,7 @@
                 let lastTrx = this.lastInfo;
                 let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
                 if (p < this.currentPage) {
-                    if (this.currentPage == 2 ) {
+                    if (this.currentPage === 2 ) {
                         start = null;
                         lastTrx= null;
                     }else {
@@ -224,46 +224,47 @@
                     }
                     pReqType = 0;
                     isNext = false;
-                }else if (this.currentPage == p) {
+                }else if (this.currentPage === p) {
                     //refresh current page
                     pReqType = 3;
                 }
-                api.fetchTrxListByTime(start,null,lastTrx,trxList => {
-                    if (trxList.length > 0) {
-                        this.trxList = trxList;
-                        this.lastInfo = trxList[trxList.length-1];
-                        this.listStart = this.lastInfo.getBlockTime();
-                        if (this.currentPage === 0 && isNext) {
-                            this.listEnd = null;
-                        }else {
-                            this.listEnd = trxList[0].getBlockTime();
-                        }
-                        if (pReqType == 1) {
-                            if (this.currentPage + 1 == this.totalPage) {
-                                this.totalPage += 1;
-                                let curPageLen = this.pageInfo.length;
-                                let info = {start:this.listStart,lastPost:this.lastInfo};
-                                if (curPageLen === 0) {
-                                    info.end = this.listEnd;
-                                }else if (curPageLen >= 1) {
-                                    info.end = this.pageInfo[curPageLen - 1].start;
-                                }
-                                this.pageInfo.push(info);
-                            }
-                            this.currentPage += 1;
-                        }else if (pReqType == 0) {
-                            this.currentPage -= 1;
-                        }else if (pReqType == 3) {
-                            this.currentPage = parseInt(p);
-                        }
+                let trxList = await api.fetchTrxListByTime(start,null, 30, lastTrx);
+                if (trxList.length > 0) {
+                    this.trxList = trxList;
+                    this.lastInfo = trxList[trxList.length-1];
+                    this.listStart = this.lastInfo.getBlockTime();
+                    if (this.currentPage === 0 && isNext) {
+                        this.listEnd = null;
+                    }else {
+                        this.listEnd = trxList[0].getBlockTime();
                     }
-                    this.$root.showModalLoading = false;
-                    this.savePageInfo();
-                },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                    this.$root.showModalLoading = false;
-                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
+                    if (pReqType === 1) {
+                        if (this.currentPage + 1 === this.totalPage) {
+                            this.totalPage += 1;
+                            let curPageLen = this.pageInfo.length;
+                            let info = {start:this.listStart,lastPost:this.lastInfo};
+                            if (curPageLen === 0) {
+                                info.end = this.listEnd;
+                            }else if (curPageLen >= 1) {
+                                info.end = this.pageInfo[curPageLen - 1].start;
+                            }
+                            this.pageInfo.push(info);
+                        }
+                        this.currentPage += 1;
+                    }else if (pReqType === 0) {
+                        this.currentPage -= 1;
+                    }else if (pReqType === 3) {
+                        this.currentPage = parseInt(p);
+                    }
+                }
+                this.$root.showModalLoading = false;
+                this.savePageInfo();
+                // }
+                // (errCode,msg) => {
+                //     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+                //     this.$root.showModalLoading = false;
+                //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                // });
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);

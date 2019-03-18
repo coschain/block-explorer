@@ -160,7 +160,7 @@
     </div>
 </template>
 <script>
-    var api = require("@/assets/api"),
+    const api = require("@/assets/api"),
         utility = require("@/assets/utility");
 
     module.exports = {
@@ -169,23 +169,17 @@
             "vue-tab-buttons": require("@/components/vue-tab-buttons").default
         },
         computed: {
-            urlChange() {
-                this.$root.showModalLoading = true;
-
-                //fetch block info
-                api.fetchBlockList(this.$route.params.id,this.$route.params.id, blkInfo => {
-                    if (blkInfo.length > 0 ) {
-                        this.blockInfo = blkInfo[0];
-                        this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
-                        this.blkHash = this.blockInfo.getBlockId().getHexHash();
-                    }
-                    this.$root.showModalLoading = false;
-                },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                    this.$root.showModalLoading = false;
-                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
+          async urlChange() {
+            this.$root.showModalLoading = true;
+            //fetch block info
+            let blkInfo = await api.fetchBlockList(this.$route.params.id,this.$route.params.id, 1);
+            if (blkInfo.length > 0 ) {
+                this.blockInfo = blkInfo[0];
+                this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
+                this.blkHash = this.blockInfo.getBlockId().getHexHash();
             }
+            this.$root.showModalLoading = false;
+          }
         },
         methods: {
             showOrHideDynasty(){
