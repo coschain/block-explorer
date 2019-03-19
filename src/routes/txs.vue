@@ -228,7 +228,7 @@
                     //refresh current page
                     pReqType = 3;
                 }
-                let trxList = await api.fetchTrxListByTime(start,null, 30, lastTrx);
+                let trxList = await api.fetchTrxListByTime(null,start, 30, lastTrx);
                 if (trxList.length > 0) {
                     this.trxList = trxList;
                     this.lastInfo = trxList[trxList.length-1];
