@@ -861,7 +861,8 @@
                 //     }
                 // });
 
-                let hours = this.hours;
+                let hours = this.hours.slice().reverse();
+                let hoursData = this.hoursData.slice().reverse();
 
                 let vm = this;
 
@@ -906,7 +907,7 @@
                     },
                     series: {
                         type: 'line',
-                        data: this.hoursData,
+                        data: hoursData,
                         smooth: true,
                         symbol: 'circle',
                         symbolSize: 5,
@@ -1112,17 +1113,8 @@
                 }
             },
             async statByHour(c_hours) {
-                let now = Date.now();
-                for (let i = 0 ; i < c_hours; i++) {
-                    let hour = new Date(now - 3600 * 1e3 * i).getHours();
-                    if (hour < 10){
-                        hour = '0' + hour
-                    } else {
-                        hour = '' + hour
-                    }
-                    this.hours.push(hour);
-                }
                 let stats = await api.statByHour(c_hours);
+                let hours = [];
                 for (let stat of stats) {
                     let so = stat.toObject();
                     let hour = so.hour;
@@ -1132,9 +1124,11 @@
                     } else {
                         hour = '' + hour
                     }
+                    hours.push(hour);
                     this.eachHourStat[hour] = count
                 }
-
+                // newer in front
+                this.hours = hours;
             },
             async fetchSpanTrxs(start, end, limit) {
                 let s = null;
@@ -1154,6 +1148,7 @@
                 for (let trx of reversed) {
                     this.txs.unshift(trx)
                 }
+                this.txs.splice(10);
                 this.adjustmentHourData(trxList);
             },
             adjustmentHourData(trxs) {
