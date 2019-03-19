@@ -208,14 +208,13 @@
                     }
                     pReqType = 0;
                     isNext = false;
-                }else  if (p === this.currentPage) {
+                }else  if (parseInt(p) === this.currentPage) {
                     pReqType = 3;
                     start = this.blkStart;
                     end = this.blkEnd;
                 }else  if (end >= this.maxPageSizeLimit) {
                     start = end - this.maxPageSizeLimit;
                 }
-
                 let blkList = await api.fetchBlockList(start,end, 30);
                 let cnt = blkList.length;
                 if (cnt > 0) {

@@ -224,7 +224,7 @@
                     }
                     pReqType = 0;
                     isNext = false;
-                }else if (this.currentPage === p) {
+                }else if (this.currentPage === parseInt(p)) {
                     //refresh current page
                     pReqType = 3;
                 }
