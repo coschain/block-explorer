@@ -147,6 +147,27 @@ module.exports = {
         // promise.then(success,fail);
     },
 
+    async statByHour(hour) {
+        let req = new cos_sdk.grpc.TrxStatByHourRequest()
+        req.setHours(hour)
+        return new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.TrxStatByHour, {
+                request:req,
+                host:getHost(),
+                onEnd: res => {
+                    const { status, statusMessage, headers, message, trailers } = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getStatList();
+                        resolve(obj)
+                    } else {
+                        reject(status,statusMessage)
+                    }
+                }
+            })
+        });
+        // promise.then(success,fail);
+    },
+
     async fetchSignedBlock(blkNumber,success,fail){
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
@@ -185,13 +206,13 @@ module.exports = {
         //     return
         // }
         let req = new cos_sdk.grpc.GetTrxListByTimeRequest();
-        let s = new cos_sdk.raw_type.time_point_sec();
-        s.setUtcSeconds(Math.ceil(start));
-        let e = new cos_sdk.raw_type.time_point_sec();
-        e.setUtcSeconds(Math.ceil(end));
+        // let s = new cos_sdk.raw_type.time_point_sec();
+        // s.setUtcSeconds(Math.ceil(start));
+        // let e = new cos_sdk.raw_type.time_point_sec();
+        // e.setUtcSeconds(Math.ceil(end));
         // query should reverse start end end
-        req.setStart(e);
-        req.setEnd(s);
+        req.setStart(end);
+        req.setEnd(start);
         req.setLimit(limit);
         if (lastInfo != null ) {
             req.setLastInfo(lastInfo)
