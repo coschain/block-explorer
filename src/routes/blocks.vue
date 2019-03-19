@@ -222,15 +222,18 @@
                     let listLen = blkList.length;
                     this.blkStart = this.blocks[listLen-1].getBlockHeight();
                     this.blkEnd = this.blocks[0].getBlockHeight();
+                    let info = {start:this.blkStart,end:this.blkEnd};
                     if (pReqType === 1) {
                         if (this.currentPage+1 === this.totalPage) {
                             this.totalPage += 1;
-                            let info = {start:this.blkStart,end:this.blkEnd};
                             this.blkPageInfo.push(info);
+                        }else {
+                            this.updateBlkPageInfo(this.currentPage,info);
                         }
                         this.currentPage += 1;
                     }else if (pReqType === 0){
                         this.currentPage -= 1;
+                        this.updateBlkPageInfo(this.currentPage-1,info);
                     }else if (pReqType === 3) {
                         this.currentPage = parseInt(p);
                     }
@@ -238,6 +241,13 @@
                 this.$root.showModalLoading = false;
                 this.savePageInfo();
             },
+
+            updateBlkPageInfo(index,info) {
+                if (info && index>= 0 && index < this.blkPageInfo.length) {
+                    this.blkPageInfo.splice(index,1,info)
+                }
+            },
+
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },

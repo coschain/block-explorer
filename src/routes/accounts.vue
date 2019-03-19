@@ -162,22 +162,25 @@
                         }else {
                             this.coinEnd = accountList[0].getCoin();
                         }
+                        let curPageLen = this.accountPageInfo.length;
+                        let info = {start:this.coinStart,account:this.lastAccount};
+                        if (curPageLen === 0) {
+                            info.end = this.coinEnd;
+                        }else if (curPageLen >= 1) {
+                            info.end = this.accountPageInfo[curPageLen - 1].start;
+                        }
                         if (pReqType == 1) {
                             if (this.currentPage + 1 == this.totalPage) {
                                 this.totalPage += 1;
-                                let curPageLen = this.accountPageInfo.length;
-                                let info = {start:this.coinStart,account:this.lastAccount};
-                                if (curPageLen === 0) {
-                                    info.end = this.coinEnd;
-                                }else if (curPageLen >= 1) {
-                                    info.end = this.accountPageInfo[curPageLen - 1].start;
-                                }
                                 this.accountPageInfo.push(info);
+                            }else {
+                                this.updateAccountsPageInfo(this.currentPage,info);
                             }
                             this.currentPage += 1;
 
                         }else if (pReqType == 0) {
                             this.currentPage -= 1;
+                            this.updateAccountsPageInfo(this.currentPage-1,info);
                         }else if (pReqType == 3) {
                             this.currentPage = parseInt(p);
                         }
@@ -191,6 +194,13 @@
                 });
 
             },
+
+            updateAccountsPageInfo(index,info) {
+                if(info && index < this.accountPageInfo.length) {
+                    this.accountPageInfo.splice(index,1,info)
+                }
+            },
+
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },

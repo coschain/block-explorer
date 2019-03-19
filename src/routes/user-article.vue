@@ -188,21 +188,24 @@
                             listEnd.setAuthor(postList[0].getAuthor());
                             this.postListEnd = listEnd;
                         }
+                        let curPageLen = this.postPageInfo.length;
+                        let info = {start:this.postListStart,post:this.lastPost};
+                        if (curPageLen === 0) {
+                            info.end = this.postListEnd;
+                        }else if (curPageLen >= 1) {
+                            info.end = this.postPageInfo[curPageLen - 1].start;
+                        }
                         if (pReqType == 1) {
                             if (this.currentPage + 1 == this.totalPage) {
                                 this.totalPage += 1;
-                                let curPageLen = this.postPageInfo.length;
-                                let info = {start:this.postListStart,post:this.lastPost};
-                                if (curPageLen === 0) {
-                                    info.end = this.postListEnd;
-                                }else if (curPageLen >= 1) {
-                                    info.end = this.postPageInfo[curPageLen - 1].start;
-                                }
                                 this.postPageInfo.push(info);
+                            }else {
+                                this.updateUserArticleInfo(this.currentPage,info);
                             }
                             this.currentPage += 1;
                         }else if (pReqType == 0) {
                             this.currentPage -= 1;
+                            this.updateUserArticleInfo(this.currentPage-1,info);
                         }else if (pReqType == 3) {
                             this.currentPage = parseInt(p);
                         }
@@ -214,6 +217,12 @@
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
+            },
+
+            updateUserArticleInfo(index,info) {
+                if (info && index >= 0 && index < this.postPageInfo.length) {
+                     this.postPageInfo.splice(index,info);
+                }
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);

@@ -238,34 +238,38 @@
                     }else {
                         this.listEnd = trxList[0].getBlockTime();
                     }
+                    let curPageLen = this.pageInfo.length;
+                    let info = {start:this.listStart,lastPost:this.lastInfo};
+                    if (curPageLen === 0) {
+                        info.end = this.listEnd;
+                    }else if (curPageLen >= 1) {
+                        info.end = this.pageInfo[curPageLen - 1].start;
+                    }
                     if (pReqType === 1) {
                         if (this.currentPage + 1 === this.totalPage) {
                             this.totalPage += 1;
-                            let curPageLen = this.pageInfo.length;
-                            let info = {start:this.listStart,lastPost:this.lastInfo};
-                            if (curPageLen === 0) {
-                                info.end = this.listEnd;
-                            }else if (curPageLen >= 1) {
-                                info.end = this.pageInfo[curPageLen - 1].start;
-                            }
                             this.pageInfo.push(info);
+                        }else {
+                            this.updateTxsListPage(this.currentPage,info);
                         }
                         this.currentPage += 1;
                     }else if (pReqType === 0) {
                         this.currentPage -= 1;
+                        this.updateTxsListPage(this.currentPage-1,info);
                     }else if (pReqType === 3) {
                         this.currentPage = parseInt(p);
                     }
                 }
                 this.$root.showModalLoading = false;
                 this.savePageInfo();
-                // }
-                // (errCode,msg) => {
-                //     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-                //     this.$root.showModalLoading = false;
-                //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                // });
             },
+
+            updateTxsListPage(index,info) {
+                if (info && index >= 0 && index < this.pageInfo.length) {
+                    this.pageInfo.splice(index,1,info);
+                }
+            },
+
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },
