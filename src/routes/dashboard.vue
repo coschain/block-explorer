@@ -799,6 +799,7 @@
 <script>
     const api = require("@/assets/api");
     const utility = require("@/assets/utility");
+    const cos_sdk = require("cos-grpc-js");
     const BigNumber = require("bignumber.js");
     const ECharts = require('vue-echarts/components/ECharts').default;
     require('echarts/lib/chart/line');
@@ -813,6 +814,7 @@
                 todayTxCnt: 0,
                 // dailyTxData: [],
                 hours: [],
+                eachHourStat: {},
                 hoursData: [],
                 blocks: [],
                 staticInfo: null,
@@ -839,7 +841,7 @@
             // dailyTxChartOptions() {
             hourTxChartOptions() {
                 // if (!this.dailyTxData) return null;
-                if (!this.hoursData) return null;
+                if (!this.hoursData.length > 0) return null;
                 // let dates = [],
                 //     nums = [];
 
@@ -953,8 +955,8 @@
             //clear data when change rpc address
             this.$root.eBus.$on("changeRpcAddress",address => {
                 // this.dailyTxData = [];
-                this.hoursData = {};
                 this.hours = [];
+                this.eachHourStat = {};
                 this.blocks = [];
                 this.stateInfo = null;
                 this.txs = [];
@@ -990,26 +992,28 @@
             // },(errCode,msg) => {
             //     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
             // });
+            // only one time
+            await this.statByHour(6);
 
             //fetch latest trx list
             // this.fetchTotalTrxList();
             let now = Date.now();
             // last day
-            let start = now / 1000 - 86400;
-            let end = now / 1000;
-            // let trxs = await this.fetchSpanTrxs(start, end);
-            // this.incrementTrxs(trxs);
-            this.lastSync = end;
+            let txs = await this.fetchSpanTrxs(0, 0, 5);
+            for (let tx of txs) {
+                this.txs.push(tx)
+            }
+            this.lastSync = now / 1000;
 
             this.shortIntervalID = setInterval( async () => {
                 //fetch latest trx list
                 let endTime = Date.now() / 1000;
                 // this.fetchTotalTrxList();
-                // let trxList = await this.fetchSpanTrxs(this.lastSync, endTime);
-                // this.incrementTrxs(trxList);
+                let trxList = await this.fetchSpanTrxs(this.lastSync, endTime, 0);
+                this.incrementTrxs(trxList);
                 this.lastSync = endTime;
                 //fetch latest tps
-                // this.fetchChainStateInfo();
+                this.fetchChainStateInfo();
                //fetch latest blocks
                 await this.fetchBlocksList();
                 //update today total trx count
@@ -1107,26 +1111,7 @@
                     console.log(err)
                 }
             },
-            async fetchSpanTrxs(start, end) {
-                return await api.fetchTrxListByTime(start, end, 0, null);
-            },
-            incrementTrxs(trxList) {
-                let reversed = trxList.reverse();
-                for (let trx of reversed) {
-                    this.txs.unshift(trx)
-                }
-                let end = Math.ceil(Date.now() / 1000 - 3600 * this.xaxis);
-                let length = this.txs.length;
-                for (let i = length - 1; i >= 0; i--) {
-                    if (this.txs[i].getBlockTime().getUtcSeconds() < end) {
-                        this.txs.pop()
-                    }
-                }
-                this.adjustmentHourData(this.txs, this.xaxis);
-            },
-            adjustmentHourData(trxs, c_hours) {
-                let eachHour = {};
-                let hours = [];
+            async statByHour(c_hours) {
                 let now = Date.now();
                 for (let i = 0 ; i < c_hours; i++) {
                     let hour = new Date(now - 3600 * 1e3 * i).getHours();
@@ -1135,21 +1120,65 @@
                     } else {
                         hour = '' + hour
                     }
-                    hours.push(hour);
-                    eachHour[hour] = 0
+                    this.hours.push(hour);
                 }
+                let stats = await api.statByHour(c_hours);
+                for (let stat of stats) {
+                    let so = stat.toObject();
+                    let hour = so.hour;
+                    let count = so.count;
+                    if (hour < 10){
+                        hour = '0' + hour
+                    } else {
+                        hour = '' + hour
+                    }
+                    this.eachHourStat[hour] = count
+                }
+
+            },
+            async fetchSpanTrxs(start, end, limit) {
+                let s = null;
+                let e = null;
+                if (start !== 0) {
+                    s = new cos_sdk.raw_type.time_point_sec();
+                    s.setUtcSeconds(Math.ceil(start));
+                }
+                if (end !== 0) {
+                    e = new cos_sdk.raw_type.time_point_sec();
+                    e.setUtcSeconds(Math.ceil(end));
+                }
+                return api.fetchTrxListByTime(s, e, limit, null);
+            },
+            incrementTrxs(trxList) {
+                let reversed = trxList.reverse();
+                for (let trx of reversed) {
+                    this.txs.unshift(trx)
+                }
+                this.adjustmentHourData(trxList);
+            },
+            adjustmentHourData(trxs) {
+                let hourStat = this.eachHourStat;
                 for (let trx of trxs) {
                     let hour = new Date(trx.getBlockTime()).getHours();
                     if (hour < 10) hour = '0' + hour;
                     else hour = '' + hour;
-                    if (hour in eachHour) eachHour[hour] += 1
+
+                    if (this.hours.indexOf(hour) >= 0) {
+                        hourStat[hour] += 1;
+                    }
+                    else {
+                        this.hours.unshift(hour);
+                        hourStat[hour] = 1;
+                        let expiredHour = this.hours.pop();
+                        delete hourStat[expiredHour];
+                    }
                 }
+                this.eachHourStat = hourStat;
                 let hoursData = [];
-                for (let hour of hours) {
-                    hoursData.push(eachHour[hour])
+                for (let hour of this.hours) {
+                    hoursData.push(this.eachHourStat[hour])
                 }
-                this.hoursData = hoursData.reverse();
-                this.hours = hours.reverse();
+                this.hoursData = hoursData;
             }
         },
         updated() {
