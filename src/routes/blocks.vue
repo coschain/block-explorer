@@ -72,24 +72,24 @@
 
     @media (max-width: 575.98px) {
         .vue-blocks .blkListHeader {
-            font-size: 2px;
+            font-size: 10px;
         }
 
         .vue-blocks .contentCol {
-            font-size: 2px;
+            font-size: 10px;
         }
 
         .vue-blocks .blkNumCol {
-            font-size: 2px;
+            font-size: 10px;
         }
 
         .vue-blocks .blkNumCol .blkStatus {
-            font-size: 1px;
+            font-size: 10px;
             flex-shrink: 1;
         }
 
         .vue-blocks .blkStatusTitle {
-            font-size: 1px;
+            font-size: 10px;
         }
 
         .vue-blocks .icon {

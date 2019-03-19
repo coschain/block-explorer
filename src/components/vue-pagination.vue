@@ -85,6 +85,8 @@
         border-radius: 6px;
         height: 30px;
         margin-top: 2px;
+        background-color: white;
+        border: 1px solid gray;
     }
     .pagination .homePageBtn:active {
         opacity: 0.6;
@@ -119,8 +121,7 @@
             </li>
             <div class="page_nav-item" style="width: auto; margin-left: 16px; margin-right: 16px;">
                 <span style="line-height: 34px;">Page</span>
-                <input style="margin-left: 10px;margin-right: 10px;" v-bind:value=current
-                       v-on:keyup.enter="$emit('to', $event.target.value)" readonly="readonly">
+                <input style="margin-left: 10px;margin-right: 10px; height: 34px"  v-bind:value=current readonly="readonly">
                 <span style="line-height: 34px;">/{{ total }}</span>
             </div>
 
