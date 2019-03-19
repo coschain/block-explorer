@@ -152,7 +152,7 @@
                     pReqType = 3;
                 }
 
-                api.fetchAccountListByBalance(start,null,lastAccount,accountList => {
+                api.fetchAccountListByBalance(start,null,30,lastAccount,accountList => {
                     if (accountList.length > 0) {
                         this.accountList = accountList;
                         this.lastAccount = accountList[accountList.length-1];

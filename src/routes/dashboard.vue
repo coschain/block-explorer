@@ -1074,7 +1074,7 @@
             },
 
             getLatestIrreversibleBlkNum() {
-                if (this.lastIrreversibleBlockNum) {
+                if (this.lastIrreversibleBlockNum != null && typeof this.lastIrreversibleBlockNum != "undefined") {
                     return this.lastIrreversibleBlockNum;
                 }
                 return -1;

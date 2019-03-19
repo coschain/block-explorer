@@ -125,7 +125,7 @@
                                 <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()' class="blkNum">
                                     {{block.getBlockHeight()}}
                                 </router-link>
-                                <div v-if=judgeIsIrreverBlk(block.getBlockHeight()) class="blkStatus">
+                                <div v-if=judgeIsIrreversibleBlk(block.getBlockHeight()) class="blkStatus">
                                     <img class="icon" src="../../static/img/ic_tx_status_success.png" />
                                     <span class="blkStatusTitle" style="margin-left: 5px;">Success</span>
                                 </div>
@@ -315,12 +315,8 @@
                     sessionStorage.removeItem(blksPageCacheKey);
                 }
             },
-            judgeIsIrreverBlk(blkNum) {
-                if ( (this.irreversibleBlkNum) == -1 || (BigNumber(blkNum).comparedTo(BigNumber(this.irreversibleBlkNum)) <= 0) ) {
-                    return true
-                }else {
-                    return false;
-                }
+            judgeIsIrreversibleBlk(blkNum) {
+                return (BigNumber(blkNum).comparedTo(BigNumber(this.irreversibleBlkNum)) <= 0);
             }
         },
         async mounted() {

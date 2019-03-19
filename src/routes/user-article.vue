@@ -172,7 +172,7 @@
                     //refresh current page
                     pReqType = 3;
                 }
-                api.fetchArticleListByName(start,this.firstPageEnd,lastPost,postList => {
+                api.fetchArticleListByName(start,this.firstPageEnd,30,lastPost,postList => {
                     if (postList.length) {
                         this.postList = postList;
                         this.lastPost = postList[postList.length-1];

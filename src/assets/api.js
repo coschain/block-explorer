@@ -47,11 +47,12 @@ module.exports = {
      *  fetch the account list by account balance in reverse order
      * @param start: the account balance for query start
      * @param end: the account balance for query end
+     * @param pageSize: the count of a page
      * @param lastAccount:the account info of the last one in last page
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-    async fetchAccountListByBalance(start,end,lastAccount,success,fail){
+    async fetchAccountListByBalance(start,end,pageSize,lastAccount,success,fail){
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -62,6 +63,7 @@ module.exports = {
         if (lastAccount != null) {
             req.setLastAccount(lastAccount);
         }
+        req.setLimit(pageSize);
         let promise = new Promise(function (resolve, reject) {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetAccountListByBalance, {
                 request: req,
@@ -128,7 +130,7 @@ module.exports = {
         let req = new cos_sdk.grpc.GetBlockListRequest();
         req.setStart(start);
         req.setEnd(end);
-        req.setLimit(limit);
+        req.setLimit(30);
         return new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockList, {
                 request:req,
@@ -240,10 +242,11 @@ module.exports = {
      * get list of daily total trx count by time
      * @param start: the  start time in request range, if value null,query from the first in db
      * @param end: the end time  in request range, if value is null,query to the end in db
+     * @param pageSize: the count of a page
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-    async fetchDailyTotalTrxInfoList(start,end,success,fail){
+    async fetchDailyTotalTrxInfoList(start,end,pageSize,success,fail){
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -264,7 +267,7 @@ module.exports = {
         }else {
             req.setEnd(end);
         }
-
+        req.setLimit(pageSize);
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetDailyTotalTrxInfo, {
                 request:req,
@@ -327,11 +330,12 @@ module.exports = {
      * fetch article list by create time in reverse order
      * @param start: the start time in request range
      * @param end: the end time in request range
+     * @param pageSize: the count of a page
      * @param lastArticle: the article info of the last one in last page
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-     async fetchArticleListByCreateTime(start,end,lastArticle,success,fail) {
+     async fetchArticleListByCreateTime(start,end,pageSize,lastArticle,success,fail) {
          if (typeof success != "function" || typeof fail != "function") {
              console.log("The success or fail is not a callBack function");
              return
@@ -339,7 +343,8 @@ module.exports = {
          let req = new cos_sdk.grpc.GetPostListByCreateTimeRequest();
          req.setStart(start);
          req.setEnd(end);
-        req.setLastPost(lastArticle);
+         req.setLastPost(lastArticle);
+         req.setLimit(pageSize);
          let promise = new Promise((resolve, reject) => {
              grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByCreateTime, {
                  request:req,
@@ -359,7 +364,16 @@ module.exports = {
          promise.then(success,fail)
      },
 
-    fetchArticleListByName(start,end,lastArticle,success,fail) {
+    /**
+     * fetch articles list posted by user
+     * @param start: the start time in request range
+     * @param end: the end time in request range
+     *  @param pageSize: the count of a page
+     * @param lastArticle: the article info of the last one in last page
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    fetchArticleListByName(start,end,pageSize,lastArticle,success,fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -368,6 +382,7 @@ module.exports = {
         req.setStart(start);
         req.setEnd(end);
         req.setLastPost(lastArticle);
+        req.setLimit(pageSize);
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByName, {
                 request:req,

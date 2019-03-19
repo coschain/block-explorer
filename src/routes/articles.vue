@@ -170,7 +170,7 @@
                     pReqType = 3;
                 }
 
-                api.fetchArticleListByCreateTime(start,null,lastPost,postList => {
+                api.fetchArticleListByCreateTime(start,null,30,lastPost,postList => {
                     if (postList.length) {
                         this.postList = postList;
                         this.lastPost = postList[postList.length-1];
