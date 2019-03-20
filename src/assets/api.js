@@ -130,7 +130,7 @@ module.exports = {
         let req = new cos_sdk.grpc.GetBlockListRequest();
         req.setStart(start);
         req.setEnd(end);
-        req.setLimit(30);
+        req.setLimit(limit);
         return new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockList, {
                 request:req,
