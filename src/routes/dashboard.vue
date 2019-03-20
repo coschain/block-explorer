@@ -928,15 +928,13 @@
                         transitionDuration: 0,
                         position: 'top',
                         formatter: function (params, ticket, callback) {
-                            console.log("params");
-                            console.log(params);
-                            let date = new Date(params.name);
-                            let dateStr = date.toLocaleDateString('en', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric'
-                            });
-                            return dateStr + '<div>Transactions: ' + vm.numberAddComma(params.value) + '</div><div class=daily-echart-down-arrow></div>';
+                            // let date = new Date(params.name);
+                            // let dateStr = date.toLocaleDateString('en', {
+                            //     year: 'numeric',
+                            //     month: 'short',
+                            //     day: 'numeric'
+                            // });
+                            return  '<div>Transactions: ' + vm.numberAddComma(params.value) + '</div><div class=daily-echart-down-arrow></div>';
                         },
                         backgroundColor: '#595C63',
                         padding: 8,
