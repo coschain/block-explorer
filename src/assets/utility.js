@@ -1,12 +1,3 @@
-var moment = require('moment');
-// ISO-8601, Europe
-moment.updateLocale("en", {
-    week: {
-        dow: 1, // First day of week is Monday
-        doy: 4  // First week of year must contain 4 January (7 + 1 - 4)
-    }
-});
-
 const pageCacheType = {
     blocksList : 1,//blocks list page
     txsList : 2,//txs list page
@@ -34,8 +25,6 @@ module.exports = {
     ua: ua,
     yyyymmdd: yyyymmdd,
     getContentosNetHost: getContentosNetHost,
-    weekNumber: weekNumber,
-    moment: moment,
     searchType: judgeSearchType,
     byteToHexStr: convertByteToHexString,
     hexStrToByte: convertHexStringToByteArray,
@@ -310,10 +299,6 @@ function getContentosNetHost(net){
     }
 
     return mainnet
-}
-
-function weekNumber(date) {
-    return moment(date).week();
 }
 
 /**
