@@ -384,18 +384,23 @@ function convertHexStringToByteArray(str) {
 }
 
 function formatBlockSize(blkSize)  {
-    let size = blkSize;
+    if (typeof blkSize != "number" && typeof blkSize != "string") {
+        return "0";
+    }
+    let size = 0;
     if (typeof blkSize == "string") {
-        size = Number(blkSize);
+        size = parseInt(blkSize);
+    }else  {
+        size = blkSize
     }
     if (size <= 0) {
         return "0"
     }else if (size >= 1024*1024) {
-        return handleBlkSizeDecimalPointNum(size/(1024*1024)) + "m";
+        return handleBlkSizeDecimalPointNum(size/(1024*1024)) + "M";
     }else if (size >= 1024) {
-        return handleBlkSizeDecimalPointNum(size/1024) + "k";
+        return handleBlkSizeDecimalPointNum(size/1024) + "K";
     }else {
-        return size+"b";
+        return size+"B";
     }
 }
 
