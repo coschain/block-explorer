@@ -95,6 +95,12 @@
                             </router-link>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="font-color-555555">Size</td>
+                        <td>
+                            <span class="font-color-000000">{{ formatBlockSize(blockInfo.toObject().blockSize) }}</span>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -155,6 +161,13 @@
                         </router-link>
                     </div>
                 </div>
+
+                <div>
+                    <div class="font-color-555555">Size</div>
+                    <div>
+                        <span class="font-color-000000 monospace">{{formatBlockSize(blockInfo.toObject().blockSize)}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -193,6 +206,9 @@
             },
             toWei(n) {
                 return utility.toWei(n);
+            },
+            formatBlockSize(size) {
+                return utility.formatBlkSize(size);
             }
         },
         data() {

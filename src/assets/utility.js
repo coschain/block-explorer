@@ -44,6 +44,7 @@ module.exports = {
     clearPagesInfoCache: clearAllPageListDataCache,
     getPageCacheKey: getPageInfoCacheKey,
     getTestNetName:getTestNetName,
+    formatBlkSize: formatBlockSize,
 };
 
 ////////////////////////////////////////////////////////////
@@ -380,4 +381,29 @@ function convertHexStringToByteArray(str) {
         pos += 2;
     }
     return arrBytes;
+}
+
+function formatBlockSize(blkSize)  {
+    let size = blkSize;
+    if (typeof blkSize == "string") {
+        size = Number(blkSize);
+    }
+    if (size <= 0) {
+        return "0"
+    }else if (size >= 1024*1024) {
+        return handleBlkSizeDecimalPointNum(size/(1024*1024)) + "m";
+    }else if (size >= 1024) {
+        return handleBlkSizeDecimalPointNum(size/1024) + "k";
+    }else {
+        return size+"b";
+    }
+}
+
+function  handleBlkSizeDecimalPointNum(num) {
+    let decimalPos = String(num).indexOf('.') + 1;
+    let decimalNum = String(num).length - decimalPos;
+    if (decimalNum > 2) {
+        return num.toFixed(2);
+    }
+    return num
 }
