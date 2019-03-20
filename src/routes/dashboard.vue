@@ -896,13 +896,16 @@
                                 color: '#B2B2B2'
                             },
                             margin: 0,
+                            formatter: function (value) {
+                                return vm.formatTxsCount(value);
+                            }
                         },
                         axisTick: {
                             show: false
                         },
                         splitLine: {
                             show: false
-                        }
+                        },
                     },
                     series: {
                         type: 'line',
@@ -1032,6 +1035,9 @@
             },
             timeConversion(ms) {
                 return utility.timeConversion(ms);
+            },
+            formatTxsCount(num) {
+                return utility.formatTxsCnt(num);
             },
             afterEnter: function (el) {
                 let height = (1 - Math.min(5, Math.max(0, el.firstElementChild.dataset.txncnt)) / 5.0) * 100 + 'px';

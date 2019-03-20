@@ -45,6 +45,7 @@ module.exports = {
     getPageCacheKey: getPageInfoCacheKey,
     getTestNetName:getTestNetName,
     formatBlkSize: formatBlockSize,
+    formatTxsCnt: formatTxsCount,
 };
 
 ////////////////////////////////////////////////////////////
@@ -396,19 +397,43 @@ function formatBlockSize(blkSize)  {
     if (size <= 0) {
         return "0"
     }else if (size >= 1024*1024) {
-        return handleBlkSizeDecimalPointNum(size/(1024*1024)) + "M";
+        return handleDecimalPointNum(size/(1024*1024)) + "M";
     }else if (size >= 1024) {
-        return handleBlkSizeDecimalPointNum(size/1024) + "K";
+        return handleDecimalPointNum(size/1024) + "K";
     }else {
         return size+"B";
     }
 }
 
-function  handleBlkSizeDecimalPointNum(num) {
+/**
+ *  Keep two decimals if decimal number greater than 2
+ * @param num : origin value
+ * @return: return  value with two decimals
+ */
+function  handleDecimalPointNum(num) {
     let decimalPos = String(num).indexOf('.') + 1;
     let decimalNum = String(num).length - decimalPos;
     if (decimalNum > 2) {
         return num.toFixed(2);
     }
-    return num
+    return num;
+}
+
+function formatTxsCount(count) {
+    if (typeof count != "number" && typeof count != "string") {
+        return "0";
+    }
+    let num = 0;
+    if (typeof count == "string") {
+        num = Number(count);
+    }else {
+        num = count;
+    }
+    if (num >= 1000000) {
+        return handleDecimalPointNum(num/1000000) + "M"
+    }else if (num >= 10000) {
+        return handleDecimalPointNum(num/10000) + "K"
+    } else {
+        return num;
+    }
 }
