@@ -134,7 +134,7 @@
                             <!--<router-link class=dropdown-item v-bind:to="fragApi + '/txs/pending'">Pending Transactions</router-link>
                             -->
                             <div class="dropdown-divider"></div>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/blocks'">Blocks</router-link>
+                            <router-link class=dropdown-item v-bind:to="fragApi + '/blocks/' + getCurrentIrreversibleNum()">Blocks</router-link>
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/accounts'">Accounts</router-link>
                             <div class="dropdown-divider"></div>
@@ -233,6 +233,9 @@
             },
             getCurrentHostAddress() {
                 return utility.getHost();
+            },
+            getCurrentIrreversibleNum() {
+                return utility.getIrreversibleBlkNum();
             }
         },
         mounted() {

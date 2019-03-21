@@ -830,7 +830,6 @@
                 curBlkNum: 0,
                 trxStartTime:null,//the latest trx block time
                 lastIrreversibleBlockTime: null,
-                lastIrreversibleBlockNum: null,
                 byteToHex: utility.byteToHexStr,
                 hexTobyte: utility.hexStrToByte,
                 xaxis: 6,
@@ -969,7 +968,6 @@
                 this.trxStartTime = null;
                 this.curBlkNum = 0;
                 this.lastIrreversibleBlockTime = null;
-                this.lastIrreversibleBlockNum = null;
             });
 
            //fetch state info
@@ -1075,10 +1073,7 @@
             },
 
             getLatestIrreversibleBlkNum() {
-                if (this.lastIrreversibleBlockNum != null && typeof this.lastIrreversibleBlockNum != "undefined") {
-                    return this.lastIrreversibleBlockNum;
-                }
-                return -1;
+                return utility.getIrreversibleBlkNum();
             },
 
             fetchChainStateInfo() {
@@ -1086,7 +1081,7 @@
                     if (info != null && typeof info.state.dgpo != "undefined" ) {
                         this.stateInfo = info.state.dgpo;
                         this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
-                        this.lastIrreversibleBlockNum = info.state.lastIrreversibleBlockNumber;
+                        utility.updateIrreversibleBlkNum(info.state.lastIrreversibleBlockNumber);
                     }else {
                         console.log("return empty props");
                     }

@@ -8,6 +8,7 @@ const pageCacheType = {
 };
 
 const rpcCacheKey = "rpcAddress";
+let irreversibleNum = 0;
 module.exports = {
     pageCacheType:pageCacheType,
     ajax: ajax,
@@ -35,6 +36,8 @@ module.exports = {
     getTestNetName:getTestNetName,
     formatBlkSize: formatBlockSize,
     formatTxsCnt: formatTxsCount,
+    updateIrreversibleBlkNum:updateIrreversibleBlkNum,
+    getIrreversibleBlkNum:getIrreversibleBlkNum,
 };
 
 ////////////////////////////////////////////////////////////
@@ -421,4 +424,14 @@ function formatTxsCount(count) {
     } else {
         return num;
     }
+}
+
+function updateIrreversibleBlkNum(num) {
+    if (num != null && typeof num != "undefined") {
+        irreversibleNum = num;
+    }
+}
+
+function getIrreversibleBlkNum() {
+    return irreversibleNum;
 }
