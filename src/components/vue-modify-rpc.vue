@@ -11,7 +11,7 @@
             <div class="vue-modify-rpc-body">
                 <slot name="body">
                     <!-- Input -->
-                    <input  type = "text" autocomplete="off" v-bind:value=currentAddress class= "vue-modify-rpc-input" id="rpcAddress"/>
+                    <input  type = "text" autocomplete="off" :placeholder="defaultRpc" v-bind:value=currentAddress class= "vue-modify-rpc-input" id="rpcAddress"/>
                 </slot>
             </div>
 
@@ -21,7 +21,7 @@
                     <button class="vue-modify-rpc-btn" @click="close">Cancel</button>
                 </slot>
             </div>
-        </div> 
+        </div>
     </div>
 </template>
 
@@ -31,7 +31,8 @@
         props:["currentAddress"],
         data() {
             return {
-               rpcAddress: "",
+                rpcAddress: "",
+                defaultRpc: process.env.VUE_APP_CHAIN
             }
         },
         methods: {
