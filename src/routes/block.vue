@@ -190,7 +190,6 @@
                 this.blockInfo = blkInfo[0];
                 this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
                 this.blkHash = this.blockInfo.getBlockId().getHexHash();
-                console.log("fetch block");
             }
             this.$root.showModalLoading = false;
           }
