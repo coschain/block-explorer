@@ -708,28 +708,28 @@
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ stateInfo.headBlockNumber }}</div>
                         <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/blocks/" + getLatestIrreversibleBlkNum()'>Block Height ></router-link>
-                        <img src=/static/img/dashboard-1.png width=44 alt="">
+                        <img src=/static/img/cos_block_height_icon.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalTrxCnt) }}</div>
                         <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/txs/"'>Total Transactions ></router-link>
-                        <img src=/static/img/dashboard-2.png width=44 alt="">
+                        <img src=/static/img/cos_txs_icon.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalPostCnt) }}</div>
                         <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/articles/"'>Total articles ></router-link>
-                        <img src=/static/img/dashboard-3.png width=44 alt="">
+                        <img src=/static/img/cos_articles_icon.png width=44 alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalUserCnt) }}</div>
                         <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/accounts/"'>Total Accounts ></router-link>
-                        <img src=/static/img/dashboard-4.png width=44 alt="">
+                        <img src=/static/img/cos_accounts_icon.png width=44 alt="">
                     </div>
                 </div>
             </div>
@@ -742,7 +742,7 @@
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
                             <tr class="list-item" v-for="(block, i) in blocks" v-if="i < 5" :key="block.getBlockHeight()">
                                 <td>
-                                    <img src="/static/img/icon-block.png?v=20190116" width="50" height="50">
+                                    <img src="/static/img/cos_block_logo.png" width="50" height="50">
                                 </td>
                                 <td>
                                     Block#
@@ -769,7 +769,7 @@
                         <transition-group name="list" tag="table" frame=hsides rules=rows>
                             <tr v-for="(tx, i) in txs" v-if="i < 5" :key="tx.toObject().trxId.hash">
                                 <td>
-                                    <img src="/static/img/icon-tx.png?v=20190116" width="50" height="50">
+                                    <img src="/static/img/cos_trx_logo.png" width="50" height="50">
                                 </td>
                                 <td>
                                     Tx#

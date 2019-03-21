@@ -149,7 +149,7 @@
                              </router-link>
                         </td>
                         <td class="txContentCol">
-                            <div>{{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}</div>
+                         {{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}
                         </td>
                     </tr>
                 </table>
