@@ -21,11 +21,15 @@
     }
 
     .vue-accounts .headRank {
-        width: 20%;
+        width: 15%;
     }
 
-    .vue-accounts .headAccountAndCoin {
-        width: 40%;
+    .vue-accounts .headAccount {
+        width: 25%;
+    }
+
+    .vue-accounts .headOther {
+        width: 30%;
     }
 
     .vue-accounts .accountListCol {
@@ -38,15 +42,19 @@
     }
 
     .vue-accounts .rankContentCol {
-        width: 20%;
+        width: 15%;
+    }
+
+    .vue-accounts .contentFont {
+        font-size: 14px;
     }
 
     .vue-accounts .accountNameContentCol {
-        width: 40%;
+        width: 25%;
     }
 
-    .vue-accounts .coinContentCol {
-        width: 40%;
+    .vue-accounts .coinAndVestContentCol {
+        width: 30%;
     }
 
     @media (min-width: 576px) {
@@ -58,6 +66,16 @@
     @media (max-width: 767.98px) {
         .vue-accounts .title {
             font-size: 20px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .vue-accounts .contentFont {
+            font-size: 12px;
+        }
+
+        .vue-accounts .accountListHeader {
+            font-size: 10px;
         }
     }
 
@@ -77,11 +95,11 @@
                 <table class="mt20 explorer-table">
                     <tr class="accountListHeader font-bold font-color-000000">
                         <th class="headRank">Rank</th>
-                        <th class="headAccountAndCoin">Account</th>
-                        <th class="headAccountAndCoin">Balance</th>
-                        <!--<th class=text-right>Percentage</th>-->
+                        <th class="headAccount">Account</th>
+                        <th class="headOther">Balance</th>
+                        <th class="headOther">Percentage</th>
                     </tr>
-                    <tr v-for="(account, i) in accountList" :key="i" class="font-14">
+                    <tr v-for="(account, i) in accountList" :key="i" class="contentFont">
                         <td class="accountListCol rankContentCol">{{(currentPage-1)*accountList.length+i+1}}</td>
                         <td class="accountListCol accountNameContentCol">
                             <!--<vue-blockies v-bind:address='account.getAccountName().getValue()'></vue-blockies>-->
@@ -90,8 +108,9 @@
                             </router-link>
                             <!--<span v-show=o.alias> | {{ o.alias }}</span>-->
                         </td>
-                        <td class="accountListCol coinContentCol">{{ account.getCoin().toString() }}</td>
+                        <td class="accountListCol coinAndVestContentCol">{{ account.getCoin().toString() }}</td>
                         <!--<td class="text-right font-color-555555">{{ new Number(o.percentage).toFixed(4) }}%</td>-->
+                       <td class="accountListCol coinAndVestContentCol">{{account.hasVest()?account.getVest().toString():""}}</td>
                     </tr>
                 </table>
             </div>
