@@ -1067,7 +1067,7 @@
                         if (this.blocks.length > 10) {
                             this.blocks.splice(10);
                         }
-                        this.curBlkNum = this.blocks[0].getBlockHeight();
+                        this.curBlkNum = '+' + this.blocks[0].getBlockHeight()+1;
                         if (this.stateInfo) {
                             this.stateInfo.headBlockNumber = this.curBlkNum;
                         }
