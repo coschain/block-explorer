@@ -185,11 +185,13 @@
           async urlChange() {
             this.$root.showModalLoading = true;
             //fetch block info
-            let blkInfo = await api.fetchBlockList(this.$route.params.id,this.$route.params.id, 1);
+            let blkInfo = await api.fetchBlockList(+this.$route.params.id+1,+this.$route.params.id+1, 1);
             if (blkInfo.length > 0 ) {
                 this.blockInfo = blkInfo[0];
                 this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
                 this.blkHash = this.blockInfo.getBlockId().getHexHash();
+                console.log("block height is:");
+                console.log(this.blockInfo.getBlockHeight());
             }
             this.$root.showModalLoading = false;
           }
