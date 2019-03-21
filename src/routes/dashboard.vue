@@ -1113,9 +1113,15 @@
                 let stats = await api.statByHour(c_hours);
                 let hours = [];
                 let hoursData = [];
+                let date = new Date();
+                let offset = date.getTimezoneOffset() / 60;
                 for (let stat of stats) {
                     let so = stat.toObject();
-                    let hour = so.hour;
+                    let utcHour = so.hour;
+                    let hour = utcHour + 24 - offset;
+                    if (hour >= 24) {
+                        hour -= 24;
+                    }
                     let count = so.count;
                     if (hour < 10){
                         hour = '0' + hour
