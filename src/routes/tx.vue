@@ -131,12 +131,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>-->
-                        <!--<td>-->
-                            <!--&lt;!&ndash;<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<span class="font-16 monospace">{{ tx.from.hash }}</span>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-                        <!--</td>-->
+                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Operations:</td>
+                        <td>
+                            <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                        </td>
                     </tr>
                     <!--<tr>-->
                         <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">To:</td>-->
@@ -229,14 +227,20 @@
                         </router-link>
                     </div>
                 </div>
-                <tr>
+                <div>
+                    Operations:
+                    <div class="detail">
+                        <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                    </div>
+                </div>
+                <!--<tr>-->
                     <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">Data:</td>-->
                     <!--<td>-->
                         <!--&lt;!&ndash;<router-link v-if=tx.from v-bind:to='fragApi +"/address/" + tx.from.hash'>&ndash;&gt;-->
                         <!--&lt;!&ndash;<span class="font-16 monospace">{{ tx.from.hash }}</span>&ndash;&gt;-->
                         <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
                     <!--</td>-->
-                </tr>
+                <!--</tr>-->
                 <!--<div>-->
                     <!--To:-->
                     <!--<div class="detail"></div>-->
@@ -298,11 +302,11 @@
         computed: {
 
             formatCode() {
-                var lang = prism.languages.javascript;
+                let lang = prism.languages.javascript;
                 if (this.tx.data)
-                    if (this.tx.type =="deploy")
+                    if (this.tx.type ==="deploy")
                         return prism.highlight(jsBeautify(JSON.parse(this.tx.data).Source), lang);
-                    else if (this.tx.type =="call")
+                    else if (this.tx.type ==="call")
                         return prism.highlight(jsBeautify(this.tx.data), lang);
 
                 return "";
@@ -350,7 +354,7 @@
             },
             isTokenTransfer() {
                 try {
-                    if (this.tx.type == 'call' && JSON.parse(this.tx.data).Function == 'transfer' && JSON.parse(JSON.parse(this.tx.data).Args).length >= 2) {
+                    if (this.tx.type === 'call' && JSON.parse(this.tx.data).Function === 'transfer' && JSON.parse(JSON.parse(this.tx.data).Args).length >= 2) {
                         return true;
                     }
                 } catch (error) {
@@ -444,5 +448,10 @@
             trxHash.setHexHash(hexHash);
             this.trxId = trxHash.getHash();
         },
+        filters: {
+            pretty: function(value) {
+                return JSON.stringify(value, null, 2);
+            }
+        }
     };
 </script>

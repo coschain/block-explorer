@@ -4,6 +4,9 @@ import Header from "./components/vue-header"
 import Footer from "./components/vue-footer"
 import Modal from "./components/vue-modal"
 import Rpc from "./components/vue-modify-rpc"
+import VueHighlightJS from 'vue-highlightjs'
+import 'highlight.js/styles/github-gist.css'
+
 const vAppConfig = require("@/assets/app-config");
 
 const vRouter = new VueRouter({routes: require("@/assets/routes")});
@@ -28,6 +31,7 @@ const isProd = process.env.NODE_ENV === 'production';
 Vue.config.productionTip = isProd;
 Vue.use(VueRouter);
 vRouter.beforeEach(onBeforeEach);
+Vue.use(VueHighlightJS);
 
 Number.prototype.pad = function (size) {
     let s = String(this);
