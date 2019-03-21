@@ -817,7 +817,6 @@
                 hoursData: [],
                 blocks: [],
                 staticInfo: null,
-                lastSync: Math.ceil(Date.now() / 1000),
                 txs: [],
                 shortIntervalID: null,
                 stateInfo: null,//chain props
@@ -833,6 +832,8 @@
                 byteToHex: utility.byteToHexStr,
                 hexTobyte: utility.hexStrToByte,
                 xaxis: 6,
+                hiddenTopic:"hidden",
+                visibilityChangeTopic:"visibilitychange",
             }
         },
         computed: {
@@ -951,6 +952,7 @@
             },
         },
         async mounted() {
+            this.addVisibleListener();
             utility.clearPagesInfoCache();
             //clear data when change rpc address
             this.$root.eBus.$on("changeRpcAddress",address => {
@@ -970,64 +972,29 @@
                 this.lastIrreversibleBlockTime = null;
             });
 
-           //fetch state info
-            this.fetchChainStateInfo();
-
-            //fetch latest block list
-            await this.fetchBlocksList();
-            //fetch recent 7 day total trx count
-            // let start = Math.ceil(Date.now()/1000)-7*86400;
-            // let end = Math.ceil(Date.now()/1000)+86400;
-            // api.fetchDailyTotalTrxInfoList(start,end,infoList => {
-            //     if (infoList.length > 0) {
-            //        this.dailyTxData = infoList;
-            //        let finalInfo = infoList[infoList.length-1];
-            //        if (Math.floor(finalInfo.date.utcSeconds/86400) ===  Math.floor(Date.now()/1000/86400)) {
-            //            this.todayTxCnt = finalInfo.count;
-            //            this.dailyTxData.pop();
-            //        }
-            //     }
-            // },(errCode,msg) => {
-            //     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
-            // });
-            // only one time
-            await this.statByHour(6);
-
-            //fetch latest trx list
-            // this.fetchTotalTrxList();
-            let now = Date.now();
-            // last day
-            this.txs = await this.fetchSpanTrxs(0, 0, 5);
-            this.lastSync = now / 1000;
-
-            this.shortIntervalID = setInterval( async () => {
-                //fetch latest trx list
-                let endTime = Date.now() / 1000;
-                // this.fetchTotalTrxList();
-                this.txs = await this.fetchSpanTrxs(0, 0, 5);
-                // this.incrementTrxs(trxList);
-                this.lastSync = endTime;
-                //fetch latest tps
-                this.fetchChainStateInfo();
-               //fetch latest blocks
-                await this.fetchBlocksList();
-                await this.statByHour(6);
-                //update today total trx count
-                // let start = Math.ceil(Date.now()/1000);
-                // let end = Math.ceil(Date.now()/1000)+86400;
-                // api.fetchDailyTotalTrxInfoList(start,end,infoList => {
-                //     if (infoList.length > 0) {
-                //         this.todayTxCnt =  infoList[0].count;
-                //     }
-                // },(errCode,msg) => {
-                //     console.log("Get today trx count fail,error code is %s,msg is %s",errCode,msg);
-                // });
-                // this.todayTxCnt = this.txs.length;
-
-            }, 5000);
+            this.loadDatas();
+            this.setTimer();
 
         },
         methods: {
+            addVisibleListener() {
+                if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+                    this.hiddenTopic = "hidden";
+                    this.visibilityChangeTopic = "visibilitychange";
+                } else if (typeof document.msHidden !== "undefined") {
+                    this.hiddenTopic = "msHidden";
+                    visibilityChangeTopic = "msvisibilitychange";
+                } else if (typeof document.webkitHidden !== "undefined") {
+                    this.hiddenTopic = "webkitHidden";
+                    this.visibilityChangeTopic = "webkitvisibilitychange";
+                }
+                if (typeof document.addEventListener === "undefined" || typeof document[this.hiddenTopic] === "undefined") {
+                    console.log("not surpport visibility listener");
+                }else {
+                    document.addEventListener(this.visibilityChangeTopic, this.handleVisibilityChange, false);
+                }
+            },
+
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },
@@ -1180,6 +1147,46 @@
             //     }
             //     this.hoursData = hoursData;
             // }
+
+            handleVisibilityChange() {
+                if (document[this.hiddenTopic]) {
+                    this.clearTimer();
+                } else  {
+                    this.loadDatas();
+                    this.setTimer();
+                }
+            },
+            setTimer() {
+                this.clearTimer();
+                this.shortIntervalID = setInterval( async () => {
+                    //fetch latest trx list
+                    let endTime = Date.now() / 1000;
+                    // this.fetchTotalTrxList();
+                    this.txs = await this.fetchSpanTrxs(0, 0, 5);
+                    //fetch latest tps
+                    this.fetchChainStateInfo();
+                    //fetch latest blocks
+                    await this.fetchBlocksList();
+                    await this.statByHour(6);
+                }, 5000);
+
+            },
+            clearTimer() {
+                if(this.shortIntervalID != null && typeof this.shortIntervalID != "undefined") {
+                    clearInterval(this.shortIntervalID);
+                    this.shortIntervalID = null;
+                }
+            },
+            async loadDatas() {
+                //fetch state info
+                this.fetchChainStateInfo();
+                //fetch latest block list
+                await this.fetchBlocksList();
+                //fetch total trx in rencent 6 hours
+                await this.statByHour(6);
+                this.txs = await this.fetchSpanTrxs(0, 0, 5);
+            }
+
         },
         updated() {
             if (window.isIE()) {
@@ -1187,7 +1194,10 @@
             }
         },
         destroyed() {
-            clearInterval(this.shortIntervalID);
+            // clearInterval(this.shortIntervalID);
+            this.clearTimer();
+            console.log(this.shortIntervalID);
+            document.removeEventListener(this.visibilityChange, this.handleVisibilityChange, false);
         }
     }
 </script>
