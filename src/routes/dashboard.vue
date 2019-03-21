@@ -1085,7 +1085,10 @@
                 for (let stat of stats) {
                     let so = stat.toObject();
                     let utcHour = so.hour;
-                    let hour = utcHour + 24 - offset;
+                    let hour = utcHour - offset;
+                    if (hour < 0) {
+                        hour += 24;
+                    }
                     if (hour >= 24) {
                         hour -= 24;
                     }
