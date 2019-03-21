@@ -1097,7 +1097,9 @@
                         for (let b of blkList) {
                             this.blocks.unshift(b)
                         }
-                        this.blocks.splice(10);
+                        if (this.blocks.length > 10) {
+                            this.blocks.splice(10);
+                        }
                         this.curBlkNum = this.blocks[0].getBlockHeight();
                         if (this.stateInfo) {
                             this.stateInfo.headBlockNumber = this.curBlkNum;
