@@ -1058,7 +1058,7 @@
             },
             async fetchBlocksList() {
                 try {
-                    let blkList = await api.fetchBlockList(this.curBlkNum, 0, 5);
+                    let blkList = await api.fetchBlockList(parseInt(this.curBlkNum) + 1, 0, 5);
                     let cnt = blkList.length;
                     if (cnt > 0) {
                         for (let b of blkList) {
@@ -1067,7 +1067,7 @@
                         if (this.blocks.length > 10) {
                             this.blocks.splice(10);
                         }
-                        this.curBlkNum = '+' + this.blocks[0].getBlockHeight()+1;
+                        this.curBlkNum = this.blocks[0].getBlockHeight();
                         if (this.stateInfo) {
                             this.stateInfo.headBlockNumber = this.curBlkNum;
                         }
