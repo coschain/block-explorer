@@ -690,9 +690,9 @@
                         <div v-if="stateInfo" class="detail">
                             <span>{{ stateInfo.tps }}</span>
                         </div>
-                        <div v-if="lastIrreversibleBlockTime" class="irreversible">
+                        <div v-if="confirmBlkTime" class="irreversible">
                             <div>Confirm delay Time</div>
-                            <div v-if="lastIrreversibleBlockTime" class="confirmTime">{{ timeConversion(Date.now() - lastIrreversibleBlockTime*1000) }} ago</div>
+                            <div v-if="confirmBlkTime" class="confirmTime">{{ confirmBlkTime }} ago</div>
                         </div>
 
                         <div v-if="stateInfo" class="maxTPS">
@@ -828,7 +828,7 @@
                 accountTotalNum:0,//total account number
                 curBlkNum: 0,
                 trxStartTime:null,//the latest trx block time
-                lastIrreversibleBlockTime: null,
+                confirmBlkTime: null,
                 byteToHex: utility.byteToHexStr,
                 hexTobyte: utility.hexStrToByte,
                 xaxis: 6,
@@ -969,7 +969,7 @@
                 this.accountTotalNum = 0;
                 this.trxStartTime = null;
                 this.curBlkNum = 0;
-                this.lastIrreversibleBlockTime = null;
+                this.confirmBlkTime = null;
             });
 
             this.loadDatas();
@@ -983,13 +983,13 @@
                     this.visibilityChangeTopic = "visibilitychange";
                 } else if (typeof document.msHidden !== "undefined") {
                     this.hiddenTopic = "msHidden";
-                    visibilityChangeTopic = "msvisibilitychange";
+                    this.visibilityChangeTopic = "msvisibilitychange";
                 } else if (typeof document.webkitHidden !== "undefined") {
                     this.hiddenTopic = "webkitHidden";
                     this.visibilityChangeTopic = "webkitvisibilitychange";
                 }
                 if (typeof document.addEventListener === "undefined" || typeof document[this.hiddenTopic] === "undefined") {
-                    console.log("not surpport visibility listener");
+                    console.log("not support visibility listener");
                 }else {
                     document.addEventListener(this.visibilityChangeTopic, this.handleVisibilityChange, false);
                 }
@@ -1044,10 +1044,14 @@
             },
 
             fetchChainStateInfo() {
+                let currentTime = Date.now();
                 api.fetchStateInfo(info => {
                     if (info != null && typeof info.state.dgpo != "undefined" ) {
                         this.stateInfo = info.state.dgpo;
-                        this.lastIrreversibleBlockTime = info.state.lastIrreversibleBlockTime;
+                        let confirmTime = info.state.lastIrreversibleBlockTime;
+                        if (confirmTime != null && typeof confirmTime != "undefined" && confirmTime > 0) {
+                            this.confirmBlkTime = this.timeConversion(currentTime - confirmTime*1000);
+                        }
                         utility.updateIrreversibleBlkNum(info.state.lastIrreversibleBlockNumber);
                     }else {
                         console.log("return empty props");
@@ -1199,8 +1203,7 @@
         destroyed() {
             // clearInterval(this.shortIntervalID);
             this.clearTimer();
-            console.log(this.shortIntervalID);
-            document.removeEventListener(this.visibilityChange, this.handleVisibilityChange, false);
+            document.removeEventListener(this.visibilityChangeTopic, this.handleVisibilityChange, false);
         }
     }
 </script>

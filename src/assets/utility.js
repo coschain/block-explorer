@@ -207,15 +207,19 @@ function shuffle(array) {
 // Nofi
 function timeConversion(millisec) {
     millisec = Math.max(millisec, 0);
-    var seconds = (millisec / 1000).toFixed(0),
+    let seconds = (millisec / 1000).toFixed(0),
         minutes = (millisec / (1000 * 60)).toFixed(0),
         hours = (millisec / (1000 * 60 * 60)).toFixed(0),
         days = (millisec / (1000 * 60 * 60 * 24)).toFixed(0),
         years = (millisec / (1000 * 60 * 60 * 24 * 365)).toFixed(0);
 
-    if (seconds < 60)
+    if (seconds < 60) {
+        let second = (millisec / 1000);
+        if (second > 0 && second < 1) {
+            seconds = second.toFixed(1);
+        }
         return seconds + (seconds > 1 ? " Secs" : " Sec");
-    else if (minutes < 60)
+    } else if (minutes < 60)
         return minutes + (minutes > 1 ? " Mins" : " Min");
     else if (hours < 24)
         return hours + (hours > 1 ? " Hrs" : " Hr");
