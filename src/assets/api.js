@@ -4,7 +4,7 @@ const cos_sdk = require("cos-grpc-js");
 const grpc_web = require("@improbable-eng/grpc-web").grpc;
 
 module.exports = {
-     cos_sdk,
+    cos_sdk,
     /*
      * get user account info by account name
      * @param name: user name
@@ -12,12 +12,12 @@ module.exports = {
      * @param fail:  the request fail callBack
      * @returns nil
      */
-     async fetchAccountInfoByName(name,success,fail) {
-         if (typeof success != "function" || typeof fail != "function") {
-             console.log("The success or fail is not a callBack function");
-             return
-         }
-        let req = new  cos_sdk.grpc.GetAccountByNameRequest();
+    async fetchAccountInfoByName(name, success, fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetAccountByNameRequest();
         let accountName = new cos_sdk.raw_type.account_name();
         accountName.setValue(name);
         req.setAccountName(accountName);
@@ -26,21 +26,21 @@ module.exports = {
                 request: req,
                 host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         if (message.hasAccountName()) {
                             resolve(message)
-                        }else {
+                        } else {
                             resolve(null)
                         }
 
                     } else {
-                        reject(status,statusMessage)
+                        reject(status, statusMessage)
                     }
                 }
             });
         });
-        promise.then(success,fail);
+        promise.then(success, fail);
     },
 
     /**
@@ -52,12 +52,12 @@ module.exports = {
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-    async fetchAccountListByBalance(start,end,pageSize,lastAccount,success,fail){
+    async fetchAccountListByBalance(start, end, pageSize, lastAccount, success, fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
         }
-        let req = new  cos_sdk.grpc.GetAccountListByBalanceRequest();
+        let req = new cos_sdk.grpc.GetAccountListByBalanceRequest();
         req.setStart(start);
         req.setEnd(end);
         if (lastAccount != null) {
@@ -69,17 +69,17 @@ module.exports = {
                 request: req,
                 host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getListList();
                         resolve(obj);
                     } else {
-                        reject(status,statusMessage)
+                        reject(status, statusMessage)
                     }
                 }
             });
         });
-        promise.then(success,fail);
+        promise.then(success, fail);
     },
 
     /**
@@ -87,33 +87,33 @@ module.exports = {
      * @param success:  the request success callback
      * @param fail:     the  request fail callback
      */
-    async fetchStateInfo(success,fail) {
+    async fetchStateInfo(success, fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
         }
         let req = new cos_sdk.grpc.NonParamsRequest();
         let promise = new Promise((resolve, reject) => {
-            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetStatisticsInfo,{
-                 request:req,
-                 host:getHost(),
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetStatisticsInfo, {
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         if (message.hasState()) {
                             let obj = message.toObject();
                             resolve(obj);
-                        }else {
+                        } else {
                             resolve(null)
                         }
 
-                    }else {
-                        reject(status,statusMessage)
+                    } else {
+                        reject(status, statusMessage)
                     }
                 }
             })
         });
-        promise.then(success,fail);
+        promise.then(success, fail);
     },
 
     /**
@@ -133,15 +133,15 @@ module.exports = {
         req.setLimit(limit);
         return new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockList, {
-                request:req,
-                host:getHost(),
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getBlocksList();
                         resolve(obj)
                     } else {
-                        reject(status,statusMessage)
+                        reject(status, statusMessage)
                     }
                 }
             })
@@ -154,15 +154,15 @@ module.exports = {
         req.setHours(hour)
         return new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.TrxStatByHour, {
-                request:req,
-                host:getHost(),
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getStatList();
                         resolve(obj)
                     } else {
-                        reject(status,statusMessage)
+                        reject(status, statusMessage)
                     }
                 }
             })
@@ -170,7 +170,7 @@ module.exports = {
         // promise.then(success,fail);
     },
 
-    async fetchSignedBlock(blkNumber,success,fail){
+    async fetchSignedBlock(blkNumber, success, fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -179,20 +179,20 @@ module.exports = {
         req.setStart(blkNumber);
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetSignedBlock, {
-                request:req,
-                host:getHost(),
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getBlock();
                         resolve(obj)
-                    }else {
-                        reject(status,statusMessage)
+                    } else {
+                        reject(status, statusMessage)
                     }
                 }
             })
         });
-        promise.then(success,fail);
+        promise.then(success, fail);
     },
 
     /**
@@ -202,7 +202,7 @@ module.exports = {
      * @param limit: one pass return list restrict, set to zero meaning no limit.
      * @param lastInfo: with start and end can not point an unique checkpoint
      */
-    async fetchTrxListByTime(start,end,limit,lastInfo) {
+    async fetchTrxListByTime(start, end, limit, lastInfo) {
         // if (typeof success != "function" || typeof fail != "function") {
         //     console.log("The success or fail is not a callBack function");
         //     return
@@ -216,21 +216,21 @@ module.exports = {
         req.setStart(end);
         req.setEnd(start);
         req.setLimit(limit);
-        if (lastInfo != null ) {
+        if (lastInfo != null) {
             req.setLastInfo(lastInfo)
         }
         return new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxListByTime, {
-                request:req,
-                host:getHost(),
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getListList();
                         resolve(obj)
-                    }else {
-                        console.log("error code is %s,msg is %s",status,statusMessage);
-                        reject(status,statusMessage)
+                    } else {
+                        console.log("error code is %s,msg is %s", status, statusMessage);
+                        reject(status, statusMessage)
                     }
                 }
             })
@@ -246,7 +246,7 @@ module.exports = {
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-    async fetchDailyTotalTrxInfoList(start,end,pageSize,success,fail){
+    async fetchDailyTotalTrxInfoList(start, end, pageSize, success, fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -256,7 +256,7 @@ module.exports = {
             let sTime = new cos_sdk.raw_type.time_point_sec();
             sTime.setUtcSeconds(start);
             req.setStart(sTime);
-        }else {
+        } else {
             req.setStart(start);
         }
 
@@ -264,27 +264,27 @@ module.exports = {
             let eTime = new cos_sdk.raw_type.time_point_sec();
             eTime.setUtcSeconds(end);
             req.setEnd(eTime);
-        }else {
+        } else {
             req.setEnd(end);
         }
         req.setLimit(pageSize);
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetDailyTotalTrxInfo, {
-                request:req,
-                host:getHost(),
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.toObject();
                         resolve(obj.listList)
-                    }else {
-                        console.log("error code is %s,msg is %s",status,statusMessage);
-                        reject(status,statusMessage)
+                    } else {
+                        console.log("error code is %s,msg is %s", status, statusMessage);
+                        reject(status, statusMessage)
                     }
                 }
             })
         });
-        promise.then(success,fail)
+        promise.then(success, fail)
     },
 
     /**
@@ -293,7 +293,7 @@ module.exports = {
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-    async fetchTrxInfoById(hashValue,success,fail) {
+    async fetchTrxInfoById(hashValue, success, fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -304,26 +304,26 @@ module.exports = {
         req.setTrxId(trxId);
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetTrxInfoById, {
-                request:req,
-                host:getHost(),
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
-                        if (message.hasInfo()&&message.getInfo().hasTrxId()) {
+                        if (message.hasInfo() && message.getInfo().hasTrxId()) {
                             let obj = message.getInfo();
                             resolve(obj)
-                        }else {
+                        } else {
                             resolve(null)
                         }
 
-                    }else {
-                        console.log("error code is %s,msg is %s",status,statusMessage);
-                        reject(status,statusMessage)
+                    } else {
+                        console.log("error code is %s,msg is %s", status, statusMessage);
+                        reject(status, statusMessage)
                     }
                 }
             })
         });
-        promise.then(success,fail)
+        promise.then(success, fail)
     },
 
     /**
@@ -335,45 +335,45 @@ module.exports = {
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-     async fetchArticleListByCreateTime(start,end,pageSize,lastArticle,success,fail) {
-         if (typeof success != "function" || typeof fail != "function") {
-             console.log("The success or fail is not a callBack function");
-             return
-         }
-         let req = new cos_sdk.grpc.GetPostListByCreateTimeRequest();
-         req.setStart(start);
-         req.setEnd(end);
-         req.setLastPost(lastArticle);
-         req.setLimit(pageSize);
-         let promise = new Promise((resolve, reject) => {
-             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByCreateTime, {
-                 request:req,
-                 host:getHost(),
-                 onEnd: res => {
-                     const { status, statusMessage, headers, message, trailers } = res;
-                     if (status === grpc_web.Code.OK && message) {
-                         let obj = message.getPostedListList();
-                         resolve(obj)
-                     }else {
-                         console.log("error code is %s,msg is %s",status,statusMessage);
-                         reject(status,statusMessage)
-                     }
-                 }
-             })
-         });
-         promise.then(success,fail)
-     },
+    async fetchArticleListByCreateTime(start, end, pageSize, lastArticle, success, fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetPostListByCreateTimeRequest();
+        req.setStart(start);
+        req.setEnd(end);
+        req.setLastPost(lastArticle);
+        req.setLimit(pageSize);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByCreateTime, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getPostedListList();
+                        resolve(obj)
+                    } else {
+                        console.log("error code is %s,msg is %s", status, statusMessage);
+                        reject(status, statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
+    },
 
     /**
      * fetch articles list posted by user
      * @param start: the start time in request range
      * @param end: the end time in request range
-     *  @param pageSize: the count of a page
+     * @param pageSize: the count of a page
      * @param lastArticle: the article info of the last one in last page
      * @param success: the request success callback
      * @param fail: the request fail callback
      */
-    fetchArticleListByName(start,end,pageSize,lastArticle,success,fail) {
+    async fetchArticleListByName(start, end, pageSize, lastArticle, success, fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
             return
@@ -385,25 +385,99 @@ module.exports = {
         req.setLimit(pageSize);
         let promise = new Promise((resolve, reject) => {
             grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByName, {
-                request:req,
-                host:getHost(),
+                request: req,
+                host: getHost(),
                 onEnd: res => {
-                    const { status, statusMessage, headers, message, trailers } = res;
+                    const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getPostedListList();
                         resolve(obj)
-                    }else {
-                        reject(status,statusMessage)
+                    } else {
+                        reject(status, statusMessage)
                     }
                 }
             })
         });
-        promise.then(success,fail)
+        promise.then(success, fail)
     },
-};
 
-function ajax1(action, args, done, fail) {
-    var a = ajaxSplitAction(action);
+    /**
+     * fetch following list of user
+     * @param start: the start time in request range
+     * @param end: the end time in request range
+     * @param pageSize: the count of a page
+     * @param lastFollowOrder: the follower create order of the last one in last page
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async fetchFollowerListByName(start, end, pageSize, lastFollowOrder, success, fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetFollowerListByNameRequest();
+        req.setStart(start);
+        req.setEnd(end);
+        req.setLastOrder(lastFollowOrder);
+        req.setLimit(pageSize);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetFollowerListByName, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getFollowerListList();
+                        resolve(obj)
+                    } else {
+                        console.log(message);
+                        reject(status, statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
+    },
 
-    return ajax(a[0] + " " + sessionStorage.apiPrefix + a[1], args, done, fail);
-}
+    /**
+     * fetch following list of user
+     * @param start: the start time in request range
+     * @param end: the end time in request range
+     * @param pageSize: the count of a page
+     * @param lastFollowingOrder: the following create order of the last one in last page
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async fetchFollowingListByName(start, end, pageSize, lastFollowingOrder, success, fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetFollowingListByNameRequest();
+        req.setStart(start);
+        req.setEnd(end);
+        req.setLastOrder(lastFollowingOrder);
+        req.setLimit(pageSize);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetFollowingListByName, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getFollowingListList();
+                        resolve(obj)
+                    } else {
+                        reject(status, statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
+    },
+  };
+    function ajax1(action, args, done, fail) {
+        var a = ajaxSplitAction(action);
+
+        return ajax(a[0] + " " + sessionStorage.apiPrefix + a[1], args, done, fail);
+    }

@@ -221,7 +221,7 @@
 
             updateUserArticleInfo(index,info) {
                 if (info && index >= 0 && index < this.postPageInfo.length) {
-                     this.postPageInfo.splice(index,info);
+                     this.postPageInfo.splice(index,1,info);
                 }
             },
             numberAddComma(n) {

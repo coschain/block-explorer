@@ -954,6 +954,7 @@
         async mounted() {
             this.addVisibleListener();
             utility.clearPagesInfoCache();
+            utility.clearFollowCaches();
             //clear data when change rpc address
             this.$root.eBus.$on("changeRpcAddress",address => {
                 // this.dailyTxData = [];
@@ -972,7 +973,7 @@
                 this.confirmBlkTime = null;
             });
 
-            this.loadDatas();
+            this.loadData();
             this.setTimer();
 
         },
@@ -1159,7 +1160,7 @@
                 if (document[this.hiddenTopic]) {
                     this.clearTimer();
                 } else  {
-                    this.loadDatas();
+                    this.loadData();
                     this.setTimer();
                 }
             },
@@ -1184,7 +1185,7 @@
                     this.shortIntervalID = null;
                 }
             },
-            async loadDatas() {
+            async loadData() {
                 //fetch state info
                 this.fetchChainStateInfo();
                 //fetch latest block list

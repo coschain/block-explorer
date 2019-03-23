@@ -97,7 +97,7 @@
                         <th class="headRank">Rank</th>
                         <th class="headAccount">Account</th>
                         <th class="headOther">Balance</th>
-                        <th class="headOther">Percentage</th>
+                        <th class="headOther">Vest</th>
                     </tr>
                     <tr v-for="(account, i) in accountList" :key="i" class="contentFont">
                         <td class="accountListCol rankContentCol">{{(currentPage-1)*accountList.length+i+1}}</td>
@@ -109,7 +109,7 @@
                             <!--<span v-show=o.alias> | {{ o.alias }}</span>-->
                         </td>
                         <td class="accountListCol coinAndVestContentCol">{{ account.getCoin().toString() }}</td>
-                        <!--<td class="text-right font-color-555555">{{ new Number(o.percentage).toFixed(4) }}%</td>-->
+                        <!--<td class="text-right font-color-555555">{{ new Number(o.Vest).toFixed(4) }}%</td>-->
                        <td class="accountListCol coinAndVestContentCol">{{account.hasVest()?account.getVest().toString():""}}</td>
                     </tr>
                 </table>

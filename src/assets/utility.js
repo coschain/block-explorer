@@ -8,6 +8,7 @@ const pageCacheType = {
 };
 
 const rpcCacheKey = "rpcAddress";
+const followCacheMapKey = "followMapKey";
 let irreversibleNum = 0;
 module.exports = {
     pageCacheType:pageCacheType,
@@ -38,6 +39,9 @@ module.exports = {
     formatTxsCnt: formatTxsCount,
     updateIrreversibleBlkNum:updateIrreversibleBlkNum,
     getIrreversibleBlkNum:getIrreversibleBlkNum,
+    addFollowCacheKey:addFollowCacheKey,
+    removeFollowCacheKey:removeFollowCacheKey,
+    clearFollowCaches:clearAllFollowCache,
 };
 
 ////////////////////////////////////////////////////////////
@@ -85,6 +89,55 @@ function getPageInfoCacheKey(pType) {
         return "blockTxsPageCache";
     }
     return "cacheKey"
+}
+
+
+function addFollowCacheKey(keyStr) {
+    if (typeof keyStr == "string") {
+        let cacheInfo = sessionStorage.getItem(followCacheMapKey);
+        let cacheMap = null;
+        if(cacheInfo) {
+            cacheMap = JSON.parse(cacheInfo);
+        }else {
+            cacheMap = {};
+        }
+        cacheMap[keyStr] = keyStr;
+        sessionStorage.setItem(followCacheMapKey,JSON.stringify(cacheMap));
+    }
+}
+
+function removeFollowCacheKey(keyStr) {
+    if (typeof keyStr == "string") {
+        let cacheInfo = sessionStorage.getItem(followCacheMapKey);
+        if(cacheInfo) {
+            let cacheMap = JSON.parse(cacheInfo);
+            if (cacheMap) {
+                if (cacheMap.hasOwnProperty(keyStr)) {
+                    delete cacheMap[keyStr];
+                    sessionStorage.setItem(followCacheMapKey,JSON.stringify(cacheMap));
+                }
+            }
+        }
+        if (sessionStorage.getItem(keyStr)) {
+            sessionStorage.removeItem(keyStr);
+        }
+    }
+}
+
+function clearAllFollowCache() {
+    let cacheInfo = sessionStorage.getItem(followCacheMapKey);
+    if (cacheInfo) {
+        let cacheMap = JSON.parse(cacheInfo);
+        if (cacheMap) {
+            for(let keyStr in cacheMap) {
+                if (sessionStorage.getItem(cacheMap[keyStr])) {
+                    sessionStorage.removeItem(cacheMap[keyStr]);
+                }
+            }
+        }
+        sessionStorage.removeItem(followCacheMapKey);
+    }
+
 }
 
 function getTestNetName() {
@@ -341,7 +394,6 @@ function judgeSearchType(content) {
  * convert byte array to 16 Hex
  */
 function convertByteToHexString(arrBytes) {
-    console.log(arrBytes);
     let str = "";
     for (let i = 0; i < arrBytes.length; i++) {
         let tmp;

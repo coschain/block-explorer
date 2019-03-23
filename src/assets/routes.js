@@ -76,4 +76,12 @@ module.exports = [{
     component: require("@/routes/404").default,
     name: "*",
     path: "*"
+},{
+    component: require("@/routes/follower").default,
+    meta: { headerActive: 2 },
+    path: "/:api?/follower/:account/:t"
+},{
+    component: require("@/routes/following").default,
+        meta: { headerActive: 2 },
+        path: "/:api?/following/:account/:t"
 }];

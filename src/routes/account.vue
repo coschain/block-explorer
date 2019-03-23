@@ -238,24 +238,6 @@
                         {{ accountInfo.getCoin().toString() }}
                     </td>
                 </tr>
-                <!--<tr v-if="creator && deployTxHash">-->
-                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">-->
-                        <!--Contract Creator:-->
-                    <!--</td>-->
-                    <!--<td class="contract-creator font-16 font-color-000000">-->
-                        <!--<router-link v-bind:to='fragApi + "/account/" + creator'-->
-                                     <!--title="Creator account">-->
-                            <!--<span>{{ toShortStr(creator) }}</span>-->
-                            <!--<div class="popover down-arrow-tip">Creator account</div>-->
-                        <!--</router-link>-->
-                        <!--at txn-->
-                        <!--<router-link v-bind:to='fragApi + "/tx/" + deployTxHash'-->
-                                     <!--title="Creator TxHash">-->
-                            <!--<span>{{ toShortStr(deployTxHash) }}</span>-->
-                            <!--<div class="popover down-arrow-tip">Creator TxHash</div>-->
-                        <!--</router-link>-->
-                    <!--</td>-->
-                <!--</tr>-->
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">AccountName:</td>
                     <td class="font-16 font-color-000000">{{ accountInfo.toObject().accountName.value }}</td>
@@ -287,82 +269,52 @@
                         </router-link>
                     </td>
                 </tr>
-                <!--<tr>-->
-                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">Minted:</td>-->
-                    <!--<td class="font-16 font-color-000000">{{ obj.mintedBlkCnt }}</td>-->
-                <!--</tr>-->
-                <!--<tr v-if="obj.tokenName">-->
-                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">Token Tracker:-->
-                    <!--</td>-->
-                    <!--<td class="font-16 font-color-000000">-->
-                        <!--<router-link v-bind:to='fragApi + "/token/" + $route.params.id'>-->
-                            <!--<span>{{ obj.tokenName }}</span>-->
-                        <!--</router-link>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr v-if="!isContract && displayToken">-->
-                    <!--<td class="base-info-key font-16 font-color-555555 pl-16">NRC20 Tokens:-->
-                    <!--</td>-->
-                    <!--<td>-->
-                        <!--<div id="dropdown-tokens" data-toggle=dropdown>-->
-                            <!--<span class="font-16 font-color-000000">{{ tokenAmount(displayToken.balance, displayToken.decimal) }}</span>-->
-                            <!--<router-link v-bind:to='fragApi + "/token/" + displayToken.contract'>-->
-                                <!--<span class="font-16 font-bold">{{ displayToken.tokenName }}</span>-->
-                            <!--</router-link>-->
-                            <!--<img src="../../static/img/icon_arrow_down_black.png" alt="" width="12">-->
-                        <!--</div>-->
-                        <!--<div v-if="validTokens.length > 1" class="dropdown-menu">-->
-                            <!--<div class="dropdown-item text-right" v-for="(token, i) in validTokens" :key=i-->
-                            <!--@click='displayToken = token;'>-->
-                                <!--{{ tokenAmount(token.balance, token.decimal) }} {{ token.tokenName }}-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</td>-->
-                <!--</tr>-->
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Follower Count:
+                    </td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/follower/" + $route.params.id + "/" + Date.now()'>
+                            <span>{{accountInfo.toObject().followerCount}}</span>
+                        </router-link>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Following Count:
+                    </td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/following/" + $route.params.id + "/" + Date.now()'>
+                        <span>{{accountInfo.toObject().followingCount}}</span>
+                        </router-link>
+                    </td>
+                </tr>
             </table>
 
             <div class="mobile-detail d-md-none">
                 <div>
-                    COS Balance:
+                    <div class="font-color-555555">COS Balance:</div>
                     <div class="detail">{{ accountInfo.getCoin().toString() }} </div>
                 </div>
-                <!--<div v-if="creator && deployTxHash">-->
-                    <!--Contract Creator:-->
-                    <!--<div class="detail contract-creator font-color-000000">-->
-                        <!--<router-link v-bind:to='fragApi + "/account/" + creator'-->
-                                     <!--title="Creator account">-->
-                            <!--<span>{{ toShortStr(creator) }}</span>-->
-                            <!--&lt;!&ndash; <div class="popover">Creator account</div> &ndash;&gt;-->
-                        <!--</router-link>-->
-                        <!--at txn-->
-                        <!--<router-link v-bind:to='fragApi + "/tx/" + deployTxHash'-->
-                                     <!--title="Creator TxHash">-->
-                            <!--<span>{{ toShortStr(deployTxHash) }}</span>-->
-                            <!--&lt;!&ndash; <div class="popover">Creator TxHash</div> &ndash;&gt;-->
-                        <!--</router-link>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div>
-                    AccountName:
+                    <div class="font-color-555555">AccountName:</div>
                     <div class="detail">{{  accountInfo.toObject().accountName.value }}</div>
                 </div>
                 <div>
-                    CreatedTime:
+                    <div class="font-color-555555">CreatedTime:</div>
                     <!--<div class="detail">{{ accountInfo.createdTime.utcSeconds }}</div>-->
-                    <td class="detail">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
+                    <td class="font-16 font-color-000000">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
                 </div>
                 <div>
-                    <div class="base-info-key font-16 font-color-555555 pl-16">PublicKey:
-                    </div>
+                    <div class="font-color-555555">PublicKey:</div>
                     <div class="font-16 font-color-000000">{{accountInfo.hasPublicKey()?accountInfo.getPublicKey().toWIF():""}}</div>
                 </div>
                 <div>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Vest:
+                    <td class="font-color-555555">Vest:
                     </td>
                     <td class="font-16 font-color-000000">{{accountInfo.hasVest()?accountInfo.getVest().toString():""}}</td>
                 </div>
                 <div>
-                    <div class="base-info-key font-16 font-color-555555 pl-16">Posted:
+                    <div class="font-color-555555">Posted:
                     </div>
                     <div class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id'>
@@ -370,36 +322,26 @@
                         </router-link>
                     </div>
                 </div>
-                <!--<div>-->
-                    <!--Minted:-->
-                    <!--<div class="detail">{{ obj.mintedBlkCnt }}</div>-->
-                <!--</div>-->
-                <!--<div v-if="obj.tokenName">-->
-                    <!--Token Tracker:-->
-                    <!--<div class="detail">-->
-                        <!--<router-link v-bind:to='fragApi + "/token/" + $route.params.id'>-->
-                            <!--<span>{{ obj.tokenName }}</span>-->
-                        <!--</router-link>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div v-if="!isContract && displayToken">-->
-                    <!--NRC20 Tokens:-->
-                    <!--<div class="detail">-->
-                        <!--<div id="dropdown-tokens" data-toggle=dropdown>-->
-                            <!--<span class="font-color-000000">{{ tokenAmount(displayToken.balance, displayToken.decimal) }}</span>-->
-                            <!--<router-link v-bind:to='fragApi + "/token/" + displayToken.contract'>-->
-                                <!--<span class="font-bold">{{ displayToken.tokenName }}</span>-->
-                            <!--</router-link>-->
-                            <!--<img src="../../static/img/icon_arrow_down_black.png" alt="" width="12">-->
-                        <!--</div>-->
-                        <!--<div v-if="validTokens.length > 1" class="dropdown-menu">-->
-                            <!--<div class="dropdown-item text-right" v-for="(token, i) in validTokens" :key=i-->
-                            <!--@click='displayToken = token;'>-->
-                                <!--{{ tokenAmount(token.balance, token.decimal) }} {{ token.tokenName }}-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+
+                <div>
+                    <div class="font-color-555555">Follower Count:
+                    </div>
+                    <div class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/follower/" + $route.params.id + "/" + Date.now()'>
+                        <span>{{accountInfo.toObject().followerCount}}</span>
+                        </router-link>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="font-color-555555">Following Count:
+                    </div>
+                    <div class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/following/" + $route.params.id + "/" + Date.now()'>
+                        <span>{{accountInfo.toObject().followingCount}}</span>
+                        </router-link>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
