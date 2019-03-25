@@ -103,14 +103,14 @@
                         <td class="accountListCol rankContentCol">{{(currentPage-1)*accountList.length+i+1}}</td>
                         <td class="accountListCol accountNameContentCol">
                             <!--<vue-blockies v-bind:address='account.getAccountName().getValue()'></vue-blockies>-->
-                            <router-link v-bind:to='fragApi + "/account/" + account.getAccountName().getValue()'>
-                                <span class="monospace">{{account.getAccountName().getValue()}}</span>
+                            <router-link v-bind:to='fragApi + "/account/" + account.getInfo().getAccountName().getValue()'>
+                                <span class="monospace">{{account.getInfo().getAccountName().getValue()}}</span>
                             </router-link>
                             <!--<span v-show=o.alias> | {{ o.alias }}</span>-->
                         </td>
-                        <td class="accountListCol coinAndVestContentCol">{{ account.getCoin().toString() }}</td>
+                        <td class="accountListCol coinAndVestContentCol">{{ account.getInfo().getCoin().toString() }}</td>
                         <!--<td class="text-right font-color-555555">{{ new Number(o.Vest).toFixed(4) }}%</td>-->
-                       <td class="accountListCol coinAndVestContentCol">{{account.hasVest()?account.getVest().toString():""}}</td>
+                       <td class="accountListCol coinAndVestContentCol">{{account.getInfo().hasVest()?account.getInfo().getVest().toString():""}}</td>
                     </tr>
                 </table>
             </div>
@@ -174,12 +174,12 @@
                 api.fetchAccountListByBalance(start,null,30,lastAccount,accountList => {
                     if (accountList.length > 0) {
                         this.accountList = accountList;
-                        this.lastAccount = accountList[accountList.length-1];
+                        this.lastAccount = accountList[accountList.length-1].getInfo();
                         this.coinStart = this.lastAccount.getCoin();
                         if (this.currentPage === 0 && isNextPage) {
                             this.coinEnd = null;
                         }else {
-                            this.coinEnd = accountList[0].getCoin();
+                            this.coinEnd = accountList[0].getInfo().getCoin();
                         }
                         let curPageLen = this.accountPageInfo.length;
                         let info = {start:this.coinStart,account:this.lastAccount};
@@ -330,7 +330,7 @@
                             info.end = end;
                         }
                         if (obj.account != null) {
-                            let lastInfo = new api.cos_sdk.grpc.AccountResponse();
+                            let lastInfo = new api.cos_sdk.grpc.AccountInfo();
                             let name = new api.cos_sdk.raw_type.account_name();
                             name.setValue(obj.account.accountName.value);
                             lastInfo.setAccountName(name);

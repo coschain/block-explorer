@@ -68,7 +68,7 @@
 </style>
 <template>
     <div class="vue-following fullfill">
-        <vue-bread v-bind:title='"following List of:"'
+        <vue-bread v-bind:title='"Following List of:"'
                    v-bind:subtitle="$route.params.account"
                    v-bind:subtitlemonospaced="!!$route.params.account">
         </vue-bread>
@@ -386,8 +386,8 @@
             },
             getFollowingAccountName(followingInfo) {
                 if(followingInfo != null && typeof followingInfo != "undefined") {
-                    if(followingInfo.hasAccount() && followingInfo.getAccount().hasAccountName()) {
-                        return followingInfo.getAccount().getAccountName().getValue();
+                    if(followingInfo.hasAccount() && followingInfo.getAccount().getInfo().hasAccountName()) {
+                        return followingInfo.getAccount().getInfo().getAccountName().getValue();
                     }
                 }
                 return ""
@@ -395,8 +395,8 @@
 
             getFollowingBalance(followingInfo) {
                 if(followingInfo != null && typeof followingInfo != "undefined") {
-                    if(followingInfo.hasAccount() && followingInfo.getAccount().hasCoin()) {
-                        return followingInfo.getAccount().getCoin().toString();
+                    if(followingInfo.hasAccount() && followingInfo.getAccount().getInfo().hasCoin()) {
+                        return followingInfo.getAccount().getInfo().getCoin().toString();
                     }
                 }
                 return ""
@@ -404,8 +404,8 @@
 
             getFollowingVest(followingInfo) {
                 if(followingInfo != null && typeof followingInfo != "undefined") {
-                    if(followingInfo.hasAccount() && followingInfo.getAccount().hasVest()) {
-                        return followingInfo.getAccount().getVest().toString();
+                    if(followingInfo.hasAccount() && followingInfo.getAccount().getInfo().hasVest()) {
+                        return followingInfo.getAccount().getInfo().getVest().toString();
                     }
                 }
                 return ""

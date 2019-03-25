@@ -388,8 +388,8 @@
             },
             getFollowerAccountName(followInfo) {
                 if(followInfo != null && typeof followInfo != "undefined") {
-                    if(followInfo.hasAccount() && followInfo.getAccount().hasAccountName()) {
-                        return followInfo.getAccount().getAccountName().getValue();
+                    if(followInfo.hasAccount() && followInfo.getAccount().getInfo().hasAccountName()) {
+                        return followInfo.getAccount().getInfo().getAccountName().getValue();
                     }
                 }
                 return ""
@@ -397,8 +397,8 @@
 
             getFollowerBalance(followInfo) {
                 if(followInfo != null && typeof followInfo != "undefined") {
-                    if(followInfo.hasAccount() && followInfo.getAccount().hasCoin()) {
-                        return followInfo.getAccount().getCoin().toString();
+                    if(followInfo.hasAccount() && followInfo.getAccount().getInfo().hasCoin()) {
+                        return followInfo.getAccount().getInfo().getCoin().toString();
                     }
                 }
                 return ""
@@ -406,8 +406,8 @@
 
             getFollowerVest(followInfo) {
                 if(followInfo != null && typeof followInfo != "undefined") {
-                    if(followInfo.hasAccount() && followInfo.getAccount().hasVest()) {
-                        return followInfo.getAccount().getVest().toString();
+                    if(followInfo.hasAccount() && followInfo.getAccount().getInfo().hasVest()) {
+                        return followInfo.getAccount().getInfo().getVest().toString();
                     }
                 }
                 return ""

@@ -28,7 +28,7 @@ module.exports = {
                 onEnd: res => {
                     const {status, statusMessage, headers, message, trailers} = res;
                     if (status === grpc_web.Code.OK && message) {
-                        if (message.hasAccountName()) {
+                        if (message.hasInfo() && message.getInfo().hasAccountName()) {
                             resolve(message)
                         } else {
                             resolve(null)

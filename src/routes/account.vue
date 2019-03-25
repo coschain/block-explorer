@@ -382,10 +382,7 @@
                 this.nrc20TxCnt = 0;
                 this.$root.showModalLoading = true;
                 api.fetchAccountInfoByName(this.$route.params.id, info => {
-                    this.accountInfo = info;
-                    if ( info != null) {
-                        this.createTime = info.toObject().createdTime.utcSeconds*1000;
-                    }
+                    this.accountInfo = info.getInfo();
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
