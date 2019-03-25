@@ -3,7 +3,7 @@
             v-bind:current
             v-bind:right
             v-bind:total
-            v-on: home
+            v-on: First Page
             v-on:first
             v-on:prev
             v-on:next
@@ -80,7 +80,7 @@
         display: inline;
     }
 
-    .pagination .homePageBtn {
+    .pagination .firstPageBtn {
         color: blue;
         border-radius: 6px;
         height: 30px;
@@ -88,12 +88,12 @@
         background-color: white;
         border: 1px solid gray;
     }
-    .pagination .homePageBtn:active {
+    .pagination .firstPageBtn:active {
         opacity: 0.6;
         outline-style: none;
     }
 
-    .pagination .homePageBtn:active:after {
+    .pagination .firstPageBtn:active:after {
         opacity: 1.0;
     }
 
@@ -110,7 +110,7 @@
                     <!--</div>-->
                 <!--</a>-->
             <!--</li>-->
-           <button  v-on:click.prevent="$emit('homePage')" class="homePageBtn">Home</button>
+           <button  v-if="current > 1"  v-on:click.prevent="$emit('firstPage')" class="firstPageBtn">Page One</button>
             <li>
                 <a href=# aria-label=Previous v-on:click.prevent="$emit(current != 1 ? 'prev' : '')">
                     <div :class='{"page_nav-item": true, "enable-item": current != 1}'>

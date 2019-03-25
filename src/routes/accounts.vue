@@ -114,7 +114,7 @@
                     </tr>
                 </table>
             </div>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:homePage=onGoHomePage></vue-pagination>
+            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext v-on:prev=onPrev v-on:firstPage=onGoFirstPage></vue-pagination>
         </div>
     </div>
 </template>
@@ -251,8 +251,16 @@
             onPrev() {
                 this.nav(this.currentPage - 1);
             },
-            onGoHomePage() {
-                this.$router.replace(utility.getTestNetName());
+            onGoFirstPage() {
+                if (this.currentPage > 1) {
+                    let page = this.currentPage;
+                    let p = this.$route.query.p;
+                    if (parseInt(p) > page) {
+                        page = parseInt(p);
+                    }
+                    this.currentPage = 2;
+                    this.$router.go(1-page);
+                }
             },
             // onTo(n) {
             //     this.$router.push({
