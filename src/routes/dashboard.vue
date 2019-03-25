@@ -356,7 +356,7 @@
     .vue-dashboard .row2 img {
         position: absolute;
         top: 35px;
-        right: 33px;
+        right: 40px;
     }
 
     .vue-dashboard .row2 .flex-item:hover .link {
