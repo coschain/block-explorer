@@ -59,6 +59,26 @@
         margin-top: -1.5px;
     }
 
+    .vue-header .testNestWaring {
+        display: flex;
+        flex-direction: row;
+        vertical-align: center;
+        justify-content: center;
+        justify-items: center;
+        position: absolute;
+        width: 100%;
+        top: 2px;
+        color: white;
+        font-weight: 700;
+        left: 0;
+    }
+
+    .vue-header .warningIcon {
+        width: 22px;
+        height: 22px;
+        margin-top: -1px;
+    }
+
     @media (min-width: 992px) {
 
         .vue-header .navbar-nav>li>a {
@@ -103,6 +123,10 @@
 <template>
     <nav class="bg-black navbar navbar-expand-lg navbar-dark vue-header">
         <vue-modify-rpc  v-if="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress" :currentAddress=currentHost></vue-modify-rpc>
+        <div class="testNestWaring">
+            <img src="/static/img/cos_warn.png" class="warningIcon" alt="">
+            <div>This is the test net</div>
+        </div>
         <div class=container>
             <div>
                 <router-link v-bind:to="fragApi + '/'" class=navbar-brand>

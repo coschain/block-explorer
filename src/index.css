@@ -492,7 +492,7 @@ img:not([src]) {
 }
 
 .mobile-detail>* {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
 }
 
 .mobile-detail>*:last-child {
@@ -501,4 +501,9 @@ img:not([src]) {
 
 .mobile-detail .detail {
     font-weight: 400;
+}
+.mobileDarkCell {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background: rgba(247, 247, 247, 1);
 }

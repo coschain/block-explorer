@@ -105,8 +105,8 @@
             </div>
 
             <div class="mobile-detail d-md-none">
-                <div>
-                    Height:
+                <div class="mobileDarkCell">
+                    <div class="font-color-555555"> Height:</div>
                     <div class="detail">
                         <nav aria-label="Page navigation" class=navgation-tab>
                             <ul class=pagination>
@@ -126,11 +126,11 @@
                     </div>
                 </div>
                 <div>
-                    TimeStamp:
-                    <td class="font-color-000000">{{ timeConversion(Date.now() - bTime) }} ago ({{ new Date(bTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ bTime }})</td>
+                    <div class="font-color-555555">TimeStamp:</div>
+                    <div class="font-color-000000">{{ timeConversion(Date.now() - bTime) }} ago ({{ new Date(bTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ bTime }})</div>
                 </div>
-                <div>
-                    Transactions:
+                <div class="mobileDarkCell">
+                    <div class="font-color-555555">Transactions:</div>
                     <div class="detail">
                         <router-link v-bind:to='fragApi + "/block-trxs/" + this.$route.params.id'>
                             <span>{{ blockInfo.toObject().trxCount }}</span>
@@ -139,11 +139,11 @@
                     </div>
                 </div>
                 <div>
-                    Hash:
+                    <div class="font-color-555555">Hash:</div>
                     <div class="detail monospace">{{ blockInfo.getBlockId().getHexHash() }}</div>
                 </div>
-                <div>
-                    Parent Hash:
+                <div class="mobileDarkCell">
+                    <div class="font-color-555555">Parent Hash:</div>
                     <div class="detail">
                         <!--<router-link v-bind:to='fragApi + "/block/" + blockInfo.toObject().signedHeader.header.previous.hash'>-->
                             <span class="font-color-000000 monospace">{{ blockInfo.getPreId().getHexHash()}}</span>
@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div>
-                    Minted:
+                    <div class="font-color-555555">Minted:</div>
                     <div class="detail">
                         <!--<router-link v-bind:to='fragApi + "/address/" + block.miner.hash'>-->
                             <!--<span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>-->
@@ -162,8 +162,8 @@
                     </div>
                 </div>
 
-                <div>
-                    <div class="font-color-555555">Size</div>
+                <div class="mobileDarkCell">
+                    <div class="font-color-555555">Size:</div>
                     <div>
                         <span class="font-color-000000 monospace">{{formatBlockSize(blockInfo.toObject().blockSize)}}</span>
                     </div>

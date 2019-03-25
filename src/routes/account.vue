@@ -291,7 +291,7 @@
             </table>
 
             <div class="mobile-detail d-md-none">
-                <div>
+                <div class="mobileDarkCell">
                     <div class="font-color-555555">COS Balance:</div>
                     <div class="detail">{{ accountInfo.getCoin().toString() }} </div>
                 </div>
@@ -299,21 +299,20 @@
                     <div class="font-color-555555">AccountName:</div>
                     <div class="detail">{{  accountInfo.toObject().accountName.value }}</div>
                 </div>
-                <div>
+                <div class="mobileDarkCell">
                     <div class="font-color-555555">CreatedTime:</div>
                     <!--<div class="detail">{{ accountInfo.createdTime.utcSeconds }}</div>-->
                     <td class="font-16 font-color-000000">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
                 </div>
-                <div>
+                <div >
                     <div class="font-color-555555">PublicKey:</div>
                     <div class="font-16 font-color-000000">{{accountInfo.hasPublicKey()?accountInfo.getPublicKey().toWIF():""}}</div>
                 </div>
-                <div>
-                    <td class="font-color-555555">Vest:
-                    </td>
-                    <td class="font-16 font-color-000000">{{accountInfo.hasVest()?accountInfo.getVest().toString():""}}</td>
+                <div class="mobileDarkCell">
+                    <div class="font-color-555555">Vest:</div>
+                    <div class="font-16 font-color-000000">{{accountInfo.hasVest()?accountInfo.getVest().toString():""}}</div>
                 </div>
-                <div>
+                <div >
                     <div class="font-color-555555">Posted:
                     </div>
                     <div class="font-16 font-color-000000">
@@ -323,7 +322,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="mobileDarkCell">
                     <div class="font-color-555555">Follower Count:
                     </div>
                     <div class="font-16 font-color-000000">
@@ -333,7 +332,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div >
                     <div class="font-color-555555">Following Count:
                     </div>
                     <div class="font-16 font-color-000000">
