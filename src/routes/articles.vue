@@ -181,21 +181,28 @@
                         }
                         let info = {start:this.postListStart,post:this.lastPost};
                         let curPageLen = this.postPageInfo.length;
-                        if (curPageLen === 0) {
-                            info.end = this.postListEnd;
-                        }else if (curPageLen >= 1) {
-                            info.end = this.postPageInfo[curPageLen - 1].start;
+                        if (curPageLen === 0 || (this.currentPage == 1 && pReqType == 3)) {
+                            info.end = this.firstPageEnd;
                         }
                         if (pReqType == 1) {
                             if (this.currentPage + 1 == this.totalPage) {
                                 this.totalPage += 1;
+                                if (curPageLen >= 1) {
+                                    info.end = this.postPageInfo[curPageLen - 1].start;
+                                }
                                 this.postPageInfo.push(info);
                             }else {
+                                if (curPageLen >= 1 && this.currentPage <= curPageLen) {
+                                    info.end = this.postPageInfo[this.currentPage-1].start;
+                                }
                                 this.updateArticlesPageInfo(this.currentPage,info);
                             }
                             this.currentPage += 1;
                         }else if (pReqType == 0) {
                             this.currentPage -= 1;
+                            if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
+                                info.end = this.postPageInfo[this.currentPage-2].start;
+                            }
                             this.updateArticlesPageInfo(this.currentPage-1,info);
                         }else if (pReqType == 3) {
                             this.currentPage = parseInt(p);

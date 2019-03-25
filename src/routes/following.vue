@@ -192,7 +192,9 @@
                             this.currentPage += 1;
                         }else if (pReqType == 0) {
                             this.currentPage -= 1;
-                            info.start = this.followingPageInfo[this.currentPage-1].end;
+                            if (this.currentPage >= 1 && this.currentPage <= curPageLen) {
+                                info.start = this.followingPageInfo[this.currentPage-1].end;
+                            }
                             this.updateFollowingPageInfo(this.currentPage,info);
                         }else if (pReqType == 3) {
                             this.currentPage = parseInt(p);

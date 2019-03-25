@@ -240,21 +240,28 @@
                     }
                     let curPageLen = this.pageInfo.length;
                     let info = {start:this.listStart,lastPost:this.lastInfo};
-                    if (curPageLen === 0) {
-                        info.end = this.listEnd;
-                    }else if (curPageLen >= 1) {
-                        info.end = this.pageInfo[curPageLen - 1].start;
+                    if (curPageLen === 0 || (this.currentPage == 1 && pReqType == 3)) {
+                        info.end = null;
                     }
                     if (pReqType === 1) {
                         if (this.currentPage + 1 === this.totalPage) {
                             this.totalPage += 1;
+                            if (curPageLen >= 1) {
+                                info.end = this.pageInfo[curPageLen - 1].start;
+                            }
                             this.pageInfo.push(info);
                         }else {
+                            if (curPageLen >= 1 && this.currentPage <= curPageLen) {
+                                info.end = this.pageInfo[this.currentPage-1].start;
+                            }
                             this.updateTxsListPage(this.currentPage,info);
                         }
                         this.currentPage += 1;
                     }else if (pReqType === 0) {
                         this.currentPage -= 1;
+                        if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
+                            info.end = this.pageInfo[this.currentPage-2].start;
+                        }
                         this.updateTxsListPage(this.currentPage-1,info);
                     }else if (pReqType === 3) {
                         this.currentPage = parseInt(p);

@@ -194,7 +194,9 @@
                             this.currentPage += 1;
                         }else if (pReqType == 0) {
                             this.currentPage -= 1;
-                            info.start = this.followerPageInfo[this.currentPage-1].end;
+                            if (this.currentPage >= 1 && this.currentPage <= curPageLen) {
+                                info.start = this.followerPageInfo[this.currentPage-1].end;
+                            }
                             this.updateFollowerPageInfo(this.currentPage,info);
                         }else if (pReqType == 3) {
                             this.currentPage = parseInt(p);
