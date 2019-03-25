@@ -722,7 +722,7 @@
                     <div class="item-bg item-shadow">
                         <div v-if="stateInfo">{{ numberAddComma(stateInfo.totalPostCnt) }}</div>
                         <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/articles/"'>Total articles ></router-link>
-                        <img src=/static/img/cos_articles_icon.png width=44 alt="">
+                        <img src=/static/img/cos_articles_icon.png width='44' height='44' alt="">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">

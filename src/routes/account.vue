@@ -383,6 +383,9 @@
                 this.$root.showModalLoading = true;
                 api.fetchAccountInfoByName(this.$route.params.id, info => {
                     this.accountInfo = info.getInfo();
+                    if (this.accountInfo.hasCreatedTime()) {
+                        this.createTime = this.accountInfo.getCreatedTime().getUtcSeconds()*1000;
+                    }
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {
                     console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
