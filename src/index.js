@@ -1,5 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
+import VueAnalytics from 'vue-analytics'
+
 import Header from "./components/vue-header"
 import Footer from "./components/vue-footer"
 import Modal from "./components/vue-modal"
@@ -10,6 +12,12 @@ import 'highlight.js/styles/github-gist.css'
 const vAppConfig = require("@/assets/app-config");
 
 const vRouter = new VueRouter({routes: require("@/assets/routes")});
+
+Vue.use(VueAnalytics, {
+    id: 'UA-136959706-1',
+    router: vRouter
+})
+
 let vApp = {};
 
 // Expose jQuery to the global object
