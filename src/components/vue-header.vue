@@ -65,11 +65,12 @@
         vertical-align: center;
         justify-content: center;
         justify-items: center;
-        position: absolute;
         width: 100%;
-        top: 2px;
+        top: 0px;
         color: white;
-        font-weight: 700;
+        background: #C0C000;
+        font-weight: 500;
+        font-size: medium;
         left: 0;
     }
 
@@ -121,12 +122,14 @@
 
 </style>
 <template>
-    <nav class="bg-black navbar navbar-expand-lg navbar-dark vue-header">
+    <div class="bg-black vue-header">
+    <div class="testNestWaring">
+        <img src="/static/img/cos_warn.png" class="warningIcon" alt="">
+        <div>Be careful,This is the test network for Contentos. Any trading information is for testing purposes. </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <vue-modify-rpc  v-if="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress" :currentAddress=currentHost></vue-modify-rpc>
-        <div class="testNestWaring">
-            <img src="/static/img/cos_warn.png" class="warningIcon" alt="">
-            <div>This is the test net</div>
-        </div>
+
         <div class=container>
             <div>
                 <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
@@ -175,6 +178,7 @@
             </div>
         </div>
     </nav>
+    </div>
 </template>
 <script>
     let api = require("@/assets/api"),
