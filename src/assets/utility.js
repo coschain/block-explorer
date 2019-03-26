@@ -453,8 +453,8 @@ function formatBlockSize(blkSize)  {
 function  handleDecimalPointNum(num) {
     let decimalPos = String(num).indexOf('.') + 1;
     let decimalNum = String(num).length - decimalPos;
-    if (decimalNum > 2) {
-        return num.toFixed(2);
+    if (decimalNum > 3) {
+        return num.toFixed(3);
     }
     return num;
 }
@@ -471,8 +471,8 @@ function formatTxsCount(count) {
     }
     if (num >= 1000000) {
         return handleDecimalPointNum(num/1000000) + "M"
-    }else if (num >= 10000) {
-        return handleDecimalPointNum(num/10000) + "K"
+    }else if (num >= 1000) {
+        return handleDecimalPointNum(num/1000) + "K"
     } else {
         return num;
     }

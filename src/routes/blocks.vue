@@ -127,7 +127,7 @@
                                 </router-link>
                                 <div v-if=judgeIsIrreversibleBlk(block.getBlockHeight()) class="blkStatus">
                                     <img class="icon" src="../../static/img/ic_tx_status_success.png" />
-                                    <span class="blkStatusTitle" style="margin-left: 5px;">Success</span>
+                                    <span class="blkStatusTitle" style="margin-left: 5px;">Confirmed</span>
                                 </div>
                             </div>
                         </td>
