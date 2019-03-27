@@ -222,6 +222,13 @@
         font-size: 16px;
     }
 
+    .vue-dashboard .maxTPS .maxBlockNum {
+        font-size: 16px;
+        color: white;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
 
     .vue-dashboard .nas-price .detail *:nth-child(1) {
         font-size: 16px;
@@ -697,7 +704,7 @@
 
                         <div v-if="stateInfo" class="maxTPS">
                             <div> Max TPS</div>
-                            <router-link v-if="stateInfo.maxTps > 0 && stateInfo.maxTpsBlockNum > 0" :to='fragApi + "/block/" + stateInfo.maxTpsBlockNum' class="monospace maxTpsValue">{{ stateInfo.maxTps }}</router-link>
+                            <router-link v-if="stateInfo.maxTps > 0 && stateInfo.maxTpsBlockNum > 0" :to='fragApi + "/block/" + stateInfo.maxTpsBlockNum' class="maxBlockNum">{{ stateInfo.maxTps }}</router-link>
                             <div v-else-if="stateInfo.maxTps >= 0" class="maxTpsValue">{{ stateInfo.maxTps }}</div>
                         </div>
                     </div>
