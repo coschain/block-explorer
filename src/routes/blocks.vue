@@ -249,7 +249,7 @@
                     start = this.blkStart;
                     end = this.blkEnd;
                 }else  if (end >= this.maxPageSizeLimit) {
-                    start = end - this.maxPageSizeLimit;
+                    start = (end - this.maxPageSizeLimit + 1);
                 }
                 let blkList = await api.fetchBlockList(start,end, 30);
                 let cnt = blkList.length;
