@@ -697,7 +697,8 @@
 
                         <div v-if="stateInfo" class="maxTPS">
                             <div> Max TPS</div>
-                            <div v-if="stateInfo" class="maxTpsValue">{{ stateInfo.maxTps }}</div>
+                            <router-link v-if="stateInfo.maxTps > 0 && stateInfo.maxTpsBlockNum > 0" :to='fragApi + "/block/" + stateInfo.maxTpsBlockNum' class="monospace maxTpsValue">{{ stateInfo.maxTps }}</router-link>
+                            <div v-else-if="stateInfo.maxTps >= 0" class="maxTpsValue">{{ stateInfo.maxTps }}</div>
                         </div>
                     </div>
                 </div>
