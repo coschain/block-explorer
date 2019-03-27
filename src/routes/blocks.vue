@@ -20,19 +20,38 @@
         font-size: 11px ;
     }
 
-    .vue-blocks .blkListHeadCol {
+    .vue-blocks .blkListHeadBlockHeight {
+        width: 40%;
+    }
+
+    .vue-blocks .blkListHeadTxCount {
+        width: 10%;
+    }
+
+    .vue-blocks .blkListHeadOtherCol {
         width: 25%;
     }
 
     .vue-blocks .contentCol {
         display:inline-block;
-        width: 25%;
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         margin-top: 17px;
         font-size: 14px;
+    }
+
+    .vue-blocks .txContentCol {
+        width: 10%;
+    }
+
+    .vue-blocks .blockHeightCol {
+        width: 40%;
+    }
+
+    .vue-blocks .otherConCol {
+        width: 25%;
     }
 
     .vue-blocks .blkNumCol {
@@ -114,13 +133,13 @@
             <div class="explorer-table-container ">
                 <table class="mt20 explorer-table ">
                     <tr class=" blkListHeader font-12 font-bold font-color-000000">
-                        <th class="blkListHeadCol">Height</th>
-                        <th class="blkListHeadCol">Age</th>
-                        <th class="blkListHeadCol">txn</th>
-                        <th class="blkListHeadCol">Minted</th>
+                        <th class="blkListHeadBlockHeight">Height</th>
+                        <th class="blkListHeadOtherCol">Time</th>
+                        <th class="blkListHeadTxCount">txn</th>
+                        <th class="blkListHeadOtherCol">Minted</th>
                     </tr>
                     <tr v-for="(block, i) in blocks" :key="i">
-                        <td class="contentCol">
+                        <td class="contentCol blockHeightCol">
                             <div class="blkNumCol">
                                 <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()' class="blkNum">
                                     {{block.getBlockHeight()}}
@@ -131,19 +150,19 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="contentCol">
+                        <td class="contentCol otherConCol">
                             <!--<div>-->
                                 <!--<div class="font-color-000000 font-14">{{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago</div>-->
                                 <!--<div class="down-arrow-tip">{{ new Date(block.toObject().timestamp.utcSeconds*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.toObject().timestamp.utcSeconds*1000 }}</div>-->
                             <!--</div>-->
                             {{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago
                         </td>
-                        <td class="contentCol">
+                        <td class="contentCol txContentCol">
                             <router-link v-bind:to='fragApi + "/block-trxs/" + block.getBlockHeight()'>
                                 <span >{{ numberAddComma(block.toObject().trxCount) }}</span>
                             </router-link>
                         </td>
-                        <td class="contentCol">
+                        <td class="contentCol otherConCol">
                             <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value'>
                                 <span class="monospace">{{ block.toObject().witness.value }}</span>
                             </router-link>
