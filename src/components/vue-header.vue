@@ -68,7 +68,7 @@
         width: 100%;
         top: 0px;
         color: white;
-        background: #C0C000;
+        background: #5869FF;
         font-weight: 500;
         font-size: medium;
         left: 0;
