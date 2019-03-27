@@ -207,6 +207,23 @@
                 let p = this.$route.query.p || 1;
 
                 this.$root.showModalLoading = true;
+
+                if (parseInt(p) === 1) {
+                    api.fetchStateInfo(info => {
+                        if (info != null && typeof info.state.dgpo != "undefined" ) {
+                            let irreversibleBlkNum = info.state.lastIrreversibleBlockNumber;
+                            if (irreversibleBlkNum != null && typeof irreversibleBlkNum != "undefined" && irreversibleBlkNum > 0) {
+                                this.irreversibleBlkNum = irreversibleBlkNum;
+                                utility.updateIrreversibleBlkNum(info.state.lastIrreversibleBlockNumber);
+                            }
+                        }else {
+                            console.log("blocks page:return empty props");
+                        }
+                    },(errCode,msg) => {
+                        console.log("Get state info fail,error code is %s,msg is %s",errCode,msg);
+                    });
+                }
+
                 let end = this.blkStart > 1 ?this.blkStart -1:this.blkStart;
                 let start = 0;
                 let isNext = true;
