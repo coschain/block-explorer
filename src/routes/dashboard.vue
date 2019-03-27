@@ -682,7 +682,7 @@
             <div class="row row1">
                 <div class="daily-transactions flex-item col-12 col-lg-6 row1-item">
                     <div class="item-bg">
-                        <div class="item-title" >Each Hour Transactions</div>
+                        <div class="item-title" >Transactions Per Hour</div>
                         <!--<div class="details" v-if="hourTxChartOptions">-->
                             <!--<span v-if="todayTxCnt >= 0">Today</span>-->
                             <!--<span v-if="todayTxCnt >= 0">{{ numberAddComma(todayTxCnt) }}</span>-->
@@ -698,7 +698,7 @@
                             <span>{{ stateInfo.tps }}</span>
                         </div>
                         <div v-if="confirmBlkTime" class="irreversible">
-                            <div>Confirm delay Time</div>
+                            <div>Confirmation delay Time</div>
                             <div v-if="confirmBlkTime" class="confirmTime">{{ confirmBlkTime }} ago</div>
                         </div>
 
