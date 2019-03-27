@@ -543,8 +543,8 @@
     }
 
     .vue-dashboard .row4 .flex-item .item-bg {
-        overflow-y: scroll;
-    }
+         overflow-y: hidden;
+     }
 
     .vue-dashboard .row4 tr {
         transition: all 1s;
