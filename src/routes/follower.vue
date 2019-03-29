@@ -287,7 +287,7 @@
                     cacheData.pageInfo = null;
                 }
                 sessionStorage.setItem(this.followerCacheKey,JSON.stringify(cacheData));
-                utility.addFollowCacheKey(this.followerCacheKey);
+                utility.addComplexCacheKey(this.followerCacheKey);
             },
 
             storeOrderInfo(originOrder) {
@@ -306,7 +306,7 @@
                 return null;
             },
             clearCachePageInfo() {
-                utility.removeFollowCacheKey(this.followerCacheKey);
+                utility.removeComplexCacheKey(this.followerCacheKey);
                 if (sessionStorage.getItem(this.followerCacheKey) != null) {
                     sessionStorage.removeItem(this.followerCacheKey);
                 }

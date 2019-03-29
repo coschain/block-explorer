@@ -136,43 +136,6 @@
                             <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
                         </td>
                     </tr>
-                    <!--<tr>-->
-                        <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">To:</td>-->
-                        <!--<td class="detail"></td>-->
-                        <!--<td v-if="tx.type === 'call'">-->
-                            <!--<span class="font-color-000000 font-16">Contract</span>-->
-                            <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>-->
-                                <!--<span style="margin-left: 20px;" class="font-16 monospace">{{ tx.to.hash }}</span>-->
-                            <!--</router-link>-->
-                            <!--<div class="token-name font-16 font-color-000000" style="margin-left: 14px;" v-if="isTokenTransfer && tx.tokenName">{{ '(' + tx.tokenName + ' Token)' }}</div>-->
-                        <!--</td>-->
-                        <!--<td v-else>-->
-                            <!--<router-link v-if=tx.to v-bind:to='fragApi +"/address/" + tx.to.hash'>-->
-                                <!--<span class="font-16 monospace">{{ tx.to.hash }}</span>-->
-                            <!--</router-link>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr  v-if=isTokenTransfer class="font-16">-->
-                        <!--<td class="font-color-555555" style="padding-left: 24px;">Token Transfered:</td>-->
-                        <!--<td>-->
-                            <!--<span class="font-color-000000">From</span>-->
-                            <!--<router-link class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + tx.from.hash'>-->
-                                <!--<span class="monospace">{{ tx.from.hash }}</span>-->
-                            <!--</router-link>-->
-                            <!--<span class="font-color-000000">To </span>-->
-                            <!--<router-link  class=atpAddress v-if=tx.to v-bind:to='fragApi +"/address/" + JSON.parse(JSON.parse(tx.data).Args)[0]'>-->
-                                <!--<span class="monospace">{{ JSON.parse(JSON.parse(tx.data).Args)[0] }} </span>-->
-                            <!--</router-link>-->
-                            <!--<span class="font-color-000000">for {{ tokenAmount }}</span>-->
-                            <!--<div class="token-name" v-if="tx.tokenName">-->
-                                <!--<a href=# @click="search(tx.tokenName)">{{ tx.tokenName }}</a>-->
-                            <!--</div>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td class="font-16 font-color-555555" style="padding-left: 24px;">Value:</td>-->
-                        <!--<td class="font-16 font-color-000000">{{ nasAmount(tx.value) }} COS</td>-->
-                    <!--</tr>-->
 
                 </table>
             </div>
@@ -290,18 +253,6 @@
                     this.$root.showModalLoading = false;
                 });
 
-                // api.getTx(this.$route.params.id, o => {
-                //     this.$root.showModalLoading = false;
-                //     this.tx = o;
-                //     // if (!o.tokenName || o.tokenName.length == 0) {
-                //     //     if (o.to.hash == this.atpAddress()) {
-                //     //         this.tx.tokenName ="ATP";
-                //     //     }
-                //     // }
-                // }, xhr => {
-                //     this.$root.showModalLoading = false;
-                //     this.$router.replace((this.$route.params.api ?"/" + this.$route.params.api :"") +"/404");
-                // });
             },
             isTokenTransfer() {
                 try {
@@ -353,45 +304,6 @@
             toWei(n) {
                 return utility.toWei(n);
             },
-            nasAmount(n) {
-                BigNumber.config({ DECIMAL_PLACES: 18 })
-                var amount = BigNumber(n);
-                var decimals = BigNumber('1e+18');
-                return amount.div(decimals).toFormat();
-            },
-            hexTobyte(str) {
-                return utility.hexStrToByte(str);
-            },
-            // atpAddress() {
-            //     var api = this.$route.params.api ? this.$route.params.api :"mainnet";
-            //     return appConfig.apiPrefixes[api].atp;
-            // },
-            // search(keyword) {
-            //     console.log("tx search");
-            //     if (keyword.trim().length === 0) {
-            //         return;
-            //     }
-            //     this.$root.showModalLoading = true;
-            //     api.getSearch(keyword.trim(), o => {
-            //         this.$root.showModalLoading = false;
-            //         this.search = "";
-            //
-            //         if (o.type == "block")
-            //             this.$router.push(this.fragApi + "/block/" + o.q);
-            //         else if (o.type == "address")
-            //             this.$router.push(this.fragApi + "/address/" + o.q);
-            //         else if (o.type == "tx")
-            //             this.$router.push(this.fragApi + "/tx/" + o.q);
-            //         else if (o.type == "contract")
-            //             this.$router.push(this.fragApi + "/token/" + o.q);
-            //         else {
-            //             this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/nothing");
-            //         }
-            //     }, () => {
-            //         this.$root.showModalLoading = false;
-            //         this.$router.push((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-            //     });
-            // }
         },
         mounted() {
             let hexHash = this.$route.params.id;

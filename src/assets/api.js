@@ -475,6 +475,35 @@ module.exports = {
         });
         promise.then(success, fail)
     },
+
+    async fetchUserTrxListByTime(account,start,end,pageSize,lastTrx,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetUserTrxListByTimeRequest();
+        req.setName(account);
+        req.setStart(start);
+        req.setEnd(end);
+        req.setLastTrx(lastTrx);
+        req.setLimit(pageSize);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetUserTrxListByTime, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getTrxListList();
+                        resolve(obj)
+                    } else {
+                        reject(status, statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
+    },
   };
     function ajax1(action, args, done, fail) {
         var a = ajaxSplitAction(action);

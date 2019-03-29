@@ -962,7 +962,7 @@
         async mounted() {
             this.addVisibleListener();
             utility.clearPagesInfoCache();
-            utility.clearFollowCaches();
+            utility.clearComplexCaches();
             //clear data when change rpc address
             this.$root.eBus.$on("changeRpcAddress",address => {
                 // this.dailyTxData = [];
@@ -1198,7 +1198,7 @@
                 this.fetchChainStateInfo();
                 //fetch latest block list
                 await this.fetchBlocksList();
-                //fetch total trx in rencent 6 hours
+                //fetch total trx in recent 6 hours
                 await this.statByHour(6);
                 this.txs = await this.fetchSpanTrxs(0, 0, 5);
             }

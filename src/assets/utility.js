@@ -8,7 +8,7 @@ const pageCacheType = {
 };
 
 const rpcCacheKey = "rpcAddress";
-const followCacheMapKey = "followMapKey";
+const complexCacheMapKey = "complexMapKey";
 let irreversibleNum = 0;
 module.exports = {
     pageCacheType:pageCacheType,
@@ -39,9 +39,9 @@ module.exports = {
     formatTxsCnt: formatTxsCount,
     updateIrreversibleBlkNum:updateIrreversibleBlkNum,
     getIrreversibleBlkNum:getIrreversibleBlkNum,
-    addFollowCacheKey:addFollowCacheKey,
-    removeFollowCacheKey:removeFollowCacheKey,
-    clearFollowCaches:clearAllFollowCache,
+    addComplexCacheKey:addComplexCacheKey,
+    removeComplexCacheKey:removeComplexCacheKey,
+    clearComplexCaches:clearAllComplexCache,
 };
 
 ////////////////////////////////////////////////////////////
@@ -92,9 +92,9 @@ function getPageInfoCacheKey(pType) {
 }
 
 
-function addFollowCacheKey(keyStr) {
+function addComplexCacheKey(keyStr) {
     if (typeof keyStr == "string") {
-        let cacheInfo = sessionStorage.getItem(followCacheMapKey);
+        let cacheInfo = sessionStorage.getItem(complexCacheMapKey);
         let cacheMap = null;
         if(cacheInfo) {
             cacheMap = JSON.parse(cacheInfo);
@@ -102,19 +102,19 @@ function addFollowCacheKey(keyStr) {
             cacheMap = {};
         }
         cacheMap[keyStr] = keyStr;
-        sessionStorage.setItem(followCacheMapKey,JSON.stringify(cacheMap));
+        sessionStorage.setItem(complexCacheMapKey,JSON.stringify(cacheMap));
     }
 }
 
-function removeFollowCacheKey(keyStr) {
+function removeComplexCacheKey(keyStr) {
     if (typeof keyStr == "string") {
-        let cacheInfo = sessionStorage.getItem(followCacheMapKey);
+        let cacheInfo = sessionStorage.getItem(complexCacheMapKey);
         if(cacheInfo) {
             let cacheMap = JSON.parse(cacheInfo);
             if (cacheMap) {
                 if (cacheMap.hasOwnProperty(keyStr)) {
                     delete cacheMap[keyStr];
-                    sessionStorage.setItem(followCacheMapKey,JSON.stringify(cacheMap));
+                    sessionStorage.setItem(complexCacheMapKey,JSON.stringify(cacheMap));
                 }
             }
         }
@@ -124,8 +124,8 @@ function removeFollowCacheKey(keyStr) {
     }
 }
 
-function clearAllFollowCache() {
-    let cacheInfo = sessionStorage.getItem(followCacheMapKey);
+function clearAllComplexCache() {
+    let cacheInfo = sessionStorage.getItem(complexCacheMapKey);
     if (cacheInfo) {
         let cacheMap = JSON.parse(cacheInfo);
         if (cacheMap) {
@@ -135,7 +135,7 @@ function clearAllFollowCache() {
                 }
             }
         }
-        sessionStorage.removeItem(followCacheMapKey);
+        sessionStorage.removeItem(complexCacheMapKey);
     }
 
 }

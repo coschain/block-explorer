@@ -288,6 +288,15 @@
                         </router-link>
                     </td>
                 </tr>
+
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Created Tx:</td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id  + "/" + Date.now()'>
+                            <span>{{accountInfo.toObject().trxCount}}</span>
+                        </router-link>
+                    </td>
+                </tr>
             </table>
 
             <div class="mobile-detail d-md-none">
@@ -302,7 +311,7 @@
                 <div class="mobileDarkCell">
                     <div class="font-color-555555">CreatedTime:</div>
                     <!--<div class="detail">{{ accountInfo.createdTime.utcSeconds }}</div>-->
-                    <td class="font-16 font-color-000000">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</td>
+                    <div class="font-16 font-color-000000">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</div>
                 </div>
                 <div >
                     <div class="font-color-555555">PublicKey:</div>
@@ -338,6 +347,15 @@
                     <div class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/following/" + $route.params.id + "/" + Date.now()'>
                         <span>{{accountInfo.toObject().followingCount}}</span>
+                        </router-link>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="font-color-555555">Created Tx:</div>
+                    <div class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id + "/" + Date.now()'>
+                        <span>{{accountInfo.toObject().trxCount}}</span>
                         </router-link>
                     </div>
                 </div>
@@ -549,6 +567,6 @@
                     });
                 }
             }
-        }
+        },
     };
 </script>
