@@ -200,6 +200,7 @@
                 pageSwitchType:0,//0 fetch the next page ,1:fetch the pre page
                 blkPageInfo:[],
                 maxPageSizeLimit:30,
+                createdPageIndex:0,
             };
         },
         methods: {
@@ -267,6 +268,9 @@
                             this.updateBlkPageInfo(this.currentPage,info);
                         }
                         this.currentPage += 1;
+                        if (this.createdPageIndex < this.totalPage) {
+                            this.createdPageIndex += 1;
+                        }
                     }else if (pReqType === 0){
                         this.currentPage -= 1;
                         this.updateBlkPageInfo(this.currentPage-1,info);
@@ -300,7 +304,7 @@
                 this.nav(this.currentPage - 1);
             },
             nav(n) {
-                if (n < this.totalPage) {
+                if (n < this.createdPageIndex && this.createdPageIndex >= this.currentPage) {
                     if (n < this.currentPage) {
                         this.$router.back();
                     }else {
@@ -337,6 +341,7 @@
                 let cacheData = {};
                 cacheData.currentPage = this.currentPage;
                 cacheData.totalPage = this.totalPage;
+                cacheData.createdPageIndex = this.createdPageIndex;
                 let listLen = this.blkPageInfo.length;
                 if ( listLen > 0) {
                     let pageList = [];
@@ -376,6 +381,7 @@
             if (cacheData != null) {
                 this.currentPage =  parseInt(cacheData.currentPage);
                 this.totalPage = parseInt(cacheData.totalPage);
+                this.createdPageIndex = parseInt(cacheData.createdPageIndex);
                 if (cacheData.pageInfo != null) {
                     let list = [];
                     cacheData.pageInfo.forEach(function (obj) {
@@ -401,6 +407,12 @@
         watch: {
             async $route() {
                 await this.nthPage();
+            }
+        },
+        beforeDestroy() {
+            if (this.currentPage > 1) {
+                this.createdPageIndex = this.currentPage;
+                this.savePageInfo();
             }
         },
         destroyed() {

@@ -290,7 +290,7 @@
                 </tr>
 
                 <tr>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Created Tx:</td>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Created Tx Count:</td>
                     <td class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id  + "/" + Date.now()'>
                             <span>{{accountInfo.toObject().trxCount}}</span>
@@ -352,7 +352,7 @@
                 </div>
 
                 <div>
-                    <div class="font-color-555555">Created Tx:</div>
+                    <div class="font-color-555555">Created Tx Count:</div>
                     <div class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id + "/" + Date.now()'>
                         <span>{{accountInfo.toObject().trxCount}}</span>

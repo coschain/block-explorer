@@ -143,6 +143,7 @@
                 coinEnd: null,
                 accountPageInfo: [],
                 lastAccount:null,
+                createdPageIndex:0,
             };
         },
         methods: {
@@ -200,7 +201,9 @@
                                 this.updateAccountsPageInfo(this.currentPage,info);
                             }
                             this.currentPage += 1;
-
+                            if (this.createdPageIndex < this.totalPage) {
+                                this.createdPageIndex += 1;
+                            }
                         }else if (pReqType == 0) {
                             this.currentPage -= 1;
                             if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
@@ -234,7 +237,7 @@
                 return utility.toWei(n);
             },
             nav(n) {
-                if (n < this.totalPage) {
+                if (n < this.createdPageIndex && this.createdPageIndex >= this.currentPage) {
                     if (n < this.currentPage) {
                         this.$router.back();
                     }else {
@@ -285,6 +288,7 @@
                 let cacheData = {};
                 cacheData.currentPage = this.currentPage;
                 cacheData.totalPage = this.totalPage;
+                cacheData.createdPageIndex =  this.createdPageIndex;
                 let listLen = this.accountPageInfo.length;
                 if ( listLen > 0) {
                     let pageList = [];
@@ -322,6 +326,7 @@
             if (cacheData != null) {
                 this.currentPage = parseInt(cacheData.currentPage);
                 this.totalPage = parseInt(cacheData.totalPage);
+                this.createdPageIndex = parseInt(cacheData.createdPageIndex);
                 if (cacheData.pageInfo != null) {
                     let list = [];
                     cacheData.pageInfo.forEach(function (obj) {
@@ -367,6 +372,13 @@
                 this.nthPage();
             }
         },
+        beforeDestroy() {
+            if (this.currentPage > 1) {
+                this.createdPageIndex = this.currentPage;
+                this.savePageInfo();
+            }
+        },
+
         destroyed() {
             if (this.currentPage <= 1) {
                 this.clearCachePageInfo();
