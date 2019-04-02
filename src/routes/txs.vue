@@ -229,50 +229,54 @@
                     //refresh current page
                     pReqType = 3;
                 }
-                let trxList = await api.fetchTrxListByTime(null,start, 30, lastTrx);
-                if (trxList.length > 0) {
-                    this.trxList = trxList;
-                    this.lastInfo = trxList[trxList.length-1];
-                    this.listStart = this.lastInfo.getBlockTime();
-                    if (this.currentPage === 0 && isNext) {
-                        this.listEnd = null;
-                    }else {
-                        this.listEnd = trxList[0].getBlockTime();
-                    }
-                    let curPageLen = this.pageInfo.length;
-                    let info = {start:this.listStart,lastPost:this.lastInfo};
-                    if (curPageLen === 0 || (this.currentPage == 1 && pReqType == 3)) {
-                        info.end = null;
-                    }
-                    if (pReqType === 1) {
-                        if (this.currentPage + 1 === this.totalPage) {
-                            this.totalPage += 1;
-                            if (curPageLen >= 1) {
-                                info.end = this.pageInfo[curPageLen - 1].start;
-                            }
-                            this.pageInfo.push(info);
+                try {
+                    let trxList = await api.fetchTrxListByTime(null,start, 30, lastTrx);
+                    if (trxList.length > 0) {
+                        this.trxList = trxList;
+                        this.lastInfo = trxList[trxList.length-1];
+                        this.listStart = this.lastInfo.getBlockTime();
+                        if (this.currentPage === 0 && isNext) {
+                            this.listEnd = null;
                         }else {
-                            if (curPageLen >= 1 && this.currentPage <= curPageLen) {
-                                info.end = this.pageInfo[this.currentPage-1].start;
+                            this.listEnd = trxList[0].getBlockTime();
+                        }
+                        let curPageLen = this.pageInfo.length;
+                        let info = {start:this.listStart,lastPost:this.lastInfo};
+                        if (curPageLen === 0 || (this.currentPage == 1 && pReqType == 3)) {
+                            info.end = null;
+                        }
+                        if (pReqType === 1) {
+                            if (this.currentPage + 1 === this.totalPage) {
+                                this.totalPage += 1;
+                                if (curPageLen >= 1) {
+                                    info.end = this.pageInfo[curPageLen - 1].start;
+                                }
+                                this.pageInfo.push(info);
+                            }else {
+                                if (curPageLen >= 1 && this.currentPage <= curPageLen) {
+                                    info.end = this.pageInfo[this.currentPage-1].start;
+                                }
+                                this.updateTxsListPage(this.currentPage,info);
                             }
-                            this.updateTxsListPage(this.currentPage,info);
+                            this.currentPage += 1;
+                            if (this.createdPageIndex < this.totalPage) {
+                                this.createdPageIndex += 1;
+                            }
+                        }else if (pReqType === 0) {
+                            this.currentPage -= 1;
+                            if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
+                                info.end = this.pageInfo[this.currentPage-2].start;
+                            }
+                            this.updateTxsListPage(this.currentPage-1,info);
+                        }else if (pReqType === 3) {
+                            this.currentPage = parseInt(p);
                         }
-                        this.currentPage += 1;
-                        if (this.createdPageIndex < this.totalPage) {
-                            this.createdPageIndex += 1;
-                        }
-                    }else if (pReqType === 0) {
-                        this.currentPage -= 1;
-                        if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
-                            info.end = this.pageInfo[this.currentPage-2].start;
-                        }
-                        this.updateTxsListPage(this.currentPage-1,info);
-                    }else if (pReqType === 3) {
-                        this.currentPage = parseInt(p);
                     }
+                    this.savePageInfo();
+                }catch (err) {
+                    console.log("fetch trx list fail,the error is %s",err);
                 }
                 this.$root.showModalLoading = false;
-                this.savePageInfo();
             },
 
             updateTxsListPage(index,info) {

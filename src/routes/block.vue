@@ -185,12 +185,17 @@
           async urlChange() {
             this.$root.showModalLoading = true;
             //fetch block info
-            let blkInfo = await api.fetchBlockList(+this.$route.params.id+1,+this.$route.params.id+1, 1);
-            if (blkInfo.length > 0 ) {
-                this.blockInfo = blkInfo[0];
-                this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
-                this.blkHash = this.blockInfo.getBlockId().getHexHash();
-            }
+              try {
+                  let blkInfo = await api.fetchBlockList(+this.$route.params.id+1,+this.$route.params.id+1, 1);
+                  if (blkInfo.length > 0 ) {
+                      this.blockInfo = blkInfo[0];
+                      this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
+                      this.blkHash = this.blockInfo.getBlockId().getHexHash();
+                  }
+              }catch (err) {
+                  console.log("fetch block fail,error is %s",err);
+              }
+
             this.$root.showModalLoading = false;
           }
         },

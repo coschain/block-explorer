@@ -1129,7 +1129,9 @@
                     e = new cos_sdk.raw_type.time_point_sec();
                     e.setUtcSeconds(Math.ceil(end));
                 }
-                return api.fetchTrxListByTime(s, e, limit, null);
+                return api.fetchTrxListByTime(s, e, limit, null).catch((errCode,msg) => {
+                    console.log("fetch trx list fail,error code is %s,msg is %s ",errCode,msg);
+                });
             },
             // incrementTrxs(trxList) {
             //     let reversed = trxList.reverse();
