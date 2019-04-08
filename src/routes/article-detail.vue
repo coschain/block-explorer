@@ -49,6 +49,7 @@
         border-width: 1px;
         border-color: black;
         background-color: rgba(247, 247, 247, 1);
+        outline-style: none;
     }
 
     .vue-article-detail .listBtn:nth-of-type(2) {
@@ -56,8 +57,8 @@
     }
 
     .vue-article-detail .listBtnSelectState {
-        outline: #2a88ff solid 1px;
-        border-width: 0;
+        border-color: #2a88ff;
+        color: #2a88ff;
     }
 
     .vue-article-detail .proValue {
