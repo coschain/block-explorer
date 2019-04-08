@@ -88,4 +88,8 @@ module.exports = [{
     component: require("@/routes/user-trxs").default,
     meta: { headerActive: 2 },
     path: "/:api?/user-trxs/:account/:t"
+},{
+    component: require("@/routes/article-detail").default,
+    meta: {headerActive: 2},
+    path: "/:api?/article-detail/:pId",
 }];

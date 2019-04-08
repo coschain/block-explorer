@@ -64,7 +64,6 @@
 
 </style>
 <template>
-    <!-- https://etherscan.io/txs -->
     <div class="vue-articles fullfill">
         <vue-bread title="Posted Articles"></vue-bread>
 
@@ -90,8 +89,12 @@
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>
                         </td>
-                        <td class="articlesListContentCol">{{post.getTitle()}}</td>
-                        <td class="articlesListContentCol">{{ post.getPostId()}} </td>
+                        <td class="articlesListContentCol">{{fetchPostTitleFromPostInfo(post)}}</td>
+                        <td class="articlesListContentCol">
+                            <router-link v-bind:to='fragApi + "/article-detail/" + post.getPostId()'>
+                                <span class="hash-normal monospace">{{ post.getPostId()}}</span>
+                            </router-link>
+                        </td>
                         <td class="articlesListContentCol">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
                     </tr>
                 </table>
@@ -305,6 +308,17 @@
                 if (sessionStorage.getItem(articlesPageCacheKey) != null) {
                     sessionStorage.removeItem(articlesPageCacheKey);
                 }
+            },
+            fetchPostTitleFromPostInfo(info) {
+                if (info != null && typeof info != "undefined") {
+                    let pId = info.getParentId();
+                    if (pId.length > 0 && BigNumber(pId).comparedTo(0) === 1) {
+                        //if the parentId exist,indicate is reply
+                        return "Reply";
+                    }
+                    return info.getTitle();
+                }
+                return ""
             }
         },
         mounted() {

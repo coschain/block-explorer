@@ -476,6 +476,16 @@ module.exports = {
         promise.then(success, fail)
     },
 
+    /**
+     *
+     * @param account
+     * @param start:the start time in request range
+     * @param end: the end time in request range
+     * @param pageSize:the count of a page
+     * @param lastTrx: the trx of the last one in last page
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
     async fetchUserTrxListByTime(account,start,end,pageSize,lastTrx,success,fail) {
         if (typeof success != "function" || typeof fail != "function") {
             console.log("The success or fail is not a callBack function");
@@ -496,6 +506,41 @@ module.exports = {
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getTrxListList();
                         resolve(obj)
+                    } else {
+                        reject(status, statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
+    },
+
+    /**
+     * fetch article detail info(voter list 、reply list、rewards etc.) by post id
+     * @param pId: the post id of article
+     * @param voterLimit: the list count of voter list
+     * @param replyLimit: the list count of reply list
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async fetchArticleDetailInfoById(pId,voterLimit,replyLimit,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+
+        let req = new cos_sdk.grpc.GetPostInfoByIdRequest();
+        req.setPostId(pId);
+        req.setVoterListLimit(voterLimit);
+        req.setReplyListLimit(replyLimit);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostInfoById, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        resolve(message)
                     } else {
                         reject(status, statusMessage)
                     }

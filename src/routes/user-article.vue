@@ -85,8 +85,12 @@
                     </tr>
 
                     <tr v-for="(post, i) in postList" :key="i">
-                        <td  class="font-color-000000 tagAndContent"> {{post.getPostId()}} </td>
-                        <td class="font-color-000000 tagAndContent">{{ post.getTitle() }}</td>
+                        <td  class="font-color-000000 tagAndContent">
+                            <router-link v-bind:to='fragApi + "/article-detail/" + post.getPostId()'>
+                                <span class="hash-normal monospace">{{ post.getPostId()}}</span>
+                            </router-link>
+                        </td>
+                        <td class="font-color-000000 tagAndContent">{{ getTitleOfArticle(post) }}</td>
                         <td class="font-color-000000 tagAndContent ">{{ post.getBody()}} </td>
                         <td class="font-color-000000 tagAndContent">{{fetchArticleTag(post.getTagsList())}}</td>
                         <td  class="ont-color-000000 tagAndContent">{{post.getVoteCnt()}}</td>
@@ -403,6 +407,18 @@
                 }
                 return null;
             },
+
+            getTitleOfArticle(info) {
+                if (info != null && typeof info != "undefined") {
+                    let pId = info.getParentId();
+                    if (pId.length > 0 && BigNumber(pId).comparedTo(0) === 1) {
+                        //if the parentId exist,indicate is reply
+                        return "Reply";
+                    }
+                    return info.getTitle();
+                }
+                return ""
+            }
         },
 
         mounted() {
