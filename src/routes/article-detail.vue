@@ -204,13 +204,17 @@
                     <div class="proDesc font-color-555555">Vote Count:</div>
                     <div class="proValue font-color-000000">{{articleInfo.getVoteCnt()}}</div>
                 </div>
+                <div class="infoCell">
+                    <div class="proDesc font-color-555555">Power:</div>
+                    <div class="proValue font-color-000000">{{articleInfo.getWeightedVp()}}</div>
+                </div>
                 <!--Tag List-->
                 <div v-if="getPostType(articleInfo) === 0" class="infoCell">
                     <div class="proDesc font-color-555555">Tag:</div>
                     <div class="proValue font-color-000000">{{getArticleTags(articleInfo.getTagsList())}}</div>
                 </div>
                 <!--Reward-->
-                <div v-if="getPostType(articleInfo) === 0" class="infoCell">
+                <div class="infoCell">
                     <div class="proDesc font-color-555555">Reward:</div>
                     <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
                 </div>
@@ -376,9 +380,9 @@
                      if (info.hasRewards()) {
                          return info.getRewards().getValue();
                      }
-                     return info.getTitle();
+                     return 0
                  }
-                 return ""
+                 return 0
              }
 
          }
