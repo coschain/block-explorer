@@ -44,21 +44,17 @@
     }
 
     .vue-article-detail .listBtn {
-        color: black;
-        font-size: 20px;
         border-width: 1px;
-        border-color: black;
-        background-color: rgba(247, 247, 247, 1);
-        outline-style: none;
-    }
-
-    .vue-article-detail .listBtn:nth-of-type(2) {
-        margin-left: 15px;
+        border-color: grey;
+        background-color: white;
     }
 
     .vue-article-detail .listBtnSelectState {
-        border-color: #2a88ff;
-        color: #2a88ff;
+        box-shadow: 0 0 0 3px #80bdff;
+    }
+
+    .vue-article-detail .listItem > button:nth-child(2) {
+        margin-left: 20px;
     }
 
     .vue-article-detail .proValue {
@@ -238,18 +234,19 @@
                     <div class="proDesc font-color-555555">Reward:</div>
                     <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
                 </div>
+                <!--cashout time-->
+                <div class="infoCell">
+                    <div class="proDesc font-color-555555">Cashout Time:</div>
+                    <!--                    new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })-->
+                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}
+                        <img class="icon" src="../../static/img/ic_tx_status_success.png" />
+                        <span class="confirm" style="margin-left: 5px;">Cashouted</span>
+                    </div>
+                </div>
                 <!--content-->
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Content:</div>
                     <div class="proValue font-color-000000">{{articleInfo.getBody()}}</div>
-                </div>
-                <div class="infoCell">
-                    <div class="proDesc font-color-555555">Cashout Time:</div>
-<!--                    new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })-->
-                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}
-                      <img class="icon" src="../../static/img/ic_tx_status_success.png" />
-                      <span class="confirm" style="margin-left: 5px;">Cashouted</span>
-                    </div>
                 </div>
 
             </div>
@@ -257,9 +254,9 @@
             <!--Voter and Reply List button-->
             <div class="listItem">
                 <!--voter list button-->
-                <button  :class='[selectedList === 1 ? "listBtnSelectState listBtn" :"listBtn"]'  @click="switchToVoterList()">Voter List</button>
+                <button type="button" :class='[selectedList === 1 ? "btn btn-primary listBtnSelectState" :"btn btn-default listBtn"]'  @click="switchToVoterList()">Voter List</button>
                 <!--reply list button-->
-                <button  :class='[selectedList === 2 ? "listBtnSelectState listBtn" :"listBtn"]' @click="switchToReplyList()">Reply List</button>
+                <button  type="button" :class='[selectedList === 2 ? "btn btn-primary listBtnSelectState" :"btn btn-default listBtn"]' @click="switchToReplyList()">Reply List</button>
             </div>
 
             <!--voter List-->
