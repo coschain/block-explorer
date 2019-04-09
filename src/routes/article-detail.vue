@@ -224,6 +224,15 @@
                     <div class="proDesc font-color-555555">Power:</div>
                     <div class="proValue font-color-000000">{{articleInfo.getWeightedVp()}}</div>
                 </div>
+                <div class="infoCell">
+                    <div class="proDesc font-color-555555">Cashout Time:</div>
+                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}
+                        <template v-if="articleInfo.getCashoutTime().getUtcSeconds() * 1000 < Date.now()">
+                            <img class="icon" src="../../static/img/ic_tx_status_success.png" />
+                            <span class="confirm" style="margin-left: 5px;">Cashouted</span>
+                        </template>
+                    </div>
+                </div>
                 <!--Tag List-->
                 <div v-if="getPostType(articleInfo) === 0" class="infoCell">
                     <div class="proDesc font-color-555555">Tag:</div>
@@ -234,20 +243,8 @@
                     <div class="proDesc font-color-555555">Reward:</div>
                     <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
                 </div>
-                <!--cashout time-->
-                <div class="infoCell">
-                    <div class="proDesc font-color-555555">Cashout Time:</div>
-                    <!--                    new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })-->
-                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}
-                        <img class="icon" src="../../static/img/ic_tx_status_success.png" />
-                        <span class="confirm" style="margin-left: 5px;">Cashouted</span>
-                    </div>
-                </div>
-                <!--content-->
-                <div class="infoCell">
-                    <div class="proDesc font-color-555555">Content:</div>
-                    <div class="proValue font-color-000000">{{articleInfo.getBody()}}</div>
-                </div>
+
+
 
             </div>
 
