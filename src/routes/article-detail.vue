@@ -154,6 +154,16 @@
         color: rgba(85, 85, 85, 1);
     }
 
+    .vue-article-detail .icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .vue-article-detail .confirm {
+        color: rgba(7, 166, 86, 1);
+        font-size: 14px;
+    }
+
     .vue-article-detail .replyListContent .replyListContentCol:nth-of-type(1) {
         overflow: hidden;
         white-space: nowrap;
@@ -166,6 +176,16 @@
 
         .vue-article-detail .proValue {
             width: 70%;
+        }
+
+        .vue-article-detail .icon {
+            width: 8px;
+            height: 8px;
+        }
+
+        .vue-article-detail .confirm {
+            color: rgba(7, 166, 86, 1);
+            font-size: 12px;
         }
     }
 
@@ -226,7 +246,10 @@
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Cashout Time:</div>
 <!--                    new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })-->
-                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}</div>
+                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}
+                      <img class="icon" src="../../static/img/ic_tx_status_success.png" />
+                      <span class="confirm" style="margin-left: 5px;">Cashouted</span>
+                    </div>
                 </div>
 
             </div>
@@ -384,11 +407,11 @@
              getArticleReward(info) {
                  if (info != null && typeof info != "undefined") {
                      if (info.hasRewards()) {
-                         return info.getRewards().getValue();
+                         return info.getRewards().toString();
                      }
-                     return 0
+                     return '0 Vest'
                  }
-                 return 0
+                 return '0 Vest'
              },
 
              timestampToDatetime(timestamp) {
