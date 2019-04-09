@@ -243,9 +243,10 @@
                     <div class="proDesc font-color-555555">Reward:</div>
                     <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
                 </div>
-
-
-
+                <div class="infoCell">
+                    <div class="proDesc font-color-555555">Content:</div>
+                    <div class="proValue font-color-000000">{{articleInfo.getBody()}}</div>
+                </div>
             </div>
 
             <!--Voter and Reply List button-->
