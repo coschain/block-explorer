@@ -223,6 +223,12 @@
                     <div class="proDesc font-color-555555">Content:</div>
                     <div class="proValue font-color-000000">{{articleInfo.getBody()}}</div>
                 </div>
+                <div class="infoCell">
+                    <div class="proDesc font-color-555555">Cashout Time:</div>
+<!--                    new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })-->
+                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}</div>
+                </div>
+
             </div>
 
             <!--Voter and Reply List button-->
@@ -383,6 +389,18 @@
                      return 0
                  }
                  return 0
+             },
+
+             timestampToDatetime(timestamp) {
+                let date = new Date(timestamp * 1000);
+                let year = date.getFullYear();
+                let month = ("0"+(date.getMonth()+1)).substr(-2);
+                let day = ("0"+date.getDate()).substr(-2);
+                let hour = ("0"+date.getHours()).substr(-2);
+                let minutes = ("0"+date.getMinutes()).substr(-2);
+                let seconds = ("0"+date.getSeconds()).substr(-2);
+                // should GMT
+                return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
              }
 
          }
