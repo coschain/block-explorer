@@ -330,7 +330,7 @@
 
                          if (this.voterListInfo.length > 0) {
                              this.selectedList = 1;
-                         }else if (this.voterListInfo.length > 0) {
+                         }else if (this.replyListInfo.length > 0) {
                              this.selectedList = 2;
                          }else {
                              this.selectedList = 0;
