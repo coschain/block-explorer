@@ -298,7 +298,7 @@ module.exports = {
             console.log("The success or fail is not a callBack function");
             return
         }
-        let req = new cos_sdk.grpc.GetTrxByIdRequest();
+        let req = new cos_sdk.grpc.GetTrxInfoByIdRequest();
         let trxId = new cos_sdk.raw_type.sha256();
         trxId.setHash(hashValue);
         req.setTrxId(trxId);
@@ -549,6 +549,36 @@ module.exports = {
         });
         promise.then(success, fail)
     },
+
+    /**
+     * judge trx  block is irreversible
+     * @param trxId: trx id
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async getBlockOfTrxIsIrreversible(trxId,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetBlkIsIrreversibleByTxIdRequest();
+        req.setTrxId(trxId);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlkIsIrreversibleByTxId, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        resolve(message);
+                    } else {
+                        reject(status, statusMessage);
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
+    }
   };
     function ajax1(action, args, done, fail) {
         var a = ajaxSplitAction(action);

@@ -161,10 +161,11 @@
     }
 
     .vue-article-detail .replyListContent .replyListContentCol:nth-of-type(1) {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        /*overflow: hidden;*/
+        /*white-space: nowrap;*/
+        /*text-overflow: ellipsis;*/
     }
+
     @media (max-width: 576px) {
         .vue-article-detail .proDesc {
             width: 30%;

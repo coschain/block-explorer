@@ -1,5 +1,5 @@
 <style>
-    div .vue-tx {
+    .vue-tx {
         background-color: white;
     }
 
@@ -242,6 +242,10 @@
                     return"";
             },
             urlChange() {
+                let hexHash = this.$route.params.id;
+                let trxHash = new cos_sdk.raw_type.sha256();
+                trxHash.setHexHash(hexHash);
+                this.trxId = trxHash.getHash();
                 this.$root.showModalLoading = true;
                 api.fetchTrxInfoById( this.trxId, info => {
                     if (info != null && typeof info != "undefined") {
@@ -305,12 +309,7 @@
                 return utility.toWei(n);
             },
         },
-        mounted() {
-            let hexHash = this.$route.params.id;
-            let trxHash = new cos_sdk.raw_type.sha256();
-            trxHash.setHexHash(hexHash);
-            this.trxId = trxHash.getHash();
-        },
+
         filters: {
             pretty: function(value) {
                 return JSON.stringify(value, null, 2);
