@@ -246,7 +246,7 @@
                 </div>
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Content:</div>
-                    <div class="proValue font-color-000000">{{articleInfo.getBody()}}</div>
+                    <div class="proValue font-color-000000" v-html="convertLinkInPostContent(articleInfo.getBody())"></div>
                 </div>
             </div>
 
@@ -293,7 +293,7 @@
                             </router-link>
                         </div>
                         <div class="replyListContentCol">{{reply.getAuthor().getValue()}}</div>
-                        <div class="replyListContentCol">{{reply.getBody()}}</div>
+                        <div class="replyListContentCol" v-html="convertLinkInPostContent(articleInfo.getBody())"></div>
                     </div>
                 </div>
               </div>
@@ -305,6 +305,8 @@
 <script>
     import BigNumber from "bignumber.js";
     import api from "../assets/api";
+    import linkifyHtml from 'linkifyjs/html';
+    import * as linkify from "linkifyjs";
     module.exports = {
         data() {
             return {
@@ -420,7 +422,15 @@
                 let seconds = ("0"+date.getSeconds()).substr(-2);
                 // should GMT
                 return year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+seconds;
-             }
+             },
+
+             convertLinkInPostContent(content) {
+                 if (content != null && typeof content == "string") {
+                     return linkifyHtml(content,linkify.options.defaults);
+                 }
+                 return content;
+             },
+
 
          }
     };
