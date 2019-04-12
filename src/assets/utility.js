@@ -10,7 +10,7 @@ const pageCacheType = {
 const rpcCacheKey = "rpcAddress";
 const complexCacheMapKey = "complexMapKey";
 let irreversibleNum = 0;
-const isUpdateSys = true;
+const isUpdateSys = false;
 module.exports = {
     isUpdateSys,
     pageCacheType:pageCacheType,
