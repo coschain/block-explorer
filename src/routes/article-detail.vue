@@ -227,12 +227,16 @@
                 </div>
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Cashout Time:</div>
-                    <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCashoutTime().getUtcSeconds()) }}
-                        <template v-if="articleInfo.getCashoutTime().getUtcSeconds() * 1000 < Date.now()">
+                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 < Date.now()">
+                        <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) }}
                             <img class="icon" src="../../static/img/ic_tx_status_success.png" />
                             <span class="confirm" style="margin-left: 5px;">Cashouted</span>
-                        </template>
-                    </div>
+                        </div>
+                    </template>
+                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 >= Date.now()">
+                        <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) }}
+                        </div>
+                    </template>
                 </div>
                 <!--Tag List-->
                 <div v-if="getPostType(articleInfo) === 0" class="infoCell">
@@ -240,6 +244,15 @@
                     <div class="proValue font-color-000000">{{getArticleTags(articleInfo.getTagsList())}}</div>
                 </div>
                 <!--Reward-->
+                <div class="infoCell">
+                    <div class="proDesc font-color-555555">Estimate Reward:</div>
+                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 < Date.now()">
+                        <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
+                    </template>
+                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 >= Date.now()">
+                        <div class="proValue font-color-000000">{{getEstimateReward(articleInfo)}}</div>
+                    </template>
+                </div>
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Reward:</div>
                     <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
@@ -307,6 +320,8 @@
     import api from "../assets/api";
     import linkifyHtml from 'linkifyjs/html';
     import * as linkify from "linkifyjs";
+    import {raw_type} from "cos-grpc-js"
+
     module.exports = {
         data() {
             return {
@@ -407,9 +422,53 @@
                      if (info.hasRewards()) {
                          return info.getRewards().toString();
                      }
-                     return '0 Vest'
+                     let vest = new raw_type.vest();
+                     vest.setValue('0');
+                     return vest.toString();
                  }
-                 return '0 Vest'
+                 let vest = new raw_type.vest();
+                 vest.setValue('0');
+                 return vest.toString();
+             },
+
+             getEstimateReward(info) {
+                 if (info != null && typeof info != "undefined") {
+                     let parentId = BigNumber(info.getParentId());
+                     if (parentId.eq(0)) {
+                        let vp = BigNumber(info.getWeightedVp());
+                        let globalRewards = BigNumber(info.getGlobalRewards().getValue());
+                        let globalVp = BigNumber(info.getGlobalWeightedVp());
+                        if (globalVp.plus(vp).gt(0)) {
+                            let totalVp = globalVp.plus(vp);
+                            let rewards = vp.multipliedBy(globalRewards).dividedBy(totalVp).integerValue();
+                            let vest = new raw_type.vest();
+                            vest.setValue(rewards.toString());
+                            return vest.toString();
+                        } else {
+                            let vest = new raw_type.vest();
+                            vest.setValue('0');
+                            return vest.toString();
+                        }
+                     } else {
+                         let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue();
+                         let globalRewards = BigNumber(info.getGlobalRewards().getValue());
+                         let globalVp = BigNumber(info.getGlobalWeightedVp());
+                         if (globalVp.plus(vp).gt(0)) {
+                             let totalVp = globalVp.plus(vp);
+                             let rewards = vp.multipliedBy(globalRewards).dividedBy(totalVp).integerValue();
+                             let vest = new raw_type.vest();
+                             vest.setValue(rewards.toString());
+                             return vest.toString();
+                         } else {
+                             let vest = new raw_type.vest();
+                             vest.setValue('0');
+                             return vest.toString();
+                         }
+                     }
+                 }
+                 let vest = new raw_type.vest();
+                 vest.setValue('0');
+                 return vest.toString();
              },
 
              timestampToDatetime(timestamp) {
