@@ -812,9 +812,12 @@
     const ECharts = require('vue-echarts/components/ECharts').default;
     require('echarts/lib/chart/line');
     require('echarts/lib/component/tooltip');
+    import commonAlert from "../components/vue-tips-alert"
+    import Vue from 'vue'
     module.exports = {
         components: {
             'vchart': ECharts,
+            commonAlert
         },
         data() {
             return {
@@ -960,6 +963,9 @@
             },
         },
         async mounted() {
+            if (this.judgeIsUpdateSys()) {
+                this.showUpgradeAlert();
+            }
             this.addVisibleListener();
             utility.clearPagesInfoCache();
             utility.clearComplexCaches();
@@ -986,6 +992,18 @@
 
         },
         methods: {
+            judgeIsUpdateSys() {
+                return utility.isUpdateSys;
+            },
+
+            showUpgradeAlert() {
+                let tipsAlert = Vue.extend(commonAlert);
+                let alert = new tipsAlert();
+                let config = {};
+                config.title = "Tips";
+                config.content = "System upgrade, coming back soon";
+                alert.showCommonAlert(config);
+            },
             addVisibleListener() {
                 if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
                     this.hiddenTopic = "hidden";
