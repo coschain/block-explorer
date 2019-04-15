@@ -214,7 +214,17 @@
                 <!--title or parentId-->
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">{{getTitleDesc(articleInfo)}}:</div>
-                    <div class="proValue font-color-000000">{{getTitleByPostInfo(articleInfo)}}</div>
+<!--                    <div class="proValue font-color-000000">{{getTitleByPostInfo(articleInfo)}}</div>-->
+                    <template v-if="getPostType(articleInfo)===0">
+                     <div class="proValue font-color-000000">{{articleInfo.getTitle()}}</div>
+                    </template>
+                    <template v-if="getPostType(articleInfo)===1">
+                      <div class="proValue font-color-000000" >
+                          <router-link v-bind:to='fragApi + "/article-detail/" + articleInfo.getParentId()'>
+                          <span class="hash-normal monospace">{{ articleInfo.getParentId() }}</span>
+                          </router-link>
+                      </div>
+                    </template>
                 </div>
                 <!--vote count-->
                 <div class="infoCell">
@@ -306,7 +316,7 @@
                             </router-link>
                         </div>
                         <div class="replyListContentCol">{{reply.getAuthor().getValue()}}</div>
-                        <div class="replyListContentCol" v-html="convertLinkInPostContent(articleInfo.getBody())"></div>
+                        <div class="replyListContentCol" v-html="convertLinkInPostContent(reply.getBody())"></div>
                     </div>
                 </div>
               </div>
@@ -389,7 +399,7 @@
                      let pId = info.getParentId();
                      if (pId.length > 0 && BigNumber(pId).comparedTo(0) === 1) {
                          //if the parentId exist,indicate is reply
-                         return pId;
+                         return Pid;
                      }
                      return info.getTitle();
                  }
