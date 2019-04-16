@@ -226,6 +226,15 @@
                       </div>
                     </template>
                 </div>
+                <!--author-->
+                <div class="infoCell">
+                    <div class="proDesc font-color-555555">Author:</div>
+                    <div class="proValue font-color-000000">
+                        <router-link v-bind:to='fragApi + "/account/" + articleInfo.getAuthor().getValue()'>
+                            <span class="hash-normal monospace">{{ articleInfo.getAuthor().getValue()}}</span>
+                        </router-link>
+                    </div>
+                </div>
                 <!--vote count-->
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Vote Count:</div>
