@@ -134,12 +134,12 @@
                     <tr class="accountListHeader font-bold font-color-000000">
                         <th class="headRank">Rank</th>
                         <th class="headAccount">Account</th>
-                        <th :class='[sortType === 1?"headBalanceAndTime headSelectStatus":"headBalanceAndTime"]'>
+                        <th :class='[sortType === 1?"headBalanceAndTime headSelectStatus":"headBalanceAndTime"]' @click="changeListSortType(1)">
                             <div> Balance</div>
-                            <div :class='[sortType === 1?"arrow-down selected-arrow-down":"arrow-down"]' @click="changeListSortType(1)"></div>
+                            <div :class='[sortType === 1?"arrow-down selected-arrow-down":"arrow-down"]'></div>
                         </th>
                         <th class="headOther">Vest</th>
-                        <th :class='[sortType === 2?"headBalanceAndTime headSelectStatus":"headBalanceAndTime"]'>
+                        <th :class='[sortType === 2?"headBalanceAndTime headSelectStatus":"headBalanceAndTime"]' @click="changeListSortType(2)">
                             <div>Time</div>
                             <div :class='[sortType === 2?"arrow-down selected-arrow-down":"arrow-down"]' @click="changeListSortType(2)"></div>
                         </th>
