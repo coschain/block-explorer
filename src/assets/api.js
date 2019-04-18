@@ -578,7 +578,45 @@ module.exports = {
             })
         });
         promise.then(success, fail)
-    }
+    },
+
+    /**
+     *
+     * @param start: the start time in request range
+     * @param end: the end time in request range
+     * @param lastAccount: the account info of the last one in last page
+     * @param pageSize: the list count of a page
+     * @param success: the request success callback
+     * @param fail: the request fail callback
+     */
+    async fetchAccountListByCreateTime(start,end,lastAccount,pageSize,success,fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let req = new cos_sdk.grpc.GetAccountListByCreTimeRequest();
+       req.setStart(start);
+       req.setEnd(end);
+       req.setLastAccount(lastAccount);
+       req.setLimit(pageSize);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetAccountListByCreTime, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getListList();
+                        resolve(obj);
+                        resolve(obj);
+                    } else {
+                        reject(status, statusMessage);
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
+    },
   };
     function ajax1(action, args, done, fail) {
         var a = ajaxSplitAction(action);

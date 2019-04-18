@@ -264,7 +264,7 @@
                     <td class="base-info-key font-16 font-color-555555 pl-16">Posted:
                     </td>
                     <td class="font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id'>
+                        <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id+"?t="+Date.now()'>
                         <span>{{accountInfo.toObject().postCount}}</span>
                         </router-link>
                     </td>
@@ -325,7 +325,7 @@
                     <div class="font-color-555555">Posted:
                     </div>
                     <div class="font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id'>
+                        <router-link v-bind:to='fragApi + "/user-article/" + $route.params.id+"?t="+Date.now()'>
                             <span>{{accountInfo.toObject().postCount}}</span>
                         </router-link>
                     </div>

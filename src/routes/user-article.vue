@@ -109,8 +109,6 @@
         BigNumber = require("bignumber.js");
     import {cos_sdk} from "../../src/assets/api"
 
-    const userArticlesCache = utility.getPageCacheKey(utility.pageCacheType.usrArticleList);
-
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -133,6 +131,7 @@
                 firstPageStart: null,
                 firstPageEnd: null,
                 createdPageIndex:null,
+                userArticleCacheKey:this.getCacheKey(),
             };
         },
         methods: {
@@ -319,18 +318,20 @@
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
                 }
-                sessionStorage.setItem(userArticlesCache,JSON.stringify(cacheData));
+                sessionStorage.setItem(this.userArticleCacheKey,JSON.stringify(cacheData));
+                utility.addComplexCacheKey(this.userArticleCacheKey);
             },
             getPageInfo() {
-                let info = sessionStorage.getItem(userArticlesCache);
+                let info = sessionStorage.getItem(this.userArticleCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (sessionStorage.getItem(userArticlesCache) != null) {
-                    sessionStorage.removeItem(userArticlesCache);
+                utility.removeComplexCacheKey(this.userArticleCacheKey);
+                if (sessionStorage.getItem(this.userArticleCacheKey) != null) {
+                    sessionStorage.removeItem(this.userArticleCacheKey);
                 }
             },
             loadData() {
@@ -418,11 +419,28 @@
                     return info.getTitle();
                 }
                 return ""
+            },
+            getCacheKey() {
+                let t = this.$route.query.t;
+                if (t == null || typeof t == "undefined") {
+                    this.addTimeParamToQuery();
+                }
+                return this.$route.params.author + t;
+            },
+            addTimeParamToQuery() {
+                let t = this.$route.query.t;
+                if (t == null || typeof t == "undefined") {
+                    t = Date.now();
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.t = t;
+                    this.$router.replace({ path: this.$route.path, query });
+                }
             }
         },
 
         mounted() {
             // this.loadData();
+            this.addTimeParamToQuery();
             this.getCacheData();
             this.nthPage();
         },
