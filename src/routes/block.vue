@@ -47,9 +47,10 @@
                             <nav aria-label="Page navigation" class=navgation-tab>
                                 <ul class=pagination>
                                     <li>
-                                        <router-link v-if="blockInfo.hasBlockId()" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
+                                        <router-link v-if="blockInfo.hasBlockId() && judgeIsShowPre()" v-bind:to='fragApi + "/block/" + (+$route.params.id - 1)' aria-label=Previous>
                                             <span aria-hidden=true>&lt; Prev</span>
                                         </router-link>
+                                        <span v-else style="color: #0057FF" >&lt;</span>
                                     </li>
                                     <li>&nbsp; {{$route.params.id}} &nbsp;</li>
                                     <li>
@@ -173,6 +174,7 @@
     </div>
 </template>
 <script>
+    let BigNumber = require("bignumber.js");
     const api = require("@/assets/api"),
         utility = require("@/assets/utility");
 
@@ -200,6 +202,11 @@
           }
         },
         methods: {
+            judgeIsShowPre() {
+                return BigNumber(this.$route.params.id).comparedTo(1) === 1;
+
+            },
+
             showOrHideDynasty(){
                 this.isShowDynasty = !this.isShowDynasty;
             },
