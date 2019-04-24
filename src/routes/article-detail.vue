@@ -469,7 +469,8 @@
                             return vest.toString();
                         }
                      } else {
-                         let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue();
+                         // let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue();
+                         let vp = BigNumber(info.getWeightedVp());
                          let globalRewards = BigNumber(info.getGlobalRewards().getValue());
                          let globalVp = BigNumber(info.getGlobalWeightedVp());
                          if (globalVp.plus(vp).gt(0)) {
