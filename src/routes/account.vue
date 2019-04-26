@@ -230,7 +230,7 @@
                 Overview
                 <!--<span class=c777 v-show=obj.account.alias> | {{ obj.account.alias }}</span>-->
             </div>
-            <table class="explorer-table d-none d-md-table">
+            <table class="explorer-table d-none d-md-table" style="table-layout: auto">
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">COS Balance:
                     </td>

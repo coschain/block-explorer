@@ -780,7 +780,7 @@
                                     <img src="/static/img/cos_trx_logo.png" width="50" height="50">
                                 </td>
                                 <td>
-                                    Tx#
+                                    Hash#
                                     <router-link :to='fragApi + "/tx/" + tx.getTrxId().getHexHash()'>
                                         <!--<span class="monospace"> {{tx.getTrxId().getHexHash()}} </span>-->
                                         <span class="monospace"> {{trimTrxId(tx.getTrxId().getHexHash())}} </span>
