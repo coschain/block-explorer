@@ -75,7 +75,7 @@
                             <router-link v-bind:to='fragApi + "/block-trxs/" + this.$route.params.id'>
                                 <span>{{ blockInfo.toObject().trxCount }}</span>
                             </router-link>
-                            tx in this block
+                            <span>{{ blockInfo.toObject().trxCount > 1 ? "transactions" : "transaction" }} in this block</span>
                         </td>
                     </tr>
                     <tr>

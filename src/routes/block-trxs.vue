@@ -113,7 +113,7 @@
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="blkTxsListHeader font-bold font-color-000000">
-                        <th class="blkTxsListHeadCol">TxHash</th>
+                        <th class="blkTxsListHeadCol">Hash</th>
                         <th class="blkTxsListHeadCol">Block</th>
                         <th class="blkTxsListHeadCol">Time</th>
                         <th class="blkTxsListHeadCol">From</th>

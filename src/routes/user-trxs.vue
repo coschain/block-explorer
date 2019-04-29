@@ -55,7 +55,7 @@
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="trxListHeader  font-bold font-color-000000">
-                        <th class="trxListHeadCol">TxHash</th>
+                        <th class="trxListHeadCol">Hash</th>
                         <th class="trxListHeadCol">Block</th>
                         <th class="trxListHeadCol">Time</th>
                         <th class="trxListHeadCol">From</th>
