@@ -12,11 +12,11 @@
   "dependencies": {
     "bignumber.js": "7.2.1",
     "bootstrap": "^4.1.0",
-    "cos-grpc-js": "^1.4.22",
+    "cos-grpc-js": "^1.4.23",
     "font-awesome": "^4.7.0",
     "highcharts": "^6.1.0",
     "highlight.js": "^9.15.6",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "js-base64": "2.4.9",
     "js-beautify": "^1.7.5",
     "linkifyjs": "^2.1.8",

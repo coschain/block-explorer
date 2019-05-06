@@ -231,7 +231,7 @@
                 } else if (type === chartType.chartTypeTxCnt) {
                     return "Game2048";
                 } else if (type === chartType.chartTypeTxAmount) {
-                    return "Walkcoin";
+                    return "WalkCoin";
                 }
                 return ""
             },
