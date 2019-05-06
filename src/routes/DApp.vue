@@ -262,7 +262,7 @@
                     dataArray.push(data);
                 }
 
-                if (dataArray.length < 1 || dataArray.length < 1) {
+                if (dateArray.length < 1 || dataArray.length < 1) {
                     return {};
                 }
                 return {
