@@ -7,6 +7,13 @@ const pageCacheType = {
     blkTxsList : 6, //txs list in single block
 };
 
+const DAppType = {
+    DAppTypePg : 0, // PhotoGrid
+    DAppTypeCos : 1, // Contentos.io
+    DAppType2048 : 2, // Game2048
+    DAppTypeWalkcoin : 3, // Walkcoin
+
+}
 const rpcCacheKey = "rpcAddress";
 const complexCacheMapKey = "complexMapKey";
 let irreversibleNum = 0;
@@ -14,6 +21,7 @@ const isUpdateSys = false;
 module.exports = {
     isUpdateSys,
     pageCacheType:pageCacheType,
+    DAppType:DAppType,
     ajax: ajax,
     ajaxSplitAction: ajaxSplitAction,
     millisecondsToMinutesAndSeconds: millisecondsToMinutesAndSeconds,
@@ -344,6 +352,7 @@ function yyyymmdd(dateNow) {
     var d = new Date(dateNow);
     return 10000 * d.getFullYear() + 100 * d.getMonth() + 100 + d.getDate();
 }
+
 
 function getContentosNetHost(net){
     var mainnet = 'https://mainnet.nebulas.io/v1'

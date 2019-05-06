@@ -608,7 +608,6 @@ module.exports = {
                     if (status === grpc_web.Code.OK && message) {
                         let obj = message.getListList();
                         resolve(obj);
-                        resolve(obj);
                     } else {
                         reject(status, statusMessage);
                     }
@@ -616,6 +615,65 @@ module.exports = {
             })
         });
         promise.then(success, fail)
+    },
+
+    /**
+     * fetch daily statistics data(contain dau 、dnu、tx count、tx amount)
+     * @param dApp: the dApp name
+     * @param days: Number of dates
+     * @return result: {res,errCode,errMsg}
+     */
+    async fetchDailyStats(dApp,days) {
+        let result = {
+            res: null,
+            errCode: null,
+            errMsg: null,
+        };
+
+        try {
+            let req = new cos_sdk.grpc.GetDailyStatsRequest();
+            req.setDapp(dApp);
+            req.setDays(days);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetDailyStats, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            let list = message.getStatList();
+                            resolve(list);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                })
+            }).then((res) => {
+                if (res) {
+                    result.res = res;
+                    result.errMsg = null;
+                    result.errCode = null;
+                } else {
+                    result.res = null;
+                    result.errMsg = "Failed to fetch daily Statistical data";
+                }
+                return result;
+            }).catch(({ errCode, msg }) => {
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+
+        } catch(err) {
+            result.errMsg = err;
+            result.res = null;
+            return result;
+        }
     },
   };
     function ajax1(action, args, done, fail) {

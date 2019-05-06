@@ -28,6 +28,10 @@ module.exports = [{
     meta: { headerActive: 2 },
     path: "/:api?/block-trxs/:blockNumber"
 },{
+    component: require("@/routes/DApp").default,
+    meta: {headerActive: 2},
+    path: "/:api?/DApp"
+},{
     component: require("@/routes/user-article").default,
     meta: { headerActive: 2 },
     path: "/:api?/user-article/:author"
