@@ -136,6 +136,7 @@
     import ECharts from "vue-echarts/components/ECharts";
     import {DAppType,formatTxsCnt,numberAddComma} from "../assets/utility";
     import api from "../assets/api";
+    import BigNumber from "bignumber.js";
     const chartType =  {
         chartTypeDAU : 0, // every day DAU of recent 30 days
             chartTypeNewAcct: 1, // every day new account of recent 30 days
@@ -197,9 +198,9 @@
 
             fetchTitleFromType(type) {
                 if (type === chartType.chartTypeDAU) {
-                    return "DAU ";
+                    return "Daily Active User";
                 } else if (type === chartType.chartTypeNewAcct) {
-                    return "DNU";
+                    return "Daily New User";
                 } else if (type === chartType.chartTypeTxCnt) {
                     return "Transactions Per Day";
                 } else if (type === chartType.chartTypeTxAmount) {
@@ -256,7 +257,8 @@
                         data = stat.getTrxs();
                         tips = "Transactions:";
                     } else if (type === chartType.chartTypeTxAmount) {
-                        data = stat.getAmount();
+                        let amount = BigNumber(stat.getAmount());
+                        data = BigNumber(stat.getAmount()).div(1000000).toFixed(1);
                         tips = "Transaction Amount:"
                     }
                     dataArray.push(data);
@@ -359,7 +361,7 @@
                 if (result.res) {
                     let list = result.res;
                     if (list.length) {
-                        this.statList = result.res;
+                        this.statList = list;
                     }else {
                         console.log("Get empty list of  ", dApp);
                     }
