@@ -257,7 +257,7 @@
                         tips = "Transactions:";
                     } else if (type === chartType.chartTypeTxAmount) {
                         data = stat.getAmount();
-                        tips = "Transactions Amount:"
+                        tips = "Transaction Amount:"
                     }
                     dataArray.push(data);
                 }
