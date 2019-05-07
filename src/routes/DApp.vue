@@ -246,7 +246,7 @@
                 let dateArray = [];
                 let dataArray = [];
                 for (let stat of this.statList) {
-                    let date = this.convertStampToMMDD(stat.getDate());
+                    let date = this.convertStampToMMDD(stat.getDate()*1000);
                     dateArray.push(date);
                     let data = stat.getDau();
                     if (type === chartType.chartTypeNewAcct) {
