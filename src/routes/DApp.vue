@@ -333,7 +333,8 @@
                         position: 'top',
                         formatter: function (params, ticket, callback) {
                             let val = tips +  vm.numberAddComma(params.value);
-                            return  '<div>' + val + '</div><div class=daily-echart-down-arrow></div>';
+                            let t = "Date:" + params.name;
+                            return  '<div>' + val + '</div><div class=daily-echart-down-arrow></div>' + '<div>'+ t + '</div>';
                         },
                         backgroundColor: '#595C63',
                         padding: 8,
