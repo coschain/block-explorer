@@ -32,7 +32,7 @@
 
     .vue-article-detail .proDesc {
         margin-left: 15px;
-        width: 10%;
+        width: 12%;
         text-align: left;
         font-size: 14px;
         word-wrap: normal;
@@ -59,7 +59,7 @@
 
     .vue-article-detail .proValue {
         text-align: left;
-        width: 90%;
+        width: 88%;
         word-wrap: break-word;
         word-break: break-all;
         font-size: 14px;
@@ -188,11 +188,11 @@
 
     @media  (min-width:576px ) and (max-width: 992px) {
         .vue-article-detail .proDesc {
-            width: 15%;
+            width: 20%;
         }
 
         .vue-article-detail .proValue {
-            width: 85%;
+            width: 80%;
         }
     }
 
@@ -245,11 +245,11 @@
                     <div class="proValue font-color-000000">{{articleInfo.getWeightedVp()}}</div>
                 </div>
                 <div class="infoCell">
-                    <div class="proDesc font-color-555555">Cashout Time:</div>
+                    <div class="proDesc font-color-555555">Reward Distribution Time:</div>
                     <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 < Date.now()">
                         <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) }}
                             <img class="icon" src="../../static/img/ic_tx_status_success.png" />
-                            <span class="confirm" style="margin-left: 5px;">Cashouted</span>
+                            <span class="confirm" style="margin-left: 5px;">Completed</span>
                         </div>
                     </template>
                     <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 >= Date.now()">
