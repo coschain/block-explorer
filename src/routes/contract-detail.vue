@@ -93,10 +93,18 @@
     }
 
     .vue-contractDetail-operate-bg .filedList .singleField {
-        position: center;
         width: 82%;
         padding-top: 20px;
         padding-bottom: 20px;
+    }
+
+    .vue-contractDetail-reverseBg {
+        width: 70%;
+        margin-left: 30%;
+        display: flex;
+        display: -ms-flex;
+        align-items: center;
+        color: black;
     }
 
     .vue-contractDetail-operate-bg .submitBg{
@@ -179,6 +187,11 @@
         .vue-contractDetail-operate-bg .filedList .singleField {
             width: 100%;
         }
+
+        .vue-contractDetail-reverseBg {
+            width: 100%;
+            margin-left: 0;
+        }
     }
 </style>
 
@@ -215,6 +228,15 @@
                                                 v-on:switchValue="handleInputValueChange"></fieldInput>
                                 </div>
                             </template>
+                            <!--whether is reverse-->
+                            <div class="filedList">
+                                <div class="singleField">
+                                    <div class="vue-contractDetail-reverseBg">
+                                        <input type="checkbox" :id=reverseElId @click=handleReverseInquireSwitch>Reverse Order<br>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="submitBg">
                                 <button class="btn btn-primary submitBtn" type="button" @click="startQueryContract">Submit</button>
                             </div>
@@ -309,7 +331,8 @@
                 queryingTable:"",
                 switchElId: "jsonCheckBox",
                 isShowOriCode: false, // whether display origin json code of query result or display in table format
-
+                reverseElId: "reverseCheckBox",
+                isReverse: false, // whether is inquire in reverse order
             }
         },
 
@@ -403,14 +426,14 @@
                 let field = this.$refs.field[0].getCurrentValue();
                 let limit = this.$refs.limit[0].getCurrentValue();
                 //convert to json string
-                this.queryContactInfo(this.$route.params.owner, this.$route.params.cName, tName, field, lowerBound, limit, false);
+                this.queryContactInfo(this.$route.params.owner, this.$route.params.cName, tName, field, lowerBound, limit, this.isReverse);
             },
 
             async queryContactInfo(owner, cName, tName, field, start, limit, isReverse) {
                 this.$root.showModalLoading =true;
                 this.queryingTable = tName;
                 this.fieldsCnt = this.tablesMap[tName].length;
-                this.fieldJson = "";
+                // this.fieldJson = "";
                 this.isShowOriCode = false;
                 let result = await api.queryContract(owner, cName, tName, field, start, limit, isReverse);
                 if (result.res) {
@@ -420,9 +443,17 @@
                         if (list && list.length > 0) {
                             this.fieldsList = list;
                             this.fieldJson = fieldJson;
+                        }else {
+                            this.fieldJson = "";
+                            this.fieldsList = this.fieldsList.splice(0, this.fieldsList.length);
                         }
+                    }else {
+                        this.fieldJson = "";
+                        this.fieldsList = this.fieldsList.splice(0, this.fieldsList.length);
                     }
                 } else {
+                    this.fieldJson = "";
+                    this.fieldsList = this.fieldsList.splice(0, this.fieldsList.length);
                     console.log("Failed to query, the error code is ", result.errCode);
                     console.log("Failed to query, the error msg is ", result.errMsg);
                 }
@@ -545,6 +576,10 @@
 
             handleJsonDisplaySwitch() {
                 this.isShowOriCode = document.getElementById(this.switchElId).checked;
+            },
+
+            handleReverseInquireSwitch() {
+                this.isReverse = document.getElementById(this.reverseElId).checked;
             },
 
             judgeStartIsNeedConvertToJson(start) {

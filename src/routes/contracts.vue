@@ -16,12 +16,12 @@
         font-size: 11px ;
     }
     .vue-contracts .contractListHeaderCol {
-        width: calc(100% / 3);
+        width: 20%;
     }
 
     .vue-contracts .contractContentCol {
         display:inline-block;
-        width: calc(100% / 3);
+        width: 20%;
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
@@ -40,6 +40,8 @@
                     <th class="contractListHeaderCol">Owner</th>
                     <th class="contractListHeaderCol">Name</th>
                     <th class="contractListHeaderCol">Time</th>
+                    <th class="contractListHeaderCol">Balance</th>
+                    <th class="contractListHeaderCol">Apply Count</th>
                 </tr>
 
                 <tr v-for="(contract, i) in contractList" :key="i">
@@ -58,6 +60,10 @@
                     <td class="contractContentCol">
                         {{ timeConversion(Date.now()-contract.getCreateTime().getUtcSeconds()*1000) }} ago
                     </td>
+
+                    <td class="contractContentCol">{{ contract.getBalance().toString()}}</td>
+                    <td class="contractContentCol">{{ contract.getApplyCount()}}</td>
+
                 </tr>
             </table>
         </div>
