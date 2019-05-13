@@ -232,7 +232,10 @@
                             <div class="filedList">
                                 <div class="singleField">
                                     <div class="vue-contractDetail-reverseBg">
-                                        <input type="checkbox" :id=reverseElId @click=handleReverseInquireSwitch>Reverse Order<br>
+                                        <div class="custom-control custom-checkbox vue-contractDetail-switchContainer">
+                                            <input type="checkbox" class="custom-control-input" :id=reverseElId @click=handleReverseInquireSwitch>
+                                            <label class="custom-control-label" :for=reverseElId >Reverse Order</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
