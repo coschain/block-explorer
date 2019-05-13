@@ -295,7 +295,7 @@
                 tabList: [tabType.tabTypeHandleContract, tabType.tabTypeAbi],
                 curTab: tabType.tabTypeHandleContract, // current selected tab
                 queryFieldList: [queryFieldType.queryFieldTypeContractName,queryFieldType.queryFieldTypeTableName,
-                    queryFieldType.queryFieldTypeStart, queryFieldType.queryFieldTypeField, queryFieldType.queryFieldTypeLimit],
+                    queryFieldType.queryFieldTypeField, queryFieldType.queryFieldTypeStart, queryFieldType.queryFieldTypeLimit],
                 Abi: null,
                 useTypeList: [useType.useTypeQuery],
                 curUseType: useType.useTypeQuery,
