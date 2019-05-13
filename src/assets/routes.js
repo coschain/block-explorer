@@ -32,6 +32,10 @@ module.exports = [{
     meta: {headerActive: 2},
     path: "/:api?/DApp"
 },{
+    component: require("@/routes/contracts").default,
+    meta: { headerActive: 2 },
+    path: "/:api?/contracts"
+},{
     component: require("@/routes/user-article").default,
     meta: { headerActive: 2 },
     path: "/:api?/user-article/:author"
@@ -96,4 +100,8 @@ module.exports = [{
     component: require("@/routes/article-detail").default,
     meta: {headerActive: 2},
     path: "/:api?/article-detail/:pId",
+}, {
+    component: require("@/routes/contract-detail").default,
+        meta: {headerActive: 2},
+        path: "/:api?/contract-detail/:cName/:owner",
 }];

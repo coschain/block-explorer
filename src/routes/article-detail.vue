@@ -301,7 +301,11 @@
                 <!--content-->
                 <div v-for="account in voterListInfo" class="listBg">
                   <div class="voterListContent">
-                      <div class="voterListContentCol">{{account.getAccountName().getValue()}}</div>
+                      <div class="voterListContentCol">
+                          <router-link v-bind:to='fragApi + "/account/" + account.getAccountName().getValue()'>
+                              <span class="monospace">{{account.getAccountName().getValue()}}</span>
+                          </router-link>
+                      </div>
                       <div class="voterListContentCol">{{account.getWeightedVp()}}</div>
                   </div>
                 </div>
@@ -324,7 +328,11 @@
                                 <span class="hash-normal monospace">{{ reply.getPostId()}}</span>
                             </router-link>
                         </div>
-                        <div class="replyListContentCol">{{reply.getAuthor().getValue()}}</div>
+                        <div class="replyListContentCol">
+                            <router-link v-bind:to='fragApi + "/account/" + reply.getAuthor().getValue()'>
+                                <span class="monospace">{{reply.getAuthor().getValue()}}</span>
+                            </router-link>
+                        </div>
                         <div class="replyListContentCol" v-html="convertLinkInPostContent(reply.getBody())"></div>
                     </div>
                 </div>
