@@ -152,8 +152,8 @@
            return {
                selectType: DAppType.DAppTypePg,
                dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
-               chartsArray: [chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
-                   chartType.chartTypeTxAmount, chartType.chartTypeTotalUser],
+               chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
+                   chartType.chartTypeTxAmount],
                statList: [],
            }
         },
