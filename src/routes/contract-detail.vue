@@ -469,39 +469,44 @@
                     if (abiJson.hasOwnProperty(abiTableListKey)) {
                         let tables = abiJson[abiTableListKey];
                         this.tablesMap = {};
-                        for (let table of tables) {
-                            let filedList = [];
-                            let priKey = "";
-                            let tName = "";
-                            // get table name
-                            if (table.hasOwnProperty(abiTableNameKey)) {
-                                tName = table[abiTableNameKey];
-                            }
-
-                            //get primaryKey
-                            if (table.hasOwnProperty(abiPrimaryKey)) {
-                                priKey = table[abiPrimaryKey];
-                                filedList.push(priKey);
-                            }
-                            //get secondary key
-                            if (table.hasOwnProperty(abiSecondaryKey)) {
-                                let obj = table[abiSecondaryKey];
-                                for (let filed of obj) {
-                                    filedList.push(filed);
+                        if (tables) {
+                            for (let table of tables) {
+                                let filedList = [];
+                                let priKey = "";
+                                let tName = "";
+                                // get table name
+                                if (table.hasOwnProperty(abiTableNameKey)) {
+                                    tName = table[abiTableNameKey];
                                 }
+
+                                //get primaryKey
+                                if (table.hasOwnProperty(abiPrimaryKey)) {
+                                    priKey = table[abiPrimaryKey];
+                                    filedList.push(priKey);
+                                }
+                                //get secondary key
+                                if (table.hasOwnProperty(abiSecondaryKey)) {
+                                    let obj = table[abiSecondaryKey];
+                                    if (obj) {
+                                        for (let filed of obj) {
+                                            filedList.push(filed);
+                                        }
+                                    }
+
+                                }
+
+                                if (tName.length > 0) {
+                                    this.tablesMap[tName] = filedList;
+                                    this.tNameList.push(tName);
+                                }
+
                             }
 
-                            if (tName.length > 0) {
-                                this.tablesMap[tName] = filedList;
-                                this.tNameList.push(tName);
+                            if (JSON.stringify(this.tablesMap) === "{}") {
+                                this.tablesMap = null;
+                            }else if (this.tNameList.length) {
+                                this.curTableName = this.tNameList[0];
                             }
-
-                        }
-
-                        if (JSON.stringify(this.tablesMap) === "{}") {
-                            this.tablesMap = null;
-                        }else if (this.tNameList.length) {
-                            this.curTableName = this.tNameList[0];
                         }
                     }
                 }
