@@ -122,11 +122,11 @@
 
                     <tr v-for="(trx, i) in trxList" :key="i">
                         <!--<td>-->
-                            <!--<img v-if="trx.getTrxWrap().getReceipt().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                            <!--<img v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
                         <!--</td>-->
                         <td class="txContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()'>
-                                <span v-bind:class="[trx.getTrxWrap().getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
+                                <span v-bind:class="[trx.getTrxWrap().getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
                             </router-link>
                         </td>
 
