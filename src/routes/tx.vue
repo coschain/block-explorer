@@ -104,6 +104,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Net Consumption:</td>
+                        <td v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{trx.getTrxWrap().getReceipt().getNetUsage()}}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-16 font-color-555555" style="padding-left: 24px;">CPU Consumption:</td>
+                        <td v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{trx.getTrxWrap().getReceipt().getCpuUsage()}}</td>
+                    </tr>
+                    <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Block Height:</td>
                         <td>
                             <!--<template v-if=tx.isPending>-->
@@ -161,6 +169,14 @@
                                 <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
                             </td>
                     </div>
+                </div>
+                <div class="mobileDarkCell">
+                    <div class="font-color-555555">Net Consumption:</div>
+                    <div v-if="trx.hasTrxWrap()" class="detail">{{trx.getTrxWrap().getReceipt().getNetUsage()}}</div>
+                </div>
+                <div class="mobileDarkCell">
+                    <div class="font-color-555555">CPU Consumption:</div>
+                    <div v-if="trx.hasTrxWrap()" class="detail">{{trx.getTrxWrap().getReceipt().getCpuUsage()}}</div>
                 </div>
                 <div class="mobileDarkCell">
                     <div class="font-color-555555">Block Height:</div>
