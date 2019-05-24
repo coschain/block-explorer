@@ -122,11 +122,11 @@
 
                     <tr v-for="(trx, i) in curPageList" :key="i">
                         <!--<td>-->
-                            <!--<img v-if="trx.getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                            <!--<img v-if="trx.getReceipt().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
                         <!--</td>-->
                         <td class="blkTxsListContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getSigTrx().id().getHexHash()'>
-                                <span v-bind:class="[trx.getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getSigTrx().id().getHexHash() }}</span>
+                                <span v-bind:class="[trx.getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getSigTrx().id().getHexHash() }}</span>
                             </router-link>
                         </td>
 

@@ -65,7 +65,7 @@
                     <tr v-for="(trx, i) in trxList" :key="i">
                         <td class="txContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()'>
-                                <span v-bind:class="[trx.getTrxWrap().getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
+                                <span v-bind:class="[trx.getTrxWrap().getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
                             </router-link>
                         </td>
 
