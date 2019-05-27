@@ -90,15 +90,19 @@
                     </tr>
                     <tr v-if="trx.hasTrxWrap()" class="font-16">
                         <td class="font-color-555555" style="padding-left: 24px;">TxReceipt Status:</td>
-                        <td class="d-flex align-items-center" v-if="trx.getTrxWrap().getReceipt().getStatus() === 500" style="height: inherit">
+                        <td class="d-flex align-items-center" v-if="getTrxApplyResult() === 500" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
-                            <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
+                            <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg() }} )</span>
                         </td>
-                        <td class="d-flex align-items-center" v-else-if="trx.getTrxWrap().getReceipt().getStatus() === 200" style="height: inherit">
+                        <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() === 200" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
                             <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
                         </td>
-                        <td class="d-flex align-items-center" v-else style="height: inherit">
+                        <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
+                            <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
+                            <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Gas Fee ( {{ errMsg() }} )</span>
+                        </td>
+                        <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
                             <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
                         </td>
@@ -156,18 +160,24 @@
                 <div class="mobileCell">
                     <div class="font-color-555555">TxReceipt Status:</div>
                     <div v-if="trx.hasTrxWrap()">
-                        <td class="detail d-flex align-items-center" v-if="trx.getTrxWrap().getReceipt().getStatus() === 500" style="height: inherit">
+                        <div class="detail d-flex align-items-center" v-if="getTrxApplyResult() === 500" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
-                                <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
-                            </td>
-                            <td class="detail d-flex align-items-center" v-else-if="trx.getTrxWrap().getReceipt().getStatus() === 200" style="height: inherit">
+                                <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg() }} )</span>
+                            </div>
+                            <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() === 200" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
                                 <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
-                            </td>
-                            <td class="detail d-flex align-items-center" v-else style="height: inherit">
+                            </div>
+
+                            <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
+                                <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
+                                <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Gas Fee ( {{ errMsg() }} )</span>
+                            </div>
+
+                            <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
                                 <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
-                            </td>
+                            </div>
                     </div>
                 </div>
                 <div class="mobileCell">
@@ -289,13 +299,6 @@
                 var decimals = BigNumber('1e+' + this.tx.decimal);
                 return amount.div(decimals).toFormat();
             },
-            errMsg() {
-                if (trx != null  && this.trx.getTrxWrap().getReceipt().getErrorInfo()) {
-                    return this.trx.getTrxWrap().getReceipt().getErrorInfo().getValue();
-                } else {
-                    return 'Apply Transaction Failed';
-                }
-            }
         },
         data() {
             return {
@@ -324,6 +327,23 @@
             toWei(n) {
                 return utility.toWei(n);
             },
+
+            errMsg() {
+                if (this.trx != null  && typeof this.trx != "undefined" && this.trx.getTrxWrap().hasReceipt()
+                    && this.trx.getTrxWrap().getReceipt().getErrorInfo()) {
+                    return this.trx.getTrxWrap().getReceipt().getErrorInfo();
+                } else {
+                    return 'Apply Transaction Failed';
+                }
+            },
+
+            getTrxApplyResult() {
+                if (this.trx != null  && typeof this.trx != "undefined" && this.trx.hasTrxWrap && this.trx.getTrxWrap().hasReceipt()) {
+                    return this.trx.getTrxWrap().getReceipt().getStatus();
+                } else {
+                    return -1;
+                }
+            }
         },
 
         filters: {
