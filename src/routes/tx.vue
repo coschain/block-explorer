@@ -149,11 +149,11 @@
             </div>
 
             <div v-if="trx" class="mobile-detail d-md-none">
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">TxHash:</div>
                     <div class="detail monospace">{{ trx.getTrxId().getHexHash() }}</div>
                 </div>
-                <div>
+                <div class="mobileCell">
                     <div class="font-color-555555">TxReceipt Status:</div>
                     <div v-if="trx.hasTrxWrap()">
                         <td class="detail d-flex align-items-center" v-if="trx.getTrxWrap().getReceipt().getStatus() === 500" style="height: inherit">
@@ -170,15 +170,15 @@
                             </td>
                     </div>
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">Net Consumption:</div>
                     <div v-if="trx.hasTrxWrap()" class="detail">{{trx.getTrxWrap().getReceipt().getNetUsage()}}</div>
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">CPU Consumption:</div>
                     <div v-if="trx.hasTrxWrap()" class="detail">{{trx.getTrxWrap().getReceipt().getCpuUsage()}}</div>
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">Block Height:</div>
                     <div class="detail">
                         <template >
@@ -188,13 +188,13 @@
                         </template>
                     </div>
                 </div>
-                <div>
+                <div class="mobileCell">
                     <div class="font-color-555555">TimeStamp:</div>
                     <div v-if="trx.hasBlockTime()" class="detail">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</div>
                     <div v-else-if="!trx.hasBlockTime()" class="detail"></div>
 
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">From:</div>
                     <div class="detail">
                         <router-link  v-bind:to='fragApi +"/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
@@ -202,8 +202,8 @@
                         </router-link>
                     </div>
                 </div>
-                <div>
-                    Operations:
+                <div class="mobileCell">
+                    <div class="font-color-555555">Operations:</div>
                     <div class="detail">
                         <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
                     </div>

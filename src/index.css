@@ -502,8 +502,15 @@ img:not([src]) {
 .mobile-detail .detail {
     font-weight: 400;
 }
-.mobileDarkCell {
+.mobileCell {
     padding-top: 6px;
     padding-bottom: 6px;
+}
+
+.mobile-detail .mobileCell:nth-of-type(odd) {
     background: rgba(247, 247, 247, 1);
+}
+
+.mobile-detail .mobileCell:nth-of-type(even) {
+    background: rgba(255, 255, 255, 1);
 }
