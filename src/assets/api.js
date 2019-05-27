@@ -675,6 +675,174 @@ module.exports = {
             return result;
         }
     },
+
+    /**
+     *
+     * @param owner: the owner of contract
+     * @param cName: the contract name
+     * @param tName: the contract table name
+     * @param field: the table filed to query
+     * @param start:  the detail value of filed in query range
+     * @param limit: the total count in one query
+     * @param isReverse： Whether to query in reverse order
+     */
+    async queryContract(owner, cName, tName, field, start, limit, isReverse) {
+        let result = {
+            res: null,
+            errCode: null,
+            errMsg: null,
+        };
+        try {
+            let req = new cos_sdk.grpc.GetTableContentRequest();
+            req.setOwner(owner);
+            req.setBegin(start);
+            req.setContract(cName);
+            req.setField(field);
+            req.setTable(tName);
+            req.setCount(limit);
+            req.setReverse(isReverse);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.QueryTableContent, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            let content = message.getTableContent();
+                            resolve(content);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                })
+            }).then(res => {
+                result.res = res;
+                result.errMsg = null;
+                result.errCode = null;
+                return result;
+            }).catch(({ errCode, msg }) => {
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+        } catch (e) {
+           result.errMsg = e;
+           return result;
+        }
+    },
+
+    /**
+     *  fetch contract info by contract name and owner
+     * @param owner: the owner of contract
+     * @param cName: the name of contract
+     * @param isGetAbi: whether get abi of contact
+     * @param isGetCode: whether get wsam of contact
+     */
+    async fetchContractDetailInfo(owner, cName, isGetAbi, isGetCode) {
+        let result = {
+            res: null,
+            errCode: null,
+            errMsg: null,
+        };
+
+        try {
+            let req = new cos_sdk.grpc.GetContractInfoRequest();
+            req.setContractName(cName);
+            let account = new cos_sdk.raw_type.account_name();
+            account.setValue(owner);
+            req.setOwner(account);
+            req.setFetchabi(isGetAbi);
+            req.setFetchcode(isGetCode);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetContractInfo, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            resolve(message);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                })
+            }).then(res => {
+                result.res = res;
+                result.errMsg = null;
+                result.errCode = null;
+                return result;
+            }).catch(({ errCode, msg }) => {
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+        } catch (e) {
+            result.errMsg = e;
+            return result;
+        }
+    },
+
+    /**
+     *  fetch contract list by create time in reverse order
+     * @param start: the start time in request range
+     * @param end: the end time in request range
+     * @param limit: the count of a page
+     */
+    async fetchContractListByTime(start,end,limit) {
+        let result = {
+            res: null,
+            errCode: null,
+            errMsg: null,
+        };
+        try {
+            let req = new cos_sdk.grpc.GetContractListByTimeRequest();
+            req.setStart(start);
+            req.setEnd(end);
+            req.setLimit(limit);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetContractListByTime, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            let list = message.getContractListList();
+                            resolve(list);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                })
+            }).then(res => {
+                result.res = res;
+                result.errMsg = null;
+                result.errCode = null;
+                return result;
+            }).catch(({ errCode, msg }) => {
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+        }catch (e) {
+            result.errMsg = e;
+            return result;
+        }
+    }
   };
     function ajax1(action, args, done, fail) {
         var a = ajaxSplitAction(action);

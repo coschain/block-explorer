@@ -142,6 +142,7 @@
             chartTypeNewAcct: 1, // every day new account of recent 30 days
             chartTypeTxCnt: 2, // every day tx count of recent 30 day
             chartTypeTxAmount: 3,// every day tx amount of recent 30 day
+            chartTypeTotalUser: 4, //total user count
     };
 
     const days = 30;
@@ -151,7 +152,8 @@
            return {
                selectType: DAppType.DAppTypePg,
                dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
-               chartsArray: [chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt, chartType.chartTypeTxAmount],
+               chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
+                   chartType.chartTypeTxAmount],
                statList: [],
            }
         },
@@ -205,6 +207,8 @@
                     return "Transactions Per Day";
                 } else if (type === chartType.chartTypeTxAmount) {
                     return "Transaction Amount Per Day";
+                } else if (type === chartType.chartTypeTotalUser) {
+                    return "Total User Count";
                 }
                 return ""
             },
@@ -260,7 +264,11 @@
                         let amount = BigNumber(stat.getAmount());
                         data = BigNumber(stat.getAmount()).div(1000000).toFixed(1);
                         tips = "Transaction Amount:"
+                    } else if (type === chartType.chartTypeTotalUser) {
+                        data = stat.getTotalUserCount();
+                        tips = "Total User Count:"
                     }
+
                     dataArray.push(data);
                 }
 
