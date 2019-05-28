@@ -49,6 +49,10 @@
         max-width: calc((100% - 1140px) * 0.5 - 25px);
     }
 
+    .vue-tx .operation-json-bg {
+        background: rgba(247, 247, 247, 1);
+    }
+
     @media (max-width: 767.98px) {
 
         .vue-tx .atpAddress {
@@ -100,7 +104,7 @@
                         </td>
                         <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
-                            <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Gas Fee ( {{ errMsg() }} )</span>
+                            <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina ( {{ errMsg() }} )</span>
                         </td>
                         <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
@@ -108,12 +112,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Net Consumption:</td>
-                        <td v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{trx.getTrxWrap().getReceipt().getNetUsage()}}</td>
-                    </tr>
-                    <tr>
-                        <td class="font-16 font-color-555555" style="padding-left: 24px;">CPU Consumption:</td>
-                        <td v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{trx.getTrxWrap().getReceipt().getCpuUsage()}}</td>
+                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Stamina:</td>
+                        <td v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{getTrxResourceConsumption(trx)}}</td>
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Block Height:</td>
@@ -145,7 +145,7 @@
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Operations:</td>
                         <td>
-                            <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                            <pre v-highlightjs><code class="json operation-json-bg">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
                         </td>
                     </tr>
 
@@ -181,12 +181,8 @@
                     </div>
                 </div>
                 <div class="mobileCell">
-                    <div class="font-color-555555">Net Consumption:</div>
-                    <div v-if="trx.hasTrxWrap()" class="detail">{{trx.getTrxWrap().getReceipt().getNetUsage()}}</div>
-                </div>
-                <div class="mobileCell">
-                    <div class="font-color-555555">CPU Consumption:</div>
-                    <div v-if="trx.hasTrxWrap()" class="detail">{{trx.getTrxWrap().getReceipt().getCpuUsage()}}</div>
+                    <div class="font-color-555555">Stamina:</div>
+                    <div v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{getTrxResourceConsumption(trx)}}</div>
                 </div>
                 <div class="mobileCell">
                     <div class="font-color-555555">Block Height:</div>
@@ -215,7 +211,7 @@
                 <div class="mobileCell">
                     <div class="font-color-555555">Operations:</div>
                     <div class="detail">
-                        <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                        <pre v-highlightjs><code class="json operation-json-bg">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
                     </div>
                 </div>
             </div>
@@ -344,7 +340,19 @@
                 } else {
                     return -1;
                 }
+            },
+
+            getTrxResourceConsumption(trx) {
+                //Display format：100 (20 cpu/ 80 net )
+                if (trx != null && typeof trx != "undefined" && trx.hasTrxWrap() && trx.getTrxWrap().hasReceipt()) {
+                    let netCon = trx.getTrxWrap().getReceipt().getNetUsage();
+                    let cpuCon = trx.getTrxWrap().getReceipt().getCpuUsage();
+                    let total = netCon + cpuCon;
+                    return "" + total + " (" + cpuCon + "CPU / " + netCon + "Net" + ")"
+                }
+                return "0"
             }
+
         },
 
         filters: {
