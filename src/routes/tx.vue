@@ -171,7 +171,7 @@
 
                             <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
-                                <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Gas Fee ( {{ errMsg() }} )</span>
+                                <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina ( {{ errMsg() }} )</span>
                             </div>
 
                             <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
