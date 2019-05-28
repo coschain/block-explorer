@@ -108,7 +108,7 @@
                         </td>
                         <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
-                            <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
+                            <span class="font-color-F8BB08" style="margin-left: 10px;">Unknown</span>
                         </td>
                     </tr>
                     <tr>
@@ -176,7 +176,7 @@
 
                             <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
-                                <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
+                                <span class="font-color-F8BB08" style="margin-left: 10px;">Unknown</span>
                             </div>
                     </div>
                 </div>

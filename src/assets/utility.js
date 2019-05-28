@@ -54,6 +54,8 @@ module.exports = {
     addComplexCacheKey:addComplexCacheKey,
     removeComplexCacheKey:removeComplexCacheKey,
     clearComplexCaches:clearAllComplexCache,
+    getTrxStatusByTrxInfo:getTrxReceiptStatusByTrxInfo,
+    getTrxStatusByTrxWrap:getTrxReceiptStatusByWrap,
 };
 
 ////////////////////////////////////////////////////////////
@@ -503,4 +505,26 @@ function updateIrreversibleBlkNum(num) {
 
 function getIrreversibleBlkNum() {
     return irreversibleNum;
+}
+
+
+function getTrxReceiptStatusByTrxInfo(trx) {
+    if (trx != null && typeof trx != "undefined" && trx.hasTrxWrap() && trx.getTrxWrap()) {
+        return getTrxReceiptStatusByWrap(trx.getTrxWrap());
+    }
+    return "Unknown";
+}
+
+function getTrxReceiptStatusByWrap(txWrap) {
+    if (txWrap != null && typeof txWrap != "undefined" && txWrap.hasReceipt()) {
+        let status =txWrap.getReceipt().getStatus();
+        if (status === 200) {
+            return "Success";
+        } else if (status === 201) {
+            return "Fail But Deducted Stamina"
+        } else if ( status === 500) {
+            return "Fail";
+        }
+    }
+    return "Unknown";
 }

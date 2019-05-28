@@ -84,12 +84,12 @@
     }
 
     .vue-block-trxs .blkTxsListHeadCol {
-        width: 20%;
+        width: calc(100% / 6);
     }
 
     .vue-block-trxs .blkTxsListContentCol {
         display:inline-block;
-        width: 20%;
+        width: calc(100% / 6);
         height: 50px;
         vertical-align: center;
         overflow: hidden;
@@ -118,6 +118,7 @@
                         <th class="blkTxsListHeadCol">Time</th>
                         <th class="blkTxsListHeadCol">From</th>
                         <th class="blkTxsListHeadCol">Action</th>
+                        <th class="blkTxsListHeadCol">Status</th>
                     </tr>
 
                     <tr v-for="(trx, i) in curPageList" :key="i">
@@ -149,7 +150,11 @@
                             </router-link>
                         </td>
                         <td class="blkTxsListContentCol">
-                            <div>{{convertOpActionsToStr(trx.getSigTrx().getTrx().getAllActions())}}</div>
+                            {{convertOpActionsToStr(trx.getSigTrx().getTrx().getAllActions())}}
+                        </td>
+
+                        <td class="blkTxsListContentCol">
+                            {{getTrxStatus(trx)}}
                         </td>
                     </tr>
                 </table>
@@ -327,6 +332,10 @@
                     return actionArray.join(",");
                 }
                 return ""
+            },
+
+            getTrxStatus(trx) {
+                return utility.getTrxStatusByTrxWrap(trx);
             }
         },
         mounted() {

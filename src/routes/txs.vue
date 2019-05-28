@@ -83,12 +83,12 @@
         font-size: 11px ;
     }
     .vue-txs .trxListHeadCol {
-        width: 20%;
+        width: calc(100% / 6);
     }
 
     .vue-txs .txContentCol {
         display:inline-block;
-        width: 20%;
+        width: calc(100% / 6);
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
@@ -117,7 +117,7 @@
                         <th class="trxListHeadCol">Time</th>
                         <th class="trxListHeadCol">From</th>
                         <th class="trxListHeadCol">Action</th>
-                        <!--<th class=text-right>Value</th>-->
+                        <th class="trxListHeadCol">Status</th>
                     </tr>
 
                     <tr v-for="(trx, i) in trxList" :key="i">
@@ -150,6 +150,10 @@
                         </td>
                         <td class="txContentCol">
                          {{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}
+                        </td>
+
+                        <td class="txContentCol" v-if="trx.hasTrxWrap()">
+                            {{getTrxReceiptStatus(trx)}}
                         </td>
                     </tr>
                 </table>
@@ -380,6 +384,10 @@
                     return actionArray.join(",");
                 }
                 return ""
+            },
+
+            getTrxReceiptStatus(trx) {
+                return utility.getTrxStatusByTrxInfo(trx)
             }
         },
         mounted() {
