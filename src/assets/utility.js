@@ -6,6 +6,7 @@ const pageCacheType = {
     usrArticleList : 5,//user posted articles list page
     blkTxsList : 6, //txs list in single block
     contractsList : 7, // contract list page
+    bpList: 8 ,// bp list page
 };
 
 const DAppType = {
@@ -100,6 +101,8 @@ function getPageInfoCacheKey(pType) {
         return "blockTxsPageCache";
     } else if (pType === pageCacheType.contractsList) {
         return "contractsPageCache";
+    } else if (pType === pageCacheType.bpList) {
+        return "bpListPageCache";
     }
     return "cacheKey"
 }

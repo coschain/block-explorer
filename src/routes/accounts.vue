@@ -561,7 +561,6 @@
 
         destroyed() {
             if (this.currentPage <= 1 && this.sortType !== listSortType.listSortTypeCreTime) {
-                console.log("destroyed");
                 this.clearCachePageInfo();
             }
         }

@@ -338,7 +338,8 @@
             },
 
             getTrxApplyResult() {
-                if (this.trx != null  && typeof this.trx != "undefined" && this.trx.hasTrxWrap && this.trx.getTrxWrap().hasReceipt()) {
+                if (this.trx != null  && typeof this.trx != "undefined" && this.trx.hasTrxWrap &&
+                    this.trx.getTrxWrap().hasReceipt()) {
                     return this.trx.getTrxWrap().getReceipt().getStatus();
                 } else {
                     return -1;
