@@ -510,8 +510,6 @@
                             }else if (this.tNameList.length) {
                                 this.curTableName = this.tNameList[0];
                             }
-                        }else {
-                            console.log("without tables");
                         }
                     }
                 }
