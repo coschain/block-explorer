@@ -435,7 +435,10 @@
             async queryContactInfo(owner, cName, tName, field, start, limit, isReverse) {
                 this.$root.showModalLoading =true;
                 this.queryingTable = tName;
-                this.fieldsCnt = this.tablesMap[tName].length;
+                let fieldList = this.tablesMap[tName];
+                if (fieldList) {
+                    this.fieldsCnt = fieldList.length;
+                }
                 // this.fieldJson = "";
                 this.isShowOriCode = false;
                 let result = await api.queryContract(owner, cName, tName, field, start, limit, isReverse);
@@ -507,6 +510,8 @@
                             }else if (this.tNameList.length) {
                                 this.curTableName = this.tNameList[0];
                             }
+                        }else {
+                            console.log("without tables");
                         }
                     }
                 }
