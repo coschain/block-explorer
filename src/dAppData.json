@@ -1,0 +1,1632 @@
+{
+    "photogrid": [
+        {
+            "date": "1555286400",
+            "dapp": "photogrid",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555372800",
+            "dapp": "photogrid",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555459200",
+            "dapp": "photogrid",
+            "dau": "26",
+            "dnu": "79",
+            "trxs": "417",
+            "amount": "0",
+            "tusr": "79"
+        },
+        {
+            "date": "1555545600",
+            "dapp": "photogrid",
+            "dau": "68",
+            "dnu": "131",
+            "trxs": "1083",
+            "amount": "0",
+            "tusr": "210"
+        },
+        {
+            "date": "1555632000",
+            "dapp": "photogrid",
+            "dau": "192",
+            "dnu": "897",
+            "trxs": "3836",
+            "amount": "0",
+            "tusr": "1107"
+        },
+        {
+            "date": "1555718400",
+            "dapp": "photogrid",
+            "dau": "331",
+            "dnu": "492",
+            "trxs": "7520",
+            "amount": "0",
+            "tusr": "1599"
+        },
+        {
+            "date": "1555804800",
+            "dapp": "photogrid",
+            "dau": "406",
+            "dnu": "536",
+            "trxs": "7914",
+            "amount": "0",
+            "tusr": "2135"
+        },
+        {
+            "date": "1555891200",
+            "dapp": "photogrid",
+            "dau": "425",
+            "dnu": "519",
+            "trxs": "10344",
+            "amount": "0",
+            "tusr": "2654"
+        },
+        {
+            "date": "1555977600",
+            "dapp": "photogrid",
+            "dau": "451",
+            "dnu": "529",
+            "trxs": "12087",
+            "amount": "0",
+            "tusr": "3183"
+        },
+        {
+            "date": "1556064000",
+            "dapp": "photogrid",
+            "dau": "544",
+            "dnu": "586",
+            "trxs": "15537",
+            "amount": "0",
+            "tusr": "3769"
+        },
+        {
+            "date": "1556150400",
+            "dapp": "photogrid",
+            "dau": "494",
+            "dnu": "461",
+            "trxs": "13610",
+            "amount": "0",
+            "tusr": "4230"
+        },
+        {
+            "date": "1556236800",
+            "dapp": "photogrid",
+            "dau": "500",
+            "dnu": "506",
+            "trxs": "13153",
+            "amount": "0",
+            "tusr": "4736"
+        },
+        {
+            "date": "1556323200",
+            "dapp": "photogrid",
+            "dau": "580",
+            "dnu": "570",
+            "trxs": "15527",
+            "amount": "0",
+            "tusr": "5306"
+        },
+        {
+            "date": "1556409600",
+            "dapp": "photogrid",
+            "dau": "538",
+            "dnu": "492",
+            "trxs": "14402",
+            "amount": "0",
+            "tusr": "5798"
+        },
+        {
+            "date": "1556496000",
+            "dapp": "photogrid",
+            "dau": "562",
+            "dnu": "514",
+            "trxs": "15347",
+            "amount": "0",
+            "tusr": "6312"
+        },
+        {
+            "date": "1556582400",
+            "dapp": "photogrid",
+            "dau": "586",
+            "dnu": "483",
+            "trxs": "14630",
+            "amount": "0",
+            "tusr": "6795"
+        },
+        {
+            "date": "1556668800",
+            "dapp": "photogrid",
+            "dau": "653",
+            "dnu": "590",
+            "trxs": "17651",
+            "amount": "0",
+            "tusr": "7385"
+        },
+        {
+            "date": "1556755200",
+            "dapp": "photogrid",
+            "dau": "629",
+            "dnu": "504",
+            "trxs": "18001",
+            "amount": "0",
+            "tusr": "7889"
+        },
+        {
+            "date": "1556841600",
+            "dapp": "photogrid",
+            "dau": "611",
+            "dnu": "490",
+            "trxs": "17853",
+            "amount": "0",
+            "tusr": "8379"
+        },
+        {
+            "date": "1556928000",
+            "dapp": "photogrid",
+            "dau": "680",
+            "dnu": "651",
+            "trxs": "18491",
+            "amount": "0",
+            "tusr": "9030"
+        },
+        {
+            "date": "1557014400",
+            "dapp": "photogrid",
+            "dau": "721",
+            "dnu": "584",
+            "trxs": "22687",
+            "amount": "0",
+            "tusr": "9614"
+        },
+        {
+            "date": "1557100800",
+            "dapp": "photogrid",
+            "dau": "645",
+            "dnu": "538",
+            "trxs": "21487",
+            "amount": "0",
+            "tusr": "10152"
+        },
+        {
+            "date": "1557187200",
+            "dapp": "photogrid",
+            "dau": "637",
+            "dnu": "537",
+            "trxs": "21247",
+            "amount": "0",
+            "tusr": "10689"
+        },
+        {
+            "date": "1557273600",
+            "dapp": "photogrid",
+            "dau": "779",
+            "dnu": "671",
+            "trxs": "21038",
+            "amount": "0",
+            "tusr": "11360"
+        },
+        {
+            "date": "1557360000",
+            "dapp": "photogrid",
+            "dau": "700",
+            "dnu": "542",
+            "trxs": "23836",
+            "amount": "0",
+            "tusr": "11902"
+        },
+        {
+            "date": "1557446400",
+            "dapp": "photogrid",
+            "dau": "714",
+            "dnu": "568",
+            "trxs": "21546",
+            "amount": "0",
+            "tusr": "12470"
+        },
+        {
+            "date": "1557532800",
+            "dapp": "photogrid",
+            "dau": "828",
+            "dnu": "665",
+            "trxs": "19400",
+            "amount": "0",
+            "tusr": "13135"
+        },
+        {
+            "date": "1557619200",
+            "dapp": "photogrid",
+            "dau": "843",
+            "dnu": "736",
+            "trxs": "20461",
+            "amount": "0",
+            "tusr": "13871"
+        },
+        {
+            "date": "1557705600",
+            "dapp": "photogrid",
+            "dau": "775",
+            "dnu": "564",
+            "trxs": "20253",
+            "amount": "0",
+            "tusr": "14435"
+        },
+        {
+            "date": "1557792000",
+            "dapp": "photogrid",
+            "dau": "746",
+            "dnu": "558",
+            "trxs": "22604",
+            "amount": "0",
+            "tusr": "14993"
+        },
+        {
+            "date": "1557878400",
+            "dapp": "photogrid",
+            "dau": "799",
+            "dnu": "612",
+            "trxs": "19207",
+            "amount": "0",
+            "tusr": "15605"
+        },
+        {
+            "date": "1557964800",
+            "dapp": "photogrid",
+            "dau": "761",
+            "dnu": "578",
+            "trxs": "20528",
+            "amount": "0",
+            "tusr": "16183"
+        },
+        {
+            "date": "1558051200",
+            "dapp": "photogrid",
+            "dau": "756",
+            "dnu": "520",
+            "trxs": "20956",
+            "amount": "0",
+            "tusr": "16703"
+        },
+        {
+            "date": "1558137600",
+            "dapp": "photogrid",
+            "dau": "993",
+            "dnu": "800",
+            "trxs": "25573",
+            "amount": "0",
+            "tusr": "17503"
+        },
+        {
+            "date": "1558224000",
+            "dapp": "photogrid",
+            "dau": "872",
+            "dnu": "607",
+            "trxs": "23587",
+            "amount": "0",
+            "tusr": "18110"
+        },
+        {
+            "date": "1558310400",
+            "dapp": "photogrid",
+            "dau": "817",
+            "dnu": "576",
+            "trxs": "22928",
+            "amount": "1000000",
+            "tusr": "18686"
+        },
+        {
+            "date": "1558396800",
+            "dapp": "photogrid",
+            "dau": "863",
+            "dnu": "622",
+            "trxs": "23795",
+            "amount": "277000000",
+            "tusr": "19308"
+        },
+        {
+            "date": "1558483200",
+            "dapp": "photogrid",
+            "dau": "947",
+            "dnu": "661",
+            "trxs": "23279",
+            "amount": "1176000000",
+            "tusr": "19969"
+        },
+        {
+            "date": "1558569600",
+            "dapp": "photogrid",
+            "dau": "831",
+            "dnu": "534",
+            "trxs": "23460",
+            "amount": "1080000000",
+            "tusr": "20503"
+        },
+        {
+            "date": "1558656000",
+            "dapp": "photogrid",
+            "dau": "884",
+            "dnu": "506",
+            "trxs": "26995",
+            "amount": "22034000000",
+            "tusr": "21009"
+        },
+        {
+            "date": "1558742400",
+            "dapp": "photogrid",
+            "dau": "920",
+            "dnu": "442",
+            "trxs": "32675",
+            "amount": "1985000000",
+            "tusr": "21451"
+        },
+        {
+            "date": "1558828800",
+            "dapp": "photogrid",
+            "dau": "877",
+            "dnu": "365",
+            "trxs": "30218",
+            "amount": "1603000000",
+            "tusr": "21816"
+        },
+        {
+            "date": "1558915200",
+            "dapp": "photogrid",
+            "dau": "879",
+            "dnu": "445",
+            "trxs": "27381",
+            "amount": "2108000000",
+            "tusr": "22261"
+        },
+        {
+            "date": "1559001600",
+            "dapp": "photogrid",
+            "dau": "914",
+            "dnu": "547",
+            "trxs": "30056",
+            "amount": "3176000000",
+            "tusr": "22808"
+        },
+        {
+            "date": "1559088000",
+            "dapp": "photogrid",
+            "dau": "1050",
+            "dnu": "691",
+            "trxs": "30536",
+            "amount": "4722000000",
+            "tusr": "23499"
+        }
+    ],
+    "contentos": [
+        {
+            "date": "1555286400",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555372800",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555459200",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "1",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1555545600",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1555632000",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1555718400",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1555804800",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1555891200",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1555977600",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1556064000",
+            "dapp": "contentos",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "1"
+        },
+        {
+            "date": "1556150400",
+            "dapp": "contentos",
+            "dau": "505",
+            "dnu": "23959",
+            "trxs": "2593",
+            "amount": "0",
+            "tusr": "23960"
+        },
+        {
+            "date": "1556236800",
+            "dapp": "contentos",
+            "dau": "1297",
+            "dnu": "307",
+            "trxs": "4411",
+            "amount": "0",
+            "tusr": "24267"
+        },
+        {
+            "date": "1556323200",
+            "dapp": "contentos",
+            "dau": "1341",
+            "dnu": "308",
+            "trxs": "4579",
+            "amount": "0",
+            "tusr": "24575"
+        },
+        {
+            "date": "1556409600",
+            "dapp": "contentos",
+            "dau": "1381",
+            "dnu": "243",
+            "trxs": "4490",
+            "amount": "0",
+            "tusr": "24818"
+        },
+        {
+            "date": "1556496000",
+            "dapp": "contentos",
+            "dau": "1439",
+            "dnu": "284",
+            "trxs": "4065",
+            "amount": "0",
+            "tusr": "25102"
+        },
+        {
+            "date": "1556582400",
+            "dapp": "contentos",
+            "dau": "1485",
+            "dnu": "258",
+            "trxs": "3835",
+            "amount": "0",
+            "tusr": "25360"
+        },
+        {
+            "date": "1556668800",
+            "dapp": "contentos",
+            "dau": "1628",
+            "dnu": "275",
+            "trxs": "4566",
+            "amount": "0",
+            "tusr": "25635"
+        },
+        {
+            "date": "1556755200",
+            "dapp": "contentos",
+            "dau": "1693",
+            "dnu": "310",
+            "trxs": "4805",
+            "amount": "0",
+            "tusr": "25945"
+        },
+        {
+            "date": "1556841600",
+            "dapp": "contentos",
+            "dau": "1684",
+            "dnu": "216",
+            "trxs": "4869",
+            "amount": "0",
+            "tusr": "26161"
+        },
+        {
+            "date": "1556928000",
+            "dapp": "contentos",
+            "dau": "1703",
+            "dnu": "210",
+            "trxs": "5045",
+            "amount": "0",
+            "tusr": "26371"
+        },
+        {
+            "date": "1557014400",
+            "dapp": "contentos",
+            "dau": "1810",
+            "dnu": "278",
+            "trxs": "5037",
+            "amount": "0",
+            "tusr": "26649"
+        },
+        {
+            "date": "1557100800",
+            "dapp": "contentos",
+            "dau": "1934",
+            "dnu": "326",
+            "trxs": "4972",
+            "amount": "0",
+            "tusr": "26975"
+        },
+        {
+            "date": "1557187200",
+            "dapp": "contentos",
+            "dau": "1946",
+            "dnu": "317",
+            "trxs": "5139",
+            "amount": "0",
+            "tusr": "27292"
+        },
+        {
+            "date": "1557273600",
+            "dapp": "contentos",
+            "dau": "2115",
+            "dnu": "411",
+            "trxs": "5220",
+            "amount": "0",
+            "tusr": "27703"
+        },
+        {
+            "date": "1557360000",
+            "dapp": "contentos",
+            "dau": "2038",
+            "dnu": "318",
+            "trxs": "4966",
+            "amount": "0",
+            "tusr": "28021"
+        },
+        {
+            "date": "1557446400",
+            "dapp": "contentos",
+            "dau": "2182",
+            "dnu": "277",
+            "trxs": "5116",
+            "amount": "0",
+            "tusr": "28298"
+        },
+        {
+            "date": "1557532800",
+            "dapp": "contentos",
+            "dau": "2099",
+            "dnu": "291",
+            "trxs": "5273",
+            "amount": "0",
+            "tusr": "28589"
+        },
+        {
+            "date": "1557619200",
+            "dapp": "contentos",
+            "dau": "2156",
+            "dnu": "275",
+            "trxs": "5382",
+            "amount": "0",
+            "tusr": "28864"
+        },
+        {
+            "date": "1557705600",
+            "dapp": "contentos",
+            "dau": "2704",
+            "dnu": "341",
+            "trxs": "7315",
+            "amount": "0",
+            "tusr": "29205"
+        },
+        {
+            "date": "1557792000",
+            "dapp": "contentos",
+            "dau": "2728",
+            "dnu": "268",
+            "trxs": "7200",
+            "amount": "0",
+            "tusr": "29473"
+        },
+        {
+            "date": "1557878400",
+            "dapp": "contentos",
+            "dau": "2799",
+            "dnu": "281",
+            "trxs": "7200",
+            "amount": "0",
+            "tusr": "29754"
+        },
+        {
+            "date": "1557964800",
+            "dapp": "contentos",
+            "dau": "2437",
+            "dnu": "226",
+            "trxs": "5252",
+            "amount": "0",
+            "tusr": "29980"
+        },
+        {
+            "date": "1558051200",
+            "dapp": "contentos",
+            "dau": "2360",
+            "dnu": "189",
+            "trxs": "4998",
+            "amount": "0",
+            "tusr": "30169"
+        },
+        {
+            "date": "1558137600",
+            "dapp": "contentos",
+            "dau": "2254",
+            "dnu": "198",
+            "trxs": "5025",
+            "amount": "0",
+            "tusr": "30367"
+        },
+        {
+            "date": "1558224000",
+            "dapp": "contentos",
+            "dau": "2314",
+            "dnu": "218",
+            "trxs": "5077",
+            "amount": "0",
+            "tusr": "30585"
+        },
+        {
+            "date": "1558310400",
+            "dapp": "contentos",
+            "dau": "2899",
+            "dnu": "339",
+            "trxs": "5500",
+            "amount": "0",
+            "tusr": "30924"
+        },
+        {
+            "date": "1558396800",
+            "dapp": "contentos",
+            "dau": "3071",
+            "dnu": "312",
+            "trxs": "5519",
+            "amount": "0",
+            "tusr": "31236"
+        },
+        {
+            "date": "1558483200",
+            "dapp": "contentos",
+            "dau": "3055",
+            "dnu": "299",
+            "trxs": "5562",
+            "amount": "0",
+            "tusr": "31535"
+        },
+        {
+            "date": "1558569600",
+            "dapp": "contentos",
+            "dau": "3244",
+            "dnu": "280",
+            "trxs": "5659",
+            "amount": "0",
+            "tusr": "31815"
+        },
+        {
+            "date": "1558656000",
+            "dapp": "contentos",
+            "dau": "3294",
+            "dnu": "261",
+            "trxs": "5645",
+            "amount": "0",
+            "tusr": "32076"
+        },
+        {
+            "date": "1558742400",
+            "dapp": "contentos",
+            "dau": "3607",
+            "dnu": "297",
+            "trxs": "5934",
+            "amount": "0",
+            "tusr": "32373"
+        },
+        {
+            "date": "1558828800",
+            "dapp": "contentos",
+            "dau": "3580",
+            "dnu": "261",
+            "trxs": "6009",
+            "amount": "0",
+            "tusr": "32634"
+        },
+        {
+            "date": "1558915200",
+            "dapp": "contentos",
+            "dau": "3899",
+            "dnu": "291",
+            "trxs": "6195",
+            "amount": "0",
+            "tusr": "32925"
+        },
+        {
+            "date": "1559001600",
+            "dapp": "contentos",
+            "dau": "3858",
+            "dnu": "235",
+            "trxs": "6080",
+            "amount": "0",
+            "tusr": "33160"
+        },
+        {
+            "date": "1559088000",
+            "dapp": "contentos",
+            "dau": "4019",
+            "dnu": "304",
+            "trxs": "6056",
+            "amount": "0",
+            "tusr": "33464"
+        }
+    ],
+    "game2048": [
+        {
+            "date": "1555286400",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555372800",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555459200",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555545600",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555632000",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555718400",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555804800",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555891200",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555977600",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1556064000",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1556150400",
+            "dapp": "game 2048",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1556236800",
+            "dapp": "game 2048",
+            "dau": "42",
+            "dnu": "42",
+            "trxs": "836",
+            "amount": "4365000000",
+            "tusr": "42"
+        },
+        {
+            "date": "1556323200",
+            "dapp": "game 2048",
+            "dau": "45",
+            "dnu": "18",
+            "trxs": "545",
+            "amount": "4050000000",
+            "tusr": "60"
+        },
+        {
+            "date": "1556409600",
+            "dapp": "game 2048",
+            "dau": "53",
+            "dnu": "14",
+            "trxs": "1935",
+            "amount": "14680000000",
+            "tusr": "74"
+        },
+        {
+            "date": "1556496000",
+            "dapp": "game 2048",
+            "dau": "58",
+            "dnu": "18",
+            "trxs": "972",
+            "amount": "7515000000",
+            "tusr": "92"
+        },
+        {
+            "date": "1556582400",
+            "dapp": "game 2048",
+            "dau": "45",
+            "dnu": "11",
+            "trxs": "1677",
+            "amount": "13525000000",
+            "tusr": "103"
+        },
+        {
+            "date": "1556668800",
+            "dapp": "game 2048",
+            "dau": "44",
+            "dnu": "6",
+            "trxs": "2322",
+            "amount": "19450000000",
+            "tusr": "109"
+        },
+        {
+            "date": "1556755200",
+            "dapp": "game 2048",
+            "dau": "36",
+            "dnu": "5",
+            "trxs": "371",
+            "amount": "3065000000",
+            "tusr": "114"
+        },
+        {
+            "date": "1556841600",
+            "dapp": "game 2048",
+            "dau": "18",
+            "dnu": "0",
+            "trxs": "138",
+            "amount": "1110000000",
+            "tusr": "114"
+        },
+        {
+            "date": "1556928000",
+            "dapp": "game 2048",
+            "dau": "10",
+            "dnu": "0",
+            "trxs": "113",
+            "amount": "1025000000",
+            "tusr": "114"
+        },
+        {
+            "date": "1557014400",
+            "dapp": "game 2048",
+            "dau": "26",
+            "dnu": "0",
+            "trxs": "269",
+            "amount": "2375000000",
+            "tusr": "114"
+        },
+        {
+            "date": "1557100800",
+            "dapp": "game 2048",
+            "dau": "14",
+            "dnu": "3",
+            "trxs": "114",
+            "amount": "1005000000",
+            "tusr": "117"
+        },
+        {
+            "date": "1557187200",
+            "dapp": "game 2048",
+            "dau": "32",
+            "dnu": "1",
+            "trxs": "344",
+            "amount": "2340000000",
+            "tusr": "118"
+        },
+        {
+            "date": "1557273600",
+            "dapp": "game 2048",
+            "dau": "66",
+            "dnu": "20",
+            "trxs": "3310",
+            "amount": "25360000000",
+            "tusr": "138"
+        },
+        {
+            "date": "1557360000",
+            "dapp": "game 2048",
+            "dau": "52",
+            "dnu": "8",
+            "trxs": "7552",
+            "amount": "384915000000",
+            "tusr": "146"
+        },
+        {
+            "date": "1557446400",
+            "dapp": "game 2048",
+            "dau": "48",
+            "dnu": "2",
+            "trxs": "2025",
+            "amount": "14565000000",
+            "tusr": "148"
+        },
+        {
+            "date": "1557532800",
+            "dapp": "game 2048",
+            "dau": "59",
+            "dnu": "10",
+            "trxs": "11783",
+            "amount": "99275000000",
+            "tusr": "158"
+        },
+        {
+            "date": "1557619200",
+            "dapp": "game 2048",
+            "dau": "36",
+            "dnu": "1",
+            "trxs": "1240",
+            "amount": "8125000000",
+            "tusr": "159"
+        },
+        {
+            "date": "1557705600",
+            "dapp": "game 2048",
+            "dau": "30",
+            "dnu": "3",
+            "trxs": "359",
+            "amount": "2400000000",
+            "tusr": "162"
+        },
+        {
+            "date": "1557792000",
+            "dapp": "game 2048",
+            "dau": "22",
+            "dnu": "0",
+            "trxs": "214",
+            "amount": "1650000000",
+            "tusr": "162"
+        },
+        {
+            "date": "1557878400",
+            "dapp": "game 2048",
+            "dau": "19",
+            "dnu": "0",
+            "trxs": "145",
+            "amount": "995000000",
+            "tusr": "162"
+        },
+        {
+            "date": "1557964800",
+            "dapp": "game 2048",
+            "dau": "27",
+            "dnu": "2",
+            "trxs": "200",
+            "amount": "1440000000",
+            "tusr": "164"
+        },
+        {
+            "date": "1558051200",
+            "dapp": "game 2048",
+            "dau": "29",
+            "dnu": "1",
+            "trxs": "269",
+            "amount": "1965000000",
+            "tusr": "165"
+        },
+        {
+            "date": "1558137600",
+            "dapp": "game 2048",
+            "dau": "16",
+            "dnu": "0",
+            "trxs": "119",
+            "amount": "925000000",
+            "tusr": "165"
+        },
+        {
+            "date": "1558224000",
+            "dapp": "game 2048",
+            "dau": "5",
+            "dnu": "0",
+            "trxs": "28",
+            "amount": "240000000",
+            "tusr": "165"
+        },
+        {
+            "date": "1558310400",
+            "dapp": "game 2048",
+            "dau": "7",
+            "dnu": "1",
+            "trxs": "47",
+            "amount": "410000000",
+            "tusr": "166"
+        },
+        {
+            "date": "1558396800",
+            "dapp": "game 2048",
+            "dau": "42",
+            "dnu": "5",
+            "trxs": "1690",
+            "amount": "11730000000",
+            "tusr": "171"
+        },
+        {
+            "date": "1558483200",
+            "dapp": "game 2048",
+            "dau": "30",
+            "dnu": "2",
+            "trxs": "565",
+            "amount": "3850000000",
+            "tusr": "173"
+        },
+        {
+            "date": "1558569600",
+            "dapp": "game 2048",
+            "dau": "42",
+            "dnu": "4",
+            "trxs": "4477",
+            "amount": "34220000000",
+            "tusr": "177"
+        },
+        {
+            "date": "1558656000",
+            "dapp": "game 2048",
+            "dau": "25",
+            "dnu": "1",
+            "trxs": "169",
+            "amount": "1190000000",
+            "tusr": "178"
+        },
+        {
+            "date": "1558742400",
+            "dapp": "game 2048",
+            "dau": "16",
+            "dnu": "1",
+            "trxs": "83",
+            "amount": "675000000",
+            "tusr": "179"
+        },
+        {
+            "date": "1558828800",
+            "dapp": "game 2048",
+            "dau": "7",
+            "dnu": "0",
+            "trxs": "89",
+            "amount": "810000000",
+            "tusr": "179"
+        },
+        {
+            "date": "1558915200",
+            "dapp": "game 2048",
+            "dau": "18",
+            "dnu": "0",
+            "trxs": "123",
+            "amount": "830000000",
+            "tusr": "179"
+        },
+        {
+            "date": "1559001600",
+            "dapp": "game 2048",
+            "dau": "39",
+            "dnu": "5",
+            "trxs": "1364",
+            "amount": "8885000000",
+            "tusr": "184"
+        },
+        {
+            "date": "1559088000",
+            "dapp": "game 2048",
+            "dau": "33",
+            "dnu": "7",
+            "trxs": "443",
+            "amount": "3005000000",
+            "tusr": "191"
+        }
+    ],
+    "walkcoin": [
+
+        {
+            "date": "1555286400",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555372800",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555459200",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555545600",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555632000",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555718400",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555804800",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "0"
+        },
+        {
+            "date": "1555891200",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "5",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "5"
+        },
+        {
+            "date": "1555977600",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "2",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "7"
+        },
+        {
+            "date": "1556064000",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "7"
+        },
+        {
+            "date": "1556150400",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "1",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "8"
+        },
+        {
+            "date": "1556236800",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "1",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "9"
+        },
+        {
+            "date": "1556323200",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "9"
+        },
+        {
+            "date": "1556409600",
+            "dapp": "walk coin",
+            "dau": "1",
+            "dnu": "0",
+            "trxs": "4",
+            "amount": "0",
+            "tusr": "9"
+        },
+        {
+            "date": "1556496000",
+            "dapp": "walk coin",
+            "dau": "14",
+            "dnu": "19",
+            "trxs": "106",
+            "amount": "0",
+            "tusr": "28"
+        },
+        {
+            "date": "1556582400",
+            "dapp": "walk coin",
+            "dau": "3",
+            "dnu": "13",
+            "trxs": "44",
+            "amount": "0",
+            "tusr": "41"
+        },
+        {
+            "date": "1556668800",
+            "dapp": "walk coin",
+            "dau": "3",
+            "dnu": "13",
+            "trxs": "44",
+            "amount": "0",
+            "tusr": "54"
+        },
+        {
+            "date": "1556755200",
+            "dapp": "walk coin",
+            "dau": "3",
+            "dnu": "4",
+            "trxs": "44",
+            "amount": "0",
+            "tusr": "58"
+        },
+        {
+            "date": "1556841600",
+            "dapp": "walk coin",
+            "dau": "5",
+            "dnu": "7",
+            "trxs": "46",
+            "amount": "0",
+            "tusr": "65"
+        },
+        {
+            "date": "1556928000",
+            "dapp": "walk coin",
+            "dau": "3",
+            "dnu": "4",
+            "trxs": "44",
+            "amount": "0",
+            "tusr": "69"
+        },
+        {
+            "date": "1557014400",
+            "dapp": "walk coin",
+            "dau": "20",
+            "dnu": "6",
+            "trxs": "334",
+            "amount": "0",
+            "tusr": "75"
+        },
+        {
+            "date": "1557100800",
+            "dapp": "walk coin",
+            "dau": "27",
+            "dnu": "8",
+            "trxs": "201",
+            "amount": "0",
+            "tusr": "83"
+        },
+        {
+            "date": "1557187200",
+            "dapp": "walk coin",
+            "dau": "32",
+            "dnu": "10",
+            "trxs": "213",
+            "amount": "0",
+            "tusr": "93"
+        },
+        {
+            "date": "1557273600",
+            "dapp": "walk coin",
+            "dau": "33",
+            "dnu": "10",
+            "trxs": "415",
+            "amount": "0",
+            "tusr": "103"
+        },
+        {
+            "date": "1557360000",
+            "dapp": "walk coin",
+            "dau": "33",
+            "dnu": "7",
+            "trxs": "128",
+            "amount": "0",
+            "tusr": "110"
+        },
+        {
+            "date": "1557446400",
+            "dapp": "walk coin",
+            "dau": "28",
+            "dnu": "4",
+            "trxs": "423",
+            "amount": "0",
+            "tusr": "114"
+        },
+        {
+            "date": "1557532800",
+            "dapp": "walk coin",
+            "dau": "28",
+            "dnu": "8",
+            "trxs": "174",
+            "amount": "0",
+            "tusr": "122"
+        },
+        {
+            "date": "1557619200",
+            "dapp": "walk coin",
+            "dau": "30",
+            "dnu": "13",
+            "trxs": "206",
+            "amount": "0",
+            "tusr": "135"
+        },
+        {
+            "date": "1557705600",
+            "dapp": "walk coin",
+            "dau": "37",
+            "dnu": "11",
+            "trxs": "312",
+            "amount": "0",
+            "tusr": "146"
+        },
+        {
+            "date": "1557792000",
+            "dapp": "walk coin",
+            "dau": "43",
+            "dnu": "14",
+            "trxs": "283",
+            "amount": "0",
+            "tusr": "160"
+        },
+        {
+            "date": "1557878400",
+            "dapp": "walk coin",
+            "dau": "43",
+            "dnu": "6",
+            "trxs": "312",
+            "amount": "0",
+            "tusr": "166"
+        },
+        {
+            "date": "1557964800",
+            "dapp": "walk coin",
+            "dau": "45",
+            "dnu": "12",
+            "trxs": "282",
+            "amount": "0",
+            "tusr": "178"
+        },
+        {
+            "date": "1558051200",
+            "dapp": "walk coin",
+            "dau": "51",
+            "dnu": "15",
+            "trxs": "166",
+            "amount": "0",
+            "tusr": "193"
+        },
+        {
+            "date": "1558137600",
+            "dapp": "walk coin",
+            "dau": "48",
+            "dnu": "16",
+            "trxs": "128",
+            "amount": "0",
+            "tusr": "209"
+        },
+        {
+            "date": "1558224000",
+            "dapp": "walk coin",
+            "dau": "47",
+            "dnu": "15",
+            "trxs": "134",
+            "amount": "0",
+            "tusr": "224"
+        },
+        {
+            "date": "1558310400",
+            "dapp": "walk coin",
+            "dau": "53",
+            "dnu": "12",
+            "trxs": "170",
+            "amount": "0",
+            "tusr": "236"
+        },
+        {
+            "date": "1558396800",
+            "dapp": "walk coin",
+            "dau": "53",
+            "dnu": "16",
+            "trxs": "171",
+            "amount": "0",
+            "tusr": "252"
+        },
+        {
+            "date": "1558483200",
+            "dapp": "walk coin",
+            "dau": "63",
+            "dnu": "17",
+            "trxs": "533",
+            "amount": "0",
+            "tusr": "269"
+        },
+        {
+            "date": "1558569600",
+            "dapp": "walk coin",
+            "dau": "47",
+            "dnu": "12",
+            "trxs": "162",
+            "amount": "0",
+            "tusr": "281"
+        },
+        {
+            "date": "1558656000",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "281"
+        },
+        {
+            "date": "1558742400",
+            "dapp": "walk coin",
+            "dau": "19",
+            "dnu": "3",
+            "trxs": "90",
+            "amount": "0",
+            "tusr": "284"
+        },
+        {
+            "date": "1558828800",
+            "dapp": "walk coin",
+            "dau": "0",
+            "dnu": "0",
+            "trxs": "0",
+            "amount": "0",
+            "tusr": "284"
+        },
+        {
+            "date": "1558915200",
+            "dapp": "walk coin",
+            "dau": "36",
+            "dnu": "9",
+            "trxs": "130",
+            "amount": "0",
+            "tusr": "293"
+        },
+        {
+            "date": "1559001600",
+            "dapp": "walk coin",
+            "dau": "35",
+            "dnu": "10",
+            "trxs": "169",
+            "amount": "0",
+            "tusr": "303"
+        },
+        {
+            "date": "1559088000",
+            "dapp": "walk coin",
+            "dau": "116",
+            "dnu": "75",
+            "trxs": "486",
+            "amount": "0",
+            "tusr": "378"
+        }
+
+    ]
+}

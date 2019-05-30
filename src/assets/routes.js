@@ -32,6 +32,10 @@ module.exports = [{
     meta: {headerActive: 2},
     path: "/:api?/DApp"
 },{
+    component: require("@/routes/testDApp").default,
+    meta: {headerActive: 2},
+    path: "/:api?/testDApp"
+},{
     component: require("@/routes/contracts").default,
     meta: { headerActive: 2 },
     path: "/:api?/contracts"
