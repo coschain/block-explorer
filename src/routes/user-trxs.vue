@@ -321,6 +321,7 @@
             },
             getUsrTxCacheData() {
                 let cacheData = this.getPageInfo();
+                let isQueryData = true;
                 if (cacheData != null) {
                     this.currentPage = parseInt(cacheData.currentPage);
                     this.totalPage = parseInt(cacheData.totalPage);
@@ -363,8 +364,19 @@
                         this.lastInfo = lastInfo.lastTrx;
                     }
                 }else {
-                    this.loadData()
+                    this.loadData();
+                    let p = this.$route.query.p;
+                    //now the chain not support page skip request,so in this condition just request from page 1
+                    if (p > 1) {
+                        let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                        query.p = 1;
+                        this.currentPage = 0;
+                        this.totalPage = 1;
+                        this.$router.replace({ path: this.$route.path, query });
+                        isQueryData = false;
+                    }
                 }
+                return isQueryData;
             },
 
             getTrxStatus(trx) {
@@ -372,8 +384,10 @@
             }
         },
         mounted() {
-            this.getUsrTxCacheData();
-            this.nthPage();
+            let isQuery = this.getUsrTxCacheData();
+            if (isQuery) {
+                this.nthPage();
+            }
         },
 
         watch: {
