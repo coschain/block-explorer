@@ -49,7 +49,7 @@
                     <tr class="bpListHeader  font-bold font-color-000000">
                         <th class="bpListHeaderCol">Account</th>
                         <th class="bpListHeaderCol">Time</th>
-                        <th class="voteCountHeaderCol">Vote Count</th>
+                        <th class="voteCountHeaderCol">Vest</th>
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >

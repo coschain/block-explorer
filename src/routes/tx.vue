@@ -324,15 +324,6 @@
                 return utility.toWei(n);
             },
 
-            // errMsg() {
-            //     if (this.trx != null  && typeof this.trx != "undefined" && this.trx.getTrxWrap().hasReceipt()
-            //         && this.trx.getTrxWrap().getReceipt().getErrorInfo()) {
-            //         return this.trx.getTrxWrap().getReceipt().getErrorInfo();
-            //     } else {
-            //         return 'Apply Transaction Failed';
-            //     }
-            // },
-
             getTrxApplyResult() {
                 if (this.trx != null  && typeof this.trx != "undefined" && this.trx.hasTrxWrap &&
                     this.trx.getTrxWrap().hasReceipt()) {
