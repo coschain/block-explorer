@@ -16,12 +16,12 @@
         font-size: 11px ;
     }
     .vue-contracts .contractListHeaderCol {
-        width: 25%;
+        width: 20%;
     }
 
     .vue-contracts .contractContentCol {
         display:inline-block;
-        width: 25%;
+        width: 20%;
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
@@ -41,7 +41,7 @@
                     <th class="contractListHeaderCol">Name</th>
                     <th class="contractListHeaderCol">Time</th>
                     <th class="contractListHeaderCol">Balance</th>
-                    <!--<th class="contractListHeaderCol">Apply Count</th>-->
+                    <th class="contractListHeaderCol">Apply Count</th>
                 </tr>
 
                 <tr v-for="(contract, i) in contractList" :key="i">
@@ -62,7 +62,7 @@
                     </td>
 
                     <td class="contractContentCol">{{ contract.getBalance().toString()}}</td>
-                    <!--<td class="contractContentCol">{{ contract.getApplyCount()}}</td>-->
+                    <td class="contractContentCol">{{ contract.getApplyCount()}}</td>
 
                 </tr>
             </table>
