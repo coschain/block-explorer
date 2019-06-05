@@ -4,23 +4,28 @@
     }
 
     .vue-bp .bpListHeader {
-        display:flex;
+        display: flex;
         flex-direction: row;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         vertical-align: center;
         align-items: center;
         height: 46px;
         background-color: #e8e8e8;
-        font-size: 11px ;
     }
+
     .vue-bp .bpListHeaderCol {
-        width: 40%
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 11px;
+    }
+
+    .vue-bp .bpListHeaderDetailCol {
+        width: 28%;
+
     }
 
     .vue-bp .voteCountHeaderCol {
-        width: 20%;
+        width: 16%;
     }
     .vue-bp .witnessContentCol {
         display:inline-block;
@@ -31,12 +36,18 @@
         margin-top: 17px;
     }
 
-    .vue-bp .accountAndTimeContentCol {
-        width: 40%;
+    .vue-bp .detailContentCol {
+        width: 28%;
     }
 
     .vue-bp .voteCountContentCol {
-        width: 20%;
+        width: 16%;
+    }
+
+    @media (max-width: 768px) {
+        .vue-bp .bpListHeaderCol {
+            font-size: 8px;
+        }
     }
 
 </style>
@@ -47,23 +58,26 @@
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="bpListHeader  font-bold font-color-000000">
-                        <th class="bpListHeaderCol">Account</th>
-                        <th class="bpListHeaderCol">Time</th>
-                        <th class="voteCountHeaderCol">Vest</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Account</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
+                        <th class="bpListHeaderCol voteCountHeaderCol">Voted times</th>
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >
-                        <td class="witnessContentCol accountAndTimeContentCol">
+                        <td class="witnessContentCol detailContentCol">
                             <router-link v-if="witness.hasOwner()" v-bind:to='fragApi + "/account/" + witness.getOwner().getValue()'>
                                 <span>{{ witness.getOwner().getValue()}}</span>
                             </router-link>
                         </td>
 
-                        <td class="witnessContentCol accountAndTimeContentCol" v-if="witness.hasCreatedTime()">
+                        <td class="witnessContentCol detailContentCol" v-if="witness.hasCreatedTime()">
                             {{ timeConversion(Date.now()-witness.getCreatedTime().getUtcSeconds()*1000) }} ago
                         </td>
 
-                        <td class="witnessContentCol voteCountContentCol">{{ witness.getVoteCount()}}</td>
+                        <td class="witnessContentCol detailContentCol">{{ witness.getVoteCount().toString()}}</td>
+
+                        <td class="witnessContentCol voteCountContentCol">{{ getVoterCountOfWitness(witness)}}</td>
 
                     </tr>
                 </table>
@@ -148,11 +162,11 @@
                     if (bpList.length > 0) {
                         this.bpList = bpList;
                         this.lastWitness = bpList[bpList.length-1];
-                        this.listStart = this.lastWitness.getVoteCount().toString();
+                        this.listStart = this.lastWitness.getVoteCount();
                         if (this.currentPage === 0 && isNext) {
                             this.listEnd = null;
                         }else {
-                            this.listEnd = bpList[0].getVoteCount().toString();
+                            this.listEnd = bpList[0].getVoteCount();
                         }
                         let curPageLen = this.pageInfo.length;
                         let info = {start:this.listStart,lastWitness:this.lastWitness};
@@ -242,12 +256,12 @@
                     let pageList = [];
                     this.pageInfo.forEach(function (info) {
                         let obj = {};
-                        obj.start = info.start?info.start:null;
-                        obj.end = info.end?info.end:null;
+                        obj.start = info.start?info.start.getValue():null;
+                        obj.end = info.end?info.end.getValue():null;
                         if (info.lastWitness) {
                             let lastWitness = {};
                             lastWitness.produder = info.lastWitness.getOwner().getValue();
-                            lastWitness.voteCnt = info.lastWitness.getVoteCount();
+                            lastWitness.voteCnt = info.lastWitness.getVoteCount().getValue();
                             obj.lastWitness = lastWitness;
                         }else {
                             obj.lastWitness = null;
@@ -282,8 +296,8 @@
                 return ""
             },
             loadData() {
-                this.firstPageStartCount = Number.MAX_SAFE_INTEGER.toFixed(0).toString();
-                this.firstPageEndCount = "0";
+                this.firstPageStartCount = null;
+                this.firstPageEndCount = null;
                 this.listStart = this.firstPageStartCount;
             },
             getContractsCacheData() {
@@ -298,17 +312,23 @@
                         cacheData.pageInfo.forEach(function (obj) {
                             let info = {};
                             if (obj.start != null) {
-                                info.start = obj.start;
+                                let startVest = new api.cos_sdk.raw_type.vest();
+                                startVest.setValue(obj.start);
+                                info.start = startVest;
                             }
                             if (obj.end != null ) {
-                                info.end = obj.end;
+                                let endVest = new api.cos_sdk.raw_type.vest();
+                                endVest.setValue(obj.end);
+                                info.end = endVest;
                             }
                             if (obj.lastWitness != null) {
                                 let lastWitness = new api.cos_sdk.grpc.WitnessResponse();
                                 let owner = new api.cos_sdk.raw_type.account_name();
                                 owner.setValue(obj.lastWitness.produder);
                                 lastWitness.setOwner(owner);
-                                lastWitness.setVoteCount(obj.lastWitness.voteCnt);
+                                let voteCount = new  api.cos_sdk.raw_type.vest();
+                                voteCount.setValue(obj.lastWitness.voteCnt);
+                                lastWitness.setVoteCount(voteCount);
                                 info.lastWitness = lastWitness;
                             }
                             list.push(info);
@@ -338,6 +358,13 @@
                     }
                 }
                 return isQueryData;
+            },
+
+            getVoterCountOfWitness(witness) {
+                if (witness != null && (typeof witness != "undefined") && witness.getVoterListList) {
+                    return witness.getVoterListList().length;
+                }
+                return 0;
             }
         },
         mounted() {
