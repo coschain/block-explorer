@@ -96,7 +96,7 @@
                         <td class="font-color-555555" style="padding-left: 24px;">TxReceipt Status:</td>
                         <td class="d-flex align-items-center" v-if="getTrxApplyResult() === 500" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
-                            <span class="font-color-F04434" style="margin-left: 10px;">Fail)</span>
+                            <span class="font-color-F04434" style="margin-left: 10px;">Fail</span>
                         </td>
                         <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() === 200" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
@@ -104,7 +104,7 @@
                         </td>
                         <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
-                            <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina}} )</span>
+                            <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina</span>
                         </td>
                         <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
@@ -162,7 +162,7 @@
                     <div v-if="trx.hasTrxWrap()">
                         <div class="detail d-flex align-items-center" v-if="getTrxApplyResult() === 500" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
-                                <span class="font-color-F04434" style="margin-left: 10px;">Fail }} )</span>
+                                <span class="font-color-F04434" style="margin-left: 10px;">Fail</span>
                             </div>
                             <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() === 200" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
@@ -171,7 +171,7 @@
 
                             <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
-                                <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina }} )</span>
+                                <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina</span>
                             </div>
 
                             <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
