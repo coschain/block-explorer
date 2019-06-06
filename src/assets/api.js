@@ -892,7 +892,63 @@ module.exports = {
                 result.errCode = errCode;
                 result.errMsg = msg;
                 return result;
-            });;
+            });
+        } catch (e) {
+            result.errMsg = e;
+            return result;
+        }
+    },
+
+    /**
+     *
+     * @param start: the min voter count in query range
+     * @param end: the max voter count in query range
+     * @param lastPost: the post info of the last one in last page
+     * @param limit: the count of a page
+     * @return result: {res,errCode,errMsg}
+     */
+    async fetchPostListByVest(start, end, lastPost, limit) {
+        let result = {
+            res: null,
+            errCode: null,
+            errMsg: null,
+        };
+
+        try {
+            let req = new cos_sdk.grpc.GetPostListByVestRequest();
+            req.setStart(start);
+            req.setEnd(end);
+            req.setLastPost(lastPost);
+            req.setLimit(limit);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByVest, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            let list = message.getPostListList();
+                            resolve(list);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                })
+            }).then(res => {
+                result.res = res;
+                result.errMsg = null;
+                result.errCode = null;
+                return result;
+            }).catch(({ errCode, msg }) => {
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
         } catch (e) {
             result.errMsg = e;
             return result;

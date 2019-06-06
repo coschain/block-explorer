@@ -31,9 +31,6 @@
     .vue-articles .articlesListHeader {
         display:flex;
         flex-direction: row;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         vertical-align: center;
         align-items: center;
         height: 46px;
@@ -41,13 +38,36 @@
         font-size: 11px ;
     }
 
-    .vue-articles .articlesListHeadCol {
-        width: 25%;
+    .vue-articles .headSelectStatus {
+        background-color: #e8e8e8;
     }
 
+    .vue-articles .articlesListHeadCol {
+        width: 20%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+    }
+
+    .vue-articles .sortHeadCol {
+        width: 20%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+    }
+
+    .vue-articles .sortHeadCol:hover {
+        background-color: #e8e8e8;
+    }
+
+    .vue-articles .sortHeadCol:focus-within {
+        background-color: #e8e8e8;
+    }
     .vue-articles .articlesListContentCol {
         display:inline-block;
-        width: 25%;
+        width: 20%;
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
@@ -68,23 +88,24 @@
         <vue-bread title="Posted Articles"></vue-bread>
 
         <div v-if="postList" class="container mt20">
-            <!--<div class="align-items-center info-and-pagination mt20 row">-->
-                <!--<div class="col info font-color-000000 font-24 font-bold title">{{ numberAddComma(totalCts) }} articles found</div>-->
-                <!--&lt;!&ndash;(showing the last {{ maxDisplayCnt }} records)&ndash;&gt;-->
-            <!--</div>-->
-
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="articlesListHeader font-bold font-color-000000">
                         <th class="articlesListHeadCol">Author</th>
                         <th class="articlesListHeadCol">Title</th>
+                        <th :class='[sortType === 1?"sortHeadCol headSelectStatus":"sortHeadCol"]' @click="switchListSortType(1)">
+                            <div> Date Created</div>
+                            <div :class='[sortType === 1?"arrow-down selected-arrow-down":"arrow-down"]' @click="switchListSortType(1)"></div>
+                        </th>
                         <th class="articlesListHeadCol">Id</th>
-                        <th class="articlesListHeadCol">Date Created</th>
+                        <th :class='[sortType === 2?"sortHeadCol headSelectStatus":"sortHeadCol"]' @click="switchListSortType(2)">
+                            <div>Vest</div>
+                            <div :class='[sortType === 2?"arrow-down selected-arrow-down":"arrow-down"]' @click="switchListSortType(2)"></div>
+                        </th>
                     </tr>
 
                     <tr v-for="(post, i) in postList" :key="i">
                         <td class="articlesListContentCol">
-                            <!--<vue-blockies v-bind:account='post.getAuthor().getValue()'></vue-blockies>-->
                             <router-link v-bind:to='fragApi + "/account/" + post.getAuthor().getValue()'>
                                 <span class="hash-normal monospace">{{ post.getAuthor().getValue() }}</span>
                             </router-link>
@@ -96,6 +117,7 @@
                             </router-link>
                         </td>
                         <td class="articlesListContentCol">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
+                        <td class="articlesListContentCol">{{post.getRewards().toString()}}</td>
                     </tr>
                 </table>
             </div>
@@ -110,6 +132,12 @@
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
     const articlesPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.articleList);
+    const ArticleListSortType = {
+        listSortTypeUnknown : 0,//unknown type
+        listSortTypeCreTime : 1,//article list sort by create time
+        listSortTypeVest : 2,//article list sort by vest
+    };
+    const pageSize = 30;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -130,6 +158,11 @@
                 postListEnd: null,
                 lastPost: null,
                 createdPageIndex:0,
+                sortType:ArticleListSortType.listSortTypeCreTime,//current sort type
+                timeStart: null,
+                timeEnd: null,
+                vestStart: null,
+                vestEnd: null,
             };
         },
         methods: {
@@ -146,10 +179,17 @@
                     this.$router.push({ path: this.$route.path, query });
                 }
             },
-            nthPage() {
+            nthPage(lastType) {
                 let p = this.$route.query.p || 1;
                 this.$root.showModalLoading = true;
-                let start = this.postListStart;
+                let isChangeSortType = false;
+                if (lastType !== this.sortType) {
+                    isChangeSortType = true
+                }
+                let start = this.timeStart;
+                if (this.sortType === ArticleListSortType.listSortTypeVest) {
+                    start = this.vestStart;
+                }
                 let isNextPage = true;
                 let lastPost = this.lastPost;
                 let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
@@ -173,59 +213,19 @@
                     //refresh current page
                     pReqType = 3;
                 }
-                api.fetchArticleListByCreateTime(start,null,30,lastPost,postList => {
-                    if (postList.length) {
-                        this.postList = postList;
-                        this.lastPost = postList[postList.length-1];
-                        this.postListStart = this.lastPost.getCreated();
-                        if (this.currentPage === 0 && isNextPage) {
-                            this.postListEnd = null;
-                        }else {
-                            this.postListEnd = postList[0].getCreated();
-                        }
-                        let info = {start:this.postListStart,post:this.lastPost};
-                        let curPageLen = this.postPageInfo.length;
-                        if (curPageLen === 0 || (this.currentPage == 1 && pReqType == 3)) {
-                            info.end = this.firstPageEnd;
-                        }
-                        if (pReqType == 1) {
-                            if (this.currentPage + 1 == this.totalPage) {
-                                this.totalPage += 1;
-                                if (curPageLen >= 1) {
-                                    info.end = this.postPageInfo[curPageLen - 1].start;
-                                }
-                                this.postPageInfo.push(info);
-                            }else {
-                                if (curPageLen >= 1 && this.currentPage <= curPageLen) {
-                                    info.end = this.postPageInfo[this.currentPage-1].start;
-                                }
-                                this.updateArticlesPageInfo(this.currentPage,info);
-                            }
-                            this.currentPage += 1;
-                            if (this.createdPageIndex < this.totalPage) {
-                                this.createdPageIndex += 1;
-                            }
-                        }else if (pReqType == 0) {
-                            this.currentPage -= 1;
-                            if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
-                                info.end = this.postPageInfo[this.currentPage-2].start;
-                            }
-                            this.updateArticlesPageInfo(this.currentPage-1,info);
-                        }else if (pReqType == 3) {
-                            this.currentPage = parseInt(p);
-                        }
-                    }
+
+                if (this.sortType === ArticleListSortType.listSortTypeCreTime) {
+                    this.fetchActListByCreateTime(p,start, pReqType, lastPost, isChangeSortType);
+                }else if (this.sortType === ArticleListSortType.listSortTypeVest) {
+                    this.fetchActListByVest(p,start, pReqType, lastPost, isChangeSortType)
+                }else {
                     this.$root.showModalLoading = false;
-                    this.savePageInfo();
-                },(errCode,msg) => {
-                    console.log("Get Post list fail,error code is %s,msg is %s",errCode,msg);
-                    this.$root.showModalLoading = false;
-                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
+                }
+
             },
 
             updateArticlesPageInfo(index,pageInfo) {
-                if(pageInfo && index < this.postPageInfo.length) {
+                if( pageInfo  /*&& index < this.postPageInfo.length*/) {
                     this.postPageInfo.splice(index,1,pageInfo);
                 }
             },
@@ -279,17 +279,25 @@
                 cacheData.currentPage = this.currentPage;
                 cacheData.totalPage = this.totalPage;
                 cacheData.createdPageIndex = this.createdPageIndex;
+                cacheData.sortType = this.sortType;
                 let listLen = this.postPageInfo.length;
                 if ( listLen > 0) {
                     let pageList = [];
                     this.postPageInfo.forEach(function (info) {
                         let obj = {};
-                        obj.start = info.start?info.start.getUtcSeconds():null;
-                        obj.end = info.end?info.end.getUtcSeconds():null;
-                        obj.post = info.post?info.post.toObject():null;
-                        pageList.push(obj);
+                        if (cacheData.sortType === ArticleListSortType.listSortTypeVest && info.start instanceof api.cos_sdk.raw_type.vest){
+                            obj.start = info.start?info.start.getValue():null;
+                            obj.post = info.post?info.post.toObject():null;
+                            pageList.push(obj);
+                        }else if (cacheData.sortType === ArticleListSortType.listSortTypeCreTime && (info.start instanceof api.cos_sdk.raw_type.time_point_sec)){
+                            obj.start = info.start?info.start.getUtcSeconds():null;
+                            obj.post = info.post?info.post.toObject():null;
+                            pageList.push(obj);
+                        }
+
                     });
                     cacheData.pageInfo = pageList;
+
                 }else {
                     cacheData.pageInfo = null;
                     cacheData.lastInfo = null;
@@ -319,6 +327,129 @@
                     return info.getTitle();
                 }
                 return ""
+            },
+
+            switchListSortType(type) {
+                if (type !== this.sortType) {
+                    let originType = this.sortType;
+                    this.sortType = type;
+                    this.lastPost = null;
+                    this.vestStart = null;
+                    this.vestEnd = null;
+                    this.timeStart = null;
+                    this.timeEnd = null;
+                    // this.clearCachePageInfo();
+                    this.savePageInfo();
+                    let p = parseInt(this.$route.query.p || 1);
+                    if (this.currentPage > 1) {
+                        this.onGoFirstPage()
+                    } else if (p > 1) {
+                        this.currentPage = 2;
+                        this.$router.go(1-p);
+                    } else {
+                        this.nthPage(originType);
+                    }
+                }
+            },
+
+            fetchActListByCreateTime(p,start,pReqType,lastPost,isSwitchSortType) {
+                api.fetchArticleListByCreateTime(start,null,pageSize,lastPost,articleList => {
+                    this.handleFetchArticleListSuccessEvent(p,articleList,pReqType,ArticleListSortType.listSortTypeCreTime,isSwitchSortType);
+                },(errCode,msg) => {
+                    console.log("Get post list by create time fail,error code is %s,msg is %s",errCode,msg);
+                    if (this.sortType === ArticleListSortType.listSortTypeCreTime) {
+                        if (isSwitchSortType) {
+                            this.postList = null;
+                        }
+                        this.$root.showModalLoading = false;
+                        this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                    }
+                });
+            },
+
+
+            async fetchActListByVest(p,start,pReqType,lastPost,isSwitchSortType) {
+                let result = await api.fetchPostListByVest(start,null,lastPost,pageSize);
+                if  (result.res) {
+                    this.handleFetchArticleListSuccessEvent(p,result.res,pReqType,ArticleListSortType.listSortTypeVest,isSwitchSortType);
+                } else {
+                    if (this.sortType === ArticleListSortType.listSortTypeVest) {
+                        if (isSwitchSortType) {
+                            this.postList = null;
+                        }
+                        this.$root.showModalLoading = false;
+                        this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                    }
+                    console.log("Get post list by vest fail,error code is %s,msg is %s",result.errCode, result.errMsg);
+                }
+            },
+
+            handleFetchArticleListSuccessEvent(p,postList,pReqType,sortType,isSwitchSortType) {
+                if (sortType === this.sortType) {
+                    let listLen = postList.length;
+                    if (listLen > 0) {
+                        this.postList = postList;
+                        this.lastPost = postList[postList.length-1];
+                        let info = {post:this.lastPost};
+                        if (sortType === ArticleListSortType.listSortTypeVest) {
+                            this.vestStart = this.lastPost.getRewards();
+                            if (this.currentPage === 0 && pReqType === 1) {
+                                this.vestEnd = null;
+                            }else {
+                                this.vestEnd = postList[0].getRewards();
+                            }
+                            info.start =  this.vestStart;
+                        }else if (sortType === ArticleListSortType.listSortTypeCreTime) {
+                            this.timeStart = this.lastPost.getCreated();
+                            if (this.currentPage === 0 && pReqType === 1) {
+                                this.timeEnd = null;
+                            }else {
+                                this.timeEnd = postList[0].getCreated();
+                            }
+                            info.start = this.timeStart;
+                        }
+
+                        let curPageLen = this.postPageInfo.length;
+                        if (curPageLen === 0 || (this.currentPage == 1 && pReqType === 3)) {
+                            info.end = this.firstPageEnd;
+                        }
+                        if (pReqType === 1) {
+                            if (this.currentPage + 1 == this.totalPage) {
+                                this.totalPage += 1;
+                                if (curPageLen >= 1) {
+                                    info.end = this.postPageInfo[curPageLen - 1].start;
+                                }
+                                this.postPageInfo.push(info);
+                            }else {
+                                if (curPageLen >= 1 && this.currentPage <= curPageLen) {
+                                    info.end = this.postPageInfo[this.currentPage-1].start;
+                                }
+                                this.updateArticlesPageInfo(this.currentPage,info);
+                            }
+                            this.currentPage += 1;
+                            if (this.createdPageIndex < this.totalPage) {
+                                this.createdPageIndex += 1;
+                            }
+                        }else if (pReqType === 0) {
+                            this.currentPage -= 1;
+                            if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
+                                info.end = this.postPageInfo[this.currentPage-2].start;
+                            }
+                            this.updateArticlesPageInfo(this.currentPage-1,info);
+                        }else if (pReqType == 3) {
+                            this.currentPage = parseInt(p);
+                            // if (isSwitchSortType) {
+                                this.updateArticlesPageInfo(this.currentPage-1,info);
+                            // }
+                        }
+                        this.savePageInfo();
+                    } else if (isSwitchSortType) {
+                        //clear post list when switch sortType
+                        this.postList = null;
+                    }
+
+                    this.$root.showModalLoading = false;
+                }
             }
         },
         mounted() {
@@ -328,26 +459,48 @@
                 this.currentPage = parseInt(cacheData.currentPage);
                 this.totalPage = parseInt(cacheData.totalPage);
                 this.createdPageIndex = parseInt(cacheData.createdPageIndex);
+                this.sortType = parseInt(cacheData.sortType);
                 if (cacheData.pageInfo != null) {
                     let list = [];
+                    let sortType = this.sortType;
                     cacheData.pageInfo.forEach(function (obj) {
                         let info = {};
                         if (obj.start != null) {
-                            let start = new api.cos_sdk.raw_type.time_point_sec();
-                            start.setUtcSeconds(obj.start);
-                            info.start = start;
+                            if (sortType === ArticleListSortType.listSortTypeCreTime) {
+                                let start = new api.cos_sdk.raw_type.time_point_sec();
+                                start.setUtcSeconds(obj.start);
+                                info.start = start;
+                            } else if (sortType === ArticleListSortType.listSortTypeVest) {
+                                let start = new api.cos_sdk.raw_type.vest();
+                                start.setValue(obj.start);
+                                info.start = start;
+                            }
+
                         }
-                        if (obj.end != null ) {
-                            let end = new api.cos_sdk.raw_type.time_point_sec();
-                            end.setUtcSeconds(obj.end);
-                            info.end = end;
-                        }
+                        // if (obj.end != null ) {
+                        //     if (sortType === ArticleListSortType.listSortTypeCreTime) {
+                        //         let end = new api.cos_sdk.raw_type.time_point_sec();
+                        //         end.setUtcSeconds(obj.end);
+                        //         info.end = end;
+                        //     } else if (sortType === ArticleListSortType.listSortTypeVest) {
+                        //         let end = new api.cos_sdk.raw_type.vest();
+                        //         end.setValue(obj.end);
+                        //         info.end = end;
+                        //     }
+                        //
+                        // }
                         if (obj.post != null) {
                             let lastInfo = new api.cos_sdk.grpc.PostResponse();
-                            let time = new api.cos_sdk.raw_type.time_point_sec();
-                            time.setUtcSeconds(obj.post.created.utcSeconds);
-                            lastInfo.setCreated(time);
                             lastInfo.setPostId(obj.post.postId);
+                            if (sortType === ArticleListSortType.listSortTypeCreTime) {
+                                let time = new api.cos_sdk.raw_type.time_point_sec();
+                                time.setUtcSeconds(obj.post.created.utcSeconds);
+                                lastInfo.setCreated(time);
+                            } else if (sortType === ArticleListSortType.listSortTypeVest) {
+                                let vest = new api.cos_sdk.raw_type.vest();
+                                vest.setValue(obj.post.rewards.value);
+                                lastInfo.setRewards(vest)
+                            }
                             info.post = lastInfo;
                         }
                         list.push(info);
@@ -355,11 +508,16 @@
                     this.postPageInfo = list;
                 }
                 if (this.currentPage == 1) {
-                    this.postListStart = null;
+                    this.timeStart = null;
+                    this.vestStart = null;
                     this.lastPost = null;
                 }else if (this.currentPage >= 2 && this.postPageInfo.length >= this.currentPage){
                     let lastInfo = this.postPageInfo[this.currentPage-2];
-                    this.postListStart = lastInfo.start;
+                    if (this.sortType === ArticleListSortType.listSortTypeCreTime) {
+                        this.timeStart = lastInfo.start;
+                    }else if (this.sortType === ArticleListSortType.listSortTypeVest) {
+                        this.vestStart = lastInfo.start;
+                    }
                     this.lastPost = lastInfo.post;
                 }
             } else {
@@ -375,24 +533,23 @@
                 }
             }
             if (isQueryData) {
-                this.nthPage();
+                this.nthPage(this.sortType);
             }
         },
         watch: {
             $route() {
-                this.nthPage();
+                this.nthPage(this.sortType);
             }
         },
 
         beforeDestroy() {
-            if (this.currentPage > 1) {
-                this.createdPageIndex = this.currentPage;
-                this.savePageInfo();
-            }
+            this.createdPageIndex = this.currentPage;
+            this.totalPage = this.currentPage+1;
+            this.savePageInfo();
         },
 
         destroyed() {
-            if (this.currentPage <= 1) {
+            if (this.currentPage <= 1 && this.sortType !== ArticleListSortType.listSortTypeVest) {
                 this.clearCachePageInfo();
             }
         }

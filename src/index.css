@@ -514,3 +514,19 @@ img:not([src]) {
 .mobile-detail .mobileCell:nth-of-type(even) {
     background: rgba(255, 255, 255, 1);
 }
+
+ .arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #bfbfbf;
+    margin-left: 5px;
+}
+ .arrow-down:active {
+    opacity: .6;
+}
+
+.selected-arrow-down {
+    border-top: 5px solid #1890ff;
+}

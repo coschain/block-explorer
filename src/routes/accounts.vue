@@ -84,23 +84,6 @@
         width: 22%;
     }
 
-    .vue-accounts .arrow-down {
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid #bfbfbf;
-        margin-left: 5px;
-    }
-
-    .vue-accounts .arrow-down:active {
-        opacity: .6;
-    }
-
-    .vue-accounts .selected-arrow-down {
-        border-top: 5px solid #1890ff;
-    }
-
     @media (min-width: 576px) {
         .vue-accounts .tdxxxwddd>* {
             max-width: initial;
@@ -174,6 +157,7 @@
         listSortTypeBalance : 1,//account list sort by balance
         listSortTypeCreTime : 2,//account list sort by create time
     };
+    const pageSize = 30;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -244,7 +228,7 @@
             },
 
             updateAccountsPageInfo(index,info) {
-                if(info && index < this.accountPageInfo.length) {
+                if(info /*&& index < this.accountPageInfo.length*/) {
                     this.accountPageInfo.splice(index,1,info)
                 }
             },
@@ -318,14 +302,15 @@
                         let obj = {};
                         if (cacheData.sortType === listSortType.listSortTypeBalance && (info.start instanceof api.cos_sdk.raw_type.coin)){
                             obj.start = info.start?info.start.getValue():null;
-                            obj.end = info.end?info.end.getValue():null;
+                            // obj.end = info.end?info.end.getValue():null;
                             obj.account = info.account?info.account.toObject():null;
+                            pageList.push(obj);
                         }else if (cacheData.sortType === listSortType.listSortTypeCreTime && (info.start instanceof api.cos_sdk.raw_type.time_point_sec)){
                             obj.start = info.start?info.start.getUtcSeconds():null;
-                            obj.end = info.end?info.end.getUtcSeconds():null;
+                            // obj.end = info.end?info.end.getUtcSeconds():null;
                             obj.account = info.account?info.account.toObject():null;
+                            pageList.push(obj);
                         }
-                        pageList.push(obj);
                     });
                     cacheData.pageInfo = pageList;
                 }else {
@@ -349,7 +334,7 @@
             },
 
             fetchActListByBalance(p,start,pReqType,lastAccount,isSwitchSortType) {
-                api.fetchAccountListByBalance(start,null,30,lastAccount,accountList => {
+                api.fetchAccountListByBalance(start,null,pageSize,lastAccount,accountList => {
                     this.handleFetchListSuccessEvent(p,accountList,pReqType,listSortType.listSortTypeBalance,isSwitchSortType);
                 },(errCode,msg) => {
                     console.log("Get Account list by balance fail,error code is %s,msg is %s",errCode,msg);
@@ -364,7 +349,7 @@
             },
 
             fetchActListByCreTime(p,start,pReqType,lastAccount,isSwitchSortType) {
-                api.fetchAccountListByCreateTime(start,null,lastAccount,30,accountList => {
+                api.fetchAccountListByCreateTime(start,null,lastAccount,pageSize,accountList => {
                     this.handleFetchListSuccessEvent(p,accountList,pReqType,listSortType.listSortTypeCreTime,isSwitchSortType);
                 },(errCode,msg) => {
                     console.log("Get Account list by create time fail,error code is %s,msg is %s",errCode,msg);
@@ -431,9 +416,9 @@
                             this.updateAccountsPageInfo(this.currentPage-1,info);
                         }else if (pReqType === 3) {
                             this.currentPage = parseInt(p);
-                            if (isSwitchSortType) {
+                            // if (isSwitchSortType) {
                                 this.updateAccountsPageInfo(this.currentPage-1,info);
-                            }
+                            // }
                         }
                         this.savePageInfo();
                     }else if (isSwitchSortType){
@@ -454,12 +439,18 @@
                     this.coinEnd = null;
                     this.timeStart = null;
                     this.timeEnd = null;
+                    // this.clearCachePageInfo();
                     this.savePageInfo();
+                    let p = parseInt(this.$route.query.p || 1);
                     if (this.currentPage > 1) {
-                        this.onGoFirstPage()
-                    }else {
+                        this.onGoFirstPage();
+                    } else if (p > 1) {
+                        this.currentPage = 2;
+                        this.$router.go(1-p);
+                    } else {
                         this.nthPage(originType);
                     }
+
                 }
             },
 
@@ -495,17 +486,17 @@
                                 info.start = start;
                             }
                         }
-                        if (obj.end != null ) {
-                            if (sortType === listSortType.listSortTypeBalance) {
-                                let end = new api.cos_sdk.raw_type.coin();
-                                end.setValue(obj.end);
-                                info.end = end;
-                            }else if (sortType === listSortType.listSortTypeCreTime){
-                                let end = new api.cos_sdk.raw_type.time_point_sec();
-                                end.setUtcSeconds(obj.end);
-                                info.end = end;
-                            }
-                        }
+                        // if (obj.end != null ) {
+                        //     if (sortType === listSortType.listSortTypeBalance) {
+                        //         let end = new api.cos_sdk.raw_type.coin();
+                        //         end.setValue(obj.end);
+                        //         info.end = end;
+                        //     }else if (sortType === listSortType.listSortTypeCreTime){
+                        //         let end = new api.cos_sdk.raw_type.time_point_sec();
+                        //         end.setUtcSeconds(obj.end);
+                        //         info.end = end;
+                        //     }
+                        // }
                         if (obj.account != null) {
                             let lastInfo = new api.cos_sdk.grpc.AccountInfo();
                             let name = new api.cos_sdk.raw_type.account_name();
@@ -564,14 +555,9 @@
         },
 
         beforeDestroy() {
-            if (this.currentPage > 1) {
-                this.createdPageIndex = this.currentPage;
-                this.savePageInfo();
-            }else if (this.sortType === listSortType.listSortTypeCreTime) {
-                this.createdPageIndex = this.currentPage;
-                this.totalPage = this.currentPage+1;
-                this.savePageInfo();
-            }
+            this.createdPageIndex = this.currentPage;
+            this.totalPage = this.currentPage+1;
+            this.savePageInfo();
         },
 
         destroyed() {
