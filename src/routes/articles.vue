@@ -99,7 +99,7 @@
                         </th>
                         <th class="articlesListHeadCol">Id</th>
                         <th :class='[sortType === 2?"sortHeadCol headSelectStatus":"sortHeadCol"]' @click="switchListSortType(2)">
-                            <div>Vest</div>
+                            <div>Reward</div>
                             <div :class='[sortType === 2?"arrow-down selected-arrow-down":"arrow-down"]' @click="switchListSortType(2)"></div>
                         </th>
                     </tr>
@@ -111,12 +111,12 @@
                             </router-link>
                         </td>
                         <td class="articlesListContentCol">{{fetchPostTitleFromPostInfo(post)}}</td>
+                        <td class="articlesListContentCol">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
                         <td class="articlesListContentCol">
                             <router-link v-bind:to='fragApi + "/article-detail/" + post.getPostId()'>
                                 <span class="hash-normal monospace">{{ post.getPostId()}}</span>
                             </router-link>
                         </td>
-                        <td class="articlesListContentCol">{{ new Date(post.getCreated().getUtcSeconds()*1000).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }) }}</td>
                         <td class="articlesListContentCol">{{post.getRewards().toString()}}</td>
                     </tr>
                 </table>
