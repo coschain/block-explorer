@@ -95,6 +95,12 @@
         padding: 10px 0;
     }
 
+    .vue-DApp .titleBg {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+    }
+
     @media (max-width: 576px) {
         .vue-DApp .item-title {
             font-size: 16px;
@@ -119,10 +125,13 @@
        <div class="titleHead">
            <div class="container">
                <div class="row align-items-center">
-                   <div class="col-auto bread-title font-40 font-bold font-color-000000">All DApp</div>
-                   <router-link v-bind:to='fragApi + "/testDApp/"'>
-                       <span>(View Test Data)</span>
-                   </router-link>
+                   <div class="titleBg">
+                       <div class="col-auto bread-title font-40 font-bold font-color-000000">All DApp</div>
+                       <router-link  v-bind:to='fragApi + "/testDApp/"'>
+                           <span>Dapp data from last TestNet update</span>
+                       </router-link>
+                   </div>
+
                </div>
            </div>
        </div>

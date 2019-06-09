@@ -108,7 +108,7 @@
 
 <template>
     <div class="vue-TestDApp fullfill" v-bind:triggerComputed=loadLocalDAppData>
-        <vue-header title="All DApps With Test Data"></vue-header>
+        <vue-header title="Dapp data"></vue-header>
         <div class="container vue-TestDApp-container">
             <!--tab-->
             <div class="vue-TestDApp-tabContainer">
