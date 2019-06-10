@@ -83,12 +83,12 @@
         font-size: 11px ;
     }
     .vue-txs .trxListHeadCol {
-        width: 20%;
+        width: calc(100% / 6);
     }
 
     .vue-txs .txContentCol {
         display:inline-block;
-        width: 20%;
+        width: calc(100% / 6);
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
@@ -117,16 +117,16 @@
                         <th class="trxListHeadCol">Time</th>
                         <th class="trxListHeadCol">From</th>
                         <th class="trxListHeadCol">Action</th>
-                        <!--<th class=text-right>Value</th>-->
+                        <th class="trxListHeadCol">Status</th>
                     </tr>
 
                     <tr v-for="(trx, i) in trxList" :key="i">
                         <!--<td>-->
-                            <!--<img v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                            <!--<img v-if="trx.getTrxWrap().getReceipt().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
                         <!--</td>-->
                         <td class="txContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()'>
-                                <span v-bind:class="[trx.getTrxWrap().getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
+                                <span v-bind:class="[trx.getTrxWrap().getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
                             </router-link>
                         </td>
 
@@ -150,6 +150,10 @@
                         </td>
                         <td class="txContentCol">
                          {{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}
+                        </td>
+
+                        <td class="txContentCol" v-if="trx.hasTrxWrap()">
+                            {{getTrxReceiptStatus(trx)}}
                         </td>
                     </tr>
                 </table>
@@ -380,10 +384,15 @@
                     return actionArray.join(",");
                 }
                 return ""
+            },
+
+            getTrxReceiptStatus(trx) {
+                return utility.getTrxStatusByTrxInfo(trx)
             }
         },
         mounted() {
             let cacheData = this.getPageInfo();
+            let isQuery = true;
             if (cacheData != null) {
                 this.currentPage = parseInt(cacheData.currentPage);
                 this.totalPage = parseInt(cacheData.totalPage);
@@ -424,8 +433,21 @@
                     this.listStart = lastInfo.start;
                     this.lastInfo = lastInfo.lastPost;
                 }
+            } else {
+                let p = this.$route.query.p;
+                //now the chain not support page skip request,so in this condition just request from page 1
+                if (p > 1) {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = 1;
+                    this.currentPage = 0;
+                    this.totalPage = 1;
+                    this.$router.replace({ path: this.$route.path, query });
+                    isQuery = false;
+                }
             }
-            this.nthPage();
+            if (isQuery) {
+                this.nthPage();
+            }
         },
 
         watch: {

@@ -6,6 +6,7 @@ const pageCacheType = {
     usrArticleList : 5,//user posted articles list page
     blkTxsList : 6, //txs list in single block
     contractsList : 7, // contract list page
+    bpList: 8 ,// bp list page
 };
 
 const DAppType = {
@@ -53,6 +54,8 @@ module.exports = {
     addComplexCacheKey:addComplexCacheKey,
     removeComplexCacheKey:removeComplexCacheKey,
     clearComplexCaches:clearAllComplexCache,
+    getTrxStatusByTrxInfo:getTrxReceiptStatusByTrxInfo,
+    getTrxStatusByTrxWrap:getTrxReceiptStatusByWrap,
 };
 
 ////////////////////////////////////////////////////////////
@@ -100,6 +103,8 @@ function getPageInfoCacheKey(pType) {
         return "blockTxsPageCache";
     } else if (pType === pageCacheType.contractsList) {
         return "contractsPageCache";
+    } else if (pType === pageCacheType.bpList) {
+        return "bpListPageCache";
     }
     return "cacheKey"
 }
@@ -500,4 +505,26 @@ function updateIrreversibleBlkNum(num) {
 
 function getIrreversibleBlkNum() {
     return irreversibleNum;
+}
+
+
+function getTrxReceiptStatusByTrxInfo(trx) {
+    if (trx != null && typeof trx != "undefined" && trx.hasTrxWrap() && trx.getTrxWrap()) {
+        return getTrxReceiptStatusByWrap(trx.getTrxWrap());
+    }
+    return "Unknown";
+}
+
+function getTrxReceiptStatusByWrap(txWrap) {
+    if (txWrap != null && typeof txWrap != "undefined" && txWrap.hasReceipt()) {
+        let status =txWrap.getReceipt().getStatus();
+        if (status === 200) {
+            return "Success";
+        } else if (status === 201) {
+            return "Fail But Deducted Stamina"
+        } else if ( status === 500) {
+            return "Fail";
+        }
+    }
+    return "Unknown";
 }

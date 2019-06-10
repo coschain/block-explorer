@@ -342,6 +342,7 @@
             },
             getCacheData() {
                 let cacheData = this.getPageInfo();
+                let isQueryData = true;
                 if (cacheData) {
                     this.currentPage = parseInt(cacheData.currentPage);
                     this.totalPage = parseInt(cacheData.totalPage);
@@ -367,8 +368,19 @@
                         this.lastOrder = lastInfo.start;
                     }
                 }else {
-                    this.loadData()
+                    this.loadData();
+                    let p = this.$route.query.p;
+                    //now the chain not support page skip request,so in this condition just request from page 1
+                    if (p > 1) {
+                        let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                        query.p = 1;
+                        this.currentPage = 0;
+                        this.totalPage = 1;
+                        this.$router.replace({ path: this.$route.path, query });
+                        isQueryData = false;
+                    }
                 }
+                return isQueryData;
             },
             getFollowingCreateOrderObjFromCache(data) {
                 if  (data) {
@@ -422,8 +434,10 @@
         },
 
         mounted() {
-            this.getCacheData();
-            this.nthPage();
+            let isQuery = this.getCacheData();
+            if (isQuery) {
+                this.nthPage();
+            }
         },
         watch: {
             $route() {

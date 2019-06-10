@@ -1,17 +1,17 @@
 <style>
-    .vue-DApp {
+    .vue-TestDApp {
         width: 100%;
         background-color: #f2f2f2;
         position: relative;
     }
 
-    .vue-DApp-container {
+    .vue-TestDApp-container {
         background-color: white;
         border-radius: 4px;
         width: 100%;
     }
 
-    .vue-DApp-tabContainer {
+    .vue-TestDApp-tabContainer {
         width: 100%;
         font-size: 16px;
         overflow: scroll;
@@ -23,7 +23,7 @@
         border-bottom: solid 1px #e8e8e8;
     }
 
-    .vue-DApp-tab {
+    .vue-TestDApp-tab {
         color: black;
         display: inline-block;
         height: 100%;
@@ -32,15 +32,15 @@
         box-sizing: border-box;
     }
 
-    .vue-DApp-tab:active {
+    .vue-TestDApp-tab:active {
         color: #1890ff;
     }
 
-    .vue-DApp-tab:hover {
+    .vue-TestDApp-tab:hover {
         color: #1890ff;
     }
 
-    .vue-DApp-tab-select {
+    .vue-TestDApp-tab-select {
         color: #1890ff;
         font-weight: bold;
         border-bottom-color: #1890ff;
@@ -48,7 +48,7 @@
         border-bottom-style: solid;
     }
 
-    .vue-DApp-chart-bg {
+    .vue-TestDApp-chart-bg {
         margin-top: 30px;
         display: -ms-flexbox;
         display: flex;
@@ -60,7 +60,7 @@
         width: 100%;
     }
 
-    .vue-DApp-chart-bg .chartContainer {
+    .vue-TestDApp-chart-bg .chartContainer {
         margin-bottom: 30px;
         width: 100%;
     }
@@ -74,14 +74,14 @@
         background:linear-gradient(135deg,rgba(33,45,128,1) 0%,rgba(24,19,93,1) 100%);
     }
 
-    .vue-DApp .detailChart {
+    .vue-TestDApp .detailChart {
         top: 90px;
         height: 230px;
         width: calc(100% - 30px);
         margin-left: 30px;
     }
 
-    .vue-DApp .item-title {
+    .vue-TestDApp .item-title {
         position: absolute;
         left: 30px;
         top: 25px;
@@ -89,28 +89,16 @@
         font-weight: 600;
     }
 
-    .vue-DApp .titleHead {
-        background-color: #f7f7f7;
-        overflow: auto;
-        padding: 10px 0;
-    }
-
-    .vue-DApp .titleBg {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-end;
-    }
-
     @media (max-width: 576px) {
-        .vue-DApp .item-title {
+        .vue-TestDApp .item-title {
             font-size: 16px;
         }
 
-        .vue-DApp-container {
-           width: calc(100% - 20px);
+        .vue-TestDApp-container {
+            width: calc(100% - 20px);
         }
 
-        .vue-DApp .detailChart {
+        .vue-TestDApp .detailChart {
             width: calc(100% - 10px);
             margin-left: 5px;
         }
@@ -119,43 +107,28 @@
 </style>
 
 <template>
-   <div class="vue-DApp fullfill" v-bind:triggerComputed=loadData>
-       <!--<vue-header title="All DApps">-->
-       <!--</vue-header>-->
-       <div class="titleHead">
-           <div class="container">
-               <div class="row align-items-center">
-                   <div class="titleBg">
-                       <div class="col-auto bread-title font-40 font-bold font-color-000000">All DApp</div>
-                       <router-link  v-bind:to='fragApi + "/testDApp/"'>
-                           <span>Dapp data from last TestNet update</span>
-                       </router-link>
-                   </div>
-
-               </div>
-           </div>
-       </div>
-
-       <div class="container vue-DApp-container">
-           <!--tab-->
-           <div class="vue-DApp-tabContainer">
-               <template v-for="(type) in dAppsArray">
-                   <div :class= '[selectType === type ? "vue-DApp-tab vue-DApp-tab-select" : "vue-DApp-tab" ]' @click="switchDAppType(type)">{{fetchTabTitle(type)}}</div>
-               </template>
-           </div>
-           <!--charts-->
-           <div class="vue-DApp-chart-bg">
-               <template v-for="(type) in chartsArray">
-                   <div class="chartContainer col-12 col-lg-6">
-                       <div class="singleChart">
-                           <div class="item-title" >{{fetchTitleFromType(type)}}</div>
-                           <charts class="detailChart" :options=fetchChartOptions(type) :autoResize='true'></charts>
-                       </div>
-                   </div>
-               </template>
-           </div>
-       </div>
-   </div>
+    <div class="vue-TestDApp fullfill" v-bind:triggerComputed=loadLocalDAppData>
+        <vue-header title="Dapp data"></vue-header>
+        <div class="container vue-TestDApp-container">
+            <!--tab-->
+            <div class="vue-TestDApp-tabContainer">
+                <template v-for="(name) in dAppList">
+                    <div :class= '[selectDApp === name ? "vue-TestDApp-tab vue-TestDApp-tab-select" : "vue-TestDApp-tab" ]' @click="switchDAppType(name)">{{name}}</div>
+                </template>
+            </div>
+            <!--charts-->
+            <div class="vue-TestDApp-chart-bg">
+                <template v-for="(type) in chartsArray">
+                    <div class="chartContainer col-12 col-lg-6">
+                        <div class="singleChart">
+                            <div class="item-title" >{{fetchTitleFromType(type)}}</div>
+                            <charts class="detailChart" :options=fetchChartOptions(type) :autoResize='true'></charts>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -164,26 +137,30 @@
     import {DAppType,formatTxsCnt,numberAddComma} from "../assets/utility";
     import api from "../assets/api";
     import BigNumber from "bignumber.js";
+    import * as dappData from "../dAppData";
     const chartType =  {
         chartTypeDAU : 0, // every day DAU of recent 30 days
-            chartTypeNewAcct: 1, // every day new account of recent 30 days
-            chartTypeTxCnt: 2, // every day tx count of recent 30 day
-            chartTypeTxAmount: 3,// every day tx amount of recent 30 day
-            chartTypeTotalUser: 4, //total user count
+        chartTypeNewAcct: 1, // every day new account of recent 30 days
+        chartTypeTxCnt: 2, // every day tx count of recent 30 day
+        chartTypeTxAmount: 3,// every day tx amount of recent 30 day
+        chartTypeTotalUser: 4, //total user count
     };
 
     const days = 30;
 
     module.exports = {
         data() {
-           return {
-               selectType: DAppType.DAppTypePg,
-               dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
-               chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
-                   chartType.chartTypeTxAmount],
-               statList: [],
-               fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
-           }
+            return {
+                selectDApp: "",
+                chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
+                    chartType.chartTypeTxAmount],
+                dAppList: [],
+                statList: [],
+                fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
+                pgDataList: [],
+                cosList: [],
+                dataMap: null,
+            }
         },
 
         components: {
@@ -192,7 +169,6 @@
         },
 
         methods: {
-
             convertStampToMMDD(date) {
                 if (!date || date === 'undefined') {
                     return '';
@@ -216,13 +192,13 @@
                 return numberAddComma(n);
             },
 
-            switchDAppType(type) {
-                if (this.selectType !== type) {
-                    this.selectType = type;
+            switchDAppType(name) {
+                if (this.selectDApp !== name) {
+                    this.selectDApp = name;
                     if (this.statList && this.statList.length > 0){
                         this.statList.splice(0, this.statList.length);
                     }
-                    this.loadData(type);
+                    this.selectDApp = name;
                 }
             },
 
@@ -257,20 +233,21 @@
             },
 
             fetchTabTitle(type) {
-                if (type === chartType.chartTypeDAU) {
+                if (type === DAppType.DAppTypePg) {
                     return "PhotoGrid";
-                } else if (type === chartType.chartTypeNewAcct) {
+                } else if (type === DAppType.DAppTypeCos) {
                     return "Contentos";
-                } else if (type === chartType.chartTypeTxCnt) {
+                } else if (type === DAppType.DAppType2048) {
                     return "Game2048";
-                } else if (type === chartType.chartTypeTxAmount) {
+                } else if (type === DAppType.DAppTypeWalkcoin) {
                     return "WalkCoin";
                 }
                 return ""
             },
 
             fetchChartOptions(type) {
-                if ((this.chartsArray.indexOf(type) === -1) || this.statList.length < 1) {
+                let list = this.getSelectedDAppData();
+                if (list == null || !(list instanceof Array)) {
                     return {};
                 }
 
@@ -278,22 +255,21 @@
                 let tips = "DAU:";
                 let dateArray = [];
                 let dataArray = [];
-                for (let stat of this.statList) {
-                    let date = this.convertStampToMMDD(stat.getDate()*1000);
-                    console.log("date stamp is %d, date is %s", stat.getDate(), date);
+                for (let stat of list) {
+                    let date = this.convertStampToMMDD(BigNumber(stat.date).multipliedBy(1000).toNumber());
                     dateArray.push(date);
-                    let data = stat.getDau();
+                    let data = stat.dau;
                     if (type === chartType.chartTypeNewAcct) {
-                        data = stat.getDnu();
+                        data = stat.dnu;
                         tips = "DNU:";
                     } else if (type === chartType.chartTypeTxCnt) {
-                        data = stat.getTrxs();
+                        data = stat.trxs;
                         tips = "Transactions:";
                     } else if (type === chartType.chartTypeTxAmount) {
-                        data = BigNumber(stat.getAmount()).div(1000000).toFixed(1);
+                        data = BigNumber(stat.amount).div(1000000).toFixed(1);
                         tips = "Transaction Amount:"
                     } else if (type === chartType.chartTypeTotalUser) {
-                        data = stat.getTotalUserCount();
+                        data = stat.tusr;
                         tips = "Total User Count:"
                     }
 
@@ -384,35 +360,54 @@
                 };
             },
 
-            async loadData(type) {
-                if (type == null || typeof type == "undefined") {
-                    type = DAppType.DAppTypePg;
+            loadLocalDAppData() {
+                let nameList = Object.getOwnPropertyNames(dappData);
+                let index = nameList.indexOf("default");
+                if (index > -1) {
+                    nameList.splice(index, 1);
                 }
-                this.$root.showModalLoading = true;
-                let dApp = this.getDAppNameByType(type);
-                if (dApp.length < 1) {
-                    this.$root.showModalLoading = false;
-                    return;
-                }
-                let result = await api.fetchDailyStats(dApp, days);
-                if (result.res) {
-                    let list = result.res;
-                    if (list.length) {
-                        this.statList = list;
-                    }else {
-                        console.log("Get empty list of  ", dApp);
+                if (nameList.length > 0) {
+                    this.dAppList = nameList;
+                    this.selectDApp = nameList[0];
+                    for (let i = 0; i < nameList.length; i++)  {
+                        let name = nameList[i];
+                        let list = this.getSingleDAppDataFromLocal(name);
+                        if (list &&  list instanceof Array) {
+                            if (!this.dataMap)  {
+                                this.dataMap = {}
+                            }
+                            this.dataMap[name] = list;
+                        }
                     }
-                } else {
-                    console.log("error code is:", result.errCode);
-                    console.log("error msg is:", result.errMsg);
                 }
-                this.$root.showModalLoading = false;
+
             },
+
+            getSingleDAppDataFromLocal(dApp) {
+                if (dappData.hasOwnProperty(dApp)) {
+                    return dappData[dApp];
+                }
+                return null
+            },
+
+            getSelectedDAppData() {
+                if (this.dataMap) {
+                    if (this.dataMap.hasOwnProperty(this.selectDApp)) {
+                        let list = this.dataMap[this.selectDApp];
+                        if (list && (list instanceof Array) && list.length > 30) {
+                            return list.slice(list.length-30);
+                        }
+                        return list;
+                    }
+                }
+                return null
+            }
+
 
         },
 
         mounted() {
-            this.loadData();
+            this.loadLocalDAppData();
         },
 
         computed: {

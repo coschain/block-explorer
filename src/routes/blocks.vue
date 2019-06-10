@@ -376,8 +376,11 @@
             }
         },
         async mounted() {
-            this.irreversibleBlkNum = this.$route.params.irreversibleBlkNum;
+            if (this.currentPage <= 1) {
+                this.irreversibleBlkNum = this.$route.params.irreversibleBlkNum;
+            }
             let cacheData = this.getPageInfo();
+            let isQueryData = true;
             if (cacheData != null) {
                 this.currentPage =  parseInt(cacheData.currentPage);
                 this.totalPage = parseInt(cacheData.totalPage);
@@ -401,8 +404,21 @@
                     this.blkEnd = lastInfo.end;
                 }
 
+            } else {
+                let p = this.$route.query.p;
+                //now the chain not support page skip request,so in this condition just request from page 1
+                if (p > 1) {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = 1;
+                    this.currentPage = 0;
+                    this.totalPage = 1;
+                    this.$router.replace({ path: this.$route.path, query });
+                    isQueryData = false;
+                }
             }
-            await this.nthPage();
+            if (isQueryData) {
+                await this.nthPage();
+            }
         },
         watch: {
             async $route() {

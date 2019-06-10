@@ -49,6 +49,10 @@
         max-width: calc((100% - 1140px) * 0.5 - 25px);
     }
 
+    .vue-tx .operation-json-bg {
+        background: rgba(247, 247, 247, 1);
+    }
+
     @media (max-width: 767.98px) {
 
         .vue-tx .atpAddress {
@@ -90,18 +94,26 @@
                     </tr>
                     <tr v-if="trx.hasTrxWrap()" class="font-16">
                         <td class="font-color-555555" style="padding-left: 24px;">TxReceipt Status:</td>
-                        <td class="d-flex align-items-center" v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" style="height: inherit">
+                        <td class="d-flex align-items-center" v-if="getTrxApplyResult() === 500" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
-                            <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
+                            <span class="font-color-F04434" style="margin-left: 10px;">Fail</span>
                         </td>
-                        <td class="d-flex align-items-center" v-else-if="trx.getTrxWrap().getInvoice().getStatus() === 200" style="height: inherit">
+                        <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() === 200" style="height: inherit">
                             <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
                             <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
                         </td>
-                        <td class="d-flex align-items-center" v-else style="height: inherit">
-                            <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
-                            <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
+                        <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
+                            <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
+                            <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina</span>
                         </td>
+                        <td class="d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
+                            <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
+                            <span class="font-color-F8BB08" style="margin-left: 10px;">Unknown</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-16 font-color-555555" style="padding-left: 24px;">Stamina:</td>
+                        <td v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{getTrxResourceConsumption(trx)}}</td>
                     </tr>
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Block Height:</td>
@@ -133,7 +145,7 @@
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Operations:</td>
                         <td>
-                            <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                            <pre v-highlightjs><code class="json operation-json-bg">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
                         </td>
                     </tr>
 
@@ -141,28 +153,38 @@
             </div>
 
             <div v-if="trx" class="mobile-detail d-md-none">
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">TxHash:</div>
                     <div class="detail monospace">{{ trx.getTrxId().getHexHash() }}</div>
                 </div>
-                <div>
+                <div class="mobileCell">
                     <div class="font-color-555555">TxReceipt Status:</div>
                     <div v-if="trx.hasTrxWrap()">
-                        <td class="detail d-flex align-items-center" v-if="trx.getTrxWrap().getInvoice().getStatus() === 500" style="height: inherit">
+                        <div class="detail d-flex align-items-center" v-if="getTrxApplyResult() === 500" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_failed.png?v=20190110" />
-                                <span class="font-color-F04434" style="margin-left: 10px;">Fail ( {{ errMsg }} )</span>
-                            </td>
-                            <td class="detail d-flex align-items-center" v-else-if="trx.getTrxWrap().getInvoice().getStatus() === 200" style="height: inherit">
+                                <span class="font-color-F04434" style="margin-left: 10px;">Fail</span>
+                            </div>
+                            <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() === 200" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_success.png" />
                                 <span class="font-color-07A656" style="margin-left: 10px;">Success</span>
-                            </td>
-                            <td class="detail d-flex align-items-center" v-else style="height: inherit">
+                            </div>
+
+                            <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() === 201" style="height: inherit">
+                                <img class="icon18" src="../../static/img/ic_tx_receive_pending.png" />
+                                <span class="font-color-F8BB08" style="margin-left: 10px;">Fail But Deducted Stamina</span>
+                            </div>
+
+                            <div class="detail d-flex align-items-center" v-else-if="getTrxApplyResult() !== -1" style="height: inherit">
                                 <img class="icon18" src="../../static/img/ic_tx_status_pending.png" />
-                                <span class="font-color-F8BB08" style="margin-left: 10px;">Pending</span>
-                            </td>
+                                <span class="font-color-F8BB08" style="margin-left: 10px;">Unknown</span>
+                            </div>
                     </div>
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
+                    <div class="font-color-555555">Stamina:</div>
+                    <div v-if="trx.hasTrxWrap()" class="font-16 font-color-000000">{{getTrxResourceConsumption(trx)}}</div>
+                </div>
+                <div class="mobileCell">
                     <div class="font-color-555555">Block Height:</div>
                     <div class="detail">
                         <template >
@@ -172,13 +194,13 @@
                         </template>
                     </div>
                 </div>
-                <div>
+                <div class="mobileCell">
                     <div class="font-color-555555">TimeStamp:</div>
                     <div v-if="trx.hasBlockTime()" class="detail">{{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago ({{ new Date(trx.getBlockTime().getUtcSeconds()*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ trx.getBlockTime().getUtcSeconds()*1000 }})</div>
                     <div v-else-if="!trx.hasBlockTime()" class="detail"></div>
 
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">From:</div>
                     <div class="detail">
                         <router-link  v-bind:to='fragApi +"/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
@@ -186,10 +208,10 @@
                         </router-link>
                     </div>
                 </div>
-                <div>
-                    Operations:
+                <div class="mobileCell">
+                    <div class="font-color-555555">Operations:</div>
                     <div class="detail">
-                        <pre v-highlightjs><code class="json">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                        <pre v-highlightjs><code class="json operation-json-bg">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
                     </div>
                 </div>
             </div>
@@ -273,13 +295,6 @@
                 var decimals = BigNumber('1e+' + this.tx.decimal);
                 return amount.div(decimals).toFormat();
             },
-            errMsg() {
-                if (trx != null  && this.trx.getTrxWrap().getInvoice().getErrorInfo()) {
-                    return this.trx.getTrxWrap().getInvoice().getErrorInfo().getValue();
-                } else {
-                    return 'Apply Transaction Failed';
-                }
-            }
         },
         data() {
             return {
@@ -308,6 +323,27 @@
             toWei(n) {
                 return utility.toWei(n);
             },
+
+            getTrxApplyResult() {
+                if (this.trx != null  && typeof this.trx != "undefined" && this.trx.hasTrxWrap &&
+                    this.trx.getTrxWrap().hasReceipt()) {
+                    return this.trx.getTrxWrap().getReceipt().getStatus();
+                } else {
+                    return -1;
+                }
+            },
+
+            getTrxResourceConsumption(trx) {
+                //Display format：100 (20 cpu/ 80 net )
+                if (trx != null && typeof trx != "undefined" && trx.hasTrxWrap() && trx.getTrxWrap().hasReceipt()) {
+                    let netCon = trx.getTrxWrap().getReceipt().getNetUsage();
+                    let cpuCon = trx.getTrxWrap().getReceipt().getCpuUsage();
+                    let total = netCon + cpuCon;
+                    return "" + total + " (" + cpuCon + "CPU / " + netCon + "Net" + ")"
+                }
+                return "0"
+            }
+
         },
 
         filters: {

@@ -1,83 +1,98 @@
 <style>
-    .vue-contracts {
+    .vue-bp {
         background-color: white;
     }
 
-    .vue-contracts .contractListHeader {
-        display:flex;
+    .vue-bp .bpListHeader {
+        display: flex;
         flex-direction: row;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         vertical-align: center;
         align-items: center;
         height: 46px;
         background-color: #e8e8e8;
-        font-size: 11px ;
-    }
-    .vue-contracts .contractListHeaderCol {
-        width: 20%;
     }
 
-    .vue-contracts .contractContentCol {
+    .vue-bp .bpListHeaderCol {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 11px;
+    }
+
+    .vue-bp .bpListHeaderDetailCol {
+        width: 28%;
+
+    }
+
+    .vue-bp .voteCountHeaderCol {
+        width: 16%;
+    }
+    .vue-bp .witnessContentCol {
         display:inline-block;
-        width: 20%;
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         margin-top: 17px;
     }
-    
+
+    .vue-bp .detailContentCol {
+        width: 28%;
+    }
+
+    .vue-bp .voteCountContentCol {
+        width: 16%;
+    }
+
+    @media (max-width: 768px) {
+        .vue-bp .bpListHeaderCol {
+            font-size: 8px;
+        }
+    }
+
 </style>
 <template>
-    <div class="vue-contracts fullfill">
-        <vue-bread title="Contracts"></vue-bread>
-        <div v-if="contractList && contractList.length" class="container mt20">
-        <div class="explorer-table-container">
-            <table class="mt20 explorer-table">
-                <tr class="contractListHeader  font-bold font-color-000000">
-                    <th class="contractListHeaderCol">Owner</th>
-                    <th class="contractListHeaderCol">Name</th>
-                    <th class="contractListHeaderCol">Time</th>
-                    <th class="contractListHeaderCol">Balance</th>
-                    <th class="contractListHeaderCol">Apply Count</th>
-                </tr>
+    <div class="vue-bp fullfill">
+        <vue-bread title="Block Producers"></vue-bread>
+        <div v-if="bpList && bpList.length" class="container mt20">
+            <div class="explorer-table-container">
+                <table class="mt20 explorer-table">
+                    <tr class="bpListHeader  font-bold font-color-000000">
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Account</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
+                        <th class="bpListHeaderCol voteCountHeaderCol">Voted times</th>
+                    </tr>
 
-                <tr v-for="(contract, i) in contractList" :key="i">
-                    <td class="contractContentCol">
-                        <router-link v-if="contract.hasOwner()" v-bind:to='fragApi + "/account/" + contract.getOwner().getValue()'>
-                            <span>{{ contract.getOwner().getValue()}}</span>
-                        </router-link>
-                    </td>
+                    <tr v-for="(witness, i) in bpList" :key="i" >
+                        <td class="witnessContentCol detailContentCol">
+                            <router-link v-if="witness.hasOwner()" v-bind:to='fragApi + "/account/" + witness.getOwner().getValue()'>
+                                <span>{{ witness.getOwner().getValue()}}</span>
+                            </router-link>
+                        </td>
 
-                    <td class="contractContentCol">
-                        <router-link v-if="contract.hasName()" class="font-14" v-bind:to='fragApi + "/contract-detail/"
-                        + contract.getName().getValue() + "/" + contract.getOwner().getValue()'>
-                            <span>{{contract.getName().getValue()}}</span>
-                        </router-link>
-                    </td>
-                    <td class="contractContentCol">
-                        {{ timeConversion(Date.now()-contract.getCreateTime().getUtcSeconds()*1000) }} ago
-                    </td>
+                        <td class="witnessContentCol detailContentCol" v-if="witness.hasCreatedTime()">
+                            {{ timeConversion(Date.now()-witness.getCreatedTime().getUtcSeconds()*1000) }} ago
+                        </td>
 
-                    <td class="contractContentCol">{{ contract.getBalance().toString()}}</td>
-                    <td class="contractContentCol">{{ contract.getApplyCount()}}</td>
+                        <td class="witnessContentCol detailContentCol">{{ witness.getVoteCount().toString()}}</td>
 
-                </tr>
-            </table>
+                        <td class="witnessContentCol voteCountContentCol">{{ getVoterCountOfWitness(witness)}}</td>
+
+                    </tr>
+                </table>
+            </div>
+
+            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
+                            v-on:prev=onPrev v-on:firstPage=onGoFirstPagePage></vue-pagination>
         </div>
-
-        <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
-                        v-on:prev=onPrev v-on:firstPage=onGoFirstPagePage></vue-pagination>
-    </div>
-        <vue-nothing v-if="contractList && contractList.length === 0" title="0 contracts found"></vue-nothing>
+        <vue-nothing v-if="bpList && bpList.length === 0" title="0 block producer found"></vue-nothing>
     </div>
 </template>
 <script>
     let api = require("@/assets/api"),
         utility = require("@/assets/utility");
-    const contractsCacheKey = utility.getPageCacheKey(utility.pageCacheType.contractsList);
+    const bpsCacheKey = utility.getPageCacheKey(utility.pageCacheType.bpList);
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -87,19 +102,17 @@
         },
         data() {
             return {
-                arr: null,
                 currentPage: 0,
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
-                maxDisplayCnt: 0,
                 totalPage: 1,
                 listStart:null,
                 listEnd:null,
-                lastContract:null,
-                contractList: null,
+                lastWitness:null,
+                bpList: null,
                 pageInfo:[],
                 account: null,
-                firstPageStartTime: null,
-                firstPageEndTime: null,
+                firstPageStartCount: null,
+                firstPageEndCount: null,
                 createdPageIndex:0,
             };
         },
@@ -122,18 +135,18 @@
                 let p = this.$route.query.p || 1;
                 let start = this.listStart;
                 let isNext = true;
-                let lastContract = this.lastContract;
+                let lastWitness = this.lastWitness;
                 let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
                 if (p < this.currentPage) {
                     if (this.currentPage === 2 ) {
-                        start = this.firstPageStart;
-                        lastContract= null;
+                        start = this.firstPageStartCount;
+                        lastWitness= null;
                     }else {
                         let infoLen = this.pageInfo.length;
                         if (infoLen >= 3 && infoLen >= this.currentPage ) {
                             let info = this.pageInfo[this.currentPage-3];
                             start = info.start;
-                            lastContract = info.lastContract;
+                            lastWitness = info.lastWitness;
                         }
                     }
                     pReqType = 0;
@@ -143,20 +156,20 @@
                     pReqType = 3;
                 }
 
-                let result = await api.fetchContractListByTime(start, null, 30, lastContract);
+                let result = await api.fetchWitnessListByVoteCount(start, null, 30, lastWitness);
                 if  (result.res) {
-                    let contractList = result.res;
-                    if (contractList.length > 0) {
-                        this.contractList = contractList;
-                        this.lastContract = contractList[contractList.length-1];
-                        this.listStart = this.lastContract.getCreateTime();
+                    let bpList = result.res;
+                    if (bpList.length > 0) {
+                        this.bpList = bpList;
+                        this.lastWitness = bpList[bpList.length-1];
+                        this.listStart = this.lastWitness.getVoteCount();
                         if (this.currentPage === 0 && isNext) {
                             this.listEnd = null;
                         }else {
-                            this.listEnd = contractList[0].getCreateTime();
+                            this.listEnd = bpList[0].getVoteCount();
                         }
                         let curPageLen = this.pageInfo.length;
-                        let info = {start:this.listStart,lastContract:this.lastContract};
+                        let info = {start:this.listStart,lastWitness:this.lastWitness};
                         if (curPageLen === 0 || (this.currentPage === 1 && pReqType === 3)) {
                             info.end = this.firstPageEnd;
                         }
@@ -172,7 +185,7 @@
                                 if (curPageLen >= 1 && this.currentPage <= curPageLen) {
                                     info.end = this.pageInfo[this.currentPage-1].start;
                                 }
-                                this.updateContractsListPage(this.currentPage,info);
+                                this.updateBpListPage(this.currentPage,info);
                             }
                             this.currentPage += 1;
                             if (this.createdPageIndex < this.totalPage) {
@@ -183,7 +196,7 @@
                             if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
                                 info.end = this.pageInfo[this.currentPage-2].start;
                             }
-                            this.updateContractsListPage(this.currentPage-1,info);
+                            this.updateBpListPage(this.currentPage-1,info);
                         }else if (pReqType === 3) {
                             this.currentPage = parseInt(p);
                         }
@@ -191,13 +204,13 @@
                     this.savePageInfo();
                     this.$root.showModalLoading = false;
                 }else {
-                    console.log("Get contracts list fail,error code is %s,msg is %s",result.errCode, result.errMsg);
+                    console.log("Get bp list fail,error code is %s,msg is %s",result.errCode, result.errMsg);
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 }
             },
 
-            updateContractsListPage(index,info) {
+            updateBpListPage(index,info) {
                 if (info && index >= 0 && index < this.pageInfo.length) {
                     this.pageInfo.splice(index,1,info);
                 }
@@ -243,37 +256,37 @@
                     let pageList = [];
                     this.pageInfo.forEach(function (info) {
                         let obj = {};
-                        obj.start = info.start?info.start.getUtcSeconds():null;
-                        obj.end = info.end?info.end.getUtcSeconds():null;
-                        if (info.lastContract) {
-                            let lastContract = {creTime:info.lastContract.getCreateTime().getUtcSeconds()};
-                            lastContract.cOwner = info.lastContract.getOwner().getValue();
-                            lastContract.cName = info.lastContract.getName().getValue();
-                            obj.lastContract = lastContract;
+                        obj.start = info.start?info.start.getValue():null;
+                        obj.end = info.end?info.end.getValue():null;
+                        if (info.lastWitness) {
+                            let lastWitness = {};
+                            lastWitness.produder = info.lastWitness.getOwner().getValue();
+                            lastWitness.voteCnt = info.lastWitness.getVoteCount().getValue();
+                            obj.lastWitness = lastWitness;
                         }else {
-                            obj.lastContract = null;
+                            obj.lastWitness = null;
                         }
                         pageList.push(obj);
                     });
                     cacheData.pageInfo = pageList;
                 }else {
                     cacheData.pageInfo = null;
-                    cacheData.lastContract = null;
+                    cacheData.lastWitness = null;
                 }
-                sessionStorage.setItem(contractsCacheKey,JSON.stringify(cacheData));
+                sessionStorage.setItem(bpsCacheKey,JSON.stringify(cacheData));
             },
 
             getPageInfo() {
-                let info = sessionStorage.getItem(contractsCacheKey);
+                let info = sessionStorage.getItem(bpsCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                utility.removeComplexCacheKey(contractsCacheKey);
-                if (sessionStorage.getItem(contractsCacheKey) != null) {
-                    sessionStorage.removeItem(contractsCacheKey);
+                utility.removeComplexCacheKey(bpsCacheKey);
+                if (sessionStorage.getItem(bpsCacheKey) != null) {
+                    sessionStorage.removeItem(bpsCacheKey);
                 }
             },
             convertOpActionsToStr(actionArray) {
@@ -283,16 +296,9 @@
                 return ""
             },
             loadData() {
-                let name = this.$route.params.account;
-                let accountName = new api.cos_sdk.raw_type.account_name();
-                accountName.setValue(name);
-                this.account = accountName;
-                let startTime = new api.cos_sdk.raw_type.time_point_sec();
-                startTime.setUtcSeconds(Math.ceil(Date.now()/1000)+2*86400);
-                this.firstPageStartTime = startTime;
-                let endTime = new api.cos_sdk.raw_type.time_point_sec();
-                endTime.setUtcSeconds(1);
-                this.firstPageEndTime = endTime;
+                this.firstPageStartCount = null;
+                this.firstPageEndCount = null;
+                this.listStart = this.firstPageStartCount;
             },
             getContractsCacheData() {
                 let cacheData = this.getPageInfo();
@@ -306,30 +312,24 @@
                         cacheData.pageInfo.forEach(function (obj) {
                             let info = {};
                             if (obj.start != null) {
-                                let start = new api.cos_sdk.raw_type.time_point_sec();
-                                start.setUtcSeconds(obj.start);
-                                info.start = start;
+                                let startVest = new api.cos_sdk.raw_type.vest();
+                                startVest.setValue(obj.start);
+                                info.start = startVest;
                             }
                             if (obj.end != null ) {
-                                let end = new api.cos_sdk.raw_type.time_point_sec();
-                                end.setUtcSeconds(obj.end);
-                                info.end = end;
+                                let endVest = new api.cos_sdk.raw_type.vest();
+                                endVest.setValue(obj.end);
+                                info.end = endVest;
                             }
-                            if (obj.lastContract != null) {
-                                let lastContract = new api.cos_sdk.grpc.ContractInfo();
-                                let time = new api.cos_sdk.raw_type.time_point_sec();
-                                time.setUtcSeconds(obj.lastContract.creTime);
-                                lastContract.setCreateTime(time);
-
+                            if (obj.lastWitness != null) {
+                                let lastWitness = new api.cos_sdk.grpc.WitnessResponse();
                                 let owner = new api.cos_sdk.raw_type.account_name();
-                                owner.setValue(obj.lastContract.cOwner);
-                                lastContract.setOwner(owner);
-
-                                let cName = new api.cos_sdk.raw_type.account_name();
-                                cName.setValue(obj.lastContract.cName);
-                                lastContract.setName(cName);
-
-                                info.lastContract = lastContract;
+                                owner.setValue(obj.lastWitness.produder);
+                                lastWitness.setOwner(owner);
+                                let voteCount = new  api.cos_sdk.raw_type.vest();
+                                voteCount.setValue(obj.lastWitness.voteCnt);
+                                lastWitness.setVoteCount(voteCount);
+                                info.lastWitness = lastWitness;
                             }
                             list.push(info);
                         });
@@ -338,11 +338,11 @@
                     this.loadData();
                     if (this.currentPage === 1) {
                         this.postListStart = null;
-                        this.lastContract = null;
+                        this.lastWitness = null;
                     }else if (this.currentPage >= 2 && this.pageInfo.length >= this.currentPage){
-                        let lastContract = this.pageInfo [this.currentPage-2];
-                        this.listStart = lastContract.start;
-                        this.lastContract = lastContract.lastContract;
+                        let lastWitness = this.pageInfo [this.currentPage-2];
+                        this.listStart = lastWitness.start;
+                        this.lastWitness = lastWitness.lastWitness;
                     }
                 }else {
                     this.loadData();
@@ -358,6 +358,13 @@
                     }
                 }
                 return isQueryData;
+            },
+
+            getVoterCountOfWitness(witness) {
+                if (witness != null && (typeof witness != "undefined") && witness.getVoterListList) {
+                    return witness.getVoterListList().length;
+                }
+                return 0;
             }
         },
         mounted() {
@@ -380,7 +387,7 @@
         },
         destroyed() {
             if (this.currentPage <= 1) {
-                this.clearCachePageInfo();
+               this.clearCachePageInfo();
             }
         }
     };

@@ -297,31 +297,46 @@
                         </router-link>
                     </td>
                 </tr>
+
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Max Stamina:</td>
+                    <td class="font-16 font-color-000000">{{accountInfo.toObject().staminaMax}}</td>
+                </tr>
+
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Free Stamina:</td>
+                    <td class="font-16 font-color-000000">{{accountInfo.toObject().staminaFreeRemain}}</td>
+                </tr>
+
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Pledge Stamina:</td>
+                    <td class="font-16 font-color-000000">{{accountInfo.toObject().staminaStakeRemain}}</td>
+                </tr>
             </table>
 
             <div class="mobile-detail d-md-none">
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">COS Balance:</div>
                     <div class="detail">{{ accountInfo.getCoin().toString() }} </div>
                 </div>
-                <div>
+                <div class="mobileCell">
                     <div class="font-color-555555">AccountName:</div>
                     <div class="detail">{{  accountInfo.toObject().accountName.value }}</div>
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">CreatedTime:</div>
                     <!--<div class="detail">{{ accountInfo.createdTime.utcSeconds }}</div>-->
                     <div class="font-16 font-color-000000">{{ timeConversion(Date.now() - createTime) }} ago ({{ new Date(createTime).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ createTime }})</div>
                 </div>
-                <div >
+                <div class="mobileCell">
                     <div class="font-color-555555">PublicKey:</div>
                     <div class="font-16 font-color-000000">{{accountInfo.hasPublicKey()?accountInfo.getPublicKey().toWIF():""}}</div>
                 </div>
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">Vest:</div>
                     <div class="font-16 font-color-000000">{{accountInfo.hasVest()?accountInfo.getVest().toString():""}}</div>
                 </div>
-                <div >
+                <div class="mobileCell">
                     <div class="font-color-555555">Posted:
                     </div>
                     <div class="font-16 font-color-000000">
@@ -331,7 +346,7 @@
                     </div>
                 </div>
 
-                <div class="mobileDarkCell">
+                <div class="mobileCell">
                     <div class="font-color-555555">Follower Count:
                     </div>
                     <div class="font-16 font-color-000000">
@@ -341,7 +356,7 @@
                     </div>
                 </div>
 
-                <div >
+                <div class="mobileCell">
                     <div class="font-color-555555">Following Count:
                     </div>
                     <div class="font-16 font-color-000000">
@@ -351,13 +366,28 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="mobileCell">
                     <div class="font-color-555555">Account transaction count:</div>
                     <div class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id + "/" + Date.now()'>
                         <span>{{accountInfo.toObject().trxCount}}</span>
                         </router-link>
                     </div>
+                </div>
+
+                <div class="mobileCell">
+                    <div class="font-color-555555">Max Stamina:</div>
+                    <div class="font-16 font-color-000000">{{accountInfo.toObject().staminaMax}}</div>
+                </div>
+
+                <div class="mobileCell">
+                    <div class="font-color-555555">Free Stamina:</div>
+                    <div class="font-16 font-color-000000">{{accountInfo.toObject().staminaFreeRemain}}</div>
+                </div>
+
+                <div>
+                    <div class="font-color-555555">Pledge Stamina:</div>
+                    <div class="font-16 font-color-000000">{{accountInfo.toObject().staminaStakeRemain}}</div>
                 </div>
             </div>
         </div>
