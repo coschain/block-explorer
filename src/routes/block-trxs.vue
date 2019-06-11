@@ -84,12 +84,12 @@
     }
 
     .vue-block-trxs .blkTxsListHeadCol {
-        width: 20%;
+        width: calc(100% / 6);
     }
 
     .vue-block-trxs .blkTxsListContentCol {
         display:inline-block;
-        width: 20%;
+        width: calc(100% / 6);
         height: 50px;
         vertical-align: center;
         overflow: hidden;
@@ -118,15 +118,16 @@
                         <th class="blkTxsListHeadCol">Time</th>
                         <th class="blkTxsListHeadCol">From</th>
                         <th class="blkTxsListHeadCol">Action</th>
+                        <th class="blkTxsListHeadCol">Status</th>
                     </tr>
 
                     <tr v-for="(trx, i) in curPageList" :key="i">
                         <!--<td>-->
-                            <!--<img v-if="trx.getInvoice().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
+                            <!--<img v-if="trx.getReceipt().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
                         <!--</td>-->
                         <td class="blkTxsListContentCol">
                             <router-link v-bind:to='fragApi + "/tx/" + trx.getSigTrx().id().getHexHash()'>
-                                <span v-bind:class="[trx.getInvoice().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getSigTrx().id().getHexHash() }}</span>
+                                <span v-bind:class="[trx.getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getSigTrx().id().getHexHash() }}</span>
                             </router-link>
                         </td>
 
@@ -149,7 +150,11 @@
                             </router-link>
                         </td>
                         <td class="blkTxsListContentCol">
-                            <div>{{convertOpActionsToStr(trx.getSigTrx().getTrx().getAllActions())}}</div>
+                            {{convertOpActionsToStr(trx.getSigTrx().getTrx().getAllActions())}}
+                        </td>
+
+                        <td class="blkTxsListContentCol">
+                            {{getTrxStatus(trx)}}
                         </td>
                     </tr>
                 </table>
@@ -165,7 +170,7 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    const blockTxsCacheKey = utility.getPageCacheKey(utility.pageCacheType.blkTxsList);
+    // const blockTxsCacheKey = utility.getPageCacheKey(utility.pageCacheType.blkTxsList);
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -185,6 +190,7 @@
                 curPageList: null,//trx in current page
                 blkTime:0,
                 loadedPageIndex: 0,
+                blockTxsCacheKey: this.getBlockTxsCacheKey(),
             };
         },
         methods: {
@@ -308,18 +314,18 @@
                 cacheData.currentPage = this.currentPage;
                 cacheData.totalPage = this.totalPage;
                 cacheData.loadedPage = this.loadedPageIndex;
-                sessionStorage.setItem(blockTxsCacheKey,JSON.stringify(cacheData));
+                sessionStorage.setItem(this.blockTxsCacheKey,JSON.stringify(cacheData));
             },
             getPageInfo() {
-                let info = sessionStorage.getItem(blockTxsCacheKey);
+                let info = sessionStorage.getItem(this.blockTxsCacheKey);
                 if (info != null) {
                     return JSON.parse(info);
                 }
                 return null;
             },
             clearCachePageInfo() {
-                if (sessionStorage.getItem(blockTxsCacheKey) != null) {
-                    sessionStorage.removeItem(blockTxsCacheKey);
+                if (sessionStorage.getItem(this.blockTxsCacheKey) != null) {
+                    sessionStorage.removeItem(this.blockTxsCacheKey);
                 }
             },
             convertOpActionsToStr(actionArray) {
@@ -327,17 +333,53 @@
                     return actionArray.join(",");
                 }
                 return ""
+            },
+
+            getTrxStatus(trx) {
+                return utility.getTrxStatusByTrxWrap(trx);
+            },
+
+            getBlockTxsCacheKey() {
+                let t = this.$route.query.t;
+                if (t == null || typeof t == "undefined") {
+                    this.addTimeParam();
+                }
+                return this.$route.params.blockNumber + t;
+            },
+
+            addTimeParam() {
+                let t = this.$route.query.t;
+                if (t == null || typeof t == "undefined") {
+                    t = Date.now();
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.t = t;
+                    this.$router.replace({ path: this.$route.path, query });
+                }
             }
         },
         mounted() {
             let cacheData = this.getPageInfo();
+            let isQuery = true;
             if (cacheData != null) {
                 this.currentPage =  parseInt(cacheData.currentPage);
                 this.totalPage = parseInt(cacheData.totalPage);
                 this.loadedPageIndex = parseInt(cacheData.loadedPage);
+            } else {
+                let p = this.$route.query.p;
+                //now the chain not support page skip request,so in this condition just request from page 1
+                if (p > 1) {
+                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                    query.p = 1;
+                    this.currentPage = 0;
+                    this.totalPage = 1;
+                    this.$router.replace({ path: this.$route.path, query });
+                    isQuery = false;
+                }
             }
             this.blockHeight = this.$route.params.blockNumber;
-            this.nthPage();
+            if (isQuery) {
+                this.nthPage();
+            }
         },
         watch: {
             $route() {

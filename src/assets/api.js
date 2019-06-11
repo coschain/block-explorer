@@ -94,7 +94,7 @@ module.exports = {
         }
         let req = new cos_sdk.grpc.NonParamsRequest();
         let promise = new Promise((resolve, reject) => {
-            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetStatisticsInfo, {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetChainState, {
                 request: req,
                 host: getHost(),
                 onEnd: res => {
@@ -798,7 +798,7 @@ module.exports = {
      * @param end: the end time in request range
      * @param limit: the count of a page
      */
-    async fetchContractListByTime(start,end,limit) {
+    async fetchContractListByTime(start,end,limit,lastContract) {
         let result = {
             res: null,
             errCode: null,
@@ -809,6 +809,7 @@ module.exports = {
             req.setStart(start);
             req.setEnd(end);
             req.setLimit(limit);
+            req.setLastContract(lastContract);
             return new Promise((resolve, reject) => {
                 grpc_web.unary(cos_sdk.grpc_service.ApiService.GetContractListByTime, {
                     request: req,
@@ -842,9 +843,120 @@ module.exports = {
             result.errMsg = e;
             return result;
         }
+    },
+
+    /**
+     * get witness list by vote count in reverse order
+     * @param start: the min voter count in query range
+     * @param end: the max voter count in query range
+     * @param limit: the count of a page
+     * @param lastWitness: the witness info of the last one in last page
+     */
+    async fetchWitnessListByVoteCount(start,end,limit,lastWitness) {
+        let result = {
+            res: null,
+            errCode: null,
+            errMsg: null,
+        };
+        try {
+            let req = new cos_sdk.grpc.GetWitnessListByVoteCountRequest();
+            req.setStart(start);
+            req.setEnd(end);
+            req.setLimit(limit);
+            req.setLastWitness(lastWitness);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetWitnessListByVoteCount, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            let list = message.getWitnessListList();
+                            resolve(list);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                })
+            }).then(res => {
+                result.res = res;
+                result.errMsg = null;
+                result.errCode = null;
+                return result;
+            }).catch(({ errCode, msg }) => {
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+        } catch (e) {
+            result.errMsg = e;
+            return result;
+        }
+    },
+
+    /**
+     *
+     * @param start: the min voter count in query range
+     * @param end: the max voter count in query range
+     * @param lastPost: the post info of the last one in last page
+     * @param limit: the count of a page
+     * @return result: {res,errCode,errMsg}
+     */
+    async fetchPostListByVest(start, end, lastPost, limit) {
+        let result = {
+            res: null,
+            errCode: null,
+            errMsg: null,
+        };
+
+        try {
+            let req = new cos_sdk.grpc.GetPostListByVestRequest();
+            req.setStart(start);
+            req.setEnd(end);
+            req.setLastPost(lastPost);
+            req.setLimit(limit);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetPostListByVest, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            let list = message.getPostListList();
+                            resolve(list);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                })
+            }).then(res => {
+                result.res = res;
+                result.errMsg = null;
+                result.errCode = null;
+                return result;
+            }).catch(({ errCode, msg }) => {
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+        } catch (e) {
+            result.errMsg = e;
+            return result;
+        }
     }
   };
     function ajax1(action, args, done, fail) {
+
         var a = ajaxSplitAction(action);
 
         return ajax(a[0] + " " + sessionStorage.apiPrefix + a[1], args, done, fail);
