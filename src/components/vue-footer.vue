@@ -94,7 +94,7 @@
 
                 <div class="col-xs-12 col-md-4">
                     <div>
-                        <a target=_blank href=https://twitter.com/contentos>
+                        <a target=_blank href=https://twitter.com/contentosio>
                             <div class="icon24 twitter" src="../../static/img/ic_twitter.png"></div>
                         </a>
                         <a target=_blank href=https://github.com/coschain/contentos-go/issues>
