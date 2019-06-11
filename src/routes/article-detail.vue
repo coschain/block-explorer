@@ -462,7 +462,7 @@
                  if (info != null && typeof info != "undefined") {
                      let parentId = BigNumber(info.getParentId());
                      if (parentId.eq(0)) {
-                        let vp = BigNumber(info.getWeightedVp());
+                         let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue();
                         let globalRewards = BigNumber(info.getGlobalRewards().getValue());
                         let globalVp = BigNumber(info.getGlobalWeightedVp());
                         if (globalVp.plus(vp).gt(0)) {
