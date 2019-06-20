@@ -236,7 +236,7 @@
                 if (type === DAppType.DAppTypePg) {
                     return "PhotoGrid";
                 } else if (type === DAppType.DAppTypeCos) {
-                    return "Contentos";
+                    return "COS.TV";
                 } else if (type === DAppType.DAppType2048) {
                     return "Game2048";
                 } else if (type === DAppType.DAppTypeWalkcoin) {

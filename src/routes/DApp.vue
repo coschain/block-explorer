@@ -260,7 +260,7 @@
                 if (type === chartType.chartTypeDAU) {
                     return "PhotoGrid";
                 } else if (type === chartType.chartTypeNewAcct) {
-                    return "Contentos";
+                    return "COS.TV";
                 } else if (type === chartType.chartTypeTxCnt) {
                     return "Game2048";
                 } else if (type === chartType.chartTypeTxAmount) {
