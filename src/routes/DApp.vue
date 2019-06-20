@@ -280,7 +280,6 @@
                 let dataArray = [];
                 for (let stat of this.statList) {
                     let date = this.convertStampToMMDD(stat.getDate()*1000);
-                    console.log("date stamp is %d, date is %s", stat.getDate(), date);
                     dateArray.push(date);
                     let data = stat.getDau();
                     if (type === chartType.chartTypeNewAcct) {
