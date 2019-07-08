@@ -53,7 +53,7 @@
         display: -ms-flexbox;
         display: flex;
         -ms-flex-wrap: wrap;
-        align-items: center;
+        align-items: flex-start;
         justify-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -88,6 +88,17 @@
         font-size: 20px;
         font-weight: 600;
     }
+
+    .vue-TestDApp .dnuDesc {
+        margin-top: 10px;
+        color: #858585;
+        font-size: 14px;
+        width: 100%;
+        word-break: break-word;
+        word-wrap: break-word;
+    }
+
+
 
     @media (max-width: 576px) {
         .vue-TestDApp .item-title {
@@ -124,6 +135,12 @@
                             <div class="item-title" >{{fetchTitleFromType(type)}}</div>
                             <charts class="detailChart" :options=fetchChartOptions(type) :autoResize='true'></charts>
                         </div>
+
+
+                        <template v-if="type === chartsArray[2]">
+                            <div class="dnuDesc">The new user refers to the number of accounts activated today, not fully representing the user's visit today.</div>
+                        </template>
+
                     </div>
                 </template>
             </div>
@@ -413,6 +430,7 @@
         computed: {
 
         }
+
 
     }
 </script>
