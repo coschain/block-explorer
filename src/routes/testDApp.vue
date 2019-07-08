@@ -138,7 +138,7 @@
 
 
                         <template v-if="type === chartsArray[2]">
-                            <div class="dnuDesc">The new user refers to the number of accounts activated today, not fully representing the user's visit today.</div>
+                            <div class="dnuDesc">*The new user refers to the number of accounts activated today, not fully representing the user's visit today.</div>
                         </template>
 
                     </div>
