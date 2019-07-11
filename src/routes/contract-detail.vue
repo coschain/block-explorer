@@ -396,11 +396,11 @@
                         this.Abi = abi;
                         this.getTableInfoFromAbi();
                     }
-                    if (contract.getUrl().length) {
+                    if (contract.getUrl&&contract.getUrl().length) {
                         this.ctrOriCodePosition = contract.getUrl();
                     }
 
-                    if (contract.getDescribe().length) {
+                    if (contract.getDescribe&&contract.getDescribe().length) {
                         this.ctrDesc = contract.getDescribe();
 
                     }

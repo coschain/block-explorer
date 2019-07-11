@@ -277,6 +277,10 @@
                     <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
                 </div>
                 <div class="infoCell">
+                    <div class="proDesc font-color-555555">Copyright:</div>
+                    <div class="proValue font-color-000000" >{{getArticleCopyrightInfo(articleInfo)}}</div>
+                </div>
+                <div class="infoCell">
                     <div class="proDesc font-color-555555">Content:</div>
                     <div class="proValue font-color-000000" v-html="convertLinkInPostContent(articleInfo.getBody())"></div>
                 </div>
@@ -348,6 +352,12 @@
     import linkifyHtml from 'linkifyjs/html';
     import * as linkify from "linkifyjs";
     import {raw_type} from "cos-grpc-js"
+
+    const copyrightType = {
+        copyrightTypeUnKnown: 0,//Unknown
+        copyrightTypeInfringement: 1, //Infringement
+        copyrightTypeConfirmation: 2, //Confirmation
+    };
 
     module.exports = {
         data() {
@@ -518,6 +528,32 @@
                  return content;
              },
 
+             getArticleCopyrightInfo(info) {
+                 if (info != null && typeof info != "undefined") {
+                     //Get copyright type(0:unknown 1:infringement 2:Confirmation)
+                     let type = 0;
+                     if (info.getCopyright) {
+                         type = info.getCopyright();
+                     }
+                     //Get copyright memo
+                     let memo = "";
+                     if (info.getCopyrightMemo) {
+                         memo = info.getCopyrightMemo();
+                     }
+
+                     if (type === copyrightType.copyrightTypeInfringement) {
+                         memo = "Copyright Infringement";
+                     } else if (type === copyrightType.copyrightTypeUnKnown) {
+                         memo = "UnKnown";
+                     }
+                     // else if (type === copyrightType.copyrightTypeConfirmation) {
+                     //     memo = 'Copyright confirmed' + '(' +memo + ')';
+                     // }
+                     return memo;
+
+                 }
+                 return "UnKnown";
+             }
 
          }
     };
