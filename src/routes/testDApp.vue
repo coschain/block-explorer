@@ -121,7 +121,13 @@
     <div class="vue-TestDApp fullfill" v-bind:triggerComputed=loadLocalDAppData>
         <vue-header title="Dapp data"></vue-header>
         <div class="container vue-TestDApp-container">
-            <!--tab-->
+            <!--version tab-->
+            <div class="vue-TestDApp-tabContainer">
+                <template v-for="(version,name) in versionMap">
+                    <div :class= '[selectVersion === name ? "vue-TestDApp-tab vue-TestDApp-tab-select" : "vue-TestDApp-tab" ]' @click="switchVersionType(name)">{{getVersionInfoByVersion(name)}}</div>
+                </template>
+            </div>
+            <!--dapp tab-->
             <div class="vue-TestDApp-tabContainer">
                 <template v-for="(name) in dAppList">
                     <div :class= '[selectDApp === name ? "vue-TestDApp-tab vue-TestDApp-tab-select" : "vue-TestDApp-tab" ]' @click="switchDAppType(name)">{{name}}</div>
@@ -151,10 +157,16 @@
 <script>
     import pHead from "../components/vue-bread";
     import ECharts from "vue-echarts/components/ECharts";
-    import {DAppType,formatTxsCnt,numberAddComma} from "../assets/utility";
-    import api from "../assets/api";
+    import {DAppType, formatTxsCnt, numberAddComma} from "../assets/utility";
     import BigNumber from "bignumber.js";
     import * as dappData from "../dAppData";
+
+    const dataListKey = "list";
+    const versionKey = "version";
+    const versionNameKey = "versionName";
+
+    let isSwitchingVersion = false;
+
     const chartType =  {
         chartTypeDAU : 0, // every day DAU of recent 30 days
         chartTypeNewAcct: 1, // every day new account of recent 30 days
@@ -169,8 +181,10 @@
         data() {
             return {
                 selectDApp: "",
+                selectVersion: "",
                 chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
                     chartType.chartTypeTxAmount],
+                versionMap: {},
                 dAppList: [],
                 statList: [],
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
@@ -217,6 +231,20 @@
                     }
                     this.selectDApp = name;
                 }
+            },
+
+            switchVersionType(version) {
+                if (this.isSwitchingVersion) {
+                    return;
+                }
+                this.isSwitchingVersion = true;
+                if (this.selectVersion !== version) {
+                    this.selectVersion = version;
+                    //reset data of previous version
+                    this.dataMap = {};
+                    this.loadDAppDataInfoByVersion();
+                }
+                this.isSwitchingVersion = false;
             },
 
             fetchTitleFromType(type) {
@@ -378,29 +406,73 @@
             },
 
             loadLocalDAppData() {
-                let nameList = Object.getOwnPropertyNames(dappData);
-                let index = nameList.indexOf("default");
+                //Load versions info
+                this.loadVersionInfo();
+                //Load detail dApp data
+                this.loadDAppDataInfoByVersion();
+            },
+
+            //load all version info
+            loadVersionInfo() {
+                let versionList = Object.getOwnPropertyNames(dappData);
+                let index = versionList.indexOf("default");
                 if (index > -1) {
-                    nameList.splice(index, 1);
+                    versionList.splice(index, 1);
                 }
-                if (nameList.length > 0) {
-                    this.dAppList = nameList;
-                    this.selectDApp = nameList[0];
-                    for (let i = 0; i < nameList.length; i++)  {
-                        let name = nameList[i];
-                        let list = this.getSingleDAppDataFromLocal(name);
-                        if (list &&  list instanceof Array) {
-                            if (!this.dataMap)  {
-                                this.dataMap = {}
+
+                for(let v of versionList) {
+                    if (dappData.hasOwnProperty(v)) {
+                        let data = dappData[v];
+                        if (data.hasOwnProperty(versionKey) && data.hasOwnProperty(versionNameKey)) {
+                            this.versionMap[v] = {"version":v ,"versionName": data["versionName"]};
+                            if (this.selectVersion === "") {
+                                this.selectVersion = v;
                             }
-                            this.dataMap[name] = list;
                         }
                     }
                 }
 
             },
 
-            getSingleDAppDataFromLocal(dApp) {
+            //load detail dApp data of a version
+            loadDAppDataInfoByVersion() {
+                if (dappData.hasOwnProperty(this.selectVersion)) {
+                    let data = dappData[this.selectVersion];
+                    if (data.hasOwnProperty(dataListKey)) {
+                        let dataList = data[dataListKey];
+                        //get dApp name list
+                        let nameList = Object.getOwnPropertyNames(dataList);
+                        let index = nameList.indexOf("default");
+                        if (index > -1) {
+                            nameList.splice(index, 1);
+                        }
+                        if (nameList.length > 0) {
+                            this.dAppList = nameList;
+                            this.selectDApp = nameList[0];
+                            for (let i = 0; i < nameList.length; i++)  {
+                                let name = nameList[i];
+                                let list = this.getSingleDAppDataFromLocal(name,dataList);
+                                if (list &&  list instanceof Array) {
+                                    if (!this.dataMap)  {
+                                        this.dataMap = {}
+                                    }
+                                    this.dataMap[name] = list;
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            
+            getVersionInfoByVersion(v) {
+                if (this.versionMap && this.versionMap.hasOwnProperty(v)) {
+                    let data = this.versionMap[v];
+                    return data[versionKey] + '(' + data[versionNameKey] + ')';
+                }
+                return "";
+            },
+
+            getSingleDAppDataFromLocal(dApp,dappData) {
                 if (dappData.hasOwnProperty(dApp)) {
                     return dappData[dApp];
                 }
@@ -418,6 +490,10 @@
                     }
                 }
                 return null
+            },
+
+            getVersionDescByVersion(version) {
+
             }
 
 

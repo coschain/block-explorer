@@ -1,2026 +1,4062 @@
 {
-    "photogrid": [
-        {
-            "date": "1555286400",
-            "dapp": "photogrid",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555372800",
-            "dapp": "photogrid",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555459200",
-            "dapp": "photogrid",
-            "dau": "26",
-            "dnu": "79",
-            "trxs": "417",
-            "amount": "0",
-            "tusr": "79"
-        },
-        {
-            "date": "1555545600",
-            "dapp": "photogrid",
-            "dau": "68",
-            "dnu": "131",
-            "trxs": "1083",
-            "amount": "0",
-            "tusr": "210"
-        },
-        {
-            "date": "1555632000",
-            "dapp": "photogrid",
-            "dau": "192",
-            "dnu": "897",
-            "trxs": "3836",
-            "amount": "0",
-            "tusr": "1107"
-        },
-        {
-            "date": "1555718400",
-            "dapp": "photogrid",
-            "dau": "331",
-            "dnu": "492",
-            "trxs": "7520",
-            "amount": "0",
-            "tusr": "1599"
-        },
-        {
-            "date": "1555804800",
-            "dapp": "photogrid",
-            "dau": "406",
-            "dnu": "536",
-            "trxs": "7914",
-            "amount": "0",
-            "tusr": "2135"
-        },
-        {
-            "date": "1555891200",
-            "dapp": "photogrid",
-            "dau": "425",
-            "dnu": "519",
-            "trxs": "10344",
-            "amount": "0",
-            "tusr": "2654"
-        },
-        {
-            "date": "1555977600",
-            "dapp": "photogrid",
-            "dau": "451",
-            "dnu": "529",
-            "trxs": "12087",
-            "amount": "0",
-            "tusr": "3183"
-        },
-        {
-            "date": "1556064000",
-            "dapp": "photogrid",
-            "dau": "544",
-            "dnu": "586",
-            "trxs": "15537",
-            "amount": "0",
-            "tusr": "3769"
-        },
-        {
-            "date": "1556150400",
-            "dapp": "photogrid",
-            "dau": "494",
-            "dnu": "461",
-            "trxs": "13610",
-            "amount": "0",
-            "tusr": "4230"
-        },
-        {
-            "date": "1556236800",
-            "dapp": "photogrid",
-            "dau": "500",
-            "dnu": "506",
-            "trxs": "13153",
-            "amount": "0",
-            "tusr": "4736"
-        },
-        {
-            "date": "1556323200",
-            "dapp": "photogrid",
-            "dau": "580",
-            "dnu": "570",
-            "trxs": "15527",
-            "amount": "0",
-            "tusr": "5306"
-        },
-        {
-            "date": "1556409600",
-            "dapp": "photogrid",
-            "dau": "538",
-            "dnu": "492",
-            "trxs": "14402",
-            "amount": "0",
-            "tusr": "5798"
-        },
-        {
-            "date": "1556496000",
-            "dapp": "photogrid",
-            "dau": "562",
-            "dnu": "514",
-            "trxs": "15347",
-            "amount": "0",
-            "tusr": "6312"
-        },
-        {
-            "date": "1556582400",
-            "dapp": "photogrid",
-            "dau": "586",
-            "dnu": "483",
-            "trxs": "14630",
-            "amount": "0",
-            "tusr": "6795"
-        },
-        {
-            "date": "1556668800",
-            "dapp": "photogrid",
-            "dau": "653",
-            "dnu": "590",
-            "trxs": "17651",
-            "amount": "0",
-            "tusr": "7385"
-        },
-        {
-            "date": "1556755200",
-            "dapp": "photogrid",
-            "dau": "629",
-            "dnu": "504",
-            "trxs": "18001",
-            "amount": "0",
-            "tusr": "7889"
-        },
-        {
-            "date": "1556841600",
-            "dapp": "photogrid",
-            "dau": "611",
-            "dnu": "490",
-            "trxs": "17853",
-            "amount": "0",
-            "tusr": "8379"
-        },
-        {
-            "date": "1556928000",
-            "dapp": "photogrid",
-            "dau": "680",
-            "dnu": "651",
-            "trxs": "18491",
-            "amount": "0",
-            "tusr": "9030"
-        },
-        {
-            "date": "1557014400",
-            "dapp": "photogrid",
-            "dau": "721",
-            "dnu": "584",
-            "trxs": "22687",
-            "amount": "0",
-            "tusr": "9614"
-        },
-        {
-            "date": "1557100800",
-            "dapp": "photogrid",
-            "dau": "645",
-            "dnu": "538",
-            "trxs": "21487",
-            "amount": "0",
-            "tusr": "10152"
-        },
-        {
-            "date": "1557187200",
-            "dapp": "photogrid",
-            "dau": "637",
-            "dnu": "537",
-            "trxs": "21247",
-            "amount": "0",
-            "tusr": "10689"
-        },
-        {
-            "date": "1557273600",
-            "dapp": "photogrid",
-            "dau": "779",
-            "dnu": "671",
-            "trxs": "21038",
-            "amount": "0",
-            "tusr": "11360"
-        },
-        {
-            "date": "1557360000",
-            "dapp": "photogrid",
-            "dau": "700",
-            "dnu": "542",
-            "trxs": "23836",
-            "amount": "0",
-            "tusr": "11902"
-        },
-        {
-            "date": "1557446400",
-            "dapp": "photogrid",
-            "dau": "714",
-            "dnu": "568",
-            "trxs": "21546",
-            "amount": "0",
-            "tusr": "12470"
-        },
-        {
-            "date": "1557532800",
-            "dapp": "photogrid",
-            "dau": "828",
-            "dnu": "665",
-            "trxs": "19400",
-            "amount": "0",
-            "tusr": "13135"
-        },
-        {
-            "date": "1557619200",
-            "dapp": "photogrid",
-            "dau": "843",
-            "dnu": "736",
-            "trxs": "20461",
-            "amount": "0",
-            "tusr": "13871"
-        },
-        {
-            "date": "1557705600",
-            "dapp": "photogrid",
-            "dau": "775",
-            "dnu": "564",
-            "trxs": "20253",
-            "amount": "0",
-            "tusr": "14435"
-        },
-        {
-            "date": "1557792000",
-            "dapp": "photogrid",
-            "dau": "746",
-            "dnu": "558",
-            "trxs": "22604",
-            "amount": "0",
-            "tusr": "14993"
-        },
-        {
-            "date": "1557878400",
-            "dapp": "photogrid",
-            "dau": "799",
-            "dnu": "612",
-            "trxs": "19207",
-            "amount": "0",
-            "tusr": "15605"
-        },
-        {
-            "date": "1557964800",
-            "dapp": "photogrid",
-            "dau": "761",
-            "dnu": "578",
-            "trxs": "20528",
-            "amount": "0",
-            "tusr": "16183"
-        },
-        {
-            "date": "1558051200",
-            "dapp": "photogrid",
-            "dau": "756",
-            "dnu": "520",
-            "trxs": "20956",
-            "amount": "0",
-            "tusr": "16703"
-        },
-        {
-            "date": "1558137600",
-            "dapp": "photogrid",
-            "dau": "993",
-            "dnu": "800",
-            "trxs": "25573",
-            "amount": "0",
-            "tusr": "17503"
-        },
-        {
-            "date": "1558224000",
-            "dapp": "photogrid",
-            "dau": "872",
-            "dnu": "607",
-            "trxs": "23587",
-            "amount": "0",
-            "tusr": "18110"
-        },
-        {
-            "date": "1558310400",
-            "dapp": "photogrid",
-            "dau": "817",
-            "dnu": "576",
-            "trxs": "22928",
-            "amount": "1000000",
-            "tusr": "18686"
-        },
-        {
-            "date": "1558396800",
-            "dapp": "photogrid",
-            "dau": "863",
-            "dnu": "622",
-            "trxs": "23795",
-            "amount": "277000000",
-            "tusr": "19308"
-        },
-        {
-            "date": "1558483200",
-            "dapp": "photogrid",
-            "dau": "947",
-            "dnu": "661",
-            "trxs": "23279",
-            "amount": "1176000000",
-            "tusr": "19969"
-        },
-        {
-            "date": "1558569600",
-            "dapp": "photogrid",
-            "dau": "831",
-            "dnu": "534",
-            "trxs": "23460",
-            "amount": "1080000000",
-            "tusr": "20503"
-        },
-        {
-            "date": "1558656000",
-            "dapp": "photogrid",
-            "dau": "884",
-            "dnu": "506",
-            "trxs": "26995",
-            "amount": "22034000000",
-            "tusr": "21009"
-        },
-        {
-            "date": "1558742400",
-            "dapp": "photogrid",
-            "dau": "920",
-            "dnu": "442",
-            "trxs": "32675",
-            "amount": "1985000000",
-            "tusr": "21451"
-        },
-        {
-            "date": "1558828800",
-            "dapp": "photogrid",
-            "dau": "877",
-            "dnu": "365",
-            "trxs": "30218",
-            "amount": "1603000000",
-            "tusr": "21816"
-        },
-        {
-            "date": "1558915200",
-            "dapp": "photogrid",
-            "dau": "879",
-            "dnu": "445",
-            "trxs": "27381",
-            "amount": "2108000000",
-            "tusr": "22261"
-        },
-        {
-            "date": "1559001600",
-            "dapp": "photogrid",
-            "dau": "914",
-            "dnu": "547",
-            "trxs": "30056",
-            "amount": "3176000000",
-            "tusr": "22808"
-        },
-        {
-            "date": "1559088000",
-            "dapp": "photogrid",
-            "dau": "1050",
-            "dnu": "691",
-            "trxs": "30536",
-            "amount": "4722000000",
-            "tusr": "23499"
-        },
-        {
-            "date": "1559174400",
-            "dapp": "photogrid",
-            "dau": "1000",
-            "dnu": "610",
-            "trxs": "29051",
-            "amount": "3420000000",
-            "tusr": "24109"
-        },
-        {
-            "date": "1559260800",
-            "dapp": "photogrid",
-            "dau": "978",
-            "dnu": "612",
-            "trxs": "30830",
-            "amount": "3788000000",
-            "tusr": "24721"
-        },
-        {
-            "date": "1559347200",
-            "dapp": "photogrid",
-            "dau": "1138",
-            "dnu": "641",
-            "trxs": "34419",
-            "amount": "4036000000",
-            "tusr": "25362"
-        },
-        {
-            "date": "1559433600",
-            "dapp": "photogrid",
-            "dau": "1023",
-            "dnu": "582",
-            "trxs": "30304",
-            "amount": "3619000000",
-            "tusr": "25944"
-        },
-        {
-            "date": "1559520000",
-            "dapp": "photogrid",
-            "dau": "1053",
-            "dnu": "597",
-            "trxs": "29657",
-            "amount": "3876000000",
-            "tusr": "26541"
-        },
-        {
-            "date": "1559606400",
-            "dapp": "photogrid",
-            "dau": "1058",
-            "dnu": "643",
-            "trxs": "27517",
-            "amount": "4762500000",
-            "tusr": "27184"
-        },
-        {
-            "date": "1559692800",
-            "dapp": "photogrid",
-            "dau": "1114",
-            "dnu": "664",
-            "trxs": "27561",
-            "amount": "4802000000",
-            "tusr": "27848"
-        },
-        {
-            "date": "1559779200",
-            "dapp": "photogrid",
-            "dau": "1140",
-            "dnu": "624",
-            "trxs": "28214",
-            "amount": "5801500000",
-            "tusr": "28472"
-        },
-        {
-            "date": "1559865600",
-            "dapp": "photogrid",
-            "dau": "1260",
-            "dnu": "783",
-            "trxs": "29213",
-            "amount": "9895000000",
-            "tusr": "29255"
-        },
-        {
-            "date": "1559952000",
-            "dapp": "photogrid",
-            "dau": "1822",
-            "dnu": "1673",
-            "trxs": "34176",
-            "amount": "22883000000",
-            "tusr": "30928"
-        },
-        {
-            "date": "1560038400",
-            "dapp": "photogrid",
-            "dau": "1712",
-            "dnu": "1612",
-            "trxs": "36078",
-            "amount": "22746000000",
-            "tusr": "32540"
+    "V0.2": {
+        "version": "V0.2",
+        "versionName": "Mercury",
+        "list": {
+            "photogrid": [
+                {
+                    "date": "1555286400",
+                    "dapp": "photogrid",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555372800",
+                    "dapp": "photogrid",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555459200",
+                    "dapp": "photogrid",
+                    "dau": "26",
+                    "dnu": "79",
+                    "trxs": "417",
+                    "amount": "0",
+                    "tusr": "79"
+                },
+                {
+                    "date": "1555545600",
+                    "dapp": "photogrid",
+                    "dau": "68",
+                    "dnu": "131",
+                    "trxs": "1083",
+                    "amount": "0",
+                    "tusr": "210"
+                },
+                {
+                    "date": "1555632000",
+                    "dapp": "photogrid",
+                    "dau": "192",
+                    "dnu": "897",
+                    "trxs": "3836",
+                    "amount": "0",
+                    "tusr": "1107"
+                },
+                {
+                    "date": "1555718400",
+                    "dapp": "photogrid",
+                    "dau": "331",
+                    "dnu": "492",
+                    "trxs": "7520",
+                    "amount": "0",
+                    "tusr": "1599"
+                },
+                {
+                    "date": "1555804800",
+                    "dapp": "photogrid",
+                    "dau": "406",
+                    "dnu": "536",
+                    "trxs": "7914",
+                    "amount": "0",
+                    "tusr": "2135"
+                },
+                {
+                    "date": "1555891200",
+                    "dapp": "photogrid",
+                    "dau": "425",
+                    "dnu": "519",
+                    "trxs": "10344",
+                    "amount": "0",
+                    "tusr": "2654"
+                },
+                {
+                    "date": "1555977600",
+                    "dapp": "photogrid",
+                    "dau": "451",
+                    "dnu": "529",
+                    "trxs": "12087",
+                    "amount": "0",
+                    "tusr": "3183"
+                },
+                {
+                    "date": "1556064000",
+                    "dapp": "photogrid",
+                    "dau": "544",
+                    "dnu": "586",
+                    "trxs": "15537",
+                    "amount": "0",
+                    "tusr": "3769"
+                },
+                {
+                    "date": "1556150400",
+                    "dapp": "photogrid",
+                    "dau": "494",
+                    "dnu": "461",
+                    "trxs": "13610",
+                    "amount": "0",
+                    "tusr": "4230"
+                },
+                {
+                    "date": "1556236800",
+                    "dapp": "photogrid",
+                    "dau": "500",
+                    "dnu": "506",
+                    "trxs": "13153",
+                    "amount": "0",
+                    "tusr": "4736"
+                },
+                {
+                    "date": "1556323200",
+                    "dapp": "photogrid",
+                    "dau": "580",
+                    "dnu": "570",
+                    "trxs": "15527",
+                    "amount": "0",
+                    "tusr": "5306"
+                },
+                {
+                    "date": "1556409600",
+                    "dapp": "photogrid",
+                    "dau": "538",
+                    "dnu": "492",
+                    "trxs": "14402",
+                    "amount": "0",
+                    "tusr": "5798"
+                },
+                {
+                    "date": "1556496000",
+                    "dapp": "photogrid",
+                    "dau": "562",
+                    "dnu": "514",
+                    "trxs": "15347",
+                    "amount": "0",
+                    "tusr": "6312"
+                },
+                {
+                    "date": "1556582400",
+                    "dapp": "photogrid",
+                    "dau": "586",
+                    "dnu": "483",
+                    "trxs": "14630",
+                    "amount": "0",
+                    "tusr": "6795"
+                },
+                {
+                    "date": "1556668800",
+                    "dapp": "photogrid",
+                    "dau": "653",
+                    "dnu": "590",
+                    "trxs": "17651",
+                    "amount": "0",
+                    "tusr": "7385"
+                },
+                {
+                    "date": "1556755200",
+                    "dapp": "photogrid",
+                    "dau": "629",
+                    "dnu": "504",
+                    "trxs": "18001",
+                    "amount": "0",
+                    "tusr": "7889"
+                },
+                {
+                    "date": "1556841600",
+                    "dapp": "photogrid",
+                    "dau": "611",
+                    "dnu": "490",
+                    "trxs": "17853",
+                    "amount": "0",
+                    "tusr": "8379"
+                },
+                {
+                    "date": "1556928000",
+                    "dapp": "photogrid",
+                    "dau": "680",
+                    "dnu": "651",
+                    "trxs": "18491",
+                    "amount": "0",
+                    "tusr": "9030"
+                },
+                {
+                    "date": "1557014400",
+                    "dapp": "photogrid",
+                    "dau": "721",
+                    "dnu": "584",
+                    "trxs": "22687",
+                    "amount": "0",
+                    "tusr": "9614"
+                },
+                {
+                    "date": "1557100800",
+                    "dapp": "photogrid",
+                    "dau": "645",
+                    "dnu": "538",
+                    "trxs": "21487",
+                    "amount": "0",
+                    "tusr": "10152"
+                },
+                {
+                    "date": "1557187200",
+                    "dapp": "photogrid",
+                    "dau": "637",
+                    "dnu": "537",
+                    "trxs": "21247",
+                    "amount": "0",
+                    "tusr": "10689"
+                },
+                {
+                    "date": "1557273600",
+                    "dapp": "photogrid",
+                    "dau": "779",
+                    "dnu": "671",
+                    "trxs": "21038",
+                    "amount": "0",
+                    "tusr": "11360"
+                },
+                {
+                    "date": "1557360000",
+                    "dapp": "photogrid",
+                    "dau": "700",
+                    "dnu": "542",
+                    "trxs": "23836",
+                    "amount": "0",
+                    "tusr": "11902"
+                },
+                {
+                    "date": "1557446400",
+                    "dapp": "photogrid",
+                    "dau": "714",
+                    "dnu": "568",
+                    "trxs": "21546",
+                    "amount": "0",
+                    "tusr": "12470"
+                },
+                {
+                    "date": "1557532800",
+                    "dapp": "photogrid",
+                    "dau": "828",
+                    "dnu": "665",
+                    "trxs": "19400",
+                    "amount": "0",
+                    "tusr": "13135"
+                },
+                {
+                    "date": "1557619200",
+                    "dapp": "photogrid",
+                    "dau": "843",
+                    "dnu": "736",
+                    "trxs": "20461",
+                    "amount": "0",
+                    "tusr": "13871"
+                },
+                {
+                    "date": "1557705600",
+                    "dapp": "photogrid",
+                    "dau": "775",
+                    "dnu": "564",
+                    "trxs": "20253",
+                    "amount": "0",
+                    "tusr": "14435"
+                },
+                {
+                    "date": "1557792000",
+                    "dapp": "photogrid",
+                    "dau": "746",
+                    "dnu": "558",
+                    "trxs": "22604",
+                    "amount": "0",
+                    "tusr": "14993"
+                },
+                {
+                    "date": "1557878400",
+                    "dapp": "photogrid",
+                    "dau": "799",
+                    "dnu": "612",
+                    "trxs": "19207",
+                    "amount": "0",
+                    "tusr": "15605"
+                },
+                {
+                    "date": "1557964800",
+                    "dapp": "photogrid",
+                    "dau": "761",
+                    "dnu": "578",
+                    "trxs": "20528",
+                    "amount": "0",
+                    "tusr": "16183"
+                },
+                {
+                    "date": "1558051200",
+                    "dapp": "photogrid",
+                    "dau": "756",
+                    "dnu": "520",
+                    "trxs": "20956",
+                    "amount": "0",
+                    "tusr": "16703"
+                },
+                {
+                    "date": "1558137600",
+                    "dapp": "photogrid",
+                    "dau": "993",
+                    "dnu": "800",
+                    "trxs": "25573",
+                    "amount": "0",
+                    "tusr": "17503"
+                },
+                {
+                    "date": "1558224000",
+                    "dapp": "photogrid",
+                    "dau": "872",
+                    "dnu": "607",
+                    "trxs": "23587",
+                    "amount": "0",
+                    "tusr": "18110"
+                },
+                {
+                    "date": "1558310400",
+                    "dapp": "photogrid",
+                    "dau": "817",
+                    "dnu": "576",
+                    "trxs": "22928",
+                    "amount": "1000000",
+                    "tusr": "18686"
+                },
+                {
+                    "date": "1558396800",
+                    "dapp": "photogrid",
+                    "dau": "863",
+                    "dnu": "622",
+                    "trxs": "23795",
+                    "amount": "277000000",
+                    "tusr": "19308"
+                },
+                {
+                    "date": "1558483200",
+                    "dapp": "photogrid",
+                    "dau": "947",
+                    "dnu": "661",
+                    "trxs": "23279",
+                    "amount": "1176000000",
+                    "tusr": "19969"
+                },
+                {
+                    "date": "1558569600",
+                    "dapp": "photogrid",
+                    "dau": "831",
+                    "dnu": "534",
+                    "trxs": "23460",
+                    "amount": "1080000000",
+                    "tusr": "20503"
+                },
+                {
+                    "date": "1558656000",
+                    "dapp": "photogrid",
+                    "dau": "884",
+                    "dnu": "506",
+                    "trxs": "26995",
+                    "amount": "22034000000",
+                    "tusr": "21009"
+                },
+                {
+                    "date": "1558742400",
+                    "dapp": "photogrid",
+                    "dau": "920",
+                    "dnu": "442",
+                    "trxs": "32675",
+                    "amount": "1985000000",
+                    "tusr": "21451"
+                },
+                {
+                    "date": "1558828800",
+                    "dapp": "photogrid",
+                    "dau": "877",
+                    "dnu": "365",
+                    "trxs": "30218",
+                    "amount": "1603000000",
+                    "tusr": "21816"
+                },
+                {
+                    "date": "1558915200",
+                    "dapp": "photogrid",
+                    "dau": "879",
+                    "dnu": "445",
+                    "trxs": "27381",
+                    "amount": "2108000000",
+                    "tusr": "22261"
+                },
+                {
+                    "date": "1559001600",
+                    "dapp": "photogrid",
+                    "dau": "914",
+                    "dnu": "547",
+                    "trxs": "30056",
+                    "amount": "3176000000",
+                    "tusr": "22808"
+                },
+                {
+                    "date": "1559088000",
+                    "dapp": "photogrid",
+                    "dau": "1050",
+                    "dnu": "691",
+                    "trxs": "30536",
+                    "amount": "4722000000",
+                    "tusr": "23499"
+                },
+                {
+                    "date": "1559174400",
+                    "dapp": "photogrid",
+                    "dau": "1000",
+                    "dnu": "610",
+                    "trxs": "29051",
+                    "amount": "3420000000",
+                    "tusr": "24109"
+                },
+                {
+                    "date": "1559260800",
+                    "dapp": "photogrid",
+                    "dau": "978",
+                    "dnu": "612",
+                    "trxs": "30830",
+                    "amount": "3788000000",
+                    "tusr": "24721"
+                },
+                {
+                    "date": "1559347200",
+                    "dapp": "photogrid",
+                    "dau": "1138",
+                    "dnu": "641",
+                    "trxs": "34419",
+                    "amount": "4036000000",
+                    "tusr": "25362"
+                },
+                {
+                    "date": "1559433600",
+                    "dapp": "photogrid",
+                    "dau": "1023",
+                    "dnu": "582",
+                    "trxs": "30304",
+                    "amount": "3619000000",
+                    "tusr": "25944"
+                },
+                {
+                    "date": "1559520000",
+                    "dapp": "photogrid",
+                    "dau": "1053",
+                    "dnu": "597",
+                    "trxs": "29657",
+                    "amount": "3876000000",
+                    "tusr": "26541"
+                },
+                {
+                    "date": "1559606400",
+                    "dapp": "photogrid",
+                    "dau": "1058",
+                    "dnu": "643",
+                    "trxs": "27517",
+                    "amount": "4762500000",
+                    "tusr": "27184"
+                },
+                {
+                    "date": "1559692800",
+                    "dapp": "photogrid",
+                    "dau": "1114",
+                    "dnu": "664",
+                    "trxs": "27561",
+                    "amount": "4802000000",
+                    "tusr": "27848"
+                },
+                {
+                    "date": "1559779200",
+                    "dapp": "photogrid",
+                    "dau": "1140",
+                    "dnu": "624",
+                    "trxs": "28214",
+                    "amount": "5801500000",
+                    "tusr": "28472"
+                },
+                {
+                    "date": "1559865600",
+                    "dapp": "photogrid",
+                    "dau": "1260",
+                    "dnu": "783",
+                    "trxs": "29213",
+                    "amount": "9895000000",
+                    "tusr": "29255"
+                },
+                {
+                    "date": "1559952000",
+                    "dapp": "photogrid",
+                    "dau": "1822",
+                    "dnu": "1673",
+                    "trxs": "34176",
+                    "amount": "22883000000",
+                    "tusr": "30928"
+                },
+                {
+                    "date": "1560038400",
+                    "dapp": "photogrid",
+                    "dau": "1712",
+                    "dnu": "1612",
+                    "trxs": "36078",
+                    "amount": "22746000000",
+                    "tusr": "32540"
+                }
+            ],
+            "COS.TV": [
+                {
+                    "date": "1555286400",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555372800",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555459200",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "1",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1555545600",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1555632000",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1555718400",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1555804800",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1555891200",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1555977600",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1556064000",
+                    "dapp": "contentos",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "1"
+                },
+                {
+                    "date": "1556150400",
+                    "dapp": "contentos",
+                    "dau": "505",
+                    "dnu": "23959",
+                    "trxs": "2593",
+                    "amount": "0",
+                    "tusr": "23960"
+                },
+                {
+                    "date": "1556236800",
+                    "dapp": "contentos",
+                    "dau": "1297",
+                    "dnu": "307",
+                    "trxs": "4411",
+                    "amount": "0",
+                    "tusr": "24267"
+                },
+                {
+                    "date": "1556323200",
+                    "dapp": "contentos",
+                    "dau": "1341",
+                    "dnu": "308",
+                    "trxs": "4579",
+                    "amount": "0",
+                    "tusr": "24575"
+                },
+                {
+                    "date": "1556409600",
+                    "dapp": "contentos",
+                    "dau": "1381",
+                    "dnu": "243",
+                    "trxs": "4490",
+                    "amount": "0",
+                    "tusr": "24818"
+                },
+                {
+                    "date": "1556496000",
+                    "dapp": "contentos",
+                    "dau": "1439",
+                    "dnu": "284",
+                    "trxs": "4065",
+                    "amount": "0",
+                    "tusr": "25102"
+                },
+                {
+                    "date": "1556582400",
+                    "dapp": "contentos",
+                    "dau": "1485",
+                    "dnu": "258",
+                    "trxs": "3835",
+                    "amount": "0",
+                    "tusr": "25360"
+                },
+                {
+                    "date": "1556668800",
+                    "dapp": "contentos",
+                    "dau": "1628",
+                    "dnu": "275",
+                    "trxs": "4566",
+                    "amount": "0",
+                    "tusr": "25635"
+                },
+                {
+                    "date": "1556755200",
+                    "dapp": "contentos",
+                    "dau": "1693",
+                    "dnu": "310",
+                    "trxs": "4805",
+                    "amount": "0",
+                    "tusr": "25945"
+                },
+                {
+                    "date": "1556841600",
+                    "dapp": "contentos",
+                    "dau": "1684",
+                    "dnu": "216",
+                    "trxs": "4869",
+                    "amount": "0",
+                    "tusr": "26161"
+                },
+                {
+                    "date": "1556928000",
+                    "dapp": "contentos",
+                    "dau": "1703",
+                    "dnu": "210",
+                    "trxs": "5045",
+                    "amount": "0",
+                    "tusr": "26371"
+                },
+                {
+                    "date": "1557014400",
+                    "dapp": "contentos",
+                    "dau": "1810",
+                    "dnu": "278",
+                    "trxs": "5037",
+                    "amount": "0",
+                    "tusr": "26649"
+                },
+                {
+                    "date": "1557100800",
+                    "dapp": "contentos",
+                    "dau": "1934",
+                    "dnu": "326",
+                    "trxs": "4972",
+                    "amount": "0",
+                    "tusr": "26975"
+                },
+                {
+                    "date": "1557187200",
+                    "dapp": "contentos",
+                    "dau": "1946",
+                    "dnu": "317",
+                    "trxs": "5139",
+                    "amount": "0",
+                    "tusr": "27292"
+                },
+                {
+                    "date": "1557273600",
+                    "dapp": "contentos",
+                    "dau": "2115",
+                    "dnu": "411",
+                    "trxs": "5220",
+                    "amount": "0",
+                    "tusr": "27703"
+                },
+                {
+                    "date": "1557360000",
+                    "dapp": "contentos",
+                    "dau": "2038",
+                    "dnu": "318",
+                    "trxs": "4966",
+                    "amount": "0",
+                    "tusr": "28021"
+                },
+                {
+                    "date": "1557446400",
+                    "dapp": "contentos",
+                    "dau": "2182",
+                    "dnu": "277",
+                    "trxs": "5116",
+                    "amount": "0",
+                    "tusr": "28298"
+                },
+                {
+                    "date": "1557532800",
+                    "dapp": "contentos",
+                    "dau": "2099",
+                    "dnu": "291",
+                    "trxs": "5273",
+                    "amount": "0",
+                    "tusr": "28589"
+                },
+                {
+                    "date": "1557619200",
+                    "dapp": "contentos",
+                    "dau": "2156",
+                    "dnu": "275",
+                    "trxs": "5382",
+                    "amount": "0",
+                    "tusr": "28864"
+                },
+                {
+                    "date": "1557705600",
+                    "dapp": "contentos",
+                    "dau": "2704",
+                    "dnu": "341",
+                    "trxs": "7315",
+                    "amount": "0",
+                    "tusr": "29205"
+                },
+                {
+                    "date": "1557792000",
+                    "dapp": "contentos",
+                    "dau": "2728",
+                    "dnu": "268",
+                    "trxs": "7200",
+                    "amount": "0",
+                    "tusr": "29473"
+                },
+                {
+                    "date": "1557878400",
+                    "dapp": "contentos",
+                    "dau": "2799",
+                    "dnu": "281",
+                    "trxs": "7200",
+                    "amount": "0",
+                    "tusr": "29754"
+                },
+                {
+                    "date": "1557964800",
+                    "dapp": "contentos",
+                    "dau": "2437",
+                    "dnu": "226",
+                    "trxs": "5252",
+                    "amount": "0",
+                    "tusr": "29980"
+                },
+                {
+                    "date": "1558051200",
+                    "dapp": "contentos",
+                    "dau": "2360",
+                    "dnu": "189",
+                    "trxs": "4998",
+                    "amount": "0",
+                    "tusr": "30169"
+                },
+                {
+                    "date": "1558137600",
+                    "dapp": "contentos",
+                    "dau": "2254",
+                    "dnu": "198",
+                    "trxs": "5025",
+                    "amount": "0",
+                    "tusr": "30367"
+                },
+                {
+                    "date": "1558224000",
+                    "dapp": "contentos",
+                    "dau": "2314",
+                    "dnu": "218",
+                    "trxs": "5077",
+                    "amount": "0",
+                    "tusr": "30585"
+                },
+                {
+                    "date": "1558310400",
+                    "dapp": "contentos",
+                    "dau": "2899",
+                    "dnu": "339",
+                    "trxs": "5500",
+                    "amount": "0",
+                    "tusr": "30924"
+                },
+                {
+                    "date": "1558396800",
+                    "dapp": "contentos",
+                    "dau": "3071",
+                    "dnu": "312",
+                    "trxs": "5519",
+                    "amount": "0",
+                    "tusr": "31236"
+                },
+                {
+                    "date": "1558483200",
+                    "dapp": "contentos",
+                    "dau": "3055",
+                    "dnu": "299",
+                    "trxs": "5562",
+                    "amount": "0",
+                    "tusr": "31535"
+                },
+                {
+                    "date": "1558569600",
+                    "dapp": "contentos",
+                    "dau": "3244",
+                    "dnu": "280",
+                    "trxs": "5659",
+                    "amount": "0",
+                    "tusr": "31815"
+                },
+                {
+                    "date": "1558656000",
+                    "dapp": "contentos",
+                    "dau": "3294",
+                    "dnu": "261",
+                    "trxs": "5645",
+                    "amount": "0",
+                    "tusr": "32076"
+                },
+                {
+                    "date": "1558742400",
+                    "dapp": "contentos",
+                    "dau": "3607",
+                    "dnu": "297",
+                    "trxs": "5934",
+                    "amount": "0",
+                    "tusr": "32373"
+                },
+                {
+                    "date": "1558828800",
+                    "dapp": "contentos",
+                    "dau": "3580",
+                    "dnu": "261",
+                    "trxs": "6009",
+                    "amount": "0",
+                    "tusr": "32634"
+                },
+                {
+                    "date": "1558915200",
+                    "dapp": "contentos",
+                    "dau": "3899",
+                    "dnu": "291",
+                    "trxs": "6195",
+                    "amount": "0",
+                    "tusr": "32925"
+                },
+                {
+                    "date": "1559001600",
+                    "dapp": "contentos",
+                    "dau": "3858",
+                    "dnu": "235",
+                    "trxs": "6080",
+                    "amount": "0",
+                    "tusr": "33160"
+                },
+                {
+                    "date": "1559088000",
+                    "dapp": "contentos",
+                    "dau": "4019",
+                    "dnu": "304",
+                    "trxs": "6056",
+                    "amount": "0",
+                    "tusr": "33464"
+                },
+                {
+                    "date": "1559174400",
+                    "dapp": "contentos",
+                    "dau": "3962",
+                    "dnu": "281",
+                    "trxs": "4784",
+                    "amount": "0",
+                    "tusr": "33745"
+                },
+                {
+                    "date": "1559260800",
+                    "dapp": "contentos",
+                    "dau": "4180",
+                    "dnu": "223",
+                    "trxs": "4190",
+                    "amount": "0",
+                    "tusr": "33968"
+                },
+                {
+                    "date": "1559347200",
+                    "dapp": "contentos",
+                    "dau": "3958",
+                    "dnu": "199",
+                    "trxs": "9578",
+                    "amount": "0",
+                    "tusr": "34167"
+                },
+                {
+                    "date": "1559433600",
+                    "dapp": "contentos",
+                    "dau": "4087",
+                    "dnu": "229",
+                    "trxs": "11243",
+                    "amount": "0",
+                    "tusr": "34396"
+                },
+                {
+                    "date": "1559520000",
+                    "dapp": "contentos",
+                    "dau": "4119",
+                    "dnu": "328",
+                    "trxs": "11704",
+                    "amount": "0",
+                    "tusr": "34724"
+                },
+                {
+                    "date": "1559606400",
+                    "dapp": "contentos",
+                    "dau": "4720",
+                    "dnu": "1283",
+                    "trxs": "12382",
+                    "amount": "0",
+                    "tusr": "36007"
+                },
+                {
+                    "date": "1559692800",
+                    "dapp": "contentos",
+                    "dau": "4495",
+                    "dnu": "922",
+                    "trxs": "12110",
+                    "amount": "0",
+                    "tusr": "36929"
+                },
+                {
+                    "date": "1559779200",
+                    "dapp": "contentos",
+                    "dau": "4573",
+                    "dnu": "715",
+                    "trxs": "7924",
+                    "amount": "0",
+                    "tusr": "37644"
+                },
+                {
+                    "date": "1559865600",
+                    "dapp": "contentos",
+                    "dau": "4817",
+                    "dnu": "595",
+                    "trxs": "4817",
+                    "amount": "0",
+                    "tusr": "38239"
+                },
+                {
+                    "date": "1559952000",
+                    "dapp": "contentos",
+                    "dau": "4816",
+                    "dnu": "1133",
+                    "trxs": "4816",
+                    "amount": "0",
+                    "tusr": "39372"
+                },
+                {
+                    "date": "1560038400",
+                    "dapp": "contentos",
+                    "dau": "5211",
+                    "dnu": "1438",
+                    "trxs": "5212",
+                    "amount": "0",
+                    "tusr": "40810"
+                }
+            ],
+            "game2048": [
+                {
+                    "date": "1555286400",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555372800",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555459200",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555545600",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555632000",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555718400",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555804800",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555891200",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555977600",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1556064000",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1556150400",
+                    "dapp": "game 2048",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1556236800",
+                    "dapp": "game 2048",
+                    "dau": "42",
+                    "dnu": "42",
+                    "trxs": "836",
+                    "amount": "4365000000",
+                    "tusr": "42"
+                },
+                {
+                    "date": "1556323200",
+                    "dapp": "game 2048",
+                    "dau": "45",
+                    "dnu": "18",
+                    "trxs": "545",
+                    "amount": "4050000000",
+                    "tusr": "60"
+                },
+                {
+                    "date": "1556409600",
+                    "dapp": "game 2048",
+                    "dau": "53",
+                    "dnu": "14",
+                    "trxs": "1935",
+                    "amount": "14680000000",
+                    "tusr": "74"
+                },
+                {
+                    "date": "1556496000",
+                    "dapp": "game 2048",
+                    "dau": "58",
+                    "dnu": "18",
+                    "trxs": "972",
+                    "amount": "7515000000",
+                    "tusr": "92"
+                },
+                {
+                    "date": "1556582400",
+                    "dapp": "game 2048",
+                    "dau": "45",
+                    "dnu": "11",
+                    "trxs": "1677",
+                    "amount": "13525000000",
+                    "tusr": "103"
+                },
+                {
+                    "date": "1556668800",
+                    "dapp": "game 2048",
+                    "dau": "44",
+                    "dnu": "6",
+                    "trxs": "2322",
+                    "amount": "19450000000",
+                    "tusr": "109"
+                },
+                {
+                    "date": "1556755200",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "5",
+                    "trxs": "371",
+                    "amount": "3065000000",
+                    "tusr": "114"
+                },
+                {
+                    "date": "1556841600",
+                    "dapp": "game 2048",
+                    "dau": "18",
+                    "dnu": "0",
+                    "trxs": "138",
+                    "amount": "1110000000",
+                    "tusr": "114"
+                },
+                {
+                    "date": "1556928000",
+                    "dapp": "game 2048",
+                    "dau": "10",
+                    "dnu": "0",
+                    "trxs": "113",
+                    "amount": "1025000000",
+                    "tusr": "114"
+                },
+                {
+                    "date": "1557014400",
+                    "dapp": "game 2048",
+                    "dau": "26",
+                    "dnu": "0",
+                    "trxs": "269",
+                    "amount": "2375000000",
+                    "tusr": "114"
+                },
+                {
+                    "date": "1557100800",
+                    "dapp": "game 2048",
+                    "dau": "14",
+                    "dnu": "3",
+                    "trxs": "114",
+                    "amount": "1005000000",
+                    "tusr": "117"
+                },
+                {
+                    "date": "1557187200",
+                    "dapp": "game 2048",
+                    "dau": "32",
+                    "dnu": "1",
+                    "trxs": "344",
+                    "amount": "2340000000",
+                    "tusr": "118"
+                },
+                {
+                    "date": "1557273600",
+                    "dapp": "game 2048",
+                    "dau": "66",
+                    "dnu": "20",
+                    "trxs": "3310",
+                    "amount": "25360000000",
+                    "tusr": "138"
+                },
+                {
+                    "date": "1557360000",
+                    "dapp": "game 2048",
+                    "dau": "52",
+                    "dnu": "8",
+                    "trxs": "7552",
+                    "amount": "384915000000",
+                    "tusr": "146"
+                },
+                {
+                    "date": "1557446400",
+                    "dapp": "game 2048",
+                    "dau": "48",
+                    "dnu": "2",
+                    "trxs": "2025",
+                    "amount": "14565000000",
+                    "tusr": "148"
+                },
+                {
+                    "date": "1557532800",
+                    "dapp": "game 2048",
+                    "dau": "59",
+                    "dnu": "10",
+                    "trxs": "11783",
+                    "amount": "99275000000",
+                    "tusr": "158"
+                },
+                {
+                    "date": "1557619200",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "1",
+                    "trxs": "1240",
+                    "amount": "8125000000",
+                    "tusr": "159"
+                },
+                {
+                    "date": "1557705600",
+                    "dapp": "game 2048",
+                    "dau": "30",
+                    "dnu": "3",
+                    "trxs": "359",
+                    "amount": "2400000000",
+                    "tusr": "162"
+                },
+                {
+                    "date": "1557792000",
+                    "dapp": "game 2048",
+                    "dau": "22",
+                    "dnu": "0",
+                    "trxs": "214",
+                    "amount": "1650000000",
+                    "tusr": "162"
+                },
+                {
+                    "date": "1557878400",
+                    "dapp": "game 2048",
+                    "dau": "19",
+                    "dnu": "0",
+                    "trxs": "145",
+                    "amount": "995000000",
+                    "tusr": "162"
+                },
+                {
+                    "date": "1557964800",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "2",
+                    "trxs": "200",
+                    "amount": "1440000000",
+                    "tusr": "164"
+                },
+                {
+                    "date": "1558051200",
+                    "dapp": "game 2048",
+                    "dau": "29",
+                    "dnu": "1",
+                    "trxs": "269",
+                    "amount": "1965000000",
+                    "tusr": "165"
+                },
+                {
+                    "date": "1558137600",
+                    "dapp": "game 2048",
+                    "dau": "16",
+                    "dnu": "0",
+                    "trxs": "119",
+                    "amount": "925000000",
+                    "tusr": "165"
+                },
+                {
+                    "date": "1558224000",
+                    "dapp": "game 2048",
+                    "dau": "5",
+                    "dnu": "0",
+                    "trxs": "28",
+                    "amount": "240000000",
+                    "tusr": "165"
+                },
+                {
+                    "date": "1558310400",
+                    "dapp": "game 2048",
+                    "dau": "7",
+                    "dnu": "1",
+                    "trxs": "47",
+                    "amount": "410000000",
+                    "tusr": "166"
+                },
+                {
+                    "date": "1558396800",
+                    "dapp": "game 2048",
+                    "dau": "42",
+                    "dnu": "5",
+                    "trxs": "1690",
+                    "amount": "11730000000",
+                    "tusr": "171"
+                },
+                {
+                    "date": "1558483200",
+                    "dapp": "game 2048",
+                    "dau": "30",
+                    "dnu": "2",
+                    "trxs": "565",
+                    "amount": "3850000000",
+                    "tusr": "173"
+                },
+                {
+                    "date": "1558569600",
+                    "dapp": "game 2048",
+                    "dau": "42",
+                    "dnu": "4",
+                    "trxs": "4477",
+                    "amount": "34220000000",
+                    "tusr": "177"
+                },
+                {
+                    "date": "1558656000",
+                    "dapp": "game 2048",
+                    "dau": "25",
+                    "dnu": "1",
+                    "trxs": "169",
+                    "amount": "1190000000",
+                    "tusr": "178"
+                },
+                {
+                    "date": "1558742400",
+                    "dapp": "game 2048",
+                    "dau": "16",
+                    "dnu": "1",
+                    "trxs": "83",
+                    "amount": "675000000",
+                    "tusr": "179"
+                },
+                {
+                    "date": "1558828800",
+                    "dapp": "game 2048",
+                    "dau": "7",
+                    "dnu": "0",
+                    "trxs": "89",
+                    "amount": "810000000",
+                    "tusr": "179"
+                },
+                {
+                    "date": "1558915200",
+                    "dapp": "game 2048",
+                    "dau": "18",
+                    "dnu": "0",
+                    "trxs": "123",
+                    "amount": "830000000",
+                    "tusr": "179"
+                },
+                {
+                    "date": "1559001600",
+                    "dapp": "game 2048",
+                    "dau": "39",
+                    "dnu": "5",
+                    "trxs": "1364",
+                    "amount": "8885000000",
+                    "tusr": "184"
+                },
+                {
+                    "date": "1559088000",
+                    "dapp": "game 2048",
+                    "dau": "33",
+                    "dnu": "7",
+                    "trxs": "443",
+                    "amount": "3005000000",
+                    "tusr": "191"
+                },
+                {
+                    "date": "1559174400",
+                    "dapp": "game 2048",
+                    "dau": "41",
+                    "dnu": "7",
+                    "trxs": "1136",
+                    "amount": "7445000000",
+                    "tusr": "198"
+                },
+                {
+                    "date": "1559260800",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "2",
+                    "trxs": "451",
+                    "amount": "2690000000",
+                    "tusr": "200"
+                },
+                {
+                    "date": "1559347200",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "1",
+                    "trxs": "184",
+                    "amount": "1255000000",
+                    "tusr": "201"
+                },
+                {
+                    "date": "1559433600",
+                    "dapp": "game 2048",
+                    "dau": "9",
+                    "dnu": "1",
+                    "trxs": "31",
+                    "amount": "225000000",
+                    "tusr": "202"
+                },
+                {
+                    "date": "1559520000",
+                    "dapp": "game 2048",
+                    "dau": "31",
+                    "dnu": "7",
+                    "trxs": "195",
+                    "amount": "1345000000",
+                    "tusr": "209"
+                },
+                {
+                    "date": "1559606400",
+                    "dapp": "game 2048",
+                    "dau": "82",
+                    "dnu": "49",
+                    "trxs": "4997",
+                    "amount": "33235000000",
+                    "tusr": "258"
+                },
+                {
+                    "date": "1559692800",
+                    "dapp": "game 2048",
+                    "dau": "75",
+                    "dnu": "33",
+                    "trxs": "2327",
+                    "amount": "15355000000",
+                    "tusr": "291"
+                },
+                {
+                    "date": "1559779200",
+                    "dapp": "game 2048",
+                    "dau": "67",
+                    "dnu": "10",
+                    "trxs": "3789",
+                    "amount": "26810000000",
+                    "tusr": "301"
+                },
+                {
+                    "date": "1559865600",
+                    "dapp": "game 2048",
+                    "dau": "71",
+                    "dnu": "26",
+                    "trxs": "3169",
+                    "amount": "22925000000",
+                    "tusr": "327"
+                },
+                {
+                    "date": "1559952000",
+                    "dapp": "game 2048",
+                    "dau": "51",
+                    "dnu": "7",
+                    "trxs": "1589",
+                    "amount": "11745000000",
+                    "tusr": "334"
+                },
+                {
+                    "date": "1560038400",
+                    "dapp": "game 2048",
+                    "dau": "43",
+                    "dnu": "5",
+                    "trxs": "983",
+                    "amount": "7280000000",
+                    "tusr": "339"
+                }
+            ],
+            "walkcoin": [
+                {
+                    "date": "1555286400",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555372800",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555459200",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555545600",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555632000",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555718400",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555804800",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "0"
+                },
+                {
+                    "date": "1555891200",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "5",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "5"
+                },
+                {
+                    "date": "1555977600",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "2",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "7"
+                },
+                {
+                    "date": "1556064000",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "7"
+                },
+                {
+                    "date": "1556150400",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "1",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "8"
+                },
+                {
+                    "date": "1556236800",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "1",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "9"
+                },
+                {
+                    "date": "1556323200",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "9"
+                },
+                {
+                    "date": "1556409600",
+                    "dapp": "walk coin",
+                    "dau": "1",
+                    "dnu": "0",
+                    "trxs": "4",
+                    "amount": "0",
+                    "tusr": "9"
+                },
+                {
+                    "date": "1556496000",
+                    "dapp": "walk coin",
+                    "dau": "14",
+                    "dnu": "19",
+                    "trxs": "106",
+                    "amount": "0",
+                    "tusr": "28"
+                },
+                {
+                    "date": "1556582400",
+                    "dapp": "walk coin",
+                    "dau": "3",
+                    "dnu": "13",
+                    "trxs": "44",
+                    "amount": "0",
+                    "tusr": "41"
+                },
+                {
+                    "date": "1556668800",
+                    "dapp": "walk coin",
+                    "dau": "3",
+                    "dnu": "13",
+                    "trxs": "44",
+                    "amount": "0",
+                    "tusr": "54"
+                },
+                {
+                    "date": "1556755200",
+                    "dapp": "walk coin",
+                    "dau": "3",
+                    "dnu": "4",
+                    "trxs": "44",
+                    "amount": "0",
+                    "tusr": "58"
+                },
+                {
+                    "date": "1556841600",
+                    "dapp": "walk coin",
+                    "dau": "5",
+                    "dnu": "7",
+                    "trxs": "46",
+                    "amount": "0",
+                    "tusr": "65"
+                },
+                {
+                    "date": "1556928000",
+                    "dapp": "walk coin",
+                    "dau": "3",
+                    "dnu": "4",
+                    "trxs": "44",
+                    "amount": "0",
+                    "tusr": "69"
+                },
+                {
+                    "date": "1557014400",
+                    "dapp": "walk coin",
+                    "dau": "20",
+                    "dnu": "6",
+                    "trxs": "334",
+                    "amount": "0",
+                    "tusr": "75"
+                },
+                {
+                    "date": "1557100800",
+                    "dapp": "walk coin",
+                    "dau": "27",
+                    "dnu": "8",
+                    "trxs": "201",
+                    "amount": "0",
+                    "tusr": "83"
+                },
+                {
+                    "date": "1557187200",
+                    "dapp": "walk coin",
+                    "dau": "32",
+                    "dnu": "10",
+                    "trxs": "213",
+                    "amount": "0",
+                    "tusr": "93"
+                },
+                {
+                    "date": "1557273600",
+                    "dapp": "walk coin",
+                    "dau": "33",
+                    "dnu": "10",
+                    "trxs": "415",
+                    "amount": "0",
+                    "tusr": "103"
+                },
+                {
+                    "date": "1557360000",
+                    "dapp": "walk coin",
+                    "dau": "33",
+                    "dnu": "7",
+                    "trxs": "128",
+                    "amount": "0",
+                    "tusr": "110"
+                },
+                {
+                    "date": "1557446400",
+                    "dapp": "walk coin",
+                    "dau": "28",
+                    "dnu": "4",
+                    "trxs": "423",
+                    "amount": "0",
+                    "tusr": "114"
+                },
+                {
+                    "date": "1557532800",
+                    "dapp": "walk coin",
+                    "dau": "28",
+                    "dnu": "8",
+                    "trxs": "174",
+                    "amount": "0",
+                    "tusr": "122"
+                },
+                {
+                    "date": "1557619200",
+                    "dapp": "walk coin",
+                    "dau": "30",
+                    "dnu": "13",
+                    "trxs": "206",
+                    "amount": "0",
+                    "tusr": "135"
+                },
+                {
+                    "date": "1557705600",
+                    "dapp": "walk coin",
+                    "dau": "37",
+                    "dnu": "11",
+                    "trxs": "312",
+                    "amount": "0",
+                    "tusr": "146"
+                },
+                {
+                    "date": "1557792000",
+                    "dapp": "walk coin",
+                    "dau": "43",
+                    "dnu": "14",
+                    "trxs": "283",
+                    "amount": "0",
+                    "tusr": "160"
+                },
+                {
+                    "date": "1557878400",
+                    "dapp": "walk coin",
+                    "dau": "43",
+                    "dnu": "6",
+                    "trxs": "312",
+                    "amount": "0",
+                    "tusr": "166"
+                },
+                {
+                    "date": "1557964800",
+                    "dapp": "walk coin",
+                    "dau": "45",
+                    "dnu": "12",
+                    "trxs": "282",
+                    "amount": "0",
+                    "tusr": "178"
+                },
+                {
+                    "date": "1558051200",
+                    "dapp": "walk coin",
+                    "dau": "51",
+                    "dnu": "15",
+                    "trxs": "166",
+                    "amount": "0",
+                    "tusr": "193"
+                },
+                {
+                    "date": "1558137600",
+                    "dapp": "walk coin",
+                    "dau": "48",
+                    "dnu": "16",
+                    "trxs": "128",
+                    "amount": "0",
+                    "tusr": "209"
+                },
+                {
+                    "date": "1558224000",
+                    "dapp": "walk coin",
+                    "dau": "47",
+                    "dnu": "15",
+                    "trxs": "134",
+                    "amount": "0",
+                    "tusr": "224"
+                },
+                {
+                    "date": "1558310400",
+                    "dapp": "walk coin",
+                    "dau": "53",
+                    "dnu": "12",
+                    "trxs": "170",
+                    "amount": "0",
+                    "tusr": "236"
+                },
+                {
+                    "date": "1558396800",
+                    "dapp": "walk coin",
+                    "dau": "53",
+                    "dnu": "16",
+                    "trxs": "171",
+                    "amount": "0",
+                    "tusr": "252"
+                },
+                {
+                    "date": "1558483200",
+                    "dapp": "walk coin",
+                    "dau": "63",
+                    "dnu": "17",
+                    "trxs": "533",
+                    "amount": "0",
+                    "tusr": "269"
+                },
+                {
+                    "date": "1558569600",
+                    "dapp": "walk coin",
+                    "dau": "47",
+                    "dnu": "12",
+                    "trxs": "162",
+                    "amount": "0",
+                    "tusr": "281"
+                },
+                {
+                    "date": "1558656000",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "281"
+                },
+                {
+                    "date": "1558742400",
+                    "dapp": "walk coin",
+                    "dau": "19",
+                    "dnu": "3",
+                    "trxs": "90",
+                    "amount": "0",
+                    "tusr": "284"
+                },
+                {
+                    "date": "1558828800",
+                    "dapp": "walk coin",
+                    "dau": "0",
+                    "dnu": "0",
+                    "trxs": "0",
+                    "amount": "0",
+                    "tusr": "284"
+                },
+                {
+                    "date": "1558915200",
+                    "dapp": "walk coin",
+                    "dau": "36",
+                    "dnu": "9",
+                    "trxs": "130",
+                    "amount": "0",
+                    "tusr": "293"
+                },
+                {
+                    "date": "1559001600",
+                    "dapp": "walk coin",
+                    "dau": "35",
+                    "dnu": "10",
+                    "trxs": "169",
+                    "amount": "0",
+                    "tusr": "303"
+                },
+                {
+                    "date": "1559088000",
+                    "dapp": "walk coin",
+                    "dau": "116",
+                    "dnu": "75",
+                    "trxs": "486",
+                    "amount": "0",
+                    "tusr": "378"
+                },
+                {
+                    "date": "1559174400",
+                    "dapp": "walk coin",
+                    "dau": "136",
+                    "dnu": "89",
+                    "trxs": "492",
+                    "amount": "0",
+                    "tusr": "467"
+                },
+                {
+                    "date": "1559260800",
+                    "dapp": "walk coin",
+                    "dau": "97",
+                    "dnu": "43",
+                    "trxs": "406",
+                    "amount": "0",
+                    "tusr": "510"
+                },
+                {
+                    "date": "1559347200",
+                    "dapp": "walk coin",
+                    "dau": "150",
+                    "dnu": "67",
+                    "trxs": "442",
+                    "amount": "0",
+                    "tusr": "577"
+                },
+                {
+                    "date": "1559433600",
+                    "dapp": "walk coin",
+                    "dau": "134",
+                    "dnu": "61",
+                    "trxs": "385",
+                    "amount": "0",
+                    "tusr": "638"
+                },
+                {
+                    "date": "1559520000",
+                    "dapp": "walk coin",
+                    "dau": "151",
+                    "dnu": "88",
+                    "trxs": "650",
+                    "amount": "0",
+                    "tusr": "726"
+                },
+                {
+                    "date": "1559606400",
+                    "dapp": "walk coin",
+                    "dau": "132",
+                    "dnu": "71",
+                    "trxs": "374",
+                    "amount": "0",
+                    "tusr": "797"
+                },
+                {
+                    "date": "1559692800",
+                    "dapp": "walk coin",
+                    "dau": "179",
+                    "dnu": "110",
+                    "trxs": "423",
+                    "amount": "0",
+                    "tusr": "907"
+                },
+                {
+                    "date": "1559779200",
+                    "dapp": "walk coin",
+                    "dau": "167",
+                    "dnu": "90",
+                    "trxs": "856",
+                    "amount": "0",
+                    "tusr": "997"
+                },
+                {
+                    "date": "1559865600",
+                    "dapp": "walk coin",
+                    "dau": "144",
+                    "dnu": "82",
+                    "trxs": "349",
+                    "amount": "0",
+                    "tusr": "1079"
+                },
+                {
+                    "date": "1559952000",
+                    "dapp": "walk coin",
+                    "dau": "141",
+                    "dnu": "87",
+                    "trxs": "602",
+                    "amount": "0",
+                    "tusr": "1166"
+                },
+                {
+                    "date": "1560038400",
+                    "dapp": "walk coin",
+                    "dau": "183",
+                    "dnu": "105",
+                    "trxs": "678",
+                    "amount": "0",
+                    "tusr": "1271"
+                }
+            ]
         }
-    ],
-    "COS.TV": [
-        {
-            "date": "1555286400",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555372800",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555459200",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "1",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1555545600",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1555632000",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1555718400",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1555804800",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1555891200",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1555977600",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1556064000",
-            "dapp": "contentos",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "1"
-        },
-        {
-            "date": "1556150400",
-            "dapp": "contentos",
-            "dau": "505",
-            "dnu": "23959",
-            "trxs": "2593",
-            "amount": "0",
-            "tusr": "23960"
-        },
-        {
-            "date": "1556236800",
-            "dapp": "contentos",
-            "dau": "1297",
-            "dnu": "307",
-            "trxs": "4411",
-            "amount": "0",
-            "tusr": "24267"
-        },
-        {
-            "date": "1556323200",
-            "dapp": "contentos",
-            "dau": "1341",
-            "dnu": "308",
-            "trxs": "4579",
-            "amount": "0",
-            "tusr": "24575"
-        },
-        {
-            "date": "1556409600",
-            "dapp": "contentos",
-            "dau": "1381",
-            "dnu": "243",
-            "trxs": "4490",
-            "amount": "0",
-            "tusr": "24818"
-        },
-        {
-            "date": "1556496000",
-            "dapp": "contentos",
-            "dau": "1439",
-            "dnu": "284",
-            "trxs": "4065",
-            "amount": "0",
-            "tusr": "25102"
-        },
-        {
-            "date": "1556582400",
-            "dapp": "contentos",
-            "dau": "1485",
-            "dnu": "258",
-            "trxs": "3835",
-            "amount": "0",
-            "tusr": "25360"
-        },
-        {
-            "date": "1556668800",
-            "dapp": "contentos",
-            "dau": "1628",
-            "dnu": "275",
-            "trxs": "4566",
-            "amount": "0",
-            "tusr": "25635"
-        },
-        {
-            "date": "1556755200",
-            "dapp": "contentos",
-            "dau": "1693",
-            "dnu": "310",
-            "trxs": "4805",
-            "amount": "0",
-            "tusr": "25945"
-        },
-        {
-            "date": "1556841600",
-            "dapp": "contentos",
-            "dau": "1684",
-            "dnu": "216",
-            "trxs": "4869",
-            "amount": "0",
-            "tusr": "26161"
-        },
-        {
-            "date": "1556928000",
-            "dapp": "contentos",
-            "dau": "1703",
-            "dnu": "210",
-            "trxs": "5045",
-            "amount": "0",
-            "tusr": "26371"
-        },
-        {
-            "date": "1557014400",
-            "dapp": "contentos",
-            "dau": "1810",
-            "dnu": "278",
-            "trxs": "5037",
-            "amount": "0",
-            "tusr": "26649"
-        },
-        {
-            "date": "1557100800",
-            "dapp": "contentos",
-            "dau": "1934",
-            "dnu": "326",
-            "trxs": "4972",
-            "amount": "0",
-            "tusr": "26975"
-        },
-        {
-            "date": "1557187200",
-            "dapp": "contentos",
-            "dau": "1946",
-            "dnu": "317",
-            "trxs": "5139",
-            "amount": "0",
-            "tusr": "27292"
-        },
-        {
-            "date": "1557273600",
-            "dapp": "contentos",
-            "dau": "2115",
-            "dnu": "411",
-            "trxs": "5220",
-            "amount": "0",
-            "tusr": "27703"
-        },
-        {
-            "date": "1557360000",
-            "dapp": "contentos",
-            "dau": "2038",
-            "dnu": "318",
-            "trxs": "4966",
-            "amount": "0",
-            "tusr": "28021"
-        },
-        {
-            "date": "1557446400",
-            "dapp": "contentos",
-            "dau": "2182",
-            "dnu": "277",
-            "trxs": "5116",
-            "amount": "0",
-            "tusr": "28298"
-        },
-        {
-            "date": "1557532800",
-            "dapp": "contentos",
-            "dau": "2099",
-            "dnu": "291",
-            "trxs": "5273",
-            "amount": "0",
-            "tusr": "28589"
-        },
-        {
-            "date": "1557619200",
-            "dapp": "contentos",
-            "dau": "2156",
-            "dnu": "275",
-            "trxs": "5382",
-            "amount": "0",
-            "tusr": "28864"
-        },
-        {
-            "date": "1557705600",
-            "dapp": "contentos",
-            "dau": "2704",
-            "dnu": "341",
-            "trxs": "7315",
-            "amount": "0",
-            "tusr": "29205"
-        },
-        {
-            "date": "1557792000",
-            "dapp": "contentos",
-            "dau": "2728",
-            "dnu": "268",
-            "trxs": "7200",
-            "amount": "0",
-            "tusr": "29473"
-        },
-        {
-            "date": "1557878400",
-            "dapp": "contentos",
-            "dau": "2799",
-            "dnu": "281",
-            "trxs": "7200",
-            "amount": "0",
-            "tusr": "29754"
-        },
-        {
-            "date": "1557964800",
-            "dapp": "contentos",
-            "dau": "2437",
-            "dnu": "226",
-            "trxs": "5252",
-            "amount": "0",
-            "tusr": "29980"
-        },
-        {
-            "date": "1558051200",
-            "dapp": "contentos",
-            "dau": "2360",
-            "dnu": "189",
-            "trxs": "4998",
-            "amount": "0",
-            "tusr": "30169"
-        },
-        {
-            "date": "1558137600",
-            "dapp": "contentos",
-            "dau": "2254",
-            "dnu": "198",
-            "trxs": "5025",
-            "amount": "0",
-            "tusr": "30367"
-        },
-        {
-            "date": "1558224000",
-            "dapp": "contentos",
-            "dau": "2314",
-            "dnu": "218",
-            "trxs": "5077",
-            "amount": "0",
-            "tusr": "30585"
-        },
-        {
-            "date": "1558310400",
-            "dapp": "contentos",
-            "dau": "2899",
-            "dnu": "339",
-            "trxs": "5500",
-            "amount": "0",
-            "tusr": "30924"
-        },
-        {
-            "date": "1558396800",
-            "dapp": "contentos",
-            "dau": "3071",
-            "dnu": "312",
-            "trxs": "5519",
-            "amount": "0",
-            "tusr": "31236"
-        },
-        {
-            "date": "1558483200",
-            "dapp": "contentos",
-            "dau": "3055",
-            "dnu": "299",
-            "trxs": "5562",
-            "amount": "0",
-            "tusr": "31535"
-        },
-        {
-            "date": "1558569600",
-            "dapp": "contentos",
-            "dau": "3244",
-            "dnu": "280",
-            "trxs": "5659",
-            "amount": "0",
-            "tusr": "31815"
-        },
-        {
-            "date": "1558656000",
-            "dapp": "contentos",
-            "dau": "3294",
-            "dnu": "261",
-            "trxs": "5645",
-            "amount": "0",
-            "tusr": "32076"
-        },
-        {
-            "date": "1558742400",
-            "dapp": "contentos",
-            "dau": "3607",
-            "dnu": "297",
-            "trxs": "5934",
-            "amount": "0",
-            "tusr": "32373"
-        },
-        {
-            "date": "1558828800",
-            "dapp": "contentos",
-            "dau": "3580",
-            "dnu": "261",
-            "trxs": "6009",
-            "amount": "0",
-            "tusr": "32634"
-        },
-        {
-            "date": "1558915200",
-            "dapp": "contentos",
-            "dau": "3899",
-            "dnu": "291",
-            "trxs": "6195",
-            "amount": "0",
-            "tusr": "32925"
-        },
-        {
-            "date": "1559001600",
-            "dapp": "contentos",
-            "dau": "3858",
-            "dnu": "235",
-            "trxs": "6080",
-            "amount": "0",
-            "tusr": "33160"
-        },
-        {
-            "date": "1559088000",
-            "dapp": "contentos",
-            "dau": "4019",
-            "dnu": "304",
-            "trxs": "6056",
-            "amount": "0",
-            "tusr": "33464"
-        },
-        {
-            "date": "1559174400",
-            "dapp": "contentos",
-            "dau": "3962",
-            "dnu": "281",
-            "trxs": "4784",
-            "amount": "0",
-            "tusr": "33745"
-        },
-        {
-            "date": "1559260800",
-            "dapp": "contentos",
-            "dau": "4180",
-            "dnu": "223",
-            "trxs": "4190",
-            "amount": "0",
-            "tusr": "33968"
-        },
-        {
-            "date": "1559347200",
-            "dapp": "contentos",
-            "dau": "3958",
-            "dnu": "199",
-            "trxs": "9578",
-            "amount": "0",
-            "tusr": "34167"
-        },
-        {
-            "date": "1559433600",
-            "dapp": "contentos",
-            "dau": "4087",
-            "dnu": "229",
-            "trxs": "11243",
-            "amount": "0",
-            "tusr": "34396"
-        },
-        {
-            "date": "1559520000",
-            "dapp": "contentos",
-            "dau": "4119",
-            "dnu": "328",
-            "trxs": "11704",
-            "amount": "0",
-            "tusr": "34724"
-        },
-        {
-            "date": "1559606400",
-            "dapp": "contentos",
-            "dau": "4720",
-            "dnu": "1283",
-            "trxs": "12382",
-            "amount": "0",
-            "tusr": "36007"
-        },
-        {
-            "date": "1559692800",
-            "dapp": "contentos",
-            "dau": "4495",
-            "dnu": "922",
-            "trxs": "12110",
-            "amount": "0",
-            "tusr": "36929"
-        },
-        {
-            "date": "1559779200",
-            "dapp": "contentos",
-            "dau": "4573",
-            "dnu": "715",
-            "trxs": "7924",
-            "amount": "0",
-            "tusr": "37644"
-        },
-        {
-            "date": "1559865600",
-            "dapp": "contentos",
-            "dau": "4817",
-            "dnu": "595",
-            "trxs": "4817",
-            "amount": "0",
-            "tusr": "38239"
-        },
-        {
-            "date": "1559952000",
-            "dapp": "contentos",
-            "dau": "4816",
-            "dnu": "1133",
-            "trxs": "4816",
-            "amount": "0",
-            "tusr": "39372"
-        },
-        {
-            "date": "1560038400",
-            "dapp": "contentos",
-            "dau": "5211",
-            "dnu": "1438",
-            "trxs": "5212",
-            "amount": "0",
-            "tusr": "40810"
+    },
+    "V0.3": {
+        "version": "V0.3",
+        "versionName": "Venus",
+        "list": {
+            "photogrid": [
+                {
+                    "date": "1560124800",
+                    "dapp": "photogrid",
+                    "dau": "1010",
+                    "dnu": "2094",
+                    "trxs": "23441",
+                    "amount": "12403000000",
+                    "tusr": "2094"
+                },
+                {
+                    "date": "1560211200",
+                    "dapp": "photogrid",
+                    "dau": "1808",
+                    "dnu": "2838",
+                    "trxs": "37367",
+                    "amount": "26957000000",
+                    "tusr": "4932"
+                },
+                {
+                    "date": "1560297600",
+                    "dapp": "photogrid",
+                    "dau": "1819",
+                    "dnu": "2460",
+                    "trxs": "41761",
+                    "amount": "26500000000",
+                    "tusr": "7392"
+                },
+                {
+                    "date": "1560384000",
+                    "dapp": "photogrid",
+                    "dau": "1744",
+                    "dnu": "2153",
+                    "trxs": "37988",
+                    "amount": "26710000000",
+                    "tusr": "9545"
+                },
+                {
+                    "date": "1560470400",
+                    "dapp": "photogrid",
+                    "dau": "1728",
+                    "dnu": "2026",
+                    "trxs": "35584",
+                    "amount": "25748000000",
+                    "tusr": "11571"
+                },
+                {
+                    "date": "1560556800",
+                    "dapp": "photogrid",
+                    "dau": "1779",
+                    "dnu": "1851",
+                    "trxs": "39053",
+                    "amount": "25388000000",
+                    "tusr": "13422"
+                },
+                {
+                    "date": "1560643200",
+                    "dapp": "photogrid",
+                    "dau": "1847",
+                    "dnu": "1992",
+                    "trxs": "39978",
+                    "amount": "24678000000",
+                    "tusr": "15414"
+                },
+                {
+                    "date": "1560729600",
+                    "dapp": "photogrid",
+                    "dau": "1867",
+                    "dnu": "2229",
+                    "trxs": "29999",
+                    "amount": "28400000000",
+                    "tusr": "17643"
+                },
+                {
+                    "date": "1560816000",
+                    "dapp": "photogrid",
+                    "dau": "2003",
+                    "dnu": "2432",
+                    "trxs": "30873",
+                    "amount": "29546000000",
+                    "tusr": "20075"
+                },
+                {
+                    "date": "1560902400",
+                    "dapp": "photogrid",
+                    "dau": "2043",
+                    "dnu": "2391",
+                    "trxs": "32154",
+                    "amount": "28617000000",
+                    "tusr": "22466"
+                },
+                {
+                    "date": "1560988800",
+                    "dapp": "photogrid",
+                    "dau": "2100",
+                    "dnu": "2596",
+                    "trxs": "32493",
+                    "amount": "30590000000",
+                    "tusr": "25062"
+                },
+                {
+                    "date": "1561075200",
+                    "dapp": "photogrid",
+                    "dau": "1626",
+                    "dnu": "1731",
+                    "trxs": "28798",
+                    "amount": "16884000000",
+                    "tusr": "26793"
+                },
+                {
+                    "date": "1561161600",
+                    "dapp": "photogrid",
+                    "dau": "1457",
+                    "dnu": "1218",
+                    "trxs": "29697",
+                    "amount": "10211000000",
+                    "tusr": "28011"
+                },
+                {
+                    "date": "1561248000",
+                    "dapp": "photogrid",
+                    "dau": "1399",
+                    "dnu": "1221",
+                    "trxs": "29025",
+                    "amount": "8682000000",
+                    "tusr": "29232"
+                },
+                {
+                    "date": "1561334400",
+                    "dapp": "photogrid",
+                    "dau": "1355",
+                    "dnu": "993",
+                    "trxs": "29005",
+                    "amount": "9698000000",
+                    "tusr": "30225"
+                },
+                {
+                    "date": "1561420800",
+                    "dapp": "photogrid",
+                    "dau": "1346",
+                    "dnu": "1030",
+                    "trxs": "24855",
+                    "amount": "8789000000",
+                    "tusr": "31255"
+                },
+                {
+                    "date": "1561507200",
+                    "dapp": "photogrid",
+                    "dau": "1391",
+                    "dnu": "1121",
+                    "trxs": "26065",
+                    "amount": "10163000000",
+                    "tusr": "32376"
+                },
+                {
+                    "date": "1561593600",
+                    "dapp": "photogrid",
+                    "dau": "1423",
+                    "dnu": "1250",
+                    "trxs": "27305",
+                    "amount": "11228000000",
+                    "tusr": "33626"
+                },
+                {
+                    "date": "1561680000",
+                    "dapp": "photogrid",
+                    "dau": "1458",
+                    "dnu": "1197",
+                    "trxs": "29316",
+                    "amount": "11836000000",
+                    "tusr": "34823"
+                },
+                {
+                    "date": "1561766400",
+                    "dapp": "photogrid",
+                    "dau": "1603",
+                    "dnu": "1272",
+                    "trxs": "30544",
+                    "amount": "11857000000",
+                    "tusr": "36095"
+                },
+                {
+                    "date": "1561852800",
+                    "dapp": "photogrid",
+                    "dau": "1509",
+                    "dnu": "1198",
+                    "trxs": "30345",
+                    "amount": "12609000000",
+                    "tusr": "37293"
+                },
+                {
+                    "date": "1561939200",
+                    "dapp": "photogrid",
+                    "dau": "1547",
+                    "dnu": "1230",
+                    "trxs": "31027",
+                    "amount": "12793000000",
+                    "tusr": "38523"
+                },
+                {
+                    "date": "1562025600",
+                    "dapp": "photogrid",
+                    "dau": "1687",
+                    "dnu": "1353",
+                    "trxs": "30130",
+                    "amount": "15831000000",
+                    "tusr": "39876"
+                },
+                {
+                    "date": "1562112000",
+                    "dapp": "photogrid",
+                    "dau": "1766",
+                    "dnu": "1459",
+                    "trxs": "31214",
+                    "amount": "17111000000",
+                    "tusr": "41335"
+                },
+                {
+                    "date": "1562198400",
+                    "dapp": "photogrid",
+                    "dau": "1832",
+                    "dnu": "1431",
+                    "trxs": "33530",
+                    "amount": "18340000000",
+                    "tusr": "42766"
+                },
+                {
+                    "date": "1562284800",
+                    "dapp": "photogrid",
+                    "dau": "1010",
+                    "dnu": "2094",
+                    "trxs": "23441",
+                    "amount": "12403000000",
+                    "tusr": "2094"
+                },
+                {
+                    "date": "1562371200",
+                    "dapp": "photogrid",
+                    "dau": "1808",
+                    "dnu": "2838",
+                    "trxs": "37367",
+                    "amount": "26957000000",
+                    "tusr": "4932"
+                },
+                {
+                    "date": "1562457600",
+                    "dapp": "photogrid",
+                    "dau": "1819",
+                    "dnu": "2460",
+                    "trxs": "41761",
+                    "amount": "26500000000",
+                    "tusr": "7392"
+                },
+                {
+                    "date": "1562544000",
+                    "dapp": "photogrid",
+                    "dau": "1744",
+                    "dnu": "2153",
+                    "trxs": "37988",
+                    "amount": "26710000000",
+                    "tusr": "9545"
+                },
+                {
+                    "date": "1562630400",
+                    "dapp": "photogrid",
+                    "dau": "1728",
+                    "dnu": "2026",
+                    "trxs": "35584",
+                    "amount": "25748000000",
+                    "tusr": "11571"
+                },
+                {
+                    "date": "1562716800",
+                    "dapp": "photogrid",
+                    "dau": "1779",
+                    "dnu": "1851",
+                    "trxs": "39053",
+                    "amount": "25388000000",
+                    "tusr": "13422"
+                },
+                {
+                    "date": "1562803200",
+                    "dapp": "photogrid",
+                    "dau": "1847",
+                    "dnu": "1992",
+                    "trxs": "39978",
+                    "amount": "24678000000",
+                    "tusr": "15414"
+                },
+                {
+                    "date": "1562889600",
+                    "dapp": "photogrid",
+                    "dau": "1867",
+                    "dnu": "2229",
+                    "trxs": "29999",
+                    "amount": "28400000000",
+                    "tusr": "17643"
+                },
+                {
+                    "date": "1562976000",
+                    "dapp": "photogrid",
+                    "dau": "2003",
+                    "dnu": "2432",
+                    "trxs": "30873",
+                    "amount": "29546000000",
+                    "tusr": "20075"
+                },
+                {
+                    "date": "1563062400",
+                    "dapp": "photogrid",
+                    "dau": "2043",
+                    "dnu": "2391",
+                    "trxs": "32154",
+                    "amount": "28617000000",
+                    "tusr": "22466"
+                },
+                {
+                    "date": "1563148800",
+                    "dapp": "photogrid",
+                    "dau": "2100",
+                    "dnu": "2596",
+                    "trxs": "32493",
+                    "amount": "30590000000",
+                    "tusr": "25062"
+                },
+                {
+                    "date": "1563235200",
+                    "dapp": "photogrid",
+                    "dau": "1626",
+                    "dnu": "1731",
+                    "trxs": "28798",
+                    "amount": "16884000000",
+                    "tusr": "26793"
+                },
+                {
+                    "date": "1563321600",
+                    "dapp": "photogrid",
+                    "dau": "1457",
+                    "dnu": "1218",
+                    "trxs": "29697",
+                    "amount": "10211000000",
+                    "tusr": "28011"
+                },
+                {
+                    "date": "1563408000",
+                    "dapp": "photogrid",
+                    "dau": "1399",
+                    "dnu": "1221",
+                    "trxs": "29025",
+                    "amount": "8682000000",
+                    "tusr": "29232"
+                },
+                {
+                    "date": "1563494400",
+                    "dapp": "photogrid",
+                    "dau": "1355",
+                    "dnu": "993",
+                    "trxs": "29005",
+                    "amount": "9698000000",
+                    "tusr": "30225"
+                },
+                {
+                    "date": "1563580800",
+                    "dapp": "photogrid",
+                    "dau": "1346",
+                    "dnu": "1030",
+                    "trxs": "24855",
+                    "amount": "8789000000",
+                    "tusr": "31255"
+                },
+                {
+                    "date": "1563667200",
+                    "dapp": "photogrid",
+                    "dau": "1391",
+                    "dnu": "1121",
+                    "trxs": "26065",
+                    "amount": "10163000000",
+                    "tusr": "32376"
+                },
+                {
+                    "date": "1563753600",
+                    "dapp": "photogrid",
+                    "dau": "1423",
+                    "dnu": "1250",
+                    "trxs": "27305",
+                    "amount": "11228000000",
+                    "tusr": "33626"
+                },
+                {
+                    "date": "1563840000",
+                    "dapp": "photogrid",
+                    "dau": "1458",
+                    "dnu": "1197",
+                    "trxs": "29316",
+                    "amount": "11836000000",
+                    "tusr": "34823"
+                },
+                {
+                    "date": "1563926400",
+                    "dapp": "photogrid",
+                    "dau": "1603",
+                    "dnu": "1272",
+                    "trxs": "30544",
+                    "amount": "11857000000",
+                    "tusr": "36095"
+                },
+                {
+                    "date": "1564012800",
+                    "dapp": "photogrid",
+                    "dau": "1509",
+                    "dnu": "1198",
+                    "trxs": "30345",
+                    "amount": "12609000000",
+                    "tusr": "37293"
+                },
+                {
+                    "date": "1564099200",
+                    "dapp": "photogrid",
+                    "dau": "1547",
+                    "dnu": "1230",
+                    "trxs": "31027",
+                    "amount": "12793000000",
+                    "tusr": "38523"
+                },
+                {
+                    "date": "1564185600",
+                    "dapp": "photogrid",
+                    "dau": "1687",
+                    "dnu": "1353",
+                    "trxs": "30130",
+                    "amount": "15831000000",
+                    "tusr": "39876"
+                },
+                {
+                    "date": "1564272000",
+                    "dapp": "photogrid",
+                    "dau": "1766",
+                    "dnu": "1459",
+                    "trxs": "31214",
+                    "amount": "17111000000",
+                    "tusr": "41335"
+                },
+                {
+                    "date": "1564358400",
+                    "dapp": "photogrid",
+                    "dau": "1832",
+                    "dnu": "1431",
+                    "trxs": "33530",
+                    "amount": "18340000000",
+                    "tusr": "42766"
+                },
+                {
+                    "date": "1564444800",
+                    "dapp": "photogrid",
+                    "dau": "1010",
+                    "dnu": "2094",
+                    "trxs": "23441",
+                    "amount": "12403000000",
+                    "tusr": "2094"
+                },
+                {
+                    "date": "1564531200",
+                    "dapp": "photogrid",
+                    "dau": "1808",
+                    "dnu": "2838",
+                    "trxs": "37367",
+                    "amount": "26957000000",
+                    "tusr": "4932"
+                },
+                {
+                    "date": "1564617600",
+                    "dapp": "photogrid",
+                    "dau": "1819",
+                    "dnu": "2460",
+                    "trxs": "41761",
+                    "amount": "26500000000",
+                    "tusr": "7392"
+                },
+                {
+                    "date": "1564704000",
+                    "dapp": "photogrid",
+                    "dau": "1744",
+                    "dnu": "2153",
+                    "trxs": "37988",
+                    "amount": "26710000000",
+                    "tusr": "9545"
+                },
+                {
+                    "date": "1564790400",
+                    "dapp": "photogrid",
+                    "dau": "1728",
+                    "dnu": "2026",
+                    "trxs": "35584",
+                    "amount": "25748000000",
+                    "tusr": "11571"
+                },
+                {
+                    "date": "1564876800",
+                    "dapp": "photogrid",
+                    "dau": "1779",
+                    "dnu": "1851",
+                    "trxs": "39053",
+                    "amount": "25388000000",
+                    "tusr": "13422"
+                }
+            ],
+            "COS.TV": [
+                {
+                    "date": "1560124800",
+                    "dapp": "contentos",
+                    "dau": "2086",
+                    "dnu": "2807",
+                    "trxs": "2086",
+                    "amount": "0",
+                    "tusr": "2807"
+                },
+                {
+                    "date": "1560211200",
+                    "dapp": "contentos",
+                    "dau": "5626",
+                    "dnu": "5542",
+                    "trxs": "5626",
+                    "amount": "0",
+                    "tusr": "8349"
+                },
+                {
+                    "date": "1560297600",
+                    "dapp": "contentos",
+                    "dau": "5483",
+                    "dnu": "2191",
+                    "trxs": "5483",
+                    "amount": "0",
+                    "tusr": "10540"
+                },
+                {
+                    "date": "1560384000",
+                    "dapp": "contentos",
+                    "dau": "5668",
+                    "dnu": "1961",
+                    "trxs": "5668",
+                    "amount": "0",
+                    "tusr": "12501"
+                },
+                {
+                    "date": "1560470400",
+                    "dapp": "contentos",
+                    "dau": "5638",
+                    "dnu": "1439",
+                    "trxs": "5638",
+                    "amount": "0",
+                    "tusr": "13940"
+                },
+                {
+                    "date": "1560556800",
+                    "dapp": "contentos",
+                    "dau": "5497",
+                    "dnu": "1580",
+                    "trxs": "5497",
+                    "amount": "0",
+                    "tusr": "15520"
+                },
+                {
+                    "date": "1560643200",
+                    "dapp": "contentos",
+                    "dau": "5374",
+                    "dnu": "1403",
+                    "trxs": "5374",
+                    "amount": "0",
+                    "tusr": "16923"
+                },
+                {
+                    "date": "1560729600",
+                    "dapp": "contentos",
+                    "dau": "5848",
+                    "dnu": "2073",
+                    "trxs": "5849",
+                    "amount": "0",
+                    "tusr": "18996"
+                },
+                {
+                    "date": "1560816000",
+                    "dapp": "contentos",
+                    "dau": "5978",
+                    "dnu": "2703",
+                    "trxs": "5978",
+                    "amount": "0",
+                    "tusr": "21699"
+                },
+                {
+                    "date": "1560902400",
+                    "dapp": "contentos",
+                    "dau": "5321",
+                    "dnu": "2267",
+                    "trxs": "5321",
+                    "amount": "0",
+                    "tusr": "23966"
+                },
+                {
+                    "date": "1560988800",
+                    "dapp": "contentos",
+                    "dau": "4907",
+                    "dnu": "2432",
+                    "trxs": "4907",
+                    "amount": "0",
+                    "tusr": "26398"
+                },
+                {
+                    "date": "1561075200",
+                    "dapp": "contentos",
+                    "dau": "4225",
+                    "dnu": "1326",
+                    "trxs": "4225",
+                    "amount": "0",
+                    "tusr": "27724"
+                },
+                {
+                    "date": "1561161600",
+                    "dapp": "contentos",
+                    "dau": "3196",
+                    "dnu": "500",
+                    "trxs": "3196",
+                    "amount": "0",
+                    "tusr": "28224"
+                },
+                {
+                    "date": "1561248000",
+                    "dapp": "contentos",
+                    "dau": "2791",
+                    "dnu": "485",
+                    "trxs": "2791",
+                    "amount": "0",
+                    "tusr": "28709"
+                },
+                {
+                    "date": "1561334400",
+                    "dapp": "contentos",
+                    "dau": "2953",
+                    "dnu": "503",
+                    "trxs": "2953",
+                    "amount": "0",
+                    "tusr": "29212"
+                },
+                {
+                    "date": "1561420800",
+                    "dapp": "contentos",
+                    "dau": "3068",
+                    "dnu": "486",
+                    "trxs": "3068",
+                    "amount": "0",
+                    "tusr": "29698"
+                },
+                {
+                    "date": "1561507200",
+                    "dapp": "contentos",
+                    "dau": "2938",
+                    "dnu": "693",
+                    "trxs": "2938",
+                    "amount": "0",
+                    "tusr": "30391"
+                },
+                {
+                    "date": "1561593600",
+                    "dapp": "contentos",
+                    "dau": "3036",
+                    "dnu": "653",
+                    "trxs": "3036",
+                    "amount": "0",
+                    "tusr": "31044"
+                },
+                {
+                    "date": "1561680000",
+                    "dapp": "contentos",
+                    "dau": "2976",
+                    "dnu": "764",
+                    "trxs": "2976",
+                    "amount": "0",
+                    "tusr": "31808"
+                },
+                {
+                    "date": "1561766400",
+                    "dapp": "contentos",
+                    "dau": "2909",
+                    "dnu": "756",
+                    "trxs": "2909",
+                    "amount": "0",
+                    "tusr": "32564"
+                },
+                {
+                    "date": "1561852800",
+                    "dapp": "contentos",
+                    "dau": "3026",
+                    "dnu": "992",
+                    "trxs": "3026",
+                    "amount": "0",
+                    "tusr": "33556"
+                },
+                {
+                    "date": "1561939200",
+                    "dapp": "contentos",
+                    "dau": "3264",
+                    "dnu": "1033",
+                    "trxs": "3264",
+                    "amount": "0",
+                    "tusr": "34589"
+                },
+                {
+                    "date": "1562025600",
+                    "dapp": "contentos",
+                    "dau": "3382",
+                    "dnu": "1078",
+                    "trxs": "3382",
+                    "amount": "0",
+                    "tusr": "35667"
+                },
+                {
+                    "date": "1562112000",
+                    "dapp": "contentos",
+                    "dau": "3438",
+                    "dnu": "1606",
+                    "trxs": "3438",
+                    "amount": "0",
+                    "tusr": "37273"
+                },
+                {
+                    "date": "1562198400",
+                    "dapp": "contentos",
+                    "dau": "3874",
+                    "dnu": "1637",
+                    "trxs": "3874",
+                    "amount": "0",
+                    "tusr": "38910"
+                },
+                {
+                    "date": "1562284800",
+                    "dapp": "contentos",
+                    "dau": "2086",
+                    "dnu": "2807",
+                    "trxs": "2086",
+                    "amount": "0",
+                    "tusr": "2807"
+                },
+                {
+                    "date": "1562371200",
+                    "dapp": "contentos",
+                    "dau": "5626",
+                    "dnu": "5542",
+                    "trxs": "5626",
+                    "amount": "0",
+                    "tusr": "8349"
+                },
+                {
+                    "date": "1562457600",
+                    "dapp": "contentos",
+                    "dau": "5483",
+                    "dnu": "2191",
+                    "trxs": "5483",
+                    "amount": "0",
+                    "tusr": "10540"
+                },
+                {
+                    "date": "1562544000",
+                    "dapp": "contentos",
+                    "dau": "5668",
+                    "dnu": "1961",
+                    "trxs": "5668",
+                    "amount": "0",
+                    "tusr": "12501"
+                },
+                {
+                    "date": "1562630400",
+                    "dapp": "contentos",
+                    "dau": "5638",
+                    "dnu": "1439",
+                    "trxs": "5638",
+                    "amount": "0",
+                    "tusr": "13940"
+                },
+                {
+                    "date": "1562716800",
+                    "dapp": "contentos",
+                    "dau": "5497",
+                    "dnu": "1580",
+                    "trxs": "5497",
+                    "amount": "0",
+                    "tusr": "15520"
+                },
+                {
+                    "date": "1562803200",
+                    "dapp": "contentos",
+                    "dau": "5374",
+                    "dnu": "1403",
+                    "trxs": "5374",
+                    "amount": "0",
+                    "tusr": "16923"
+                },
+                {
+                    "date": "1562889600",
+                    "dapp": "contentos",
+                    "dau": "5848",
+                    "dnu": "2073",
+                    "trxs": "5849",
+                    "amount": "0",
+                    "tusr": "18996"
+                },
+                {
+                    "date": "1562976000",
+                    "dapp": "contentos",
+                    "dau": "5978",
+                    "dnu": "2703",
+                    "trxs": "5978",
+                    "amount": "0",
+                    "tusr": "21699"
+                },
+                {
+                    "date": "1563062400",
+                    "dapp": "contentos",
+                    "dau": "5321",
+                    "dnu": "2267",
+                    "trxs": "5321",
+                    "amount": "0",
+                    "tusr": "23966"
+                },
+                {
+                    "date": "1563148800",
+                    "dapp": "contentos",
+                    "dau": "4907",
+                    "dnu": "2432",
+                    "trxs": "4907",
+                    "amount": "0",
+                    "tusr": "26398"
+                },
+                {
+                    "date": "1563235200",
+                    "dapp": "contentos",
+                    "dau": "4225",
+                    "dnu": "1326",
+                    "trxs": "4225",
+                    "amount": "0",
+                    "tusr": "27724"
+                },
+                {
+                    "date": "1563321600",
+                    "dapp": "contentos",
+                    "dau": "3196",
+                    "dnu": "500",
+                    "trxs": "3196",
+                    "amount": "0",
+                    "tusr": "28224"
+                },
+                {
+                    "date": "1563408000",
+                    "dapp": "contentos",
+                    "dau": "2791",
+                    "dnu": "485",
+                    "trxs": "2791",
+                    "amount": "0",
+                    "tusr": "28709"
+                },
+                {
+                    "date": "1563494400",
+                    "dapp": "contentos",
+                    "dau": "2953",
+                    "dnu": "503",
+                    "trxs": "2953",
+                    "amount": "0",
+                    "tusr": "29212"
+                },
+                {
+                    "date": "1563580800",
+                    "dapp": "contentos",
+                    "dau": "3068",
+                    "dnu": "486",
+                    "trxs": "3068",
+                    "amount": "0",
+                    "tusr": "29698"
+                },
+                {
+                    "date": "1563667200",
+                    "dapp": "contentos",
+                    "dau": "2938",
+                    "dnu": "693",
+                    "trxs": "2938",
+                    "amount": "0",
+                    "tusr": "30391"
+                },
+                {
+                    "date": "1563753600",
+                    "dapp": "contentos",
+                    "dau": "3036",
+                    "dnu": "653",
+                    "trxs": "3036",
+                    "amount": "0",
+                    "tusr": "31044"
+                },
+                {
+                    "date": "1563840000",
+                    "dapp": "contentos",
+                    "dau": "2976",
+                    "dnu": "764",
+                    "trxs": "2976",
+                    "amount": "0",
+                    "tusr": "31808"
+                },
+                {
+                    "date": "1563926400",
+                    "dapp": "contentos",
+                    "dau": "2909",
+                    "dnu": "756",
+                    "trxs": "2909",
+                    "amount": "0",
+                    "tusr": "32564"
+                },
+                {
+                    "date": "1564012800",
+                    "dapp": "contentos",
+                    "dau": "3026",
+                    "dnu": "992",
+                    "trxs": "3026",
+                    "amount": "0",
+                    "tusr": "33556"
+                },
+                {
+                    "date": "1564099200",
+                    "dapp": "contentos",
+                    "dau": "3264",
+                    "dnu": "1033",
+                    "trxs": "3264",
+                    "amount": "0",
+                    "tusr": "34589"
+                },
+                {
+                    "date": "1564185600",
+                    "dapp": "contentos",
+                    "dau": "3382",
+                    "dnu": "1078",
+                    "trxs": "3382",
+                    "amount": "0",
+                    "tusr": "35667"
+                },
+                {
+                    "date": "1564272000",
+                    "dapp": "contentos",
+                    "dau": "3438",
+                    "dnu": "1606",
+                    "trxs": "3438",
+                    "amount": "0",
+                    "tusr": "37273"
+                },
+                {
+                    "date": "1564358400",
+                    "dapp": "contentos",
+                    "dau": "3874",
+                    "dnu": "1637",
+                    "trxs": "3874",
+                    "amount": "0",
+                    "tusr": "38910"
+                },
+                {
+                    "date": "1564444800",
+                    "dapp": "contentos",
+                    "dau": "2086",
+                    "dnu": "2807",
+                    "trxs": "2086",
+                    "amount": "0",
+                    "tusr": "2807"
+                },
+                {
+                    "date": "1564531200",
+                    "dapp": "contentos",
+                    "dau": "5626",
+                    "dnu": "5542",
+                    "trxs": "5626",
+                    "amount": "0",
+                    "tusr": "8349"
+                },
+                {
+                    "date": "1564617600",
+                    "dapp": "contentos",
+                    "dau": "5483",
+                    "dnu": "2191",
+                    "trxs": "5483",
+                    "amount": "0",
+                    "tusr": "10540"
+                },
+                {
+                    "date": "1564704000",
+                    "dapp": "contentos",
+                    "dau": "5668",
+                    "dnu": "1961",
+                    "trxs": "5668",
+                    "amount": "0",
+                    "tusr": "12501"
+                },
+                {
+                    "date": "1564790400",
+                    "dapp": "contentos",
+                    "dau": "5638",
+                    "dnu": "1439",
+                    "trxs": "5638",
+                    "amount": "0",
+                    "tusr": "13940"
+                },
+                {
+                    "date": "1564876800",
+                    "dapp": "contentos",
+                    "dau": "5497",
+                    "dnu": "1580",
+                    "trxs": "5497",
+                    "amount": "0",
+                    "tusr": "15520"
+                }
+            ],
+            "game2048": [
+                {
+                    "date": "1560124800",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "38",
+                    "trxs": "239",
+                    "amount": "1765000000",
+                    "tusr": "38"
+                },
+                {
+                    "date": "1560211200",
+                    "dapp": "game 2048",
+                    "dau": "39",
+                    "dnu": "19",
+                    "trxs": "714",
+                    "amount": "5425000000",
+                    "tusr": "57"
+                },
+                {
+                    "date": "1560297600",
+                    "dapp": "game 2048",
+                    "dau": "40",
+                    "dnu": "10",
+                    "trxs": "605",
+                    "amount": "4575000000",
+                    "tusr": "67"
+                },
+                {
+                    "date": "1560384000",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "6",
+                    "trxs": "260",
+                    "amount": "2100000000",
+                    "tusr": "73"
+                },
+                {
+                    "date": "1560470400",
+                    "dapp": "game 2048",
+                    "dau": "39",
+                    "dnu": "15",
+                    "trxs": "499",
+                    "amount": "4025000000",
+                    "tusr": "88"
+                },
+                {
+                    "date": "1560556800",
+                    "dapp": "game 2048",
+                    "dau": "77",
+                    "dnu": "46",
+                    "trxs": "2634",
+                    "amount": "19465000000",
+                    "tusr": "134"
+                },
+                {
+                    "date": "1560643200",
+                    "dapp": "game 2048",
+                    "dau": "66",
+                    "dnu": "14",
+                    "trxs": "1503",
+                    "amount": "11455000000",
+                    "tusr": "148"
+                },
+                {
+                    "date": "1560729600",
+                    "dapp": "game 2048",
+                    "dau": "72",
+                    "dnu": "28",
+                    "trxs": "2358",
+                    "amount": "17950000000",
+                    "tusr": "176"
+                },
+                {
+                    "date": "1560816000",
+                    "dapp": "game 2048",
+                    "dau": "53",
+                    "dnu": "12",
+                    "trxs": "1346",
+                    "amount": "10005000000",
+                    "tusr": "188"
+                },
+                {
+                    "date": "1560902400",
+                    "dapp": "game 2048",
+                    "dau": "52",
+                    "dnu": "8",
+                    "trxs": "2060",
+                    "amount": "15130000000",
+                    "tusr": "196"
+                },
+                {
+                    "date": "1560988800",
+                    "dapp": "game 2048",
+                    "dau": "48",
+                    "dnu": "7",
+                    "trxs": "1491",
+                    "amount": "11180000000",
+                    "tusr": "203"
+                },
+                {
+                    "date": "1561075200",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "3",
+                    "trxs": "501",
+                    "amount": "3835000000",
+                    "tusr": "206"
+                },
+                {
+                    "date": "1561161600",
+                    "dapp": "game 2048",
+                    "dau": "34",
+                    "dnu": "2",
+                    "trxs": "383",
+                    "amount": "3080000000",
+                    "tusr": "208"
+                },
+                {
+                    "date": "1561248000",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "5",
+                    "trxs": "196",
+                    "amount": "1565000000",
+                    "tusr": "213"
+                },
+                {
+                    "date": "1561334400",
+                    "dapp": "game 2048",
+                    "dau": "40",
+                    "dnu": "4",
+                    "trxs": "477",
+                    "amount": "3750000000",
+                    "tusr": "217"
+                },
+                {
+                    "date": "1561420800",
+                    "dapp": "game 2048",
+                    "dau": "34",
+                    "dnu": "7",
+                    "trxs": "424",
+                    "amount": "3395000000",
+                    "tusr": "224"
+                },
+                {
+                    "date": "1561507200",
+                    "dapp": "game 2048",
+                    "dau": "34",
+                    "dnu": "1",
+                    "trxs": "443",
+                    "amount": "3305000000",
+                    "tusr": "225"
+                },
+                {
+                    "date": "1561593600",
+                    "dapp": "game 2048",
+                    "dau": "31",
+                    "dnu": "2",
+                    "trxs": "691",
+                    "amount": "4540000000",
+                    "tusr": "227"
+                },
+                {
+                    "date": "1561680000",
+                    "dapp": "game 2048",
+                    "dau": "28",
+                    "dnu": "3",
+                    "trxs": "385",
+                    "amount": "2525000000",
+                    "tusr": "230"
+                },
+                {
+                    "date": "1561766400",
+                    "dapp": "game 2048",
+                    "dau": "28",
+                    "dnu": "2",
+                    "trxs": "446",
+                    "amount": "2980000000",
+                    "tusr": "232"
+                },
+                {
+                    "date": "1561852800",
+                    "dapp": "game 2048",
+                    "dau": "37",
+                    "dnu": "3",
+                    "trxs": "404",
+                    "amount": "2890000000",
+                    "tusr": "235"
+                },
+                {
+                    "date": "1561939200",
+                    "dapp": "game 2048",
+                    "dau": "26",
+                    "dnu": "8",
+                    "trxs": "200",
+                    "amount": "1400000000",
+                    "tusr": "243"
+                },
+                {
+                    "date": "1562025600",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "2",
+                    "trxs": "290",
+                    "amount": "1990000000",
+                    "tusr": "245"
+                },
+                {
+                    "date": "1562112000",
+                    "dapp": "game 2048",
+                    "dau": "32",
+                    "dnu": "5",
+                    "trxs": "332",
+                    "amount": "2260000000",
+                    "tusr": "250"
+                },
+                {
+                    "date": "1562198400",
+                    "dapp": "game 2048",
+                    "dau": "38",
+                    "dnu": "3",
+                    "trxs": "649",
+                    "amount": "4305000000",
+                    "tusr": "253"
+                },
+                {
+                    "date": "1562284800",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "38",
+                    "trxs": "239",
+                    "amount": "1765000000",
+                    "tusr": "38"
+                },
+                {
+                    "date": "1562371200",
+                    "dapp": "game 2048",
+                    "dau": "39",
+                    "dnu": "19",
+                    "trxs": "714",
+                    "amount": "5425000000",
+                    "tusr": "57"
+                },
+                {
+                    "date": "1562457600",
+                    "dapp": "game 2048",
+                    "dau": "40",
+                    "dnu": "10",
+                    "trxs": "605",
+                    "amount": "4575000000",
+                    "tusr": "67"
+                },
+                {
+                    "date": "1562544000",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "6",
+                    "trxs": "260",
+                    "amount": "2100000000",
+                    "tusr": "73"
+                },
+                {
+                    "date": "1562630400",
+                    "dapp": "game 2048",
+                    "dau": "39",
+                    "dnu": "15",
+                    "trxs": "499",
+                    "amount": "4025000000",
+                    "tusr": "88"
+                },
+                {
+                    "date": "1562716800",
+                    "dapp": "game 2048",
+                    "dau": "77",
+                    "dnu": "46",
+                    "trxs": "2634",
+                    "amount": "19465000000",
+                    "tusr": "134"
+                },
+                {
+                    "date": "1562803200",
+                    "dapp": "game 2048",
+                    "dau": "66",
+                    "dnu": "14",
+                    "trxs": "1503",
+                    "amount": "11455000000",
+                    "tusr": "148"
+                },
+                {
+                    "date": "1562889600",
+                    "dapp": "game 2048",
+                    "dau": "72",
+                    "dnu": "28",
+                    "trxs": "2358",
+                    "amount": "17950000000",
+                    "tusr": "176"
+                },
+                {
+                    "date": "1562976000",
+                    "dapp": "game 2048",
+                    "dau": "53",
+                    "dnu": "12",
+                    "trxs": "1346",
+                    "amount": "10005000000",
+                    "tusr": "188"
+                },
+                {
+                    "date": "1563062400",
+                    "dapp": "game 2048",
+                    "dau": "52",
+                    "dnu": "8",
+                    "trxs": "2060",
+                    "amount": "15130000000",
+                    "tusr": "196"
+                },
+                {
+                    "date": "1563148800",
+                    "dapp": "game 2048",
+                    "dau": "48",
+                    "dnu": "7",
+                    "trxs": "1491",
+                    "amount": "11180000000",
+                    "tusr": "203"
+                },
+                {
+                    "date": "1563235200",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "3",
+                    "trxs": "501",
+                    "amount": "3835000000",
+                    "tusr": "206"
+                },
+                {
+                    "date": "1563321600",
+                    "dapp": "game 2048",
+                    "dau": "34",
+                    "dnu": "2",
+                    "trxs": "383",
+                    "amount": "3080000000",
+                    "tusr": "208"
+                },
+                {
+                    "date": "1563408000",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "5",
+                    "trxs": "196",
+                    "amount": "1565000000",
+                    "tusr": "213"
+                },
+                {
+                    "date": "1563494400",
+                    "dapp": "game 2048",
+                    "dau": "40",
+                    "dnu": "4",
+                    "trxs": "477",
+                    "amount": "3750000000",
+                    "tusr": "217"
+                },
+                {
+                    "date": "1563580800",
+                    "dapp": "game 2048",
+                    "dau": "34",
+                    "dnu": "7",
+                    "trxs": "424",
+                    "amount": "3395000000",
+                    "tusr": "224"
+                },
+                {
+                    "date": "1563667200",
+                    "dapp": "game 2048",
+                    "dau": "34",
+                    "dnu": "1",
+                    "trxs": "443",
+                    "amount": "3305000000",
+                    "tusr": "225"
+                },
+                {
+                    "date": "1563753600",
+                    "dapp": "game 2048",
+                    "dau": "31",
+                    "dnu": "2",
+                    "trxs": "691",
+                    "amount": "4540000000",
+                    "tusr": "227"
+                },
+                {
+                    "date": "1563840000",
+                    "dapp": "game 2048",
+                    "dau": "28",
+                    "dnu": "3",
+                    "trxs": "385",
+                    "amount": "2525000000",
+                    "tusr": "230"
+                },
+                {
+                    "date": "1563926400",
+                    "dapp": "game 2048",
+                    "dau": "28",
+                    "dnu": "2",
+                    "trxs": "446",
+                    "amount": "2980000000",
+                    "tusr": "232"
+                },
+                {
+                    "date": "1564012800",
+                    "dapp": "game 2048",
+                    "dau": "37",
+                    "dnu": "3",
+                    "trxs": "404",
+                    "amount": "2890000000",
+                    "tusr": "235"
+                },
+                {
+                    "date": "1564099200",
+                    "dapp": "game 2048",
+                    "dau": "26",
+                    "dnu": "8",
+                    "trxs": "200",
+                    "amount": "1400000000",
+                    "tusr": "243"
+                },
+                {
+                    "date": "1564185600",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "2",
+                    "trxs": "290",
+                    "amount": "1990000000",
+                    "tusr": "245"
+                },
+                {
+                    "date": "1564272000",
+                    "dapp": "game 2048",
+                    "dau": "32",
+                    "dnu": "5",
+                    "trxs": "332",
+                    "amount": "2260000000",
+                    "tusr": "250"
+                },
+                {
+                    "date": "1564358400",
+                    "dapp": "game 2048",
+                    "dau": "38",
+                    "dnu": "3",
+                    "trxs": "649",
+                    "amount": "4305000000",
+                    "tusr": "253"
+                },
+                {
+                    "date": "1564444800",
+                    "dapp": "game 2048",
+                    "dau": "36",
+                    "dnu": "38",
+                    "trxs": "239",
+                    "amount": "1765000000",
+                    "tusr": "38"
+                },
+                {
+                    "date": "1564531200",
+                    "dapp": "game 2048",
+                    "dau": "39",
+                    "dnu": "19",
+                    "trxs": "714",
+                    "amount": "5425000000",
+                    "tusr": "57"
+                },
+                {
+                    "date": "1564617600",
+                    "dapp": "game 2048",
+                    "dau": "40",
+                    "dnu": "10",
+                    "trxs": "605",
+                    "amount": "4575000000",
+                    "tusr": "67"
+                },
+                {
+                    "date": "1564704000",
+                    "dapp": "game 2048",
+                    "dau": "27",
+                    "dnu": "6",
+                    "trxs": "260",
+                    "amount": "2100000000",
+                    "tusr": "73"
+                },
+                {
+                    "date": "1564790400",
+                    "dapp": "game 2048",
+                    "dau": "39",
+                    "dnu": "15",
+                    "trxs": "499",
+                    "amount": "4025000000",
+                    "tusr": "88"
+                },
+                {
+                    "date": "1564876800",
+                    "dapp": "game 2048",
+                    "dau": "77",
+                    "dnu": "46",
+                    "trxs": "2634",
+                    "amount": "19465000000",
+                    "tusr": "134"
+                }
+            ],
+            "walkcoin": [
+                {
+                    "date": "1560124800",
+                    "dapp": "walk coin",
+                    "dau": "28",
+                    "dnu": "43",
+                    "trxs": "143",
+                    "amount": "0",
+                    "tusr": "43"
+                },
+                {
+                    "date": "1560211200",
+                    "dapp": "walk coin",
+                    "dau": "81",
+                    "dnu": "57",
+                    "trxs": "232",
+                    "amount": "0",
+                    "tusr": "100"
+                },
+                {
+                    "date": "1560297600",
+                    "dapp": "walk coin",
+                    "dau": "225",
+                    "dnu": "184",
+                    "trxs": "746",
+                    "amount": "0",
+                    "tusr": "284"
+                },
+                {
+                    "date": "1560384000",
+                    "dapp": "walk coin",
+                    "dau": "108",
+                    "dnu": "49",
+                    "trxs": "334",
+                    "amount": "0",
+                    "tusr": "333"
+                },
+                {
+                    "date": "1560470400",
+                    "dapp": "walk coin",
+                    "dau": "244",
+                    "dnu": "168",
+                    "trxs": "628",
+                    "amount": "0",
+                    "tusr": "501"
+                },
+                {
+                    "date": "1560556800",
+                    "dapp": "walk coin",
+                    "dau": "242",
+                    "dnu": "178",
+                    "trxs": "524",
+                    "amount": "0",
+                    "tusr": "679"
+                },
+                {
+                    "date": "1560643200",
+                    "dapp": "walk coin",
+                    "dau": "249",
+                    "dnu": "189",
+                    "trxs": "561",
+                    "amount": "0",
+                    "tusr": "868"
+                },
+                {
+                    "date": "1560729600",
+                    "dapp": "walk coin",
+                    "dau": "301",
+                    "dnu": "241",
+                    "trxs": "607",
+                    "amount": "0",
+                    "tusr": "1109"
+                },
+                {
+                    "date": "1560816000",
+                    "dapp": "walk coin",
+                    "dau": "331",
+                    "dnu": "249",
+                    "trxs": "892",
+                    "amount": "0",
+                    "tusr": "1358"
+                },
+                {
+                    "date": "1560902400",
+                    "dapp": "walk coin",
+                    "dau": "1117",
+                    "dnu": "272",
+                    "trxs": "1631",
+                    "amount": "0",
+                    "tusr": "1630"
+                },
+                {
+                    "date": "1560988800",
+                    "dapp": "walk coin",
+                    "dau": "761",
+                    "dnu": "77",
+                    "trxs": "2189",
+                    "amount": "0",
+                    "tusr": "1707"
+                },
+                {
+                    "date": "1561075200",
+                    "dapp": "walk coin",
+                    "dau": "894",
+                    "dnu": "102",
+                    "trxs": "2844",
+                    "amount": "0",
+                    "tusr": "1809"
+                },
+                {
+                    "date": "1561161600",
+                    "dapp": "walk coin",
+                    "dau": "901",
+                    "dnu": "734",
+                    "trxs": "3015",
+                    "amount": "0",
+                    "tusr": "2543"
+                },
+                {
+                    "date": "1561248000",
+                    "dapp": "walk coin",
+                    "dau": "1010",
+                    "dnu": "129",
+                    "trxs": "2830",
+                    "amount": "0",
+                    "tusr": "2672"
+                },
+                {
+                    "date": "1561334400",
+                    "dapp": "walk coin",
+                    "dau": "897",
+                    "dnu": "72",
+                    "trxs": "3076",
+                    "amount": "0",
+                    "tusr": "2744"
+                },
+                {
+                    "date": "1561420800",
+                    "dapp": "walk coin",
+                    "dau": "274",
+                    "dnu": "124",
+                    "trxs": "2598",
+                    "amount": "0",
+                    "tusr": "2868"
+                },
+                {
+                    "date": "1561507200",
+                    "dapp": "walk coin",
+                    "dau": "950",
+                    "dnu": "116",
+                    "trxs": "3897",
+                    "amount": "0",
+                    "tusr": "2984"
+                },
+                {
+                    "date": "1561593600",
+                    "dapp": "walk coin",
+                    "dau": "961",
+                    "dnu": "117",
+                    "trxs": "3583",
+                    "amount": "0",
+                    "tusr": "3101"
+                },
+                {
+                    "date": "1561680000",
+                    "dapp": "walk coin",
+                    "dau": "974",
+                    "dnu": "120",
+                    "trxs": "3692",
+                    "amount": "0",
+                    "tusr": "3221"
+                },
+                {
+                    "date": "1561766400",
+                    "dapp": "walk coin",
+                    "dau": "962",
+                    "dnu": "106",
+                    "trxs": "3248",
+                    "amount": "0",
+                    "tusr": "3327"
+                },
+                {
+                    "date": "1561852800",
+                    "dapp": "walk coin",
+                    "dau": "952",
+                    "dnu": "99",
+                    "trxs": "3276",
+                    "amount": "0",
+                    "tusr": "3426"
+                },
+                {
+                    "date": "1561939200",
+                    "dapp": "walk coin",
+                    "dau": "981",
+                    "dnu": "106",
+                    "trxs": "3481",
+                    "amount": "0",
+                    "tusr": "3532"
+                },
+                {
+                    "date": "1562025600",
+                    "dapp": "walk coin",
+                    "dau": "977",
+                    "dnu": "97",
+                    "trxs": "3729",
+                    "amount": "0",
+                    "tusr": "3629"
+                },
+                {
+                    "date": "1562112000",
+                    "dapp": "walk coin",
+                    "dau": "989",
+                    "dnu": "96",
+                    "trxs": "3887",
+                    "amount": "0",
+                    "tusr": "3725"
+                },
+                {
+                    "date": "1562198400",
+                    "dapp": "walk coin",
+                    "dau": "1236",
+                    "dnu": "356",
+                    "trxs": "6113",
+                    "amount": "0",
+                    "tusr": "4081"
+                },
+                {
+                    "date": "1562284800",
+                    "dapp": "walk coin",
+                    "dau": "28",
+                    "dnu": "43",
+                    "trxs": "143",
+                    "amount": "0",
+                    "tusr": "43"
+                },
+                {
+                    "date": "1562371200",
+                    "dapp": "walk coin",
+                    "dau": "81",
+                    "dnu": "57",
+                    "trxs": "232",
+                    "amount": "0",
+                    "tusr": "100"
+                },
+                {
+                    "date": "1562457600",
+                    "dapp": "walk coin",
+                    "dau": "225",
+                    "dnu": "184",
+                    "trxs": "746",
+                    "amount": "0",
+                    "tusr": "284"
+                },
+                {
+                    "date": "1562544000",
+                    "dapp": "walk coin",
+                    "dau": "108",
+                    "dnu": "49",
+                    "trxs": "334",
+                    "amount": "0",
+                    "tusr": "333"
+                },
+                {
+                    "date": "1562630400",
+                    "dapp": "walk coin",
+                    "dau": "244",
+                    "dnu": "168",
+                    "trxs": "628",
+                    "amount": "0",
+                    "tusr": "501"
+                },
+                {
+                    "date": "1562716800",
+                    "dapp": "walk coin",
+                    "dau": "242",
+                    "dnu": "178",
+                    "trxs": "524",
+                    "amount": "0",
+                    "tusr": "679"
+                },
+                {
+                    "date": "1562803200",
+                    "dapp": "walk coin",
+                    "dau": "249",
+                    "dnu": "189",
+                    "trxs": "561",
+                    "amount": "0",
+                    "tusr": "868"
+                },
+                {
+                    "date": "1562889600",
+                    "dapp": "walk coin",
+                    "dau": "301",
+                    "dnu": "241",
+                    "trxs": "607",
+                    "amount": "0",
+                    "tusr": "1109"
+                },
+                {
+                    "date": "1562976000",
+                    "dapp": "walk coin",
+                    "dau": "331",
+                    "dnu": "249",
+                    "trxs": "892",
+                    "amount": "0",
+                    "tusr": "1358"
+                },
+                {
+                    "date": "1563062400",
+                    "dapp": "walk coin",
+                    "dau": "1117",
+                    "dnu": "272",
+                    "trxs": "1631",
+                    "amount": "0",
+                    "tusr": "1630"
+                },
+                {
+                    "date": "1563148800",
+                    "dapp": "walk coin",
+                    "dau": "761",
+                    "dnu": "77",
+                    "trxs": "2189",
+                    "amount": "0",
+                    "tusr": "1707"
+                },
+                {
+                    "date": "1563235200",
+                    "dapp": "walk coin",
+                    "dau": "894",
+                    "dnu": "102",
+                    "trxs": "2844",
+                    "amount": "0",
+                    "tusr": "1809"
+                },
+                {
+                    "date": "1563321600",
+                    "dapp": "walk coin",
+                    "dau": "901",
+                    "dnu": "734",
+                    "trxs": "3015",
+                    "amount": "0",
+                    "tusr": "2543"
+                },
+                {
+                    "date": "1563408000",
+                    "dapp": "walk coin",
+                    "dau": "1010",
+                    "dnu": "129",
+                    "trxs": "2830",
+                    "amount": "0",
+                    "tusr": "2672"
+                },
+                {
+                    "date": "1563494400",
+                    "dapp": "walk coin",
+                    "dau": "897",
+                    "dnu": "72",
+                    "trxs": "3076",
+                    "amount": "0",
+                    "tusr": "2744"
+                },
+                {
+                    "date": "1563580800",
+                    "dapp": "walk coin",
+                    "dau": "274",
+                    "dnu": "124",
+                    "trxs": "2598",
+                    "amount": "0",
+                    "tusr": "2868"
+                },
+                {
+                    "date": "1563667200",
+                    "dapp": "walk coin",
+                    "dau": "950",
+                    "dnu": "116",
+                    "trxs": "3897",
+                    "amount": "0",
+                    "tusr": "2984"
+                },
+                {
+                    "date": "1563753600",
+                    "dapp": "walk coin",
+                    "dau": "961",
+                    "dnu": "117",
+                    "trxs": "3583",
+                    "amount": "0",
+                    "tusr": "3101"
+                },
+                {
+                    "date": "1563840000",
+                    "dapp": "walk coin",
+                    "dau": "974",
+                    "dnu": "120",
+                    "trxs": "3692",
+                    "amount": "0",
+                    "tusr": "3221"
+                },
+                {
+                    "date": "1563926400",
+                    "dapp": "walk coin",
+                    "dau": "962",
+                    "dnu": "106",
+                    "trxs": "3248",
+                    "amount": "0",
+                    "tusr": "3327"
+                },
+                {
+                    "date": "1564012800",
+                    "dapp": "walk coin",
+                    "dau": "952",
+                    "dnu": "99",
+                    "trxs": "3276",
+                    "amount": "0",
+                    "tusr": "3426"
+                },
+                {
+                    "date": "1564099200",
+                    "dapp": "walk coin",
+                    "dau": "981",
+                    "dnu": "106",
+                    "trxs": "3481",
+                    "amount": "0",
+                    "tusr": "3532"
+                },
+                {
+                    "date": "1564185600",
+                    "dapp": "walk coin",
+                    "dau": "977",
+                    "dnu": "97",
+                    "trxs": "3729",
+                    "amount": "0",
+                    "tusr": "3629"
+                },
+                {
+                    "date": "1564272000",
+                    "dapp": "walk coin",
+                    "dau": "989",
+                    "dnu": "96",
+                    "trxs": "3887",
+                    "amount": "0",
+                    "tusr": "3725"
+                },
+                {
+                    "date": "1564358400",
+                    "dapp": "walk coin",
+                    "dau": "1236",
+                    "dnu": "356",
+                    "trxs": "6113",
+                    "amount": "0",
+                    "tusr": "4081"
+                },
+                {
+                    "date": "1564444800",
+                    "dapp": "walk coin",
+                    "dau": "28",
+                    "dnu": "43",
+                    "trxs": "143",
+                    "amount": "0",
+                    "tusr": "43"
+                },
+                {
+                    "date": "1564531200",
+                    "dapp": "walk coin",
+                    "dau": "81",
+                    "dnu": "57",
+                    "trxs": "232",
+                    "amount": "0",
+                    "tusr": "100"
+                },
+                {
+                    "date": "1564617600",
+                    "dapp": "walk coin",
+                    "dau": "225",
+                    "dnu": "184",
+                    "trxs": "746",
+                    "amount": "0",
+                    "tusr": "284"
+                },
+                {
+                    "date": "1564704000",
+                    "dapp": "walk coin",
+                    "dau": "108",
+                    "dnu": "49",
+                    "trxs": "334",
+                    "amount": "0",
+                    "tusr": "333"
+                },
+                {
+                    "date": "1564790400",
+                    "dapp": "walk coin",
+                    "dau": "244",
+                    "dnu": "168",
+                    "trxs": "628",
+                    "amount": "0",
+                    "tusr": "501"
+                },
+                {
+                    "date": "1564876800",
+                    "dapp": "walk coin",
+                    "dau": "242",
+                    "dnu": "178",
+                    "trxs": "524",
+                    "amount": "0",
+                    "tusr": "679"
+                }
+            ]
         }
-    ],
-    "game2048": [
-        {
-            "date": "1555286400",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555372800",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555459200",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555545600",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555632000",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555718400",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555804800",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555891200",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555977600",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1556064000",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1556150400",
-            "dapp": "game 2048",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1556236800",
-            "dapp": "game 2048",
-            "dau": "42",
-            "dnu": "42",
-            "trxs": "836",
-            "amount": "4365000000",
-            "tusr": "42"
-        },
-        {
-            "date": "1556323200",
-            "dapp": "game 2048",
-            "dau": "45",
-            "dnu": "18",
-            "trxs": "545",
-            "amount": "4050000000",
-            "tusr": "60"
-        },
-        {
-            "date": "1556409600",
-            "dapp": "game 2048",
-            "dau": "53",
-            "dnu": "14",
-            "trxs": "1935",
-            "amount": "14680000000",
-            "tusr": "74"
-        },
-        {
-            "date": "1556496000",
-            "dapp": "game 2048",
-            "dau": "58",
-            "dnu": "18",
-            "trxs": "972",
-            "amount": "7515000000",
-            "tusr": "92"
-        },
-        {
-            "date": "1556582400",
-            "dapp": "game 2048",
-            "dau": "45",
-            "dnu": "11",
-            "trxs": "1677",
-            "amount": "13525000000",
-            "tusr": "103"
-        },
-        {
-            "date": "1556668800",
-            "dapp": "game 2048",
-            "dau": "44",
-            "dnu": "6",
-            "trxs": "2322",
-            "amount": "19450000000",
-            "tusr": "109"
-        },
-        {
-            "date": "1556755200",
-            "dapp": "game 2048",
-            "dau": "36",
-            "dnu": "5",
-            "trxs": "371",
-            "amount": "3065000000",
-            "tusr": "114"
-        },
-        {
-            "date": "1556841600",
-            "dapp": "game 2048",
-            "dau": "18",
-            "dnu": "0",
-            "trxs": "138",
-            "amount": "1110000000",
-            "tusr": "114"
-        },
-        {
-            "date": "1556928000",
-            "dapp": "game 2048",
-            "dau": "10",
-            "dnu": "0",
-            "trxs": "113",
-            "amount": "1025000000",
-            "tusr": "114"
-        },
-        {
-            "date": "1557014400",
-            "dapp": "game 2048",
-            "dau": "26",
-            "dnu": "0",
-            "trxs": "269",
-            "amount": "2375000000",
-            "tusr": "114"
-        },
-        {
-            "date": "1557100800",
-            "dapp": "game 2048",
-            "dau": "14",
-            "dnu": "3",
-            "trxs": "114",
-            "amount": "1005000000",
-            "tusr": "117"
-        },
-        {
-            "date": "1557187200",
-            "dapp": "game 2048",
-            "dau": "32",
-            "dnu": "1",
-            "trxs": "344",
-            "amount": "2340000000",
-            "tusr": "118"
-        },
-        {
-            "date": "1557273600",
-            "dapp": "game 2048",
-            "dau": "66",
-            "dnu": "20",
-            "trxs": "3310",
-            "amount": "25360000000",
-            "tusr": "138"
-        },
-        {
-            "date": "1557360000",
-            "dapp": "game 2048",
-            "dau": "52",
-            "dnu": "8",
-            "trxs": "7552",
-            "amount": "384915000000",
-            "tusr": "146"
-        },
-        {
-            "date": "1557446400",
-            "dapp": "game 2048",
-            "dau": "48",
-            "dnu": "2",
-            "trxs": "2025",
-            "amount": "14565000000",
-            "tusr": "148"
-        },
-        {
-            "date": "1557532800",
-            "dapp": "game 2048",
-            "dau": "59",
-            "dnu": "10",
-            "trxs": "11783",
-            "amount": "99275000000",
-            "tusr": "158"
-        },
-        {
-            "date": "1557619200",
-            "dapp": "game 2048",
-            "dau": "36",
-            "dnu": "1",
-            "trxs": "1240",
-            "amount": "8125000000",
-            "tusr": "159"
-        },
-        {
-            "date": "1557705600",
-            "dapp": "game 2048",
-            "dau": "30",
-            "dnu": "3",
-            "trxs": "359",
-            "amount": "2400000000",
-            "tusr": "162"
-        },
-        {
-            "date": "1557792000",
-            "dapp": "game 2048",
-            "dau": "22",
-            "dnu": "0",
-            "trxs": "214",
-            "amount": "1650000000",
-            "tusr": "162"
-        },
-        {
-            "date": "1557878400",
-            "dapp": "game 2048",
-            "dau": "19",
-            "dnu": "0",
-            "trxs": "145",
-            "amount": "995000000",
-            "tusr": "162"
-        },
-        {
-            "date": "1557964800",
-            "dapp": "game 2048",
-            "dau": "27",
-            "dnu": "2",
-            "trxs": "200",
-            "amount": "1440000000",
-            "tusr": "164"
-        },
-        {
-            "date": "1558051200",
-            "dapp": "game 2048",
-            "dau": "29",
-            "dnu": "1",
-            "trxs": "269",
-            "amount": "1965000000",
-            "tusr": "165"
-        },
-        {
-            "date": "1558137600",
-            "dapp": "game 2048",
-            "dau": "16",
-            "dnu": "0",
-            "trxs": "119",
-            "amount": "925000000",
-            "tusr": "165"
-        },
-        {
-            "date": "1558224000",
-            "dapp": "game 2048",
-            "dau": "5",
-            "dnu": "0",
-            "trxs": "28",
-            "amount": "240000000",
-            "tusr": "165"
-        },
-        {
-            "date": "1558310400",
-            "dapp": "game 2048",
-            "dau": "7",
-            "dnu": "1",
-            "trxs": "47",
-            "amount": "410000000",
-            "tusr": "166"
-        },
-        {
-            "date": "1558396800",
-            "dapp": "game 2048",
-            "dau": "42",
-            "dnu": "5",
-            "trxs": "1690",
-            "amount": "11730000000",
-            "tusr": "171"
-        },
-        {
-            "date": "1558483200",
-            "dapp": "game 2048",
-            "dau": "30",
-            "dnu": "2",
-            "trxs": "565",
-            "amount": "3850000000",
-            "tusr": "173"
-        },
-        {
-            "date": "1558569600",
-            "dapp": "game 2048",
-            "dau": "42",
-            "dnu": "4",
-            "trxs": "4477",
-            "amount": "34220000000",
-            "tusr": "177"
-        },
-        {
-            "date": "1558656000",
-            "dapp": "game 2048",
-            "dau": "25",
-            "dnu": "1",
-            "trxs": "169",
-            "amount": "1190000000",
-            "tusr": "178"
-        },
-        {
-            "date": "1558742400",
-            "dapp": "game 2048",
-            "dau": "16",
-            "dnu": "1",
-            "trxs": "83",
-            "amount": "675000000",
-            "tusr": "179"
-        },
-        {
-            "date": "1558828800",
-            "dapp": "game 2048",
-            "dau": "7",
-            "dnu": "0",
-            "trxs": "89",
-            "amount": "810000000",
-            "tusr": "179"
-        },
-        {
-            "date": "1558915200",
-            "dapp": "game 2048",
-            "dau": "18",
-            "dnu": "0",
-            "trxs": "123",
-            "amount": "830000000",
-            "tusr": "179"
-        },
-        {
-            "date": "1559001600",
-            "dapp": "game 2048",
-            "dau": "39",
-            "dnu": "5",
-            "trxs": "1364",
-            "amount": "8885000000",
-            "tusr": "184"
-        },
-        {
-            "date": "1559088000",
-            "dapp": "game 2048",
-            "dau": "33",
-            "dnu": "7",
-            "trxs": "443",
-            "amount": "3005000000",
-            "tusr": "191"
-        },
-        {
-            "date": "1559174400",
-            "dapp": "game 2048",
-            "dau": "41",
-            "dnu": "7",
-            "trxs": "1136",
-            "amount": "7445000000",
-            "tusr": "198"
-        },
-        {
-            "date": "1559260800",
-            "dapp": "game 2048",
-            "dau": "36",
-            "dnu": "2",
-            "trxs": "451",
-            "amount": "2690000000",
-            "tusr": "200"
-        },
-        {
-            "date": "1559347200",
-            "dapp": "game 2048",
-            "dau": "27",
-            "dnu": "1",
-            "trxs": "184",
-            "amount": "1255000000",
-            "tusr": "201"
-        },
-        {
-            "date": "1559433600",
-            "dapp": "game 2048",
-            "dau": "9",
-            "dnu": "1",
-            "trxs": "31",
-            "amount": "225000000",
-            "tusr": "202"
-        },
-        {
-            "date": "1559520000",
-            "dapp": "game 2048",
-            "dau": "31",
-            "dnu": "7",
-            "trxs": "195",
-            "amount": "1345000000",
-            "tusr": "209"
-        },
-        {
-            "date": "1559606400",
-            "dapp": "game 2048",
-            "dau": "82",
-            "dnu": "49",
-            "trxs": "4997",
-            "amount": "33235000000",
-            "tusr": "258"
-        },
-        {
-            "date": "1559692800",
-            "dapp": "game 2048",
-            "dau": "75",
-            "dnu": "33",
-            "trxs": "2327",
-            "amount": "15355000000",
-            "tusr": "291"
-        },
-        {
-            "date": "1559779200",
-            "dapp": "game 2048",
-            "dau": "67",
-            "dnu": "10",
-            "trxs": "3789",
-            "amount": "26810000000",
-            "tusr": "301"
-        },
-        {
-            "date": "1559865600",
-            "dapp": "game 2048",
-            "dau": "71",
-            "dnu": "26",
-            "trxs": "3169",
-            "amount": "22925000000",
-            "tusr": "327"
-        },
-        {
-            "date": "1559952000",
-            "dapp": "game 2048",
-            "dau": "51",
-            "dnu": "7",
-            "trxs": "1589",
-            "amount": "11745000000",
-            "tusr": "334"
-        },
-        {
-            "date": "1560038400",
-            "dapp": "game 2048",
-            "dau": "43",
-            "dnu": "5",
-            "trxs": "983",
-            "amount": "7280000000",
-            "tusr": "339"
-        }
-    ],
-    "walkcoin": [
-        {
-            "date": "1555286400",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555372800",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555459200",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555545600",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555632000",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555718400",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555804800",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "0"
-        },
-        {
-            "date": "1555891200",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "5",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "5"
-        },
-        {
-            "date": "1555977600",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "2",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "7"
-        },
-        {
-            "date": "1556064000",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "7"
-        },
-        {
-            "date": "1556150400",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "1",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "8"
-        },
-        {
-            "date": "1556236800",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "1",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "9"
-        },
-        {
-            "date": "1556323200",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "9"
-        },
-        {
-            "date": "1556409600",
-            "dapp": "walk coin",
-            "dau": "1",
-            "dnu": "0",
-            "trxs": "4",
-            "amount": "0",
-            "tusr": "9"
-        },
-        {
-            "date": "1556496000",
-            "dapp": "walk coin",
-            "dau": "14",
-            "dnu": "19",
-            "trxs": "106",
-            "amount": "0",
-            "tusr": "28"
-        },
-        {
-            "date": "1556582400",
-            "dapp": "walk coin",
-            "dau": "3",
-            "dnu": "13",
-            "trxs": "44",
-            "amount": "0",
-            "tusr": "41"
-        },
-        {
-            "date": "1556668800",
-            "dapp": "walk coin",
-            "dau": "3",
-            "dnu": "13",
-            "trxs": "44",
-            "amount": "0",
-            "tusr": "54"
-        },
-        {
-            "date": "1556755200",
-            "dapp": "walk coin",
-            "dau": "3",
-            "dnu": "4",
-            "trxs": "44",
-            "amount": "0",
-            "tusr": "58"
-        },
-        {
-            "date": "1556841600",
-            "dapp": "walk coin",
-            "dau": "5",
-            "dnu": "7",
-            "trxs": "46",
-            "amount": "0",
-            "tusr": "65"
-        },
-        {
-            "date": "1556928000",
-            "dapp": "walk coin",
-            "dau": "3",
-            "dnu": "4",
-            "trxs": "44",
-            "amount": "0",
-            "tusr": "69"
-        },
-        {
-            "date": "1557014400",
-            "dapp": "walk coin",
-            "dau": "20",
-            "dnu": "6",
-            "trxs": "334",
-            "amount": "0",
-            "tusr": "75"
-        },
-        {
-            "date": "1557100800",
-            "dapp": "walk coin",
-            "dau": "27",
-            "dnu": "8",
-            "trxs": "201",
-            "amount": "0",
-            "tusr": "83"
-        },
-        {
-            "date": "1557187200",
-            "dapp": "walk coin",
-            "dau": "32",
-            "dnu": "10",
-            "trxs": "213",
-            "amount": "0",
-            "tusr": "93"
-        },
-        {
-            "date": "1557273600",
-            "dapp": "walk coin",
-            "dau": "33",
-            "dnu": "10",
-            "trxs": "415",
-            "amount": "0",
-            "tusr": "103"
-        },
-        {
-            "date": "1557360000",
-            "dapp": "walk coin",
-            "dau": "33",
-            "dnu": "7",
-            "trxs": "128",
-            "amount": "0",
-            "tusr": "110"
-        },
-        {
-            "date": "1557446400",
-            "dapp": "walk coin",
-            "dau": "28",
-            "dnu": "4",
-            "trxs": "423",
-            "amount": "0",
-            "tusr": "114"
-        },
-        {
-            "date": "1557532800",
-            "dapp": "walk coin",
-            "dau": "28",
-            "dnu": "8",
-            "trxs": "174",
-            "amount": "0",
-            "tusr": "122"
-        },
-        {
-            "date": "1557619200",
-            "dapp": "walk coin",
-            "dau": "30",
-            "dnu": "13",
-            "trxs": "206",
-            "amount": "0",
-            "tusr": "135"
-        },
-        {
-            "date": "1557705600",
-            "dapp": "walk coin",
-            "dau": "37",
-            "dnu": "11",
-            "trxs": "312",
-            "amount": "0",
-            "tusr": "146"
-        },
-        {
-            "date": "1557792000",
-            "dapp": "walk coin",
-            "dau": "43",
-            "dnu": "14",
-            "trxs": "283",
-            "amount": "0",
-            "tusr": "160"
-        },
-        {
-            "date": "1557878400",
-            "dapp": "walk coin",
-            "dau": "43",
-            "dnu": "6",
-            "trxs": "312",
-            "amount": "0",
-            "tusr": "166"
-        },
-        {
-            "date": "1557964800",
-            "dapp": "walk coin",
-            "dau": "45",
-            "dnu": "12",
-            "trxs": "282",
-            "amount": "0",
-            "tusr": "178"
-        },
-        {
-            "date": "1558051200",
-            "dapp": "walk coin",
-            "dau": "51",
-            "dnu": "15",
-            "trxs": "166",
-            "amount": "0",
-            "tusr": "193"
-        },
-        {
-            "date": "1558137600",
-            "dapp": "walk coin",
-            "dau": "48",
-            "dnu": "16",
-            "trxs": "128",
-            "amount": "0",
-            "tusr": "209"
-        },
-        {
-            "date": "1558224000",
-            "dapp": "walk coin",
-            "dau": "47",
-            "dnu": "15",
-            "trxs": "134",
-            "amount": "0",
-            "tusr": "224"
-        },
-        {
-            "date": "1558310400",
-            "dapp": "walk coin",
-            "dau": "53",
-            "dnu": "12",
-            "trxs": "170",
-            "amount": "0",
-            "tusr": "236"
-        },
-        {
-            "date": "1558396800",
-            "dapp": "walk coin",
-            "dau": "53",
-            "dnu": "16",
-            "trxs": "171",
-            "amount": "0",
-            "tusr": "252"
-        },
-        {
-            "date": "1558483200",
-            "dapp": "walk coin",
-            "dau": "63",
-            "dnu": "17",
-            "trxs": "533",
-            "amount": "0",
-            "tusr": "269"
-        },
-        {
-            "date": "1558569600",
-            "dapp": "walk coin",
-            "dau": "47",
-            "dnu": "12",
-            "trxs": "162",
-            "amount": "0",
-            "tusr": "281"
-        },
-        {
-            "date": "1558656000",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "281"
-        },
-        {
-            "date": "1558742400",
-            "dapp": "walk coin",
-            "dau": "19",
-            "dnu": "3",
-            "trxs": "90",
-            "amount": "0",
-            "tusr": "284"
-        },
-        {
-            "date": "1558828800",
-            "dapp": "walk coin",
-            "dau": "0",
-            "dnu": "0",
-            "trxs": "0",
-            "amount": "0",
-            "tusr": "284"
-        },
-        {
-            "date": "1558915200",
-            "dapp": "walk coin",
-            "dau": "36",
-            "dnu": "9",
-            "trxs": "130",
-            "amount": "0",
-            "tusr": "293"
-        },
-        {
-            "date": "1559001600",
-            "dapp": "walk coin",
-            "dau": "35",
-            "dnu": "10",
-            "trxs": "169",
-            "amount": "0",
-            "tusr": "303"
-        },
-        {
-            "date": "1559088000",
-            "dapp": "walk coin",
-            "dau": "116",
-            "dnu": "75",
-            "trxs": "486",
-            "amount": "0",
-            "tusr": "378"
-        },
-        {
-            "date": "1559174400",
-            "dapp": "walk coin",
-            "dau": "136",
-            "dnu": "89",
-            "trxs": "492",
-            "amount": "0",
-            "tusr": "467"
-        },
-        {
-            "date": "1559260800",
-            "dapp": "walk coin",
-            "dau": "97",
-            "dnu": "43",
-            "trxs": "406",
-            "amount": "0",
-            "tusr": "510"
-        },
-        {
-            "date": "1559347200",
-            "dapp": "walk coin",
-            "dau": "150",
-            "dnu": "67",
-            "trxs": "442",
-            "amount": "0",
-            "tusr": "577"
-        },
-        {
-            "date": "1559433600",
-            "dapp": "walk coin",
-            "dau": "134",
-            "dnu": "61",
-            "trxs": "385",
-            "amount": "0",
-            "tusr": "638"
-        },
-        {
-            "date": "1559520000",
-            "dapp": "walk coin",
-            "dau": "151",
-            "dnu": "88",
-            "trxs": "650",
-            "amount": "0",
-            "tusr": "726"
-        },
-        {
-            "date": "1559606400",
-            "dapp": "walk coin",
-            "dau": "132",
-            "dnu": "71",
-            "trxs": "374",
-            "amount": "0",
-            "tusr": "797"
-        },
-        {
-            "date": "1559692800",
-            "dapp": "walk coin",
-            "dau": "179",
-            "dnu": "110",
-            "trxs": "423",
-            "amount": "0",
-            "tusr": "907"
-        },
-        {
-            "date": "1559779200",
-            "dapp": "walk coin",
-            "dau": "167",
-            "dnu": "90",
-            "trxs": "856",
-            "amount": "0",
-            "tusr": "997"
-        },
-        {
-            "date": "1559865600",
-            "dapp": "walk coin",
-            "dau": "144",
-            "dnu": "82",
-            "trxs": "349",
-            "amount": "0",
-            "tusr": "1079"
-        },
-        {
-            "date": "1559952000",
-            "dapp": "walk coin",
-            "dau": "141",
-            "dnu": "87",
-            "trxs": "602",
-            "amount": "0",
-            "tusr": "1166"
-        },
-        {
-            "date": "1560038400",
-            "dapp": "walk coin",
-            "dau": "183",
-            "dnu": "105",
-            "trxs": "678",
-            "amount": "0",
-            "tusr": "1271"
-        }
-    ]
+    }
 }
