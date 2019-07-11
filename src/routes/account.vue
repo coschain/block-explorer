@@ -261,6 +261,10 @@
 
                 </tr>
                 <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Reputation:</td>
+                    <td class="font-16 font-color-000000">{{getReputationFromAccountInfo(accountInfo)}}</td>
+                </tr>
+                <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Posted:
                     </td>
                     <td class="font-16 font-color-000000">
@@ -335,6 +339,10 @@
                 <div class="mobileCell">
                     <div class="font-color-555555">Vest:</div>
                     <div class="font-16 font-color-000000">{{accountInfo.hasVest()?accountInfo.getVest().toString():""}}</div>
+                </div>
+                <div class="mobileCell">
+                    <div class="font-color-555555">Reputation:</div>
+                    <div class="font-16 font-color-000000">{{getReputationFromAccountInfo(accountInfo)}}</div>
                 </div>
                 <div class="mobileCell">
                     <div class="font-color-555555">Posted:
@@ -581,6 +589,14 @@
                 }
                 return s;
             },
+
+            getReputationFromAccountInfo(accountInfo) {
+                //Judge whether contain func getReputation
+                if (accountInfo.getReputation) {
+                    return accountInfo.getReputation();
+                }
+                return 0;
+            }
 
         },
         watch: {

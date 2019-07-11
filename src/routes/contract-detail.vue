@@ -175,6 +175,29 @@
         color: rgba(85, 85, 85, 1);
     }
 
+    .vue-contractDetail-titleHead {
+        background-color: #f7f7f7;
+        overflow: auto;
+        padding: 10px 0;
+    }
+
+    .vue-contractDetail-titleHead_bg {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .vue-contractDetail-subTitle-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .vue-contractDetail-subTitle-container .subTitle-singleRow {
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+
     @media (max-width: 576px) {
         .vue-contractDetail-container {
             width: calc(100% - 30px);
@@ -197,7 +220,21 @@
 
 <template>
     <div class="vue-contractDetail fullfill" v-bind:triggerComputed=loadContractData>
-        <vue-header title="Contract" :subtitle='$route.params.cName' ></vue-header>
+        <div class="vue-contractDetail-titleHead">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="vue-contractDetail-titleHead_bg">
+                        <div class="col-auto font-40 font-bold font-color-000000">Contract</div>
+                        <div class="vue-contractDetail-subTitle-container">
+                            <div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrName}}</div>
+                            <div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrDesc}}</div>
+                            <div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrOriCodePosition}}</div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+        <!--<vue-header title="Contract" :subtitle= "ctrDescInfo" ></vue-header>-->
         <div class="container vue-contractDetail-container">
             <div class="vue-contractDetail-contentBg">
                 <!--header tab-->
@@ -336,6 +373,9 @@
                 isShowOriCode: false, // whether display origin json code of query result or display in table format
                 reverseElId: "reverseCheckBox",
                 isReverse: false, // whether is inquire in reverse order
+                ctrName:this.$route.params.cName,//contract name
+                ctrDesc:"",//contract description
+                ctrOriCodePosition: "",//the position of contract origin code
             }
         },
 
@@ -356,6 +396,15 @@
                         this.Abi = abi;
                         this.getTableInfoFromAbi();
                     }
+                    if (contract.getUrl().length) {
+                        this.ctrOriCodePosition = contract.getUrl();
+                    }
+
+                    if (contract.getDescribe().length) {
+                        this.ctrDesc = contract.getDescribe();
+
+                    }
+
                 } else {
                     console.log("error code is:", result.errCode);
                     console.log("error msg is:", result.errMsg);
