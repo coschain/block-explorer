@@ -300,19 +300,19 @@
         <template v-if="judgeIsHasCtrDesc()">
             <div class="container vue-contractDetail-desc-container">
                 <!--contract description-->
-                <!--<template v-if="ctrDesc.length">-->
+                <template v-if="ctrDesc.length">
                     <div class="contract-desc-cell">
                         <div class="proDesc font-color-555555">Description:</div>
                         <div class="proValue font-color-000000">{{ctrDesc}}</div>
                     </div>
-                <!--</template>-->
+                </template>
                 <!--contract Source code position-->
-                <!--<template v-if="ctrOriCodePosition.length">-->
+                <template v-if="ctrOriCodePosition.length">
                     <div class="contract-desc-cell">
                         <div class="proDesc font-color-555555">Source code location:</div>
                         <div class="proValue font-color-000000">{{ctrOriCodePosition}}</div>
                     </div>
-                <!--</template>-->
+                </template>
             </div>
 
         </template>
