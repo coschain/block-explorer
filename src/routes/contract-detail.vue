@@ -5,6 +5,45 @@
         position: relative;
     }
 
+    .vue-contractDetail-desc-container {
+        background-color: white;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        padding: 0;
+    }
+
+    .contract-desc-cell {
+        display: flex;
+        flex-direction: row;
+        padding-top: 11px;
+        padding-bottom: 11px;
+        width: 100%;
+    }
+
+    .contract-desc-cell .proDesc {
+        margin-left: 15px;
+        width: 18%;
+        text-align: left;
+        font-size: 16px;
+        word-wrap: normal;
+    }
+
+    .contract-desc-cell .proValue {
+        text-align: left;
+        width: 82%;
+        word-wrap: break-word;
+        word-break: break-all;
+        font-size: 16px;
+    }
+
+    /*.vue-contractDetail-desc-container .contract-desc-cell:nth-of-type(even) {*/
+        /*background: rgba(247, 247, 247, 1);*/
+    /*}*/
+
+     /*.vue-contractDetail-desc-container .contract-desc-cell:nth-of-type(odd) {*/
+        /*background: rgba(255, 255, 255, 1);*/
+    /*}*/
+
     .vue-contractDetail-container {
         background-color: white;
         border-radius: 4px;
@@ -203,6 +242,18 @@
             width: calc(100% - 30px);
         }
 
+        .vue-contractDetail-desc-container {
+            width: calc(100% - 30px);
+        }
+
+        .contract-desc-cell .proDesc {
+            width: 30%;
+        }
+
+        .contract-desc-cell .proValue {
+            width: 70%;
+        }
+
         .vue-contractDetail-operate-bg {
             padding: 0;
         }
@@ -216,25 +267,55 @@
             margin-left: 0;
         }
     }
+
+    @media  (min-width:576px ) and (max-width: 992px) {
+        .contract-desc-cell .proDesc {
+            width: 20%;
+        }
+
+        .contract-desc-cell .proValue {
+            width: 80%;
+        }
+
+    }
 </style>
 
 <template>
     <div class="vue-contractDetail fullfill" v-bind:triggerComputed=loadContractData>
-        <div class="vue-contractDetail-titleHead">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="vue-contractDetail-titleHead_bg">
-                        <div class="col-auto font-40 font-bold font-color-000000">Contract</div>
-                        <div class="vue-contractDetail-subTitle-container">
-                            <div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrName}}</div>
-                            <div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrDesc}}</div>
-                            <div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrOriCodePosition}}</div>
-                        </div>
+        <!--<div class="vue-contractDetail-titleHead">-->
+            <!--<div class="container">-->
+                <!--<div class="row align-items-center">-->
+                    <!--<div class="vue-contractDetail-titleHead_bg">-->
+                        <!--<div class="col-auto font-40 font-bold font-color-000000">Contract</div>-->
+                        <!--<div class="vue-contractDetail-subTitle-container">-->
+                            <!--<div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrName}}</div>-->
+                            <!--<div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrDesc}}</div>-->
+                            <!--<div class="font-16 font-bold font-color-000000 subTitle-singleRow">{{ctrOriCodePosition}}</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <vue-header title="Contract" :subtitle= "ctrName" ></vue-header>
+        <template v-if="judgeIsHasCtrDesc()">
+            <div class="container vue-contractDetail-desc-container">
+                <!--contract description-->
+                <!--<template v-if="ctrDesc.length">-->
+                    <div class="contract-desc-cell">
+                        <div class="proDesc font-color-555555">Description:</div>
+                        <div class="proValue font-color-000000">{{ctrDesc}}</div>
                     </div>
+                <!--</template>-->
+                <!--contract Source code position-->
+                <!--<template v-if="ctrOriCodePosition.length">-->
+                    <div class="contract-desc-cell">
+                        <div class="proDesc font-color-555555">Source code location:</div>
+                        <div class="proValue font-color-000000">{{ctrOriCodePosition}}</div>
                     </div>
+                <!--</template>-->
             </div>
-        </div>
-        <!--<vue-header title="Contract" :subtitle= "ctrDescInfo" ></vue-header>-->
+
+        </template>
         <div class="container vue-contractDetail-container">
             <div class="vue-contractDetail-contentBg">
                 <!--header tab-->
@@ -660,6 +741,9 @@
                 return false;
             },
 
+            judgeIsHasCtrDesc() {
+                return this.ctrDesc.length > 0 || this.ctrOriCodePosition.length > 0;
+            }
 
         },
 

@@ -278,7 +278,14 @@
                 </div>
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Copyright:</div>
-                    <div class="proValue font-color-000000" >{{getArticleCopyrightInfo(articleInfo)}}</div>
+                    <!--<template v-if="judgeIsCopyrightInfringement(articleInfo)">-->
+                        <!--<router-link v-bind:to='fragApi + "/account/" + articleInfo.getAuthor().getValue()'>-->
+                            <!--<span class="hash-normal monospace">{{ getArticleCopyrightInfo(articleInfo)}}</span>-->
+                        <!--</router-link>-->
+                    <!--</template>-->
+                    <!--<template v-else>-->
+                        <div class="proValue font-color-000000">{{getArticleCopyrightInfo(articleInfo)}}</div>
+                    <!--</template>-->
                 </div>
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Content:</div>
@@ -528,10 +535,19 @@
                  return content;
              },
 
+             judgeIsCopyrightInfringement(info) {
+                 if (info != null && typeof info != "undefined") {
+                     if (info.getCopyright&&info.getCopyright() === copyrightType.copyrightTypeInfringement) {
+                         return true;
+                     }
+                 }
+                 return false;
+             },
+
              getArticleCopyrightInfo(info) {
                  if (info != null && typeof info != "undefined") {
                      //Get copyright type(0:unknown 1:infringement 2:Confirmation)
-                     let type = 0;
+                     let type = copyrightType.copyrightTypeUnKnown;
                      if (info.getCopyright) {
                          type = info.getCopyright();
                      }
@@ -553,7 +569,7 @@
 
                  }
                  return "UnKnown";
-             }
+             },
 
          }
     };
