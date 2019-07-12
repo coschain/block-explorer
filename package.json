@@ -12,7 +12,7 @@
   "dependencies": {
     "bignumber.js": "7.2.1",
     "bootstrap": "^4.3.1",
-    "cos-grpc-js": "^1.5.2",
+    "cos-grpc-js": "^1.5.4",
     "font-awesome": "^4.7.0",
     "highcharts": "^6.1.0",
     "highlight.js": "^9.15.6",
