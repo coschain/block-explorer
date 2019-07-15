@@ -18,6 +18,7 @@
         padding-top: 11px;
         padding-bottom: 11px;
         width: 100%;
+        border-bottom: 1px solid #eee;
     }
 
     .contract-desc-cell .proDesc {
@@ -32,7 +33,7 @@
         text-align: left;
         width: 82%;
         word-wrap: break-word;
-        word-break: break-all;
+        word-break: break-word;
         font-size: 16px;
     }
 
@@ -310,7 +311,7 @@
                 <template v-if="ctrOriCodePosition.length">
                     <div class="contract-desc-cell">
                         <div class="proDesc font-color-555555">Source code location:</div>
-                        <div class="proValue font-color-000000">{{ctrOriCodePosition}}</div>
+                        <div class="proValue font-color-000000" v-html="convertTolinkifyHtml(ctrOriCodePosition)"></div>
                     </div>
                 </template>
             </div>
@@ -408,6 +409,8 @@
     import pHead from "../components/vue-bread";
     import api from "../assets/api";
     import fieldInput from "../components/vue-contract-input";
+    import linkifyHtml from 'linkifyjs/html';
+    import * as linkify from "linkifyjs";
 
     const tabType = {
         tabTypeHandleContract: 0, //the tab of handle contract
@@ -743,6 +746,13 @@
 
             judgeIsHasCtrDesc() {
                 return this.ctrDesc.length > 0 || this.ctrOriCodePosition.length > 0;
+            },
+
+            convertTolinkifyHtml(content) {
+                if (content != null && typeof content == "string") {
+                    return linkifyHtml(content,linkify.options.defaults);
+                }
+                return content;
             }
 
         },
