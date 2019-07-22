@@ -443,7 +443,7 @@
                     }
                     this.$root.showModalLoading = false;
                 },(errCode,msg) => {
-                    console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
+                    console.log("Get account list fail,error code is %s,msg is %s",errCode,msg);
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });

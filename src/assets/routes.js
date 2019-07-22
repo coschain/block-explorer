@@ -48,6 +48,10 @@ module.exports = [{
     meta: { headerActive: 2 },
     path: "/:api?/user-article/:author"
 }, {
+    component: require("@/routes/chain-state").default,
+    meta: {headerActive: 2},
+    path: "/:api?/chain-state"
+}, {
     component: require("@/routes/txs-nrc20").default,
     meta: { headerActive: 2 },
     path: "/:api?/txs-nrc20"

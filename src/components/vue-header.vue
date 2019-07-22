@@ -171,6 +171,8 @@
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/bp/'">Block Producers</router-link>
                             <div class="dropdown-divider"></div>
+                            <router-link class=dropdown-item v-bind:to="fragApi + '/chain-state/'">Global Dynamic Properties</router-link>
+                            <div class="dropdown-divider"></div>
                             <a href= "http://testwallet.contentos.io/" target="_blank" class="dropdown-item">Create Account</a>
                         </div>
                     </li>
