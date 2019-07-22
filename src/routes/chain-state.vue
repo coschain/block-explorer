@@ -50,7 +50,6 @@
             <div class="vue-state-info-head-separateLine"></div>
 
             <div class="vue-state-info-bg">
-                <!--<pre v-highlightjs="getStateInfoWithJsonFormat()"><code class="vue-state-info-props"></code></pre>-->
                 <pre v-highlightjs><code class="vue-state-info-props">{{getStateInfoWithJsonFormat()}}</code></pre>
             </div>
         </div>
