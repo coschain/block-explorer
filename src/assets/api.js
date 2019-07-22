@@ -953,11 +953,70 @@ module.exports = {
             result.errMsg = e;
             return result;
         }
+    },
+
+    async fetchAccountListByVest(start, end, pageSize, lastAccount) {
+        let result = newWebServiceResponse();
+        try {
+            let req = new cos_sdk.grpc.GetAccountListByVestRequest();
+            req.setLimit(pageSize);
+            req.setStart(start);
+            req.setEnd(end);
+            req.setLastAccount(lastAccount);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetAccountListByVest, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            let list = message.getListList();
+                            resolve(list);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                });
+            }).then(list => {
+                result.res = list;
+                if (result.errMsg !== null) {
+                    result.errMsg = null;
+                }
+
+                if (result.errCode !== null) {
+                    result.errCode = null;
+                }
+                return result;
+            }).catch(({ errCode, msg }) => {
+                if (result.res != null) {
+                    result.res = null;
+                }
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+        } catch (e) {
+            result.errMsg = e;
+            return result;
+        }
     }
   };
-    function ajax1(action, args, done, fail) {
+
+  function newWebServiceResponse() {
+      return  {
+          res: null,
+          errCode: null,
+          errMsg: null,
+      };
+  }
+  function ajax1(action, args, done, fail) {
 
         var a = ajaxSplitAction(action);
 
         return ajax(a[0] + " " + sessionStorage.apiPrefix + a[1], args, done, fail);
-    }
+  }

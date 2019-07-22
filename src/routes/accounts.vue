@@ -31,14 +31,7 @@
         align-items: center;
     }
 
-    .vue-accounts .headOther {
-        width: 22%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .vue-accounts .headBalanceAndTime {
+    .vue-accounts .headSort {
         width: 22%;
         display: flex;
         flex-direction: row;
@@ -46,11 +39,11 @@
         height: 100%;
     }
 
-    .vue-accounts .headBalanceAndTime:hover {
+    .vue-accounts .headSort:hover {
         background-color: #e8e8e8;
     }
 
-    .vue-accounts .headBalanceAndTime:focus-within {
+    .vue-accounts .headSort:focus-within {
         background-color: #e8e8e8;
     }
 
@@ -117,14 +110,18 @@
                     <tr class="accountListHeader font-bold font-color-000000">
                         <th class="headRank">Rank</th>
                         <th class="headAccount">Account</th>
-                        <th :class='[sortType === 1?"headBalanceAndTime headSelectStatus":"headBalanceAndTime"]' @click="changeListSortType(1)">
+                        <th :class='[curSortType === srtType.listSortTypeBalance?"headSort headSelectStatus":"headSort"]' @click="changeListSortType(srtType.listSortTypeBalance)">
                             <div> Balance</div>
-                            <div :class='[sortType === 1?"arrow-down selected-arrow-down":"arrow-down"]'></div>
+                            <div :class='[curSortType === srtType.listSortTypeBalance?"arrow-down selected-arrow-down":"arrow-down"]'></div>
                         </th>
-                        <th class="headOther">Vest</th>
-                        <th :class='[sortType === 2?"headBalanceAndTime headSelectStatus":"headBalanceAndTime"]' @click="changeListSortType(2)">
+                        <th :class='[curSortType === srtType.listSortTypeVest?"headSort headSelectStatus":"headSort"]' @click="changeListSortType(srtType.listSortTypeVest)">
+                            <div>Vest</div>
+                            <div :class='[curSortType === srtType.listSortTypeVest?"arrow-down selected-arrow-down":"arrow-down"]' @click="changeListSortType(srtType.listSortTypeVest)"></div>
+                        </th>
+                        
+                        <th :class='[curSortType === srtType.listSortTypeCreTime?"headSort headSelectStatus":"headSort"]' @click="changeListSortType(srtType.listSortTypeCreTime)">
                             <div>Time</div>
-                            <div :class='[sortType === 2?"arrow-down selected-arrow-down":"arrow-down"]' @click="changeListSortType(2)"></div>
+                            <div :class='[curSortType === srtType.listSortTypeCreTime?"arrow-down selected-arrow-down":"arrow-down"]' @click="changeListSortType(srtType.listSortTypeCreTime)"></div>
                         </th>
                     </tr>
                     <tr v-for="(account, i) in accountList" :key="i" class="contentFont">
@@ -156,6 +153,8 @@
         listSortTypeUnknown : 0,//unknown type
         listSortTypeBalance : 1,//account list sort by balance
         listSortTypeCreTime : 2,//account list sort by create time
+        listSortTypeVest    : 3,//account list sort by vest
+
     };
     const pageSize = 30;
     module.exports = {
@@ -178,22 +177,27 @@
                 accountPageInfo: [],
                 lastAccount:null,
                 createdPageIndex:0,
-                sortType: listSortType.listSortTypeBalance,
+                curSortType: listSortType.listSortTypeBalance,
                 timeStart: null,
                 timeEnd: null,
+                vestStart: null,
+                vestEnd: null,
+                srtType: listSortType,
             };
         },
         methods: {
             nthPage(lastType) {
                 this.$root.showModalLoading = true;
                 let isChangeSortType = false;
-                if (lastType !== this.sortType) {
+                if (lastType !== this.curSortType) {
                     isChangeSortType = true
                 }
                 let p = this.$route.query.p || 1;
                 let start = this.coinStart;
-                if (this.sortType === listSortType.listSortTypeCreTime) {
+                if (this.curSortType === listSortType.listSortTypeCreTime) {
                     start = this.timeStart;
+                } else if (this.curSortType === listSortType.listSortTypeVest) {
+                    start = this.vestStart;
                 }
                 let isNextPage = true;
                 let lastAccount = this.lastAccount;
@@ -216,13 +220,15 @@
                     pReqType = 3;
                 }
 
-                if (this.sortType === 1) {
+                if (this.curSortType === listSortType.listSortTypeBalance) {
                     this.fetchActListByBalance(p,start,pReqType,lastAccount,isChangeSortType);
-                }else if (this.sortType === 2) {
+                }else if (this.curSortType === listSortType.listSortTypeCreTime) {
                     this.fetchActListByCreTime(p,start,pReqType,lastAccount,isChangeSortType);
-                }else {
+                }else if (this.curSortType === listSortType.listSortTypeVest) {
+                    this.fetchAccountListByVest(p,start,pReqType,lastAccount,isChangeSortType);
+                } else {
                     this.$root.showModalLoading = false;
-                    console.log("Fail to fetch account list,the sort type %d is not right",this.sortType)
+                    console.log("Fail to fetch account list,the sort type %d is not right",this.curSortType)
                 }
 
             },
@@ -294,20 +300,25 @@
                 cacheData.currentPage = this.currentPage;
                 cacheData.totalPage = this.totalPage;
                 cacheData.createdPageIndex =  this.createdPageIndex;
-                cacheData.sortType = this.sortType;
+                cacheData.sortType = this.curSortType;
                 let listLen = this.accountPageInfo.length;
                 if ( listLen > 0) {
                     let pageList = [];
                     this.accountPageInfo.forEach(function (info) {
                         let obj = {};
+                        let isValid = true;
                         if (cacheData.sortType === listSortType.listSortTypeBalance && (info.start instanceof api.cos_sdk.raw_type.coin)){
                             obj.start = info.start?info.start.getValue():null;
                             // obj.end = info.end?info.end.getValue():null;
-                            obj.account = info.account?info.account.toObject():null;
-                            pageList.push(obj);
                         }else if (cacheData.sortType === listSortType.listSortTypeCreTime && (info.start instanceof api.cos_sdk.raw_type.time_point_sec)){
                             obj.start = info.start?info.start.getUtcSeconds():null;
                             // obj.end = info.end?info.end.getUtcSeconds():null;
+                        } else if (cacheData.sortType === listSortType.listSortTypeVest && (info.start instanceof api.cos_sdk.raw_type.vest)) {
+                            obj.start = info.start?info.start.getValue():null;
+                        } else {
+                            isValid = false;
+                        }
+                        if (isValid) {
                             obj.account = info.account?info.account.toObject():null;
                             pageList.push(obj);
                         }
@@ -333,12 +344,13 @@
                 }
             },
 
+            //Get account list by Balance
             fetchActListByBalance(p,start,pReqType,lastAccount,isSwitchSortType) {
                 api.fetchAccountListByBalance(start,null,pageSize,lastAccount,accountList => {
                     this.handleFetchListSuccessEvent(p,accountList,pReqType,listSortType.listSortTypeBalance,isSwitchSortType);
                 },(errCode,msg) => {
                     console.log("Get Account list by balance fail,error code is %s,msg is %s",errCode,msg);
-                    if (this.sortType === listSortType.listSortTypeBalance) {
+                    if (this.curSortType === listSortType.listSortTypeBalance) {
                         if (isSwitchSortType) {
                             this.accountList = null;
                         }
@@ -348,12 +360,13 @@
                 });
             },
 
+            //Get account list by create time
             fetchActListByCreTime(p,start,pReqType,lastAccount,isSwitchSortType) {
                 api.fetchAccountListByCreateTime(start,null,lastAccount,pageSize,accountList => {
                     this.handleFetchListSuccessEvent(p,accountList,pReqType,listSortType.listSortTypeCreTime,isSwitchSortType);
                 },(errCode,msg) => {
                     console.log("Get Account list by create time fail,error code is %s,msg is %s",errCode,msg);
-                    if (this.sortType === listSortType.listSortTypeCreTime) {
+                    if (this.curSortType === listSortType.listSortTypeCreTime) {
                         if (isSwitchSortType) {
                             this.accountList = null;
                         }
@@ -363,8 +376,23 @@
                 });
             },
 
+            //Get account list by vest
+            async fetchAccountListByVest(p,start,pReqType,lastAccount,isSwitchSortType) {
+                let response = await api.fetchAccountListByVest(start, null, pageSize, lastAccount);
+                if (response.res != null) {
+                    this.handleFetchListSuccessEvent(p,response.res,pReqType,listSortType.listSortTypeVest,isSwitchSortType);
+                } else {
+                    console.log("Get Account list by vest fail,error code is %s,msg is %s",response.errCode,response.errMsg);
+                    if (isSwitchSortType) {
+                        this.accountList = null;
+                    }
+                    this.$root.showModalLoading = false;
+                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                }
+            },
+
             handleFetchListSuccessEvent(p,accountList,pReqType,sortType,isSwitchSortType) {
-                if (sortType === this.sortType) {
+                if (sortType === this.curSortType) {
                     if (accountList.length > 0) {
                         this.accountList = accountList;
                         this.lastAccount = accountList[accountList.length-1].getInfo();
@@ -385,6 +413,14 @@
                                 this.timeEnd = accountList[0].getInfo().getCreatedTime();
                             }
                             info.start = this.timeStart;
+                        } else if (sortType === listSortType.listSortTypeVest) {
+                            this.vestStart = this.lastAccount.getVest();
+                            if (this.currentPage === 0 && pReqType === 1) {
+                                this.vestEnd = null;
+                            }else {
+                                this.vestEnd = accountList[0].getInfo().getVest();
+                            }
+                            info.start = this.vestStart;
                         }
 
                         let curPageLen = this.accountPageInfo.length;
@@ -424,21 +460,32 @@
                     }else if (isSwitchSortType){
                         //clear account list when switch sortType
                         this.accountList = null;
+                    } else {
+                        //Indicates that the current page(this.currentPage) is the last page，but the route page is this.currentPage+1 when
+                        //nav ，so pop back to the current page
+
+                        let query = JSON.parse(window.JSON.stringify(this.$route.query));
+                        if (query.p > this.currentPage) {
+                            this.$router.back();
+                        }
+
                     }
                     this.$root.showModalLoading = false;
                 }
             },
 
             changeListSortType(type) {
-                if (type !== this.sortType) {
+                if (type !== this.curSortType) {
                     // this.accountList = null;
-                    let originType = this.sortType;
-                    this.sortType = type;
+                    let originType = this.curSortType;
+                    this.curSortType = type;
                     this.lastAccount = null;
                     this.coinStart = null;
                     this.coinEnd = null;
                     this.timeStart = null;
                     this.timeEnd = null;
+                    this.vestStart = null;
+                    this.vestEnd = null;
                     // this.clearCachePageInfo();
                     this.savePageInfo();
                     let p = parseInt(this.$route.query.p || 1);
@@ -455,8 +502,10 @@
             },
 
             getListTitle() {
-                if (this.sortType === listSortType.listSortTypeCreTime) {
+                if (this.curSortType === listSortType.listSortTypeCreTime) {
                     return "Top Accounts By Create Time";
+                } else if (this.curSortType === listSortType.listSortTypeVest) {
+                    return "Top Accounts By Vest";
                 }
                 return  "Top Accounts By COS Balance";
             },
@@ -469,10 +518,10 @@
                 this.currentPage = parseInt(cacheData.currentPage);
                 this.totalPage = parseInt(cacheData.totalPage);
                 this.createdPageIndex = parseInt(cacheData.createdPageIndex);
-                this.sortType = parseInt(cacheData.sortType);
+                this.curSortType = parseInt(cacheData.sortType);
                 if (cacheData.pageInfo != null) {
                     let list = [];
-                    let sortType = this.sortType;
+                    let sortType = this.curSortType;
                     cacheData.pageInfo.forEach(function (obj) {
                         let info = {};
                         if (obj.start != null) {
@@ -483,6 +532,10 @@
                             }else if (sortType === listSortType.listSortTypeCreTime){
                                 let start = new api.cos_sdk.raw_type.time_point_sec();
                                 start.setUtcSeconds(obj.start);
+                                info.start = start;
+                            } else if (sortType === listSortType.listSortTypeVest) {
+                                let start = new api.cos_sdk.raw_type.vest();
+                                start.setValue(obj.start);
                                 info.start = start;
                             }
                         }
@@ -510,6 +563,10 @@
                                 let creTime = new api.cos_sdk.raw_type.time_point_sec();
                                 creTime.setUtcSeconds(obj.account.createdTime.utcSeconds);
                                 lastInfo.setCreatedTime(creTime);
+                            } else if (sortType === listSortType.listSortTypeVest) {
+                                let vest = new api.cos_sdk.raw_type.vest();
+                                vest.setValue(obj.account.vest.value);
+                                lastInfo.setVest(vest);
                             }
 
                             info.account = lastInfo;
@@ -521,13 +578,16 @@
                 if (this.currentPage === 1) {
                     this.coinStart = null;
                     this.timeStart = null;
+                    this.vestStart = null;
                     this.lastAccount = null;
                 }else if (this.currentPage >= 2 && this.accountPageInfo.length >= this.currentPage){
                     let lastInfo = this.accountPageInfo [this.currentPage-2];
-                    if (this.sortType === listSortType.listSortTypeBalance) {
+                    if (this.curSortType === listSortType.listSortTypeBalance) {
                         this.coinStart = lastInfo.start;
-                    }else {
+                    }else if (this.curSortType === listSortType.listSortTypeCreTime) {
                         this.timeStart = lastInfo.start;
+                    } else if (this.curSortType === listSortType.listSortTypeVest) {
+                        this.vestStart = lastInfo.start;
                     }
                     this.lastAccount = lastInfo.account;
                 }
@@ -545,12 +605,12 @@
                 }
             }
             if (isQuery) {
-                this.nthPage(this.sortType);
+                this.nthPage(this.curSortType);
             }
         },
         watch: {
             $route() {
-                this.nthPage(this.sortType);
+                this.nthPage(this.curSortType);
             }
         },
 
@@ -561,7 +621,7 @@
         },
 
         destroyed() {
-            if (this.currentPage <= 1 && this.sortType !== listSortType.listSortTypeCreTime) {
+            if (this.currentPage <= 1 && this.curSortType !== listSortType.listSortTypeCreTime && this.curSortType !== listSortType.listSortTypeVest) {
                 this.clearCachePageInfo();
             }
         },
