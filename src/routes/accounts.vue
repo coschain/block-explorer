@@ -41,10 +41,12 @@
 
     .vue-accounts .headSort:hover {
         background-color: #e8e8e8;
+        opacity: 0.6;
     }
 
     .vue-accounts .headSort:focus-within {
         background-color: #e8e8e8;
+        opacity: 0.6;
     }
 
 

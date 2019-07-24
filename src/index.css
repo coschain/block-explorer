@@ -530,3 +530,34 @@ img:not([src]) {
 .selected-arrow-down {
     border-top: 5px solid #1890ff;
 }
+
+.loadMore-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+.loadMoreBtn {
+    background-color: white;
+    outline: none;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: grey;
+    margin-top: 10px;
+}
+
+.loadMoreBtn:hover {
+    outline: none;
+    opacity: 0.6;
+}
+
+.loadMoreBtn:active {
+    outline: none;
+    opacity: 0.6;
+}
+
+.loadMoreBtn:focus {
+    outline: none;
+}

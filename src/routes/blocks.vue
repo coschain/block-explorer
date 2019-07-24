@@ -84,10 +84,20 @@
         height: 18px;
     }
 
+    .vue-blocks .maxPageTips {
+        margin-top: 20px;
+        font-size: 16px;
+        color: black;
+        text-align: left;
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+
     .vue-blocks .blkStatusTitle {
         color: rgba(7, 166, 86, 1);
         font-size: 14px;
     }
+
 
     @media (max-width: 575.98px) {
         .vue-blocks .blkListHeader {
@@ -122,68 +132,73 @@
     <!-- https://etherscan.io/blocks -->
     <div class="vue-blocks fullfill">
         <vue-bread title="Blocks"></vue-bread>
-
-        <div v-if="blocks" class="container mt20">
-            <!--<div class="align-items-center info-and-pagination mt20 row">-->
+        <template v-if="blocks.length">
+            <div class="container maxPageTips">Display the latest 50 pages of data</div>
+            <div  class="container">
+                <!--<div class="align-items-center info-and-pagination mt20 row">-->
                 <!--<div class="col info font-color-000000 font-24 font-bold title">-->
-                    <!--{{ numberAddComma(totalBlocks) }} blocks found-->
-                    <!--&lt;!&ndash; <span v-if="totalTxs > 500" class="font-color-555555 font-16" style="vertical-align: text-bottom;">(showing the last 500 records)</span> &ndash;&gt;-->
+                <!--{{ numberAddComma(totalBlocks) }} blocks found-->
+                <!--&lt;!&ndash; <span v-if="totalTxs > 500" class="font-color-555555 font-16" style="vertical-align: text-bottom;">(showing the last 500 records)</span> &ndash;&gt;-->
                 <!--</div>-->
-            <!--</div>-->
-            <div class="explorer-table-container ">
-                <table class="mt20 explorer-table ">
-                    <tr class=" blkListHeader font-12 font-bold font-color-000000">
-                        <th class="blkListHeadBlockHeight">Height</th>
-                        <th class="blkListHeadOtherCol">Time</th>
-                        <th class="blkListHeadTxCount">txn</th>
-                        <th class="blkListHeadOtherCol">Minted</th>
-                    </tr>
-                    <tr v-for="(block, i) in blocks" :key="i">
-                        <td class="contentCol blockHeightCol">
-                            <div class="blkNumCol">
-                                <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()' class="blkNum">
-                                    {{block.getBlockHeight()}}
-                                </router-link>
-                                <div v-if=judgeIsIrreversibleBlk(block.getBlockHeight()) class="blkStatus">
-                                    <img class="icon" src="../../static/img/ic_tx_status_success.png" />
-                                    <span class="blkStatusTitle" style="margin-left: 5px;">Confirmed</span>
+                <!--</div>-->
+
+                <div class="explorer-table-container ">
+                    <table class="mt20 explorer-table ">
+                        <tr class=" blkListHeader font-12 font-bold font-color-000000">
+                            <th class="blkListHeadBlockHeight">Height</th>
+                            <th class="blkListHeadOtherCol">Time</th>
+                            <th class="blkListHeadTxCount">txn</th>
+                            <th class="blkListHeadOtherCol">Minted</th>
+                        </tr>
+                        <tr v-for="(block, i) in blocks" :key="i">
+                            <td class="contentCol blockHeightCol">
+                                <div class="blkNumCol">
+                                    <router-link v-bind:to='fragApi + "/block/" + block.getBlockHeight()' class="blkNum" target="_blank">
+                                        {{block.getBlockHeight()}}
+                                    </router-link>
+                                    <div v-if=judgeIsIrreversibleBlk(block.getBlockHeight()) class="blkStatus">
+                                        <img class="icon" src="../../static/img/ic_tx_status_success.png" />
+                                        <span class="blkStatusTitle" style="margin-left: 5px;">Confirmed</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="contentCol otherConCol">
-                            <!--<div>-->
+                            </td>
+                            <td class="contentCol otherConCol">
+                                <!--<div>-->
                                 <!--<div class="font-color-000000 font-14">{{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago</div>-->
                                 <!--<div class="down-arrow-tip">{{ new Date(block.toObject().timestamp.utcSeconds*1000).toString().replace('GMT', 'UTC').replace(/\(.+\)/gi, '') }} | {{ block.toObject().timestamp.utcSeconds*1000 }}</div>-->
-                            <!--</div>-->
-                            {{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago
-                        </td>
-                        <td class="contentCol txContentCol">
-                            <router-link v-bind:to='fragApi + "/block-trxs/" + block.getBlockHeight()'>
-                                <span >{{ numberAddComma(block.toObject().trxCount) }}</span>
-                            </router-link>
-                        </td>
-                        <td class="contentCol otherConCol">
-                            <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value'>
-                                <span class="monospace">{{ block.toObject().witness.value }}</span>
-                            </router-link>
-                        </td>
-                    </tr>
-                </table>
+                                <!--</div>-->
+                                {{ timeConversion(Date.now()-block.toObject().timestamp.utcSeconds*1000) }} ago
+                            </td>
+                            <td class="contentCol txContentCol">
+                                <router-link v-bind:to='fragApi + "/block-trxs/" + block.getBlockHeight()' target="_blank">
+                                    <span >{{ numberAddComma(block.toObject().trxCount) }}</span>
+                                </router-link>
+                            </td>
+                            <td class="contentCol otherConCol">
+                                <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value' target="_blank">
+                                    <span class="monospace">{{ block.toObject().witness.value }}</span>
+                                </router-link>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div v-if="isShowLoadMore" class="loadMore-container">
+                        <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageData()">Load More</button>
+                    </div>
+
+                </div>
             </div>
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext  v-on:prev=onPrev v-on:firstPage=onGoFirstPage></vue-pagination>
-        </div>
+        </template>
     </div>
 </template>
 <script>
     let api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    const blksPageCacheKey = utility.getPageCacheKey(utility.pageCacheType.blocksList);
-    let irreversibleBlkNum = 0;
+    const maxPageCount = 50;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
-            "vue-pagination": require("@/components/vue-pagination").default,
         },
         data() {
             return {
@@ -194,21 +209,16 @@
                 heightTo: 0,
                 totalBlocks: 0,
                 totalPage: 1,
-                blocks: null,
+                blocks: [],
                 blkStart:0,
                 blkEnd:0,
-                pageSwitchType:0,//0 fetch the next page ,1:fetch the pre page
-                blkPageInfo:[],
                 maxPageSizeLimit:30,
-                createdPageIndex:0,
+                isShowLoadMore: true,
             };
         },
         methods: {
-            async nthPage() {
-                let p = this.$route.query.p || 1;
-
+            async nthPage(p) {
                 this.$root.showModalLoading = true;
-
                 if (parseInt(p) === 1) {
                     api.fetchStateInfo(info => {
                         if (info != null && typeof info.state.dgpo != "undefined" ) {
@@ -225,216 +235,54 @@
                     });
                 }
 
-                let end = this.blkStart > 1 ?this.blkStart -1:this.blkStart;
-                let start = 0;
-                let isNext = true;
-                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
-                if (p < this.currentPage) {
-                    let infoLen = this.blkPageInfo.length;
-
-                    //fetch the pre page
-                    if (this.currentPage === 2) {
-                        start = 0;
-                        end = 0;
-                    }else {
-                        if (infoLen >= 2 && infoLen >= this.currentPage ) {
-                            let info  = this.blkPageInfo[this.currentPage-2];
-                            start = info.start;
-                            end = info.end;
-                        }
-                    }
-                    pReqType = 0;
-                    isNext = false;
-                }else  if (parseInt(p) === this.currentPage) {
-                    pReqType = 3;
-                    start = this.blkStart;
-                    end = this.blkEnd;
-                }else  if (end >= this.maxPageSizeLimit) {
-                    start = (end - this.maxPageSizeLimit + 1);
+                if (p <= this.currentPage || p > maxPageCount) {
+                    return;
                 }
-                let blkList = await api.fetchBlockList(start,end, 30);
+                let end = this.blkStart >= 1 ?this.blkStart -1:this.blkStart;
+                let start = 0;
+                let blkList = await api.fetchBlockList(start,end, this.maxPageSizeLimit);
                 let cnt = blkList.length;
                 if (cnt > 0) {
-                    this.blocks = blkList.reverse();
+                    this.blocks = this.blocks.concat(blkList.reverse());
                     let listLen = blkList.length;
-                    this.blkStart = this.blocks[listLen-1].getBlockHeight();
-                    this.blkEnd = this.blocks[0].getBlockHeight();
-                    let info = {start:this.blkStart,end:this.blkEnd};
-                    if (pReqType === 1) {
-                        if (this.currentPage+1 === this.totalPage) {
-                            this.totalPage += 1;
-                            this.blkPageInfo.push(info);
-                        }else {
-                            this.updateBlkPageInfo(this.currentPage,info);
-                        }
-                        this.currentPage += 1;
-                        if (this.createdPageIndex < this.totalPage) {
-                            this.createdPageIndex += 1;
-                        }
-                    }else if (pReqType === 0){
-                        this.currentPage -= 1;
-                        this.updateBlkPageInfo(this.currentPage-1,info);
-                    }else if (pReqType === 3) {
-                        this.currentPage = parseInt(p);
-                    }
+                    this.blkStart = blkList[listLen-1].getBlockHeight();
+                    this.blkEnd = blkList[0].getBlockHeight();
+                    this.currentPage = parseInt(p);
                 }
                 this.$root.showModalLoading = false;
-                this.savePageInfo();
+                this.isShowLoadMore = this.currentPage < maxPageCount;
             },
-
-            updateBlkPageInfo(index,info) {
-                if (info && index>= 0 && index < this.blkPageInfo.length) {
-                    this.blkPageInfo.splice(index,1,info)
-                }
-            },
-
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },
-            onFirst() {
-                this.nav(this.currentPage - 1);
-            },
-            onLast() {
-                this.nav(this.currentPage + 1);
-            },
-            onNext() {
-                this.nav(this.currentPage + 1);
-            },
-            onPrev() {
-                this.nav(this.currentPage - 1);
-            },
-            nav(n) {
-                if (n < this.createdPageIndex && this.createdPageIndex >= this.currentPage) {
-                    if (n < this.currentPage) {
-                        this.$router.back();
-                    }else {
-                        this.$router.forward();
-                    }
-                } else {
-                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
-                    query.p = n;
-                    this.$router.push({ path: this.$route.path, query });
-                }
-            },
-            onGoFirstPage() {
-                let page = this.currentPage;
-                let p = this.$route.query.p;
-                if (parseInt(p) > page) {
-                    page = parseInt(p);
-                }
-                this.currentPage = 2;
-                this.$router.go(1-page);
-            },
-            // onTo(n) {
-            //     this.$router.push({
-            //         path: this.$route.path,
-            //         query: { p: n }
-            //     });
-            // },
             timeConversion(ms) {
                 return utility.timeConversion(ms);
             },
             toWei(n) {
                 return utility.toWei(n);
             },
-            savePageInfo() {
-                let cacheData = {};
-                cacheData.currentPage = this.currentPage;
-                cacheData.totalPage = this.totalPage;
-                cacheData.createdPageIndex = this.createdPageIndex;
-                let listLen = this.blkPageInfo.length;
-                if ( listLen > 0) {
-                    let pageList = [];
-                    this.blkPageInfo.forEach(function (info) {
-                        let obj = {};
-                        obj.start = info.start;
-                        obj.end = info.end;
-                        pageList.push(obj);
-                    });
-                    cacheData.pageInfo = pageList;
-                }else {
-                    cacheData.pageInfo = null;
-                    cacheData.lastInfo = null;
-                }
-                sessionStorage.setItem(blksPageCacheKey,JSON.stringify(cacheData));
 
-            },
-            getPageInfo() {
-                let info = sessionStorage.getItem(blksPageCacheKey);
-                if (info != null) {
-                    return JSON.parse(info);
-                }
-                return null;
-            },
-            clearCachePageInfo() {
-                if (sessionStorage.getItem(blksPageCacheKey) != null) {
-                    sessionStorage.removeItem(blksPageCacheKey);
-                }
-            },
             judgeIsIrreversibleBlk(blkNum) {
                 return (BigNumber(blkNum).comparedTo(BigNumber(this.irreversibleBlkNum)) <= 0);
-            }
+            },
+
+            onClickLoadNextPageData() {
+                this.nthPage(this.currentPage + 1);
+            },
         },
         async mounted() {
             if (this.currentPage <= 1) {
                 this.irreversibleBlkNum = this.$route.params.irreversibleBlkNum;
             }
-            let cacheData = this.getPageInfo();
-            let isQueryData = true;
-            if (cacheData != null) {
-                this.currentPage =  parseInt(cacheData.currentPage);
-                this.totalPage = parseInt(cacheData.totalPage);
-                this.createdPageIndex = parseInt(cacheData.createdPageIndex);
-                if (cacheData.pageInfo != null) {
-                    let list = [];
-                    cacheData.pageInfo.forEach(function (obj) {
-                        let info = {};
-                        info.start = obj.start;
-                        info.end = obj.end;
-                        list.push(info);
-                    });
-                    this.blkPageInfo = list;
-                }
-                if (this.currentPage === 1) {
-                    this.blkStart = 0;
-                    this.blkEnd = 0;
-                }else if (this.currentPage >= 2 && this.blkPageInfo.length >= this.currentPage){
-                    let lastInfo = this.blkPageInfo[this.currentPage-1];
-                    this.blkStart = lastInfo.start;
-                    this.blkEnd = lastInfo.end;
-                }
-
-            } else {
-                let p = this.$route.query.p;
-                //now the chain not support page skip request,so in this condition just request from page 1
-                if (p > 1) {
-                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
-                    query.p = 1;
-                    this.currentPage = 0;
-                    this.totalPage = 1;
-                    this.$router.replace({ path: this.$route.path, query });
-                    isQueryData = false;
-                }
-            }
-            if (isQueryData) {
-                await this.nthPage();
-            }
+            this.nthPage(1);
         },
         watch: {
             async $route() {
-                await this.nthPage();
+                await this.nthPage(1);
             }
         },
-        beforeDestroy() {
-            if (this.currentPage > 1) {
-                this.createdPageIndex = this.currentPage;
-                this.savePageInfo();
-            }
-        },
+
         destroyed() {
-            if (this.currentPage <= 1) {
-                this.clearCachePageInfo();
-            }
         }
     };
 </script>
