@@ -170,7 +170,6 @@
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    const maxTxsPagesNum = 50;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -189,11 +188,12 @@
                 pageInfo:[],
                 isShowLoadMore: true,
                 isFetching: false,
+                maxTxsPagesNum: 50,
             };
         },
         methods: {
             async nthPage(p) {
-                if (p < this.currentPage || p > maxTxsPagesNum) {
+                if (p < this.currentPage || p > this.maxTxsPagesNum) {
                     this.isFetching = false;
                     return;
                 }
@@ -227,7 +227,7 @@
                     console.log("fetch trx list fail,the error is %s",err);
                 }
                 this.$root.showModalLoading = false;
-                this.isShowLoadMore = this.currentPage < maxTxsPagesNum;
+                this.isShowLoadMore = this.currentPage < this.maxTxsPagesNum;
                 this.isFetching = false;
             },
 

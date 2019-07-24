@@ -139,7 +139,6 @@
         listSortTypeCreTime : 1,//article list sort by create time
         listSortTypeVest : 2,//article list sort by vest
     };
-    const maxArticlePagesNum = 50;
     const pageSize = 30;
     module.exports = {
         components: {
@@ -163,11 +162,12 @@
                 vestEnd: null,
                 isShowLoadMore: true,
                 isFetching: false,
+                maxArticlePagesNum: 50,
             };
         },
         methods: {
             nthPage(lastType, p) {
-                if (p < this.currentPage || p > maxArticlePagesNum) {
+                if (p < this.currentPage || p > this.maxArticlePagesNum) {
                     this.isFetching = false;
                     return;
                 }
@@ -340,7 +340,7 @@
                     }
 
                     this.$root.showModalLoading = false;
-                    this.isShowLoadMore = this.currentPage < maxArticlePagesNum;
+                    this.isShowLoadMore = this.currentPage < this.maxArticlePagesNum;
                 }
             },
 

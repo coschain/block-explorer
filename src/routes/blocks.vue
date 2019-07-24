@@ -186,7 +186,6 @@
     let api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    const maxPageCount = 50;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -205,6 +204,7 @@
                 maxPageSizeLimit:30,
                 isShowLoadMore: true,
                 isFetching: false,//whether is fetching data from chain
+                maxPageCount: 50,
             };
         },
         methods: {
@@ -226,7 +226,7 @@
                     });
                 }
 
-                if (p <= this.currentPage || p > maxPageCount) {
+                if (p <= this.currentPage || p > this.maxPageCount) {
                     this.isFetching = false;
                     return;
                 }
@@ -242,7 +242,7 @@
                     this.currentPage = parseInt(p);
                 }
                 this.$root.showModalLoading = false;
-                this.isShowLoadMore = this.currentPage < maxPageCount;
+                this.isShowLoadMore = this.currentPage < this.maxPageCount;
                 this.isFetching = false;
             },
             numberAddComma(n) {
