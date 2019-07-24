@@ -561,3 +561,12 @@ img:not([src]) {
 .loadMoreBtn:focus {
     outline: none;
 }
+
+.maxPageTips {
+    margin-top: 20px;
+    font-size: 16px;
+    color: black;
+    text-align: left;
+    word-wrap: break-word;
+    word-break: break-word;
+}

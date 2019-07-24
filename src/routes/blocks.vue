@@ -84,15 +84,6 @@
         height: 18px;
     }
 
-    .vue-blocks .maxPageTips {
-        margin-top: 20px;
-        font-size: 16px;
-        color: black;
-        text-align: left;
-        word-wrap: break-word;
-        word-break: break-word;
-    }
-
     .vue-blocks .blkStatusTitle {
         color: rgba(7, 166, 86, 1);
         font-size: 14px;
@@ -208,12 +199,12 @@
                 heightFrom: 0,
                 heightTo: 0,
                 totalBlocks: 0,
-                totalPage: 1,
                 blocks: [],
                 blkStart:0,
                 blkEnd:0,
                 maxPageSizeLimit:30,
                 isShowLoadMore: true,
+                isFetching: false,//whether is fetching data from chain
             };
         },
         methods: {
@@ -236,6 +227,7 @@
                 }
 
                 if (p <= this.currentPage || p > maxPageCount) {
+                    this.isFetching = false;
                     return;
                 }
                 let end = this.blkStart >= 1 ?this.blkStart -1:this.blkStart;
@@ -251,6 +243,7 @@
                 }
                 this.$root.showModalLoading = false;
                 this.isShowLoadMore = this.currentPage < maxPageCount;
+                this.isFetching = false;
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
@@ -267,6 +260,10 @@
             },
 
             onClickLoadNextPageData() {
+                if (this.isFetching) {
+                    return;
+                }
+                this.isFetching = true;
                 this.nthPage(this.currentPage + 1);
             },
         },
