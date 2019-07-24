@@ -107,7 +107,7 @@ module.exports = [{
 },{
     component: require("@/routes/user-trxs").default,
     meta: { headerActive: 2 },
-    path: "/:api?/user-trxs/:account/:t"
+    path: "/:api?/user-trxs/:account/"
 },{
     component: require("@/routes/article-detail").default,
     meta: {headerActive: 2},

@@ -128,7 +128,6 @@
                 account: null,
                 firstPageStartTime: null,
                 firstPageEndTime: null,
-                usrTxCacheKey: this.$route.params.account + this.$route.params.t,
                 isFetching: false,
                 maxUsrTxsPageNum: 50,
                 isShowLoadMore: true,

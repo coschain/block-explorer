@@ -110,6 +110,7 @@
         <vue-bread :title='"Transactions of" ' :subtitle='$route.params.blockNumber ? ("Block #" + $route.params.blockNumber) : $route.query.a' :subtitlemonospaced='!!$route.query.a' :blockies='$route.query.a'></vue-bread>
 
         <div v-if="curPageList && curPageList.length" class="container mt20">
+            <div class="maxPageTips">Display the latest {{maxBlkTxsPageNum}} pages of data</div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="blkTxsListHeader font-bold font-color-000000">
@@ -126,13 +127,13 @@
                             <!--<img v-if="trx.getReceipt().getStatus() === 500" class="icon40" src="../../static/img/ic_tx_failed.png"/>-->
                         <!--</td>-->
                         <td class="blkTxsListContentCol">
-                            <router-link v-bind:to='fragApi + "/tx/" + trx.getSigTrx().id().getHexHash()'>
+                            <router-link v-bind:to='fragApi + "/tx/" + trx.getSigTrx().id().getHexHash()' target="_blank">
                                 <span v-bind:class="[trx.getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getSigTrx().id().getHexHash() }}</span>
                             </router-link>
                         </td>
 
                         <td class="blkTxsListContentCol">
-                            <router-link class="font-14" v-if='blockHeight' v-bind:to='fragApi + "/block/" + blockHeight'>
+                            <router-link class="font-14" v-if='blockHeight' v-bind:to='fragApi + "/block/" + blockHeight' target="_blank">
                                 <span>{{ blockHeight }}</span>
                             </router-link>
                             <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
@@ -145,7 +146,7 @@
                         <!--</td>-->
                         <td class="blkTxsListContentCol">
                             <!--<vue-blockies v-bind:address='trx.getSigTrx().getTrx().sender()'></vue-blockies>-->
-                            <router-link v-bind:to='fragApi + "/account/" + trx.getSigTrx().getTrx().sender()'>
+                            <router-link v-bind:to='fragApi + "/account/" + trx.getSigTrx().getTrx().sender()' target="_blank">
                                 <span class="monospace">{{ trx.getSigTrx().getTrx().sender() }}</span>
                             </router-link>
                         </td>
@@ -160,21 +161,20 @@
                 </table>
             </div>
 
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
-                            v-on:prev=onPrev v-on:firstPage=onGoFirstPage></vue-pagination>
+            <div v-if="isShowLoadMore" class="loadMore-container">
+                <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageBlkTxs()">Load More</button>
+            </div>
         </div>
-        <vue-nothing v-if="curPageList && curPageList.length === 0" title="0 transaction found"></vue-nothing>
+
     </div>
 </template>
 <script>
     var api = require("@/assets/api"),
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
-    // const blockTxsCacheKey = utility.getPageCacheKey(utility.pageCacheType.blkTxsList);
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
-            "vue-pagination": require("@/components/vue-pagination").default,
             "vue-blockies": require("@/components/vue-blockies").default,
             "vue-nothing": require("@/components/vue-nothing").default
         },
@@ -190,7 +190,8 @@
                 curPageList: null,//trx in current page
                 blkTime:0,
                 loadedPageIndex: 0,
-                blockTxsCacheKey: this.getBlockTxsCacheKey(),
+                isShowLoadMore: true,
+                maxBlkTxsPageNum: 50,
             };
         },
         methods: {
@@ -207,20 +208,12 @@
                     this.$router.push({ path: this.$route.path, query });
                 }
             },
-            nthPage() {
-
-                let p = this.$route.query.p || 1;
-                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
+            nthPage(p) {
                 let isNeedRequest = false;
-                if (!this.trxList ||  this.trxList.length < 1 || p == this.currentPage) {
+                if (!this.trxList ||  this.trxList.length < 1) {
                     isNeedRequest = true;
                 }
-                if (p < this.currentPage) {
-                    pReqType = 0;
-                }else if (p == this.currentPage) {
-                    //need reload data from chain
-                    pReqType = 3;
-                }
+
                 if (isNeedRequest) {
                     //there is no data ,request and fetch data from chain
                     this.$root.showModalLoading = true;
@@ -232,38 +225,33 @@
                             this.totalPage = Math.ceil(listLen.toFixed(1)/30);
                             let end = listLen <= 30 ? listLen : 30;
                             this.curPageList = this.trxList.slice(0,end);
-                            if (pReqType == 3) {
-                                this.currentPage = parseInt(p);
-                                if (this.currentPage > 1) {
-                                    this.curPageList = this.trxList.slice((this.currentPage-1)*30,this.currentPage*30);
-                                }
-                            }else {
-                                this.currentPage = 1;
+                            this.currentPage = 1;
+                            this.loadedPageIndex += 1;
+
+                            if (this.maxBlkTxsPageNum > this.totalPage) {
+                                this.isShowLoadMore = this.currentPage < this.totalPage;
+                            } else {
+                                this.isShowLoadMore = this.currentPage < this.maxBlkTxsPageNum;
                             }
-                            this.savePageInfo();
                         }
                         this.$root.showModalLoading = false;
-                        if (pReqType == 1) {
-                            this.loadedPageIndex += 1;
-                        }
+
                     },(errCode,msg) => {
                         console.log("Get block list fail,error code is %s,msg is %s",errCode,msg);
                         this.$root.showModalLoading = false;
                         this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                     });
                 }else {
-                    //update curPageList use current page data in trxList
-                    if (pReqType == 0 && this.currentPage > 1) {
-                        this.curPageList = this.trxList.slice((this.currentPage-2)*30,(this.currentPage-1)*30);
-                        this.currentPage -= 1;
-                        this.savePageInfo();
-                    }else if (pReqType == 1 && this.currentPage < this.totalPage) {
-                        this.curPageList = this.trxList.slice(this.currentPage*30,(this.currentPage+1)*30);
-                        if (this.loadedPageIndex < this.totalPage) {
-                            this.loadedPageIndex += 1;
-                        }
-                        this.currentPage += 1;
-                        this.savePageInfo();
+                    if (p < this.currentPage || p > this.maxBlkTxsPageNum || p > this.totalPage) {
+                        return;
+                    }
+                    this.curPageList = this.trxList.slice(0,(this.currentPage+1)*30);
+                    this.currentPage = parseInt(p);
+                    this.loadedPageIndex += 1;
+                    if (this.maxBlkTxsPageNum > this.totalPage) {
+                        this.isShowLoadMore = this.currentPage < this.totalPage;
+                    } else {
+                        this.isShowLoadMore = this.currentPage < this.maxBlkTxsPageNum;
                     }
                 }
 
@@ -309,25 +297,7 @@
                 var decimals = BigNumber('1e+18');
                 return amount.div(decimals).toFormat().shortAmount();
             },
-            savePageInfo() {
-                let cacheData = {};
-                cacheData.currentPage = this.currentPage;
-                cacheData.totalPage = this.totalPage;
-                cacheData.loadedPage = this.loadedPageIndex;
-                sessionStorage.setItem(this.blockTxsCacheKey,JSON.stringify(cacheData));
-            },
-            getPageInfo() {
-                let info = sessionStorage.getItem(this.blockTxsCacheKey);
-                if (info != null) {
-                    return JSON.parse(info);
-                }
-                return null;
-            },
-            clearCachePageInfo() {
-                if (sessionStorage.getItem(this.blockTxsCacheKey) != null) {
-                    sessionStorage.removeItem(this.blockTxsCacheKey);
-                }
-            },
+
             convertOpActionsToStr(actionArray) {
                 if (actionArray.length) {
                     return actionArray.join(",");
@@ -339,13 +309,6 @@
                 return utility.getTrxStatusByTrxWrap(trx);
             },
 
-            getBlockTxsCacheKey() {
-                let t = this.$route.query.t;
-                if (t == null || typeof t == "undefined") {
-                    this.addTimeParam();
-                }
-                return this.$route.params.blockNumber + t;
-            },
 
             addTimeParam() {
                 let t = this.$route.query.t;
@@ -355,41 +318,22 @@
                     query.t = t;
                     this.$router.replace({ path: this.$route.path, query });
                 }
+            },
+
+            onClickLoadNextPageBlkTxs() {
+                this.nthPage(this.currentPage + 1);
             }
         },
         mounted() {
-            let cacheData = this.getPageInfo();
-            let isQuery = true;
-            if (cacheData != null) {
-                this.currentPage =  parseInt(cacheData.currentPage);
-                this.totalPage = parseInt(cacheData.totalPage);
-                this.loadedPageIndex = parseInt(cacheData.loadedPage);
-            } else {
-                let p = this.$route.query.p;
-                //now the chain not support page skip request,so in this condition just request from page 1
-                if (p > 1) {
-                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
-                    query.p = 1;
-                    this.currentPage = 0;
-                    this.totalPage = 1;
-                    this.$router.replace({ path: this.$route.path, query });
-                    isQuery = false;
-                }
-            }
             this.blockHeight = this.$route.params.blockNumber;
-            if (isQuery) {
-                this.nthPage();
-            }
+            this.nthPage(1);
+
         },
         watch: {
             $route() {
-                this.nthPage();
+                this.nthPage(1);
             }
         },
-        destroyed() {
-            if (this.currentPage <= 1) {
-                this.clearCachePageInfo();
-            }
-        }
+
     };
 </script>
