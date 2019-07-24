@@ -330,8 +330,9 @@
                             if (curPageLen >= 1) {
                                 info.end = this.postPageInfo[curPageLen - 1].start;
                             }
-                            this.postPageInfo.push(info);
+
                         }
+                        this.postPageInfo.push(info);
                         this.currentPage = parseInt(p);
                         this.savePageInfo();
                     } else if (isSwitchSortType) {

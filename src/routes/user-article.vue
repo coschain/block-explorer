@@ -137,19 +137,6 @@
             };
         },
         methods: {
-            nav(n) {
-                if (n < this.createdPageIndex && this.createdPageIndex >= this.currentPage) {
-                    if (n < this.currentPage) {
-                        this.$router.back();
-                    }else {
-                        this.$router.forward();
-                    }
-                } else {
-                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
-                    query.p = n;
-                    this.$router.push({ path: this.$route.path, query });
-                }
-            },
             nthPage(p) {
                 if (p < this.currentPage || p > this.maxUsrArticlesPageNum) {
                     return;
@@ -183,8 +170,9 @@
                             if (curPageLen >= 1) {
                                 info.end = this.postPageInfo[curPageLen - 1].start;
                             }
-                            this.postPageInfo.push(info);
+
                         }
+                        this.postPageInfo.push(info);
                         this.currentPage = parseInt(p);
                     }
 
@@ -207,32 +195,7 @@
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },
-            onFirst() {
-                this.nav(this.currentPage - 1);
-            },
-            onLast() {
-                this.nav(this.currentPage + 1);
-            },
-            onNext() {
-                this.nav(this.currentPage + 1);
-            },
-            onPrev() {
-                this.nav(this.currentPage - 1);
-            },
-            onGoFirstPage() {
-                if (this.currentPage > 1) {
-                    let page = this.currentPage;
-                    let p = this.$route.query.p;
-                    if (parseInt(p) > page) {
-                        page = parseInt(p);
-                    }
-                    this.currentPage = 2;
-                    this.$router.go(1-page);
-                }
-            },
-            // onTo(n) {
-            //     this.nav(n);
-            // },
+
             timeConversion(ms) {
                 return utility.timeConversion(ms);
             },

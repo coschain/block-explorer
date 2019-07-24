@@ -219,8 +219,9 @@
                             if (curPageLen >= 1) {
                                 info.end = this.pageInfo[curPageLen - 1].start;
                             }
-                            this.pageInfo.push(info);
+
                         }
+                        this.pageInfo.push(info);
                         this.currentPage = parseInt(p);
                     }
                 }catch (err) {

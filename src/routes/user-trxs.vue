@@ -185,29 +185,6 @@
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },
-            onFirst() {
-                this.nav(this.currentPage - 1);
-            },
-            onLast() {
-                this.nav(this.currentPage + 1);
-            },
-            onNext() {
-                this.nav(this.currentPage + 1);
-            },
-            onPrev() {
-                this.nav(this.currentPage - 1);
-            },
-            onGoFirstPagePage() {
-                if (this.currentPage > 1) {
-                    let page = this.currentPage;
-                    let p = this.$route.query.p;
-                    if (parseInt(p) > page) {
-                        page = parseInt(p);
-                    }
-                    this.currentPage = 2;
-                    this.$router.go(1-page);
-                }
-            },
 
             timeConversion(ms) {
                 return utility.timeConversion(ms);

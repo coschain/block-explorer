@@ -375,8 +375,8 @@
                                 if (curPageLen >= 1) {
                                     info.end = this.accountPageInfo[curPageLen - 1].start;
                                 }
-                                this.accountPageInfo.push(info);
                             }
+                            this.accountPageInfo.push(info);
                             this.savePageInfo();
                             this.currentPage = parseInt(p);
                         }

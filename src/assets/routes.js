@@ -99,11 +99,11 @@ module.exports = [{
 },{
     component: require("@/routes/follower").default,
     meta: { headerActive: 2 },
-    path: "/:api?/follower/:account/:t"
+    path: "/:api?/follower/:account/"
 },{
     component: require("@/routes/following").default,
     meta: { headerActive: 2 },
-    path: "/:api?/following/:account/:t"
+    path: "/:api?/following/:account/"
 },{
     component: require("@/routes/user-trxs").default,
     meta: { headerActive: 2 },

@@ -277,7 +277,7 @@
                     <td class="base-info-key font-16 font-color-555555 pl-16">Follower Count:
                     </td>
                     <td class="font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/follower/" + $route.params.id + "/" + Date.now()'>
+                        <router-link v-bind:to='fragApi + "/follower/" + $route.params.id'>
                             <span>{{accountInfo.toObject().followerCount}}</span>
                         </router-link>
                     </td>
@@ -287,7 +287,7 @@
                     <td class="base-info-key font-16 font-color-555555 pl-16">Following Count:
                     </td>
                     <td class="font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/following/" + $route.params.id + "/" + Date.now()'>
+                        <router-link v-bind:to='fragApi + "/following/" + $route.params.id'>
                         <span>{{accountInfo.toObject().followingCount}}</span>
                         </router-link>
                     </td>
@@ -358,7 +358,7 @@
                     <div class="font-color-555555">Follower Count:
                     </div>
                     <div class="font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/follower/" + $route.params.id + "/" + Date.now()'>
+                        <router-link v-bind:to='fragApi + "/follower/" + $route.params.id'>
                         <span>{{accountInfo.toObject().followerCount}}</span>
                         </router-link>
                     </div>
@@ -368,7 +368,7 @@
                     <div class="font-color-555555">Following Count:
                     </div>
                     <div class="font-16 font-color-000000">
-                        <router-link v-bind:to='fragApi + "/following/" + $route.params.id + "/" + Date.now()'>
+                        <router-link v-bind:to='fragApi + "/following/" + $route.params.id'>
                         <span>{{accountInfo.toObject().followingCount}}</span>
                         </router-link>
                     </div>
