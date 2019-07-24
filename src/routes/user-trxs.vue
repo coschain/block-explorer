@@ -51,7 +51,9 @@
         <vue-bread v-bind:title='"Transactions of:"'
                    v-bind:subtitle="$route.params.account"
                    v-bind:subtitlemonospaced="!!$route.params.account">
-        </vue-bread>        <div v-if="trxList && trxList.length" class="container mt20">
+        </vue-bread>
+        <div v-if="trxList && trxList.length" class="container mt20">
+            <div class="container maxPageTips">Display the latest {{maxUsrTxsPageNum}} pages of data</div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="trxListHeader  font-bold font-color-000000">
@@ -65,13 +67,13 @@
 
                     <tr v-for="(trx, i) in trxList" :key="i">
                         <td class="txContentCol">
-                            <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()'>
+                            <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()' target="_blank">
                                 <span v-bind:class="[trx.getTrxWrap().getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
                             </router-link>
                         </td>
 
                         <td class="txContentCol">
-                            <router-link class="font-14" v-if='trx.getBlockHeight()' v-bind:to='fragApi + "/block/" + trx.getBlockHeight()'>
+                            <router-link class="font-14" v-if='trx.getBlockHeight()' v-bind:to='fragApi + "/block/" + trx.getBlockHeight()' target="_blank">
                                 <span>{{ trx.getBlockHeight() }}</span>
                             </router-link>
                             <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
@@ -80,7 +82,7 @@
                             {{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago
                         </td>
                         <td class="txContentCol">
-                            <router-link v-bind:to='fragApi + "/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()'>
+                            <router-link v-bind:to='fragApi + "/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()' target="_blank">
                                 <span class="monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
                             </router-link>
                         </td>
@@ -93,10 +95,10 @@
                 </table>
             </div>
 
-            <vue-pagination v-bind:current=currentPage right=1 v-bind:total=totalPage v-on:first=onFirst v-on:last=onLast v-on:next=onNext
-                            v-on:prev=onPrev v-on:firstPage=onGoFirstPagePage></vue-pagination>
+            <div v-if="isShowLoadMore" class="loadMore-container">
+                <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageUsrTxs()">Load More</button>
+            </div>
         </div>
-        <vue-nothing v-if="trxList && trxList.length === 0" title="0 transaction found"></vue-nothing>
     </div>
 </template>
 <script>
@@ -107,7 +109,6 @@
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
-            "vue-pagination": require("@/components/vue-pagination").default,
             "vue-blockies": require("@/components/vue-blockies").default,
             "vue-nothing": require("@/components/vue-nothing").default
         },
@@ -122,102 +123,55 @@
                 listStart:null,
                 listEnd:null,
                 lastInfo:null,
-                trxList: null,
+                trxList: [],
                 pageInfo:[],
                 account: null,
                 firstPageStartTime: null,
                 firstPageEndTime: null,
                 usrTxCacheKey: this.$route.params.account + this.$route.params.t,
-                createdPageIndex:0,
+                isFetching: false,
+                maxUsrTxsPageNum: 50,
+                isShowLoadMore: true,
             };
         },
         methods: {
-            nav(n) {
-                if (n < this.createdPageIndex && this.createdPageIndex >= this.currentPage) {
-                    if (n < this.currentPage) {
-                        this.$router.back();
-                    }else {
-                        this.$router.forward();
-                    }
-                } else {
-                    let query = JSON.parse(window.JSON.stringify(this.$route.query));
-                    query.p = n;
-                    this.$router.push({ path: this.$route.path, query });
+            nthPage(p) {
+                if (p < this.currentPage || p > this.maxUsrTxsPageNum) {
+                    return;
                 }
-            },
-            nthPage() {
                 this.$root.showModalLoading = true;
-                let p = this.$route.query.p || 1;
                 let start = this.listStart;
-                let isNext = true;
                 let lastTrx = this.lastInfo;
-                let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
-                if (p < this.currentPage) {
-                    if (this.currentPage === 2 ) {
-                        start = this.firstPageStart;
-                        lastTrx= null;
-                    }else {
-                        let infoLen = this.pageInfo.length;
-                        if (infoLen >= 3 && infoLen >= this.currentPage ) {
-                            let info = this.pageInfo[this.currentPage-3];
-                            start = info.start;
-                            lastTrx = info.lastTrx;
-                        }
-                    }
-                    pReqType = 0;
-                    isNext = false;
-                }else if (this.currentPage === parseInt(p)) {
-                    //refresh current page
-                    pReqType = 3;
-                }
 
                 api.fetchUserTrxListByTime(this.account,start,this.firstPageEndTime,30,lastTrx,trxList => {
                     if (trxList.length > 0) {
-                        this.trxList = trxList;
-                        this.lastInfo = trxList[trxList.length-1];
+                        this.trxList = this.trxList.concat(trxList);
+                        this.lastInfo = trxList[trxList.length - 1];
                         this.listStart = this.lastInfo.getBlockTime();
-                        if (this.currentPage === 0 && isNext) {
+                        if (this.currentPage === 0) {
                             this.listEnd = null;
-                        }else {
+                        } else {
                             this.listEnd = trxList[0].getBlockTime();
                         }
                         let curPageLen = this.pageInfo.length;
-                        let info = {start:this.listStart,lastTrx:this.lastInfo};
-                        if (curPageLen === 0 || (this.currentPage == 1 && pReqType == 3)) {
+                        let info = {start: this.listStart, lastTrx: this.lastInfo};
+                        if (curPageLen === 0) {
                             info.end = this.firstPageEnd;
+                        } else {
+                            if (curPageLen >= 1) {
+                                info.end = this.pageInfo[curPageLen - 1].start;
+                            }
                         }
-                        if (pReqType === 1) {
-                            if (this.currentPage + 1 === this.totalPage) {
-                                this.totalPage += 1;
-                                if (curPageLen >= 1) {
-                                    info.end = this.pageInfo[curPageLen - 1].start;
-                                }
-                                this.pageInfo.push(info);
+                        this.pageInfo.push(info);
+                        this.currentPage = parseInt(p);
 
-                            }else {
-                                if (curPageLen >= 1 && this.currentPage <= curPageLen) {
-                                    info.end = this.pageInfo[this.currentPage-1].start;
-                                }
-                                this.updateTxsListPage(this.currentPage,info);
-                            }
-                            this.currentPage += 1;
-                            if (this.createdPageIndex < this.totalPage) {
-                                this.createdPageIndex += 1;
-                            }
-                        }else if (pReqType === 0) {
-                            this.currentPage -= 1;
-                            if (this.currentPage >= 2 && this.currentPage <= curPageLen) {
-                                info.end = this.pageInfo[this.currentPage-2].start;
-                            }
-                            this.updateTxsListPage(this.currentPage-1,info);
-                        }else if (pReqType === 3) {
-                            this.currentPage = parseInt(p);
-                        }
                     }
+                    this.isShowLoadMore = this.currentPage < this.maxUsrTxsPageNum;
                     this.$root.showModalLoading = false;
-                    this.savePageInfo();
+                    this.isFetching = false;
                 },(errCode,msg) => {
                     console.log("Get user's trx list fail,error code is %s,msg is %s",errCode,msg);
+                    this.isFetching = false;
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
@@ -259,48 +213,7 @@
             timeConversion(ms) {
                 return utility.timeConversion(ms);
             },
-            savePageInfo() {
-                let cacheData = {};
-                cacheData.currentPage = this.currentPage;
-                cacheData.totalPage = this.totalPage;
-                cacheData.createdPageIndex = this.createdPageIndex;
-                let listLen = this.pageInfo.length;
-                if ( listLen > 0) {
-                    let pageList = [];
-                    this.pageInfo.forEach(function (info) {
-                        let obj = {};
-                        obj.start = info.start?info.start.getUtcSeconds():null;
-                        obj.end = info.end?info.end.getUtcSeconds():null;
-                        if (info.lastTrx) {
-                            let lastInfo = {blkTime:info.lastTrx.getBlockTime().getUtcSeconds()};
-                            lastInfo.tId = info.lastTrx.getTrxId().getHexHash();
-                            obj.lastTrx = lastInfo;
-                        }else {
-                            obj.lastTrx = null;
-                        }
-                        pageList.push(obj);
-                    });
-                    cacheData.pageInfo = pageList;
-                }else {
-                    cacheData.pageInfo = null;
-                    cacheData.lastInfo = null;
-                }
-                sessionStorage.setItem(this.usrTxCacheKey,JSON.stringify(cacheData));
-            },
 
-            getPageInfo() {
-                let info = sessionStorage.getItem(this.usrTxCacheKey);
-                if (info != null) {
-                    return JSON.parse(info);
-                }
-                return null;
-            },
-            clearCachePageInfo() {
-                utility.removeComplexCacheKey(this.usrTxCacheKey);
-                if (sessionStorage.getItem(this.usrTxCacheKey) != null) {
-                    sessionStorage.removeItem(this.usrTxCacheKey);
-                }
-            },
             convertOpActionsToStr(actionArray) {
                 if (actionArray.length) {
                     return actionArray.join(",");
@@ -319,92 +232,29 @@
                 endTime.setUtcSeconds(1);
                 this.firstPageEndTime = endTime;
             },
-            getUsrTxCacheData() {
-                let cacheData = this.getPageInfo();
-                let isQueryData = true;
-                if (cacheData != null) {
-                    this.currentPage = parseInt(cacheData.currentPage);
-                    this.totalPage = parseInt(cacheData.totalPage);
-                    this.createdPageIndex = parseInt(cacheData.createdPageIndex);
-                    if (cacheData.pageInfo != null) {
-                        let list = [];
-                        cacheData.pageInfo.forEach(function (obj) {
-                            let info = {};
-                            if (obj.start != null) {
-                                let start = new api.cos_sdk.raw_type.time_point_sec();
-                                start.setUtcSeconds(obj.start);
-                                info.start = start;
-                            }
-                            if (obj.end != null ) {
-                                let end = new api.cos_sdk.raw_type.time_point_sec();
-                                end.setUtcSeconds(obj.end);
-                                info.end = end;
-                            }
-                            if (obj.lastTrx != null) {
-                                let lastInfo = new api.cos_sdk.grpc.TrxInfo();
-                                let time = new api.cos_sdk.raw_type.time_point_sec();
-                                time.setUtcSeconds(obj.lastTrx.blkTime);
-                                lastInfo.setBlockTime(time);
-                                let trxId = new api.cos_sdk.raw_type.sha256();
-                                trxId.setHexHash(obj.lastTrx.tId);
-                                lastInfo.setTrxId(trxId);
-                                info.lastTrx = lastInfo;
-                            }
-                            list.push(info);
-                        });
-                        this.pageInfo = list;
-                    }
-                    this.loadData();
-                    if (this.currentPage === 1) {
-                        this.postListStart = null;
-                        this.lastInfo = null;
-                    }else if (this.currentPage >= 2 && this.pageInfo.length >= this.currentPage){
-                        let lastInfo = this.pageInfo [this.currentPage-2];
-                        this.listStart = lastInfo.start;
-                        this.lastInfo = lastInfo.lastTrx;
-                    }
-                }else {
-                    this.loadData();
-                    let p = this.$route.query.p;
-                    //now the chain not support page skip request,so in this condition just request from page 1
-                    if (p > 1) {
-                        let query = JSON.parse(window.JSON.stringify(this.$route.query));
-                        query.p = 1;
-                        this.currentPage = 0;
-                        this.totalPage = 1;
-                        this.$router.replace({ path: this.$route.path, query });
-                        isQueryData = false;
-                    }
-                }
-                return isQueryData;
-            },
 
             getTrxStatus(trx) {
                 return utility.getTrxStatusByTrxInfo(trx);
-            }
+            },
+
+            onClickLoadNextPageUsrTxs() {
+                if (this.isFetching) {
+                    return;
+                }
+                this.isFetching = true;
+                this.nthPage(this.currentPage + 1);
+            },
         },
         mounted() {
-            let isQuery = this.getUsrTxCacheData();
-            if (isQuery) {
-                this.nthPage();
-            }
+            this.loadData();
+            this.nthPage(1);
         },
 
         watch: {
             $route() {
-                this.nthPage();
+                this.nthPage(1);
             }
         },
-        beforeDestroy() {
-            if (this.currentPage > 1) {
-                this.createdPageIndex = this.currentPage;
-                this.savePageInfo();
-            }
-        },
-        destroyed() {
-            if (this.currentPage <= 1) {
-                this.clearCachePageInfo();
-            }
-        }
+
     };
 </script>

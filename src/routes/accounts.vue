@@ -179,7 +179,6 @@
                 coinEnd: null,
                 accountPageInfo: [],
                 lastAccount:null,
-                createdPageIndex:0,
                 curSortType: listSortType.listSortTypeBalance,
                 timeStart: null,
                 timeEnd: null,
