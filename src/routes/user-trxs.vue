@@ -53,7 +53,7 @@
                    v-bind:subtitlemonospaced="!!$route.params.account">
         </vue-bread>
         <div v-if="trxList && trxList.length" class="container mt20">
-            <div class="container maxPageTips">Display the latest {{maxUsrTxsPageNum}} pages of data</div>
+            <div class="maxPageTips">Display the latest {{maxUsrTxsPageNum}} pages of data</div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="trxListHeader  font-bold font-color-000000">
