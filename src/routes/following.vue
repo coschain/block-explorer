@@ -72,7 +72,7 @@
                    v-bind:subtitle="$route.params.account"
                    v-bind:subtitlemonospaced="!!$route.params.account">
         </vue-bread>
-        <div v-if="followingList" class="container mt20">
+        <div v-if="followingList.length" class="container mt20">
             <div class="maxPageTips">Display the latest {{maxFollowingPageNum}} pages of data</div>
             <div class="explorer-table-container font-14">
                 <table class="mt20 explorer-table">
@@ -103,6 +103,7 @@
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
 
+    const followingPageSize = 30;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -138,7 +139,7 @@
                 let lastOrder = this.lastOrder;
                 let pReqType = 1;// 0: request pre page  1: request next page  3: refresh current page
 
-                api.fetchFollowingListByName(start,this.firstPageEnd,30,lastOrder,followingList => {
+                api.fetchFollowingListByName(start,this.firstPageEnd,followingPageSize,lastOrder,followingList => {
                     if (followingList.length) {
                         this.followingList = this.followingList.concat(followingList);
                         this.lastOrder = followingList[followingList.length - 1].getCreateOrder();

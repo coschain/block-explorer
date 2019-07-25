@@ -105,7 +105,7 @@
         BigNumber = require("bignumber.js");
 
     // const this.followerCacheKey = utility.getPageCacheKey(utility.pageCacheType.usrArticleList);
-
+    const followPageSize = 30;
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -154,7 +154,7 @@
                 let end = this.followerListEnd;
                 let lastOrder = this.lastOrder;
 
-                api.fetchFollowerListByName(start,this.firstPageEnd,1,lastOrder,followerList => {
+                api.fetchFollowerListByName(start,this.firstPageEnd,followPageSize,lastOrder,followerList => {
                     if (followerList.length) {
                         this.followerList = this.followerList.concat(followerList);
                         this.lastOrder = followerList[followerList.length-1].getCreateOrder();

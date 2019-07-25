@@ -107,7 +107,7 @@
     <div class="vue-accounts fullfill">
         <vue-bread :title='getListTitle()'></vue-bread>
         <div v-if="accountList && accountList.length" class="mt20 container">
-            <div class="container maxPageTips">Display the latest {{maxAccountsPageNum}} pages of data</div>
+            <div class="maxPageTips">Display the latest {{maxAccountsPageNum}} pages of data</div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="accountListHeader font-bold font-color-000000">
@@ -320,7 +320,10 @@
                 if (sortType === this.curSortType) {
                     if (accountList.length > 0) {
                         let list = [];
-                        if (this.acctNameArray&&this.acctNameArray.length) {
+                        if (this.acctNameArray == null || typeof this.acctNameArray == 'undefined') {
+                            this.acctNameArray = []
+                        }
+                        if (this.acctNameArray.length) {
                             for(let i = 0; i < accountList.length; i++) {
                                 let acctRes = accountList[i];
                                 let name = acctRes.getInfo().getAccountName().getValue();
