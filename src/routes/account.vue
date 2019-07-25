@@ -264,6 +264,10 @@
                     <td class="base-info-key font-16 font-color-555555 pl-16">Reputation:</td>
                     <td class="font-16 font-color-000000">{{getReputationFromAccountInfo(accountInfo)}}</td>
                 </tr>
+                <tr v-if="judgeAccountIsFrozen(accountInfo)">
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Frozen:</td>
+                    <td class="font-16 font-color-000000">{{getFreezeDesc(accountInfo)}}</td>
+                </tr>
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Posted:
                     </td>
@@ -343,6 +347,10 @@
                 <div class="mobileCell">
                     <div class="font-color-555555">Reputation:</div>
                     <div class="font-16 font-color-000000">{{getReputationFromAccountInfo(accountInfo)}}</div>
+                </div>
+                <div v-if="judgeAccountIsFrozen(accountInfo)" class="mobileCell">
+                    <div class="font-color-555555">Frozen:</div>
+                    <div class="font-16 font-color-000000">{{getFreezeDesc(accountInfo)}}</div>
                 </div>
                 <div class="mobileCell">
                     <div class="font-color-555555">Posted:
@@ -592,10 +600,33 @@
 
             getReputationFromAccountInfo(accountInfo) {
                 //Judge whether contain func getReputation
-                if (accountInfo.getReputation) {
+                if (accountInfo != null && typeof accountInfo != "undefined" && accountInfo.getReputation) {
                     return accountInfo.getReputation();
                 }
                 return 0;
+            },
+
+            //Judge whether current Account is Frozen
+            judgeAccountIsFrozen(accountInfo) {
+                if (accountInfo != null && typeof accountInfo != "undefined" && accountInfo.getFreeze) {
+                    //1:freeze 0:Unfrozen
+                    let status = accountInfo.getFreeze();
+                    if (status !== 0) {
+                        return true
+                    }
+                }
+                return false;
+            },
+
+            getFreezeDesc(accountInfo) {
+                if (this.judgeAccountIsFrozen(accountInfo)) {
+                    let desc = accountInfo.getFreezeMemo();
+                    if (desc.length < 1) {
+                        desc = "Frozen";
+                    }
+                    return desc;
+                }
+                return ""
             }
 
         },
