@@ -56,6 +56,7 @@ module.exports = {
     clearComplexCaches:clearAllComplexCache,
     getTrxStatusByTrxInfo:getTrxReceiptStatusByTrxInfo,
     getTrxStatusByTrxWrap:getTrxReceiptStatusByWrap,
+    judgeIsNotEmpty:judgeIsNotEmpty,
 };
 
 ////////////////////////////////////////////////////////////
@@ -527,4 +528,8 @@ function getTrxReceiptStatusByWrap(txWrap) {
         }
     }
     return "Unknown";
+}
+
+function judgeIsNotEmpty(obj) {
+    return obj != null && typeof obj != "undefined";
 }

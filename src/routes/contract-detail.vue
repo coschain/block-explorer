@@ -147,7 +147,7 @@
         color: black;
     }
 
-    .vue-contractDetail-operate-bg .submitBg{
+    .vue-contractDetail-operate-bg .queryBg{
         margin-top: 30px;
         margin-bottom: 50px;
         display: flex;
@@ -155,7 +155,7 @@
         justify-content: center;
     }
 
-    .vue-contractDetail-operate-bg .submitBtn {
+    .vue-contractDetail-operate-bg .queryBtn {
         outline: none;
         border: none;
         padding-left: 50px;
@@ -211,8 +211,12 @@
     }
 
     .vue-contractDetail-resultList-content-col {
+        display: inline-block;
         padding-left: 15px;
         color: rgba(85, 85, 85, 1);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .vue-contractDetail-titleHead {
@@ -359,8 +363,8 @@
                                 </div>
                             </div>
 
-                            <div class="submitBg">
-                                <button class="btn btn-primary submitBtn" type="button" @click="startQueryContract">Submit</button>
+                            <div class="queryBg">
+                                <button class="btn btn-primary queryBtn" type="button" @click="startQueryContract">Query</button>
                             </div>
 
                         </div>
@@ -368,7 +372,7 @@
                     <!--query result-->
                     <template v-if="fieldJson && fieldJson.length > 0">
                         <div class="vue-contractDetail-queryResult-bg">
-                            <div class="custom-control custom-checkbox vue-contractDetail-switchContainer">
+                            <div v-if="isDisplaySwitch" class="custom-control custom-checkbox vue-contractDetail-switchContainer">
                                 <input type="checkbox" class="custom-control-input" :id=switchElId @click=handleJsonDisplaySwitch>
                                 <label class="custom-control-label" :for=switchElId >Display original code</label>
                             </div>
@@ -411,6 +415,8 @@
     import fieldInput from "../components/vue-contract-input";
     import linkifyHtml from 'linkifyjs/html';
     import * as linkify from "linkifyjs";
+    import * as utility from "../assets/utility";
+
 
     const tabType = {
         tabTypeHandleContract: 0, //the tab of handle contract
@@ -432,8 +438,13 @@
 
     const abiTableListKey = "tables";
     const abiTableNameKey = "name";
+    const abiTableType = "type";
     const abiPrimaryKey = "primary";
     const abiSecondaryKey = "secondary";
+    const abiStructsKey = "structs";
+    const abiStructNameKey = "name";
+    const abiStructFieldsKey = "fields";
+    const abiStructFieldNameKey = "name";
 
     module.exports = {
         data() {
@@ -447,7 +458,8 @@
                 curUseType: useType.useTypeQuery,
                 tagName: "",
                 fieldJson: "", //the query result(the chain will return json string)
-                tablesMap: null, //table map(key is table name , value is field name array) of current contract
+                tablesMap: null, //table map(key is table name , value is field name which support query array) of current contract
+                fieldsMap: null, //table map(key is table name , value is all member field name array) of tables in current contract
                 tNameList: [], //table name of current contract
                 curTableName:"", // current table name which is for query
                 fieldsCnt:0,
@@ -460,6 +472,7 @@
                 ctrName:this.$route.params.cName,//contract name
                 ctrDesc:"",//contract description
                 ctrOriCodePosition: "",//the position of contract origin code
+                isDisplaySwitch: true,
             }
         },
 
@@ -475,7 +488,6 @@
                 let contract = result.res;
                 if (contract) {
                     let abi = contract.getAbi();
-                    // console.log("the abi is ", abi);
                     if (abi && abi.length > 0) {
                         this.Abi = abi;
                         this.getTableInfoFromAbi();
@@ -575,6 +587,7 @@
                 // this.fieldJson = "";
                 this.isShowOriCode = false;
                 let result = await api.queryContract(owner, cName, tName, field, start, limit, isReverse);
+
                 if (result.res) {
                     let fieldJson = result.res;
                     if (fieldJson && fieldJson.length > 0) {
@@ -582,6 +595,26 @@
                         if (list && list.length > 0) {
                             this.fieldsList = list;
                             this.fieldJson = fieldJson;
+
+                            this.isShowOriCode = false;
+                            this.isDisplaySwitch = true;
+                            if (!this.judgeMapIsEmpty(this.fieldsMap)) {
+                                let fList = this.fieldsMap[tName];
+                                if (utility.judgeIsNotEmpty(fList) && !this.judgeMapIsEmpty(this.tablesMap)) {
+                                    let queryFields = this.tablesMap[tName];
+                                    if (queryFields != null && typeof queryFields != "undefined") {
+                                        for (let f of queryFields) {
+                                            if (fList.indexOf(f) === -1) {
+                                                //The Field is field of parent class, only show origin code
+                                                this.isShowOriCode = true;
+                                                this.isDisplaySwitch = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
                         }else {
                             this.fieldJson = "";
                             this.fieldsList = this.fieldsList.splice(0, this.fieldsList.length);
@@ -606,6 +639,7 @@
                         let tables = abiJson[abiTableListKey];
                         this.tablesMap = {};
                         if (tables) {
+                            this.fieldsMap = {};
                             for (let table of tables) {
                                 let filedList = [];
                                 let priKey = "";
@@ -634,6 +668,40 @@
                                 if (tName.length > 0) {
                                     this.tablesMap[tName] = filedList;
                                     this.tNameList.push(tName);
+
+                                    //Get All fields of table(not include fields inherited from parent class)
+                                    if (abiJson.hasOwnProperty(abiStructsKey) && table.hasOwnProperty(abiTableType)) {
+                                        let typeName = table[abiTableType];
+                                        let sList = abiJson[abiStructsKey];
+                                        if (sList != null && typeof sList != "undefined") {
+                                            for (let s of sList) {
+                                                let fList = [];
+                                                if (s.hasOwnProperty(abiStructNameKey)) {
+                                                    let sName = s[abiStructNameKey];
+                                                    if (sName === typeName) {
+                                                        let fields = s[abiStructFieldsKey];
+                                                        if (fields != null && typeof fields != "undefined") {
+                                                            for (let f of fields) {
+                                                                if (f.hasOwnProperty(abiStructFieldNameKey)) {
+                                                                    let fName = f[abiStructFieldNameKey];
+                                                                    if (fName.length) {
+                                                                        fList.push(fName);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if (fList.length) {
+                                                   let curMap = {};
+                                                   curMap[tName] = fList;
+                                                   this.fieldsMap = {...this.fieldsMap, ...curMap};
+                                                    break;
+                                                }
+
+                                            }
+                                        }
+                                    }
                                 }
 
                             }
@@ -753,8 +821,12 @@
                     return linkifyHtml(content,linkify.options.defaults);
                 }
                 return content;
-            }
+            },
 
+            judgeMapIsEmpty(m) {
+                return !(utility.judgeIsNotEmpty(m) && JSON.stringify(m) !== "{}");
+
+            }
         },
 
         mounted() {
