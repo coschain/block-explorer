@@ -241,6 +241,10 @@
                     <div class="proValue font-color-000000">{{articleInfo.getVoteCnt()}}</div>
                 </div>
                 <div class="infoCell">
+                    <div class="proDesc font-color-555555">Ticket Count:</div>
+                    <div class="proValue font-color-000000">{{articleInfo.getTicket() }}</div>
+                </div>
+                <div class="infoCell">
                     <div class="proDesc font-color-555555">Power:</div>
                     <div class="proValue font-color-000000">{{articleInfo.getWeightedVp()}}</div>
                 </div>
@@ -386,6 +390,7 @@
                      if (info != null && typeof info != "undefined") {
                          if (info.hasPostInfo()) {
                              this.articleInfo = info.getPostInfo();
+                             console.log((this.articleInfo.toObject()))
                          }
                          this.voterListInfo = info.getVoterListList();
                          this.replyListInfo = info.getReplyListList();
@@ -479,7 +484,8 @@
                  if (info != null && typeof info != "undefined") {
                      let parentId = BigNumber(info.getParentId());
                      if (parentId.eq(0)) {
-                         let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue();
+                        let ticketVp = BigNumber(info.getTicket() * 1e7);
+                        let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue().plus(ticketVp);
                         let globalRewards = BigNumber(info.getGlobalRewards().getValue());
                         let globalVp = BigNumber(info.getGlobalWeightedVp());
                         if (globalVp.plus(vp).gt(0)) {
@@ -494,8 +500,9 @@
                             return vest.toString();
                         }
                      } else {
-                         // let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue();
-                         let vp = BigNumber(info.getWeightedVp());
+                         let ticketVp = BigNumber(info.getTicket() * 1e7);
+                         let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue().plus(ticketVp);
+                         // let vp = BigNumber(info.getWeightedVp());
                          let globalRewards = BigNumber(info.getGlobalRewards().getValue());
                          let globalVp = BigNumber(info.getGlobalWeightedVp());
                          if (globalVp.plus(vp).gt(0)) {

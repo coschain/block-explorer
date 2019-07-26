@@ -278,6 +278,16 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Charged Ticket:
+                    </td>
+                    <td class="font-16 font-color-000000">{{ accountInfo.getChargedTicket() }} </td>
+                </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Free Ticket:
+                    </td>
+                    <td class="font-16 font-color-000000">{{ accountInfo.getFreeTicket() }} </td>
+                </tr>
+                <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Follower Count:
                     </td>
                     <td class="font-16 font-color-000000">
