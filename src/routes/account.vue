@@ -622,7 +622,7 @@
                 if (this.judgeAccountIsFrozen(accountInfo)) {
                     let desc = accountInfo.getFreezeMemo();
                     if (desc.length < 1) {
-                        desc = "Frozen";
+                        desc = "Account is frozen";
                     }
                     return desc;
                 }
