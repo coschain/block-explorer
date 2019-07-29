@@ -714,7 +714,7 @@
             <div class="row row2">
                 <div class="col-lg-3 col-md-6 col-12 flex-item w285">
                     <div class="item-bg item-shadow">
-                        <div v-if="stateInfo">{{ stateInfo.headBlockNumber }}</div>
+                        <div v-if="stateInfo">{{ numberAddComma(stateInfo.headBlockNumber) }}</div>
                         <router-link v-if="stateInfo" class="link link-style" :to='fragApi + "/blocks/" + getLatestIrreversibleBlkNum()'>Block Height ></router-link>
                         <img src=/static/img/cos_block_height_icon.png width=44 alt="">
                     </div>
