@@ -19,7 +19,7 @@ const DAppType = {
 const rpcCacheKey = "rpcAddress";
 const complexCacheMapKey = "complexMapKey";
 let irreversibleNum = 0;
-const isUpdateSys = false;
+const isUpdateSys = true;
 module.exports = {
     isUpdateSys,
     pageCacheType:pageCacheType,
