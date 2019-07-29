@@ -84,7 +84,7 @@
 
                     <tr v-for="(followInfo, i) in followerList" :key="i">
                         <td  class="font-color-000000 contentCol">
-                            <router-link v-bind:to='fragApi + "/account/" + getFollowerAccountName(followInfo)'>
+                            <router-link v-bind:to='fragApi + "/account/" + getFollowerAccountName(followInfo)' target="_blank">
                                 <span class="monospace">{{getFollowerAccountName(followInfo)}}</span>
                             </router-link>
                         </td>
