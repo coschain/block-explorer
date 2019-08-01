@@ -76,7 +76,7 @@
                             {{ timeConversion(Date.now()-witness.getCreatedTime().getUtcSeconds()*1000) }} ago
                         </td>
 
-                        <td class="witnessContentCol detailContentCol">{{ witness.getVoteCount().toString()}}</td>
+                        <td class="witnessContentCol detailContentCol">{{ witness.getVoterCount().toString()}}</td>
 
                         <td class="witnessContentCol voteCountContentCol">{{ getVoterCountOfWitness(witness)}}</td>
 
@@ -158,11 +158,12 @@
                         if (list.length) {
                             this.bpList = this.bpList.concat(list);
                             this.lastWitness = list[list.length-1];
-                            this.listStart = this.lastWitness.getVoteCount();
+                            console.log(this.lastWitness);
+                            this.listStart = this.lastWitness.getVoterCount();
                             if (this.currentPage === 0) {
                                 this.listEnd = null;
                             }else {
-                                this.listEnd = list[0].getVoteCount();
+                                this.listEnd = list[0].getVoterCount();
                             }
                             let curPageLen = this.pageInfo.length;
                             let info = {start:this.listStart,lastWitness:this.lastWitness};

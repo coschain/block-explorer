@@ -166,8 +166,8 @@
                                 </router-link>
                             </td>
                             <td class="contentCol otherConCol">
-                                <router-link v-bind:to='fragApi + "/account/" + block.toObject().witness.value' target="_blank">
-                                    <span class="monospace">{{ block.toObject().witness.value }}</span>
+                                <router-link v-bind:to='fragApi + "/account/" + block.toObject().blockProducer.value' target="_blank">
+                                    <span class="monospace">{{ block.toObject().blockProducer.value }}</span>
                                 </router-link>
                             </td>
                         </tr>

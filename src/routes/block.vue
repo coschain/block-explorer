@@ -91,8 +91,8 @@
                     <tr>
                         <td class="font-color-555555">Minted</td>
                         <td>
-                            <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().witness.value'>
-                                <span class="monospace">{{ blockInfo.toObject().witness.value }}</span>
+                            <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().blockProducer.value'>
+                                <span class="monospace">{{ blockInfo.toObject().blockProducer.value }}</span>
                             </router-link>
                         </td>
                     </tr>
@@ -157,8 +157,8 @@
                         <!--<router-link v-bind:to='fragApi + "/address/" + block.miner.hash'>-->
                             <!--<span class="monospace">{{ blockInfo.signedHeader.header.witness.value }}</span>-->
                         <!--</router-link>-->
-                        <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().witness.value'>
-                            <span class="monospace">{{ blockInfo.toObject().witness.value }}</span>
+                        <router-link v-bind:to='fragApi + "/account/" + blockInfo.toObject().blockProducer.value'>
+                            <span class="monospace">{{ blockInfo.toObject().blockProducer.value }}</span>
                         </router-link>
                     </div>
                 </div>

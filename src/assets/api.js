@@ -859,19 +859,21 @@ module.exports = {
             errMsg: null,
         };
         try {
-            let req = new cos_sdk.grpc.GetWitnessListByVoteCountRequest();
+            // let req = new cos_sdk.grpc.GetWitnessListByVoteCountRequest();
+            let req = new cos_sdk.grpc.GetBlockProducerListByVoteCountRequest();
             req.setStart(start);
             req.setEnd(end);
             req.setLimit(limit);
-            req.setLastWitness(lastWitness);
+            req.setLastBlockProducer(lastWitness);
             return new Promise((resolve, reject) => {
-                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetWitnessListByVoteCount, {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockProducerListByVoteCount, {
                     request: req,
                     host: getHost(),
                     onEnd: res => {
                         const {status, statusMessage, headers, message, trailers} = res;
                         if (status === grpc_web.Code.OK && message) {
-                            let list = message.getWitnessListList();
+                            // let list = message.toObject().blockProducerListList;
+                            let list = message.getBlockProducerListList();
                             resolve(list);
                         } else {
                             let err = {
