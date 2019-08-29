@@ -158,12 +158,15 @@
                         if (list.length) {
                             this.bpList = this.bpList.concat(list);
                             this.lastWitness = list[list.length-1];
-                            console.log(this.lastWitness);
-                            this.listStart = this.lastWitness.getVoterCount();
+                            let sVest = new api.cos_sdk.raw_type.vest();
+                            sVest.setValue(this.lastWitness.getVoterCount());
+                            this.listStart =  sVest;
                             if (this.currentPage === 0) {
                                 this.listEnd = null;
                             }else {
-                                this.listEnd = list[0].getVoterCount();
+                                let eVest = new api.cos_sdk.raw_type.vest();
+                                eVest.setValue(list[0].getVoterCount());
+                                this.listEnd = eVest;
                             }
                             let curPageLen = this.pageInfo.length;
                             let info = {start:this.listStart,lastWitness:this.lastWitness};
