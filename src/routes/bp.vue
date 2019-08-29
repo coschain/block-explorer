@@ -62,7 +62,7 @@
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Account</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
-                        <th class="bpListHeaderCol voteCountHeaderCol">Voted times</th>
+                        <th class="bpListHeaderCol voteCountHeaderCol">Voters</th>
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >
@@ -76,7 +76,7 @@
                             {{ timeConversion(Date.now()-witness.getCreatedTime().getUtcSeconds()*1000) }} ago
                         </td>
 
-                        <td class="witnessContentCol detailContentCol">{{ witness.getVoterCount().toString()}}</td>
+                        <td class="witnessContentCol detailContentCol">{{ witness.getBpVest().getVoteVest().toString()}}</td>
 
                         <td class="witnessContentCol voteCountContentCol">{{ getVoterCountOfWitness(witness)}}</td>
 
@@ -148,7 +148,6 @@
                                 }
                             }
                         } else {
-
                             list = bpList;
                             for (let acct of bpList) {
                                 let name = acct.getOwner().getValue();
@@ -158,15 +157,11 @@
                         if (list.length) {
                             this.bpList = this.bpList.concat(list);
                             this.lastWitness = list[list.length-1];
-                            let sVest = new api.cos_sdk.raw_type.vest();
-                            sVest.setValue(this.lastWitness.getVoterCount());
-                            this.listStart =  sVest;
+                            this.listStart =  this.lastWitness.getBpVest().getVoteVest();
                             if (this.currentPage === 0) {
                                 this.listEnd = null;
                             }else {
-                                let eVest = new api.cos_sdk.raw_type.vest();
-                                eVest.setValue(list[0].getVoterCount());
-                                this.listEnd = eVest;
+                                this.listEnd = list[0].getBpVest().getVoteVest();
                             }
                             let curPageLen = this.pageInfo.length;
                             let info = {start:this.listStart,lastWitness:this.lastWitness};
@@ -213,8 +208,8 @@
             },
 
             getVoterCountOfWitness(witness) {
-                if (witness != null && (typeof witness != "undefined") && witness.getVoterListList) {
-                    return witness.getVoterListList().length;
+                if (witness != null && (typeof witness != "undefined")) {
+                    return  witness.getVoterCount();
                 }
                 return 0;
             },
