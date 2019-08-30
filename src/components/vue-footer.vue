@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="col-xs-12 col-md-4">
-                    <div>Copyright © 2018 -2019 Contentos.io  v0.4 Mars</div>
+                    <div>Copyright © 2018 -2019 Contentos.io  v0.5 Jupiter</div>
                 </div>
 
                 <div class="col-xs-12 col-md-4">
