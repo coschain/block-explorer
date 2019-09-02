@@ -62,7 +62,7 @@
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Account</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
-                        <th class="bpListHeaderCol voteCountHeaderCol">Voters</th>
+                        <th class="bpListHeaderCol voteCountHeaderCol">Supporter</th>
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >
