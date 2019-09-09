@@ -1006,6 +1006,57 @@ module.exports = {
             result.errMsg = e;
             return result;
         }
+    },
+
+    /**
+     * get bft vote info of block
+     * @param blkNum: block number
+     */
+    async fetchBlockBFTInfo(blkNum) {
+        let result = newWebServiceResponse();
+        try {
+            let req = new cos_sdk.grpc.GetBlockBFTInfoByNumRequest();
+            req.setBlockNum(blkNum)
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockBFTInfoByNum, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            resolve(message);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                });
+            }).then(list => {
+                result.res = list;
+                if (result.errMsg !== null) {
+                    result.errMsg = null;
+                }
+
+                if (result.errCode !== null) {
+                    result.errCode = null;
+                }
+                return result;
+            }).catch(({ errCode, msg }) => {
+                if (result.res != null) {
+                    result.res = null;
+                }
+                result.res = null;
+                result.errCode = errCode;
+                result.errMsg = msg;
+                return result;
+            });
+        } catch (e) {
+            result.errMsg = e;
+            return result;
+        }
     }
   };
 

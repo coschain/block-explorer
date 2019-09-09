@@ -29,6 +29,12 @@
         margin-bottom: 10px;
     }
 
+    .Json-content {
+        width: 100%;
+        word-break: break-word;
+        word-wrap: break-word;
+    }
+
 </style>
 <template>
     <!-- https://etherscan.io/block/4951841 -->
@@ -102,6 +108,12 @@
                             <span class="font-color-000000">{{ formatBlockSize(blockInfo.toObject().blockSize) }}</span>
                         </td>
                     </tr>
+                    <tr v-if="bftInfo">
+                        <td class="font-color-555555">BFT Info</td>
+                        <td>
+                            <pre class="Json-content" v-html=convertBftInfoToJson()></pre>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -169,6 +181,13 @@
                         <span class="font-color-000000 monospace">{{formatBlockSize(blockInfo.toObject().blockSize)}}</span>
                     </div>
                 </div>
+
+                <div v-if="bftInfo" class="mobileCell">
+                    <div class="font-color-555555">BFT Info</div>
+                    <div>
+                        <pre class="Json-content" v-html=convertBftInfoToJson()></pre>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -194,10 +213,16 @@
                       this.bTime = this.blockInfo.toObject().timestamp.utcSeconds*1000;
                       this.blkHash = this.blockInfo.getBlockId().getHexHash();
                   }
+
               }catch (err) {
                   console.log("fetch block fail,error is %s",err);
               }
-
+              let bftInfo = await api.fetchBlockBFTInfo(this.$route.params.id)
+              if (bftInfo.res) {
+                  this.bftInfo = bftInfo.res
+              } else {
+                  console.log("Fail to fetch BFT Info,the error code is %s, the error msg is %s", bftInfo.errCode, bftInfo.errMsg)
+              }
             this.$root.showModalLoading = false;
           }
         },
@@ -221,6 +246,35 @@
             },
             formatBlockSize(size) {
                 return utility.formatBlkSize(size);
+            },
+            convertBftInfoToJson() {
+                if (this.bftInfo != null && typeof this.bftInfo != 'undefined') {
+                    let jsonStr = JSON.stringify(this.bftInfo.toObject(), null, 2)
+                    return this.formatJson(jsonStr)
+                }
+            },
+
+            formatJson(content) {
+                if ((typeof content == "string") && content.length > 0) {
+                    let abi = content.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+                    abi = abi.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+                        var cls = 'number';
+                        if (/^"/.test(match)) {
+                            if (/:$/.test(match)) {
+                                cls = 'Abi-key';
+                            } else {
+                                cls = 'Abi-Value';
+                            }
+                        } else if (/true|false/.test(match)) {
+                            cls = 'boolean';
+                        } else if (/null/.test(match)) {
+                            cls = 'null';
+                        }
+                        return '<span class="' + cls + '">' + match + '</span>';
+                    });
+                    return abi;
+                }
+                return "";
             }
         },
         data() {
@@ -234,6 +288,7 @@
                 blockInfo: null,
                 bTime: null,
                 blkHash: null,
+                bftInfo: null,
             };
         }
     };
