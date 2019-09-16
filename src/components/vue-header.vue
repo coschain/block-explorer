@@ -123,7 +123,7 @@
 </style>
 <template>
     <div class="bg-black vue-header">
-    <div class="testNestWaring">
+    <div v-if="!checkIsMainNet()" class="testNestWaring">
         <img src="/static/img/cos_warn.png" class="warningIcon" alt="">
         <div>Be careful,This is the test network for Contentos. Any trading information is for testing purposes. </div>
     </div>
@@ -209,6 +209,13 @@
             };
         },
         methods: {
+            checkIsMainNet() {
+                if (process.env.NODE_ENV === 'production') {
+                    return true
+                }
+                return false
+            },
+
             apiSwitch() {
                 // if (this.$route.params.api === 'testnet') {
                 //     this.$router.replace("/");
