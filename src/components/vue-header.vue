@@ -173,7 +173,7 @@
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/chain-state/'">Global Dynamic Properties</router-link>
                             <div class="dropdown-divider"></div>
-                            <a href= "http://testwallet.contentos.io/" target="_blank" class="dropdown-item">Create Account</a>
+                            <a :href= 'getCreateAccountUrl()' target="_blank" class="dropdown-item">Create Account</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -215,7 +215,12 @@
                 }
                 return false
             },
-
+            getCreateAccountUrl() {
+                if (this.checkIsMainNet()) {
+                    return "https://wallet.contentos.io"
+                }
+                return "http://testwallet.contentos.io/"
+            },
             apiSwitch() {
                 // if (this.$route.params.api === 'testnet') {
                 //     this.$router.replace("/");
