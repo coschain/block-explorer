@@ -191,7 +191,8 @@
         data() {
            return {
                selectType: DAppType.DAppTypePg,
-               dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
+               // dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
+               dAppsArray: this.getDAppList(),
                chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
                    chartType.chartTypeTxAmount],
                statList: [],
@@ -205,6 +206,13 @@
         },
 
         methods: {
+
+            getDAppList() {
+                if (process.env.NODE_ENV === 'production')  {
+                    return [DAppType.DAppTypeCos];
+                }
+                return [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin];
+            },
 
             convertStampToMMDD(date) {
                 if (!date || date === 'undefined') {
