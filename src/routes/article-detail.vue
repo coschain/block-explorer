@@ -485,7 +485,7 @@
                      let parentId = BigNumber(info.getParentId());
                      if (parentId.eq(0)) {
                         let ticketVp = BigNumber(info.getTicket() * 1e7);
-                        let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue().plus(ticketVp);
+                        let vp = BigNumber(info.getWeightedVp()).integerValue().plus(ticketVp);
                         let globalRewards = BigNumber(info.getGlobalRewards().getValue());
                         let globalVp = BigNumber(info.getGlobalWeightedVp());
                         if (globalVp.plus(vp).gt(0)) {
@@ -501,7 +501,7 @@
                         }
                      } else {
                          let ticketVp = BigNumber(info.getTicket() * 1e7);
-                         let vp = BigNumber(info.getWeightedVp()).squareRoot().integerValue().plus(ticketVp);
+                         let vp = BigNumber(info.getWeightedVp()).integerValue().plus(ticketVp);
                          // let vp = BigNumber(info.getWeightedVp());
                          let globalRewards = BigNumber(info.getGlobalRewards().getValue());
                          let globalVp = BigNumber(info.getGlobalWeightedVp());
