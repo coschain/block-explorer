@@ -123,7 +123,7 @@
 </style>
 <template>
     <div class="bg-black vue-header">
-    <div class="testNestWaring">
+    <div v-if="!checkIsMainNet()" class="testNestWaring">
         <img src="/static/img/cos_warn.png" class="warningIcon" alt="">
         <div>Be careful,This is the test network for Contentos. Any trading information is for testing purposes. </div>
     </div>
@@ -173,7 +173,7 @@
                             <div class="dropdown-divider"></div>
                             <router-link class=dropdown-item v-bind:to="fragApi + '/chain-state/'">Global Dynamic Properties</router-link>
                             <div class="dropdown-divider"></div>
-                            <a href= "http://testwallet.contentos.io/" target="_blank" class="dropdown-item">Create Account</a>
+                            <a :href= 'getCreateAccountUrl()' target="_blank" class="dropdown-item">Create Account</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -209,6 +209,18 @@
             };
         },
         methods: {
+            checkIsMainNet() {
+                if (process.env.NODE_ENV === 'production') {
+                    return true
+                }
+                return false
+            },
+            getCreateAccountUrl() {
+                if (this.checkIsMainNet()) {
+                    return "https://wallet.contentos.io"
+                }
+                return "http://testwallet.contentos.io/"
+            },
             apiSwitch() {
                 // if (this.$route.params.api === 'testnet') {
                 //     this.$router.replace("/");
@@ -261,7 +273,6 @@
                             return
                         }
                         this.$root.eBus.$emit("changeRpcAddress",address);
-                        this.$router.replace(utility.getTestNetName());
                         utility.setHost(address);
                         location.reload();
                     }

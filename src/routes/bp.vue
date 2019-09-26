@@ -19,8 +19,12 @@
         font-size: 11px;
     }
 
+    .vue-bp .rankHeaderCol {
+        width: 12%;
+    }
+
     .vue-bp .bpListHeaderDetailCol {
-        width: 28%;
+        width: 24%;
 
     }
 
@@ -36,8 +40,12 @@
         margin-top: 17px;
     }
 
+    .vue-bp .rankContentCol {
+        width: 12%;
+    }
+
     .vue-bp .detailContentCol {
-        width: 28%;
+        width: 24%;
     }
 
     .vue-bp .voteCountContentCol {
@@ -59,6 +67,7 @@
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="bpListHeader  font-bold font-color-000000">
+                        <th class="bpListHeaderCol rankHeaderCol">Rank</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Account</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
@@ -66,6 +75,7 @@
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >
+                        <td class="witnessContentCol rankContentCol">{{i+1}}</td>
                         <td class="witnessContentCol detailContentCol">
                             <router-link v-if="witness.hasOwner()" v-bind:to='fragApi + "/account/" + witness.getOwner().getValue()' target="_blank">
                                 <span>{{ witness.getOwner().getValue()}}</span>

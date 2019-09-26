@@ -7,12 +7,13 @@
   "scripts": {
     "build": "node build/build.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "test": "node build/test.js"
   },
   "dependencies": {
     "bignumber.js": "7.2.1",
     "bootstrap": "^4.3.1",
-    "cos-grpc-js": "^1.5.9",
+    "cos-grpc-js": "^1.5.11",
     "font-awesome": "^4.7.0",
     "highcharts": "^6.1.0",
     "highlight.js": "^9.15.8",

@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="col-xs-12 col-md-4">
-                    <div>Copyright © 2018 -2019 Contentos.io  v0.5 Jupiter</div>
+                    <div>{{getVersionDesc()}}</div>
                 </div>
 
                 <div class="col-xs-12 col-md-4">
@@ -108,3 +108,16 @@
         </div>
     </div>
 </template>
+
+<script>
+    module.exports = {
+        methods: {
+            getVersionDesc() {
+                if (process.env.NODE_ENV === 'production') {
+                    return 'Copyright © 2018 -2019 Contentos.io  v1.0.0 MainNet'
+                }
+                return 'Copyright © 2018 -2019 Contentos.io v0.5 Jupiter'
+            }
+        }
+    }
+</script>

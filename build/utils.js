@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const packageConfig = require('../package.json')
 
 exports.assetsPath = function (_path) {
-  const assetsSubDirectory = process.env.NODE_ENV === 'production'
+  const assetsSubDirectory = (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test')
     ? config.build.assetsSubDirectory
     : config.dev.assetsSubDirectory
 

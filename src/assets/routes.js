@@ -72,14 +72,6 @@ module.exports = [{
     component: require("@/routes/nothing").default,
     path: "/:api?/nothing"
 }, {
-    component: require("@/routes/contract").default,
-    meta: { headerActive: 2, uaview: "Explorer_NRC20token_Show" },
-    path: "/:api?/token/:id"
-}, {
-    component: require("@/routes/contract").default,
-    meta: { headerActive: 2, uaview: "Explorer_NRC20token_Show" },
-    path: "/:api?/contract/:id"
-}, {
     component: require("@/routes/articles").default,
     meta: { headerActive: 2 },
     path: "/:api?/articles"
