@@ -190,7 +190,7 @@
     module.exports = {
         data() {
            return {
-               selectType: DAppType.DAppTypePg,
+               selectType: this.getDefaultType(),
                // dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
                dAppsArray: this.getDAppList(),
                chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
@@ -206,9 +206,22 @@
         },
 
         methods: {
+            getDefaultType() {
+                //test env default is pg, main net default is costv
+                let ty = this.checkIsProduction() ? DAppType.DAppTypeCos : DAppType.DAppTypePg;
+                return ty;
+            },
+
+
+            checkIsProduction() {
+                if (process.env.NODE_ENV === 'production')  {
+                    return true
+                }
+                return false
+            },
 
             getDAppList() {
-                if (process.env.NODE_ENV === 'production')  {
+                if (this.checkIsProduction())  {
                     return [DAppType.DAppTypeCos];
                 }
                 return [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin];
@@ -407,6 +420,9 @@
             async loadData(type) {
                 if (type == null || typeof type == "undefined") {
                     type = DAppType.DAppTypePg;
+                    if (this.checkIsProduction()) {
+                        type = DAppType.DAppTypeCos
+                    }
                 }
                 this.$root.showModalLoading = true;
                 let dApp = this.getDAppNameByType(type);
@@ -432,7 +448,8 @@
         },
 
         mounted() {
-            this.loadData();
+            console.log("select type is:", this.selectType)
+            this.loadData(this.selectType);
         },
 
         computed: {
