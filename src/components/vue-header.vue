@@ -123,69 +123,71 @@
 </style>
 <template>
     <div class="bg-black vue-header">
-    <div v-if="!checkIsMainNet()" class="testNestWaring">
-        <img src="/static/img/cos_warn.png" class="warningIcon" alt="">
-        <div>Be careful,This is the test network for Contentos. Any trading information is for testing purposes. </div>
-    </div>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <vue-modify-rpc  v-if="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress" :currentAddress=currentHost></vue-modify-rpc>
-
-        <div class=container>
-            <div>
-                <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
-                    <img src="/static/img/logo_cos.png?v=20190117" width=210 alt="">
-                </router-link>
-            </div>
-
-            <button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
-                <span class=navbar-toggler-icon></span>
-            </button>
-            <div class="collapse navbar-collapse mr-28" id=navbarSupportedContent>
-                <form class=form-inline v-on:submit.prevent=onSubmit>
-                    <img src=/static/img/icon_search.png width=16 alt="">
-                    <input class="mr-sm-2 font-12" v-model=search type=search placeholder="Search by Account / Txhash / Block">
-                </form>
-                <ul class="navbar-nav ml-auto">
-                    <li class=nav-item v-bind:class="{ active: $route.meta.headerActive == 1 }">
-                        <router-link v-bind:to="fragApi + '/'" class=nav-link>HOME
-                            <span class=sr-only>(current)</span>
-                        </router-link>
-                    </li>
-                    <li class="dropdown nav-item" v-bind:class="{ active: $route.meta.headerActive == 2 }">
-                        <a class="nav-link" href=# id=header-dropdown-blockchain role=button data-toggle=dropdown aria-haspopup=true aria-expanded=false>
-                            BLOCKCHAIN
-                            <img src=/static/img/icon_arrow_down.png width=12 alt="">
-                        </a>
-                        <div class=dropdown-menu aria-labelledby=header-dropdown-blockchain>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/txs'">Transactions</router-link>
-                            <!--<router-link class=dropdown-item v-bind:to="fragApi + '/txs/pending'">Pending Transactions</router-link>
-                            -->
-                            <div class="dropdown-divider"></div>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/blocks/' + getCurrentIrreversibleNum()">Blocks</router-link>
-                            <div class="dropdown-divider"></div>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/accounts'">Accounts</router-link>
-                            <div class="dropdown-divider"></div>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/DApp'">DApp Statistics</router-link>
-                            <div class="dropdown-divider"></div>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/contracts/'">Contracts</router-link>
-                            <div class="dropdown-divider"></div>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/bp/'">Block Producers</router-link>
-                            <div class="dropdown-divider"></div>
-                            <router-link class=dropdown-item v-bind:to="fragApi + '/chain-state/'">Global Dynamic Properties</router-link>
-                            <div class="dropdown-divider"></div>
-                            <a :href= 'getCreateAccountUrl()' target="_blank" class="dropdown-item">Create Account</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=# role=button v-on:click.prevent=apiSwitch()>{{ MenuMisc }}
-                            <img src=/static/img/icon_switcher.png width=12 alt="">
-                        </a>
-                    </li>
-                </ul>
-
-            </div>
+        <div v-if="!checkIsMainNet()" class="testNestWaring">
+            <img src="/static/img/cos_warn.png" class="warningIcon" alt="">
+            <div>Be careful,This is the test network for Contentos. Any trading information is for testing purposes. </div>
         </div>
-    </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <vue-modify-rpc  v-if="isShowRpcAlert" v-on:close="closeRpcSwitchAlert" v-on:changeRpcAddress="modifyRpcAddress" :currentAddress=currentHost></vue-modify-rpc>
+
+            <div class=container>
+                <div>
+                    <router-link v-bind:to="fragApi + '/'" class=navbar-brand>
+                        <img src="/static/img/logo_cos.png?v=20190117" width=210 alt="">
+                    </router-link>
+                </div>
+
+                <button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+                    <span class=navbar-toggler-icon></span>
+                </button>
+                <div class="collapse navbar-collapse mr-28" id=navbarSupportedContent>
+                    <form class=form-inline v-on:submit.prevent=onSubmit>
+                        <img src=/static/img/icon_search.png width=16 alt="">
+                        <input class="mr-sm-2 font-12" v-model=search type=search placeholder="Search by Account / Txhash / Block">
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <li class=nav-item v-bind:class="{ active: $route.meta.headerActive == 1 }">
+                            <router-link v-bind:to="fragApi + '/'" class=nav-link>HOME
+                                <span class=sr-only>(current)</span>
+                            </router-link>
+                        </li>
+                        <li class="dropdown nav-item" v-bind:class="{ active: $route.meta.headerActive == 2 }">
+                            <a class="nav-link" href=# id=header-dropdown-blockchain role=button data-toggle=dropdown aria-haspopup=true aria-expanded=false>
+                                BLOCKCHAIN
+                                <img src=/static/img/icon_arrow_down.png width=12 alt="">
+                            </a>
+                            <div class=dropdown-menu aria-labelledby=header-dropdown-blockchain>
+                                <router-link class=dropdown-item v-bind:to="fragApi + '/txs'">Transactions</router-link>
+                                <!--<router-link class=dropdown-item v-bind:to="fragApi + '/txs/pending'">Pending Transactions</router-link>
+                                -->
+                                <div class="dropdown-divider"></div>
+                                <router-link class=dropdown-item v-bind:to="fragApi + '/blocks/' + getCurrentIrreversibleNum()">Blocks</router-link>
+                                <div class="dropdown-divider"></div>
+                                <router-link class=dropdown-item v-bind:to="fragApi + '/accounts'">Accounts</router-link>
+                                <div class="dropdown-divider"></div>
+                                <router-link class=dropdown-item v-bind:to="fragApi + '/DApp'">DApp Statistics</router-link>
+                                <div class="dropdown-divider"></div>
+                                <router-link class=dropdown-item v-bind:to="fragApi + '/contracts/'">Contracts</router-link>
+                                <div class="dropdown-divider"></div>
+                                <router-link class=dropdown-item v-bind:to="fragApi + '/bp/'">Block Producers</router-link>
+                                <div class="dropdown-divider"></div>
+                                <router-link class=dropdown-item v-bind:to="fragApi + '/chain-state/'">Global Dynamic Properties</router-link>
+                                <div class="dropdown-divider"></div>
+                                <a :href= 'getCreateAccountUrl()' target="_blank" class="dropdown-item">Web Wallet</a>
+                                <div class="dropdown-divider"></div>
+                                <a :href="getSwitchChainNetUrl()" class="dropdown-item">{{getSwitchChainName()}}</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=# role=button v-on:click.prevent=apiSwitch()>{{ MenuMisc }}
+                                <img src=/static/img/icon_switcher.png width=12 alt="">
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
     </div>
 </template>
 <script>
@@ -219,7 +221,19 @@
                 if (this.checkIsMainNet()) {
                     return "https://wallet.contentos.io"
                 }
-                return "http://testwallet.contentos.io/"
+                return "https://testwallet.contentos.io/"
+            },
+            getSwitchChainNetUrl() {
+                if (this.checkIsMainNet()) {
+                    return "https://testexplorer.contentos.io/#/"
+                }
+                return "https://explorer.contentos.io/#/"
+            },
+            getSwitchChainName() {
+                if (this.checkIsMainNet()) {
+                    return "TestNet"
+                }
+                return "MainNet"
             },
             apiSwitch() {
                 // if (this.$route.params.api === 'testnet') {
