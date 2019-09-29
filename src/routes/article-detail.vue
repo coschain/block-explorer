@@ -250,14 +250,14 @@
                 </div>
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Reward Distribution Time:</div>
-                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 < Date.now()">
-                        <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) }}
+                    <template v-if="hasCashout(articleInfo)">
+                        <div class="proValue font-color-000000">{{ cashoutTime(articleInfo) }}
                             <img class="icon" src="../../static/img/ic_tx_status_success.png" />
                             <span class="confirm" style="margin-left: 5px;">Completed</span>
                         </div>
                     </template>
-                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 >= Date.now()">
-                        <div class="proValue font-color-000000">{{ timestampToDatetime(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) }}
+                    <template v-if="!hasCashout(articleInfo)">
+                        <div class="proValue font-color-000000">{{ cashoutTime(articleInfo) }}
                         </div>
                     </template>
                 </div>
@@ -269,10 +269,10 @@
                 <!--Reward-->
                 <div class="infoCell">
                     <div class="proDesc font-color-555555">Estimate Reward:</div>
-                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 < Date.now()">
+                    <template v-if="hasCashout(articleInfo)">
                         <div class="proValue font-color-000000">{{getArticleReward(articleInfo)}}</div>
                     </template>
-                    <template v-if="(articleInfo.getCreated().getUtcSeconds() +  articleInfo.getCashoutInterval()) * 1000 >= Date.now()">
+                    <template v-if="!hasCashout(articleInfo)">
                         <div class="proValue font-color-000000">{{getEstimateReward(articleInfo)}}</div>
                     </template>
                 </div>
@@ -377,6 +377,7 @@
                 selectedList: 0, //current selected list 0:select none 1:select voter list 2:select reply list
                 voterListInfo: null,
                 replyListInfo: null,
+                globalProperty: null,
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
             };
         },
@@ -386,6 +387,15 @@
          },
          computed: {
              loadData() {
+                 api.fetchStateInfo(info => {
+                     if (info != null && typeof info.state.dgpo != "undefined" ) {
+                         this.globalProperty = info.state.dgpo
+                     }else {
+                         console.log("return empty props");
+                     }
+                 },(errCode,msg) => {
+                     console.log("Get state info fail,error code is %s,msg is %s",errCode,msg);
+                 });
                  api.fetchArticleDetailInfoById(this.$route.params.pId,100,100,info => {
                      if (info != null && typeof info != "undefined") {
                          if (info.hasPostInfo()) {
@@ -411,6 +421,21 @@
              },
          },
          methods: {
+             hasCashout(info) {
+                 // cashouted article's cashoutblocknum is max uint64
+                 return info.getCashoutBlockNum() > 100000000
+             },
+             cashoutTime(info) {
+                 if (this.hasCashout(info)) {
+                     return this.timestampToDatetime(info.getCreated().getUtcSeconds() +  info.getCashoutInterval());
+                 } else {
+                     let delta = (info.getCashoutBlockNum() - this.globalProperty.headBlockNumber);
+                     if (delta < 0) {
+                         delta = 0;
+                     }
+                     return this.timestampToDatetime(delta + Math.floor(Date.now() / 1000));
+                 }
+             },
              getTitleDesc(info) {
                 let type = this.getPostType(info);
                 if (type === 1) {
