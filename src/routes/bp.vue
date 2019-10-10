@@ -20,14 +20,14 @@
     }
 
     .vue-bp .rankHeaderCol {
-        width: 10%;
+        width: 8%;
     }
 
     .vue-bp .bpListHeaderDetailCol {
-        width: 20%;
+        width: 18%;
     }
 
-    .vue-bp .voteCountHeaderCol {
+    .vue-bp .statusHeaderCol {
         width: 10%;
     }
     .vue-bp .witnessContentCol {
@@ -40,14 +40,14 @@
     }
 
     .vue-bp .rankContentCol {
-        width: 10%;
+        width: 8%;
     }
 
     .vue-bp .detailContentCol {
-        width: 20%;
+        width: 18%;
     }
 
-    .vue-bp .voteCountContentCol {
+    .vue-bp .statusContentCol {
         width: 10%;
     }
 
@@ -77,10 +77,11 @@
                 <table class="mt20 explorer-table">
                     <tr class="bpListHeader  font-bold font-color-000000">
                         <th class="bpListHeaderCol rankHeaderCol">Rank</th>
-                        <th class="bpListHeaderCol bpListHeaderDetailCol">Account</th>
-                        <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
-                        <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
-                        <th class="bpListHeaderCol voteCountHeaderCol">Supporter</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Block Producer</th>
+                        <th class="bpListHeaderCol statusHeaderCol">Voters</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Votes</th>
+                        <th class="bpListHeaderCol statusHeaderCol">Status</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Accumulated Reward</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Annualized ROI</th>
                     </tr>
 
@@ -92,14 +93,14 @@
                             </router-link>
                         </td>
 
-                        <td class="witnessContentCol detailContentCol" v-if="witness.hasCreatedTime()">
-                            {{ timeConversion(Date.now()-witness.getCreatedTime().getUtcSeconds()*1000) }} ago
-                        </td>
+                        <td class="witnessContentCol statusContentCol">{{ getVoterCountOfWitness(witness)}}</td>
 
                         <td class="witnessContentCol detailContentCol">{{ witness.getBpVest().getVoteVest().toString()}}</td>
+                        <td class="witnessContentCol statusContentCol">
+                            {{getBpDesc(witness, i+1)}}
+                        </td>
 
-                        <td class="witnessContentCol voteCountContentCol">{{ getVoterCountOfWitness(witness)}}</td>
-
+                        <td class="witnessContentCol detailContentCol">{{getBpAccumulatedReward(witness)}}VEST</td>
                         <td class="witnessContentCol detailContentCol">{{getYearAnnualizedRate(witness, i+1)}}</td>
                     </tr>
                 </table>
@@ -119,6 +120,7 @@
     const yearReward = 3061425
     const bpNum = 21
     const cosDecimal = 1000000
+    const singleBlkReward = 2.038621
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -283,7 +285,42 @@
                     return Math.floor(bigVest.toNumber())
                 }
                 return 0
+            },
+
+            getBpAccumulatedReward(bp) {
+                //get accumulative reward(singleBlockReward * generatedBlock)
+                if (this.checkBpInfoValid(bp)) {
+                    let genBlkCnt = bp.getGenBlockCount()
+                    let bigVal = BigNumber(genBlkCnt*singleBlkReward)
+                    bigVal.decimalPlaces(6)
+                    return bigVal.decimalPlaces(6).toNumber()
+                }
+                return 0
+            },
+
+            getBpDesc(bp, rank) {
+                if (this.checkBpInfoValid(bp)) {
+                    let vestId = bp.getBpVest()
+                    if (rank <= bpNum) {
+                        return "Top-21"
+                    } else {
+                        if (vestId.getActive()) {
+                            return "Standby"
+                        }
+                        return "Unregistered"
+                    }
+
+                }
+                return ""
+            },
+
+            checkBpInfoValid(bp) {
+                if (bp === null || typeof bp === "undefined") {
+                    return false
+                }
+                return true
             }
+
 
 
         },
