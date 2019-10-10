@@ -80,7 +80,7 @@
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
                         <th class="bpListHeaderCol voteCountHeaderCol">Supporter</th>
-                        <th class="bpListHeaderCol bpListHeaderDetailCol">Annualized Rate</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Annualized Rate(Year)</th>
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >
@@ -251,7 +251,7 @@
             },
 
             calcInterestRate() {
-                return parseFloat((minBpVest / yearReward * 100).toFixed(6))
+                return parseFloat((yearReward / minBpVest * 100).toFixed(6))
             },
 
             getYearAnnualizedRate(bp, rank) {
@@ -261,7 +261,7 @@
                 let vest = bp.getBpVest().getVoteVest().getValue()
                 let bigVest = BigNumber(vest)
                 let bigYearReward = BigNumber(yearReward).multipliedBy("1000000")
-                let rate = parseFloat(bigVest.dividedBy(bigYearReward).multipliedBy(BigNumber(100)).toNumber().toFixed(6))
+                let rate = parseFloat(bigYearReward.dividedBy(bigVest).multipliedBy(BigNumber(100)).toNumber().toFixed(6))
                 return rate + "%"
             }
 
