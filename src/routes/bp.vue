@@ -20,16 +20,15 @@
     }
 
     .vue-bp .rankHeaderCol {
-        width: 12%;
+        width: 10%;
     }
 
     .vue-bp .bpListHeaderDetailCol {
-        width: 24%;
-
+        width: 20%;
     }
 
     .vue-bp .voteCountHeaderCol {
-        width: 16%;
+        width: 10%;
     }
     .vue-bp .witnessContentCol {
         display:inline-block;
@@ -41,15 +40,23 @@
     }
 
     .vue-bp .rankContentCol {
-        width: 12%;
+        width: 10%;
     }
 
     .vue-bp .detailContentCol {
-        width: 24%;
+        width: 20%;
     }
 
     .vue-bp .voteCountContentCol {
-        width: 16%;
+        width: 10%;
+    }
+
+    .vue-bp .incomeDesc {
+        font-size: 18px;
+        color: black;
+        text-align: left;
+        word-wrap: break-word;
+        word-break: break-word;
     }
 
     @media (max-width: 768px) {
@@ -62,6 +69,7 @@
 <template>
     <div class="vue-bp fullfill">
         <vue-bread title="Block Producers"></vue-bread>
+        <div class="incomeDesc container mt20">{{getBpIncomeDesc()}} <a target="_blank" href="mailto:service@contentos.io">service@contentos.io</a></div>
         <div v-if="bpList && bpList.length" class="container mt20">
             <div class="maxPageTips">Display the latest {{maxBpPageNum}} pages of data</div>
             <div class="explorer-table-container">
@@ -72,6 +80,7 @@
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
                         <th class="bpListHeaderCol voteCountHeaderCol">Supporter</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Annualized Rate</th>
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >
@@ -90,6 +99,7 @@
 
                         <td class="witnessContentCol voteCountContentCol">{{ getVoterCountOfWitness(witness)}}</td>
 
+                        <td class="witnessContentCol detailContentCol">{{getYearAnnualizedRate(witness, i+1)}}</td>
                     </tr>
                 </table>
             </div>
@@ -102,8 +112,11 @@
 </template>
 <script>
     let api = require("@/assets/api"),
-        utility = require("@/assets/utility");
+        utility = require("@/assets/utility"),
+        BigNumber = require("bignumber.js");
     const bpPageSize = 30;
+    const yearReward = 3061425
+    const minBpVest = 30000
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -230,7 +243,29 @@
                 }
                 this.isFetching = true;
                 this.nthPage(this.currentPage + 1);
+            },
+
+            getBpIncomeDesc() {
+                return "If you want to be selected for TOP21, you need to invest at least " + minBpVest.toLocaleString() +"VEST, you will get "+ yearReward.toLocaleString() +"VEST per year, and the estimated annualized rate of return is " + this.calcInterestRate() + "%." +
+                    " If you are willing to become BP, please contact us at"
+            },
+
+            calcInterestRate() {
+                return parseFloat((minBpVest / yearReward * 100).toFixed(6))
+            },
+
+            getYearAnnualizedRate(bp, rank) {
+                if (rank >= 22) {
+                    return "0%"
+                }
+                let vest = bp.getBpVest().getVoteVest().getValue()
+                let bigVest = BigNumber(vest)
+                let bigYearReward = BigNumber(yearReward).multipliedBy("1000000")
+                let rate = parseFloat(bigVest.dividedBy(bigYearReward).multipliedBy(BigNumber(100)).toNumber().toFixed(6))
+                return rate + "%"
             }
+
+
         },
         mounted() {
             this.loadData();
