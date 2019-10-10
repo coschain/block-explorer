@@ -69,8 +69,9 @@
 <template>
     <div class="vue-bp fullfill">
         <vue-bread title="Block Producers"></vue-bread>
-        <div class="incomeDesc container mt20">{{getBpIncomeDesc()}} <a target="_blank" href="mailto:service@contentos.io">service@contentos.io</a></div>
         <div v-if="bpList && bpList.length" class="container mt20">
+            <div class="incomeDesc">{{getBpIncomeDesc()}} <a target="_blank" href="mailto:service@contentos.io">service@contentos.io</a></div>
+
             <div class="maxPageTips">Display the latest {{maxBpPageNum}} pages of data</div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
@@ -116,7 +117,8 @@
         BigNumber = require("bignumber.js");
     const bpPageSize = 30;
     const yearReward = 3061425
-    const minBpVest = 30000
+    const bpNum = 21
+    const cosDecimal = 1000000
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -246,12 +248,14 @@
             },
 
             getBpIncomeDesc() {
-                return "If you want to be selected for TOP21, you need to invest at least " + minBpVest.toLocaleString() +"VEST, you will get "+ yearReward.toLocaleString() +"VEST per year, and the estimated annualized rate of return is " + this.calcInterestRate() + "%." +
-                    " If you are willing to become BP, please contact us at"
+                return "If you want to be selected for TOP21, you need to invest at least " + this.getMinBpVest().toLocaleString() +"VEST, you will get "+ yearReward.toLocaleString() +"VEST per year, and the estimated annualized rate of return is " + this.calcInterestRate() + "%." +
+                    " If you are willing to become Block Producer, please contact us at"
             },
 
+
             calcInterestRate() {
-                return parseFloat((yearReward / minBpVest * 100).toFixed(6))
+                let minBpVest = this.getMinBpVest()
+                return Math.floor(yearReward / minBpVest * 100)
             },
 
             getYearAnnualizedRate(bp, rank) {
@@ -260,9 +264,25 @@
                 }
                 let vest = bp.getBpVest().getVoteVest().getValue()
                 let bigVest = BigNumber(vest)
-                let bigYearReward = BigNumber(yearReward).multipliedBy("1000000")
-                let rate = parseFloat(bigYearReward.dividedBy(bigVest).multipliedBy(BigNumber(100)).toNumber().toFixed(6))
+                let bigYearReward = BigNumber(yearReward).multipliedBy(BigNumber(cosDecimal))
+                let rate = Math.floor(bigYearReward.dividedBy(bigVest).multipliedBy(BigNumber(100)).toNumber())
                 return rate + "%"
+            },
+
+            getMinBpVest() {
+                if (this.bpList.length > 0) {
+                    let num = this.bpList.length
+                    let minNum = 0
+                    if (num >= bpNum) {
+                          minNum = bpNum
+                    } else {
+                        minNum = num
+                    }
+                    let minVestBp = this.bpList[minNum-1]
+                    let bigVest = BigNumber(minVestBp.getBpVest().getVoteVest().getValue()).dividedBy(BigNumber(cosDecimal))
+                    return Math.floor(bigVest.toNumber())
+                }
+                return 0
             }
 
 
