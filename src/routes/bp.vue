@@ -81,7 +81,7 @@
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Time</th>
                         <th class="bpListHeaderCol bpListHeaderDetailCol">Vest</th>
                         <th class="bpListHeaderCol voteCountHeaderCol">Supporter</th>
-                        <th class="bpListHeaderCol bpListHeaderDetailCol">Annualized Rate(Year)</th>
+                        <th class="bpListHeaderCol bpListHeaderDetailCol">Annualized ROI</th>
                     </tr>
 
                     <tr v-for="(witness, i) in bpList" :key="i" >
