@@ -51,12 +51,40 @@
         width: 10%;
     }
 
-    .vue-bp .incomeDesc {
+
+    .vue-bp .incomeTitle {
         font-size: 18px;
+    }
+
+    .vue-bp .incomeBase {
         color: black;
         text-align: left;
         word-wrap: break-word;
         word-break: break-word;
+    }
+
+    .vue-bp .incomeDesc {
+        font-size: 14px;
+    }
+
+    .vue-bp .contactBtn {
+        margin-top: 5px;
+        padding: 3px 6px;
+        outline-style: none;
+        border-radius: 5px;
+        background-color: #0057FF;
+        color: white;
+        text-decoration: none;
+        box-sizing: border-box;
+        border-style: none;
+    }
+
+    .vue-bp .contactLink {
+        width: 100%;
+        color: white;
+        text-decoration: none;
+        outline-style: none;
+        border-style: none;
     }
 
     @media (max-width: 768px) {
@@ -70,8 +98,15 @@
     <div class="vue-bp fullfill">
         <vue-bread title="Block Producers"></vue-bread>
         <div v-if="bpList && bpList.length" class="container mt20">
-            <div class="incomeDesc">{{getBpIncomeDesc()}} <a target="_blank" href="mailto:service@contentos.io">service@contentos.io</a></div>
-
+            <div class="alert alert-primary">
+                <div class="incomeTitle incomeBase">Call for Block Producers</div>
+                <div class="incomeBase incomeDesc">Minimum votes tp be elected: {{getMinBpVest().toLocaleString()}} VEST</div>
+                <div class="incomeBase incomeDesc">Highest Accumulated Reward：{{getMaxAccumulatedReward()}} VEST</div>
+                <div class="incomeBase incomeDesc">Highest Annualized ROI: {{getMaxAnnualizedRate()}}({{getMaxAnnualizedAccountName()}})</div>
+                <button class="contactBtn">
+                    <a class="contactLink" target="_blank" href="mailto:service@contentos.io">CONTACT</a>
+                </button>
+            </div>
             <div class="maxPageTips">Display the latest {{maxBpPageNum}} pages of data</div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
@@ -273,18 +308,34 @@
 
             getMinBpVest() {
                 if (this.bpList.length > 0) {
-                    let num = this.bpList.length
-                    let minNum = 0
-                    if (num >= bpNum) {
-                          minNum = bpNum
-                    } else {
-                        minNum = num
-                    }
-                    let minVestBp = this.bpList[minNum-1]
+                    let minVestBp = this.getTop21MinVestBp()
                     let bigVest = BigNumber(minVestBp.getBpVest().getVoteVest().getValue()).dividedBy(BigNumber(cosDecimal))
                     return Math.floor(bigVest.toNumber())
                 }
                 return 0
+            },
+
+            getTop21BpNumber() {
+                if (this.bpList.length > 0) {
+                    let num = this.bpList.length
+                    let minNum = 0
+                    if (num >= bpNum) {
+                        minNum = bpNum
+                    } else {
+                        minNum = num
+                    }
+                    return minNum
+                }
+                return 0
+            },
+
+            getTop21MinVestBp() {
+                if (this.bpList.length > 0) {
+                    let minNum = this.getTop21BpNumber()
+                    let minVestBp = this.bpList[minNum-1]
+                    return minVestBp
+                }
+                return null
             },
 
             getBpAccumulatedReward(bp) {
@@ -296,6 +347,45 @@
                     return bigVal.decimalPlaces(6).toNumber()
                 }
                 return 0
+            },
+
+            getMaxAccumulatedReward() {
+                if (this.bpList.length > 0) {
+                    let finalReward = BigNumber(0)
+                    let top21Num = this.getTop21BpNumber()
+                    for (let i = 0; i < top21Num; i++) {
+                        let bp = this.bpList[i]
+                        let genBlkNum = bp.getGenBlockCount()
+                        let reward = BigNumber(singleBlkReward * genBlkNum)
+                        if (finalReward.comparedTo(reward) < 0) {
+                            finalReward = reward
+                        }
+                    }
+                    return utility.numberAddComma(finalReward.decimalPlaces(6).toNumber())
+
+                }
+                return 0
+            },
+
+            getMaxAnnualizedRate() {
+                if (this.bpList.length > 0) {
+                    let minBpVest = this.getMinBpVest()
+                    if (minBpVest > 0) {
+                        let bigVest = BigNumber(minBpVest)
+                        let bigYearReward = BigNumber(yearReward)
+                        let rate = Math.floor(bigYearReward.dividedBy(bigVest).multipliedBy(BigNumber(100)).toNumber())
+                        return rate + "%"
+                    }
+                }
+                return "0%"
+            },
+
+            getMaxAnnualizedAccountName() {
+                if (this.bpList.length > 0) {
+                    let bp = this.getTop21MinVestBp()
+                    return bp.getOwner().getValue()
+                }
+                return ""
             },
 
             getBpDesc(bp, rank) {
@@ -319,9 +409,7 @@
                     return false
                 }
                 return true
-            }
-
-
+            },
 
         },
         mounted() {
