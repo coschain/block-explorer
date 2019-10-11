@@ -104,7 +104,7 @@
                 <div class="incomeBase incomeDesc">Highest Accumulated Reward：{{getMaxAccumulatedReward()}} VEST</div>
                 <div class="incomeBase incomeDesc">Highest Annualized ROI: {{getMaxAnnualizedRate()}}({{getMaxAnnualizedAccountName()}})</div>
                 <button class="contactBtn">
-                    <a class="contactLink" target="_blank" href="mailto:service@contentos.io">CONTACT</a>
+                    <a class="contactLink" target="_blank" href="mailto:bp@contentos.io">CONTACT</a>
                 </button>
             </div>
             <div class="maxPageTips">Display the latest {{maxBpPageNum}} pages of data</div>
