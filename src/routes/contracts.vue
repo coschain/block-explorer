@@ -28,7 +28,7 @@
         text-overflow: ellipsis;
         margin-top: 17px;
     }
-    
+
 </style>
 <template>
     <div class="vue-contracts fullfill">
@@ -54,8 +54,8 @@
 
                     <td class="contractContentCol">
                         <router-link v-if="contract.hasName()" class="font-14" v-bind:to='fragApi + "/contract-detail/"
-                        + contract.getName().getValue() + "/" + contract.getOwner().getValue()' target="_blank">
-                            <span>{{contract.getName().getValue()}}</span>
+                        + getContractName(contract) + "/" + contract.getOwner().getValue()' target="_blank">
+                            <span>{{getContractName(contract)}}</span>
                         </router-link >
                     </td>
                     <td class="contractContentCol">
@@ -189,6 +189,14 @@
                 this.isFetching = true;
                 this.nthPage(this.currentPage + 1);
             },
+
+            getContractName(contractInfo) {
+                if (utility.judgeIsNotEmpty(contractInfo)) {
+                    let name = utility.filterXSS(contractInfo.getName().getValue());
+                    return name
+                }
+                return ""
+            }
         },
         mounted() {
             this.loadData();

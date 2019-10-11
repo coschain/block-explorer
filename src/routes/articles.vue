@@ -201,7 +201,7 @@
 
             timeConversion(ms) {
                 return utility.timeConversion(ms);
-            },  
+            },
             toWei(n) {
                 return utility.toWei(n);
             },
@@ -239,7 +239,7 @@
                         //if the parentId exist,indicate is reply
                         return "Reply";
                     }
-                    return info.getTitle();
+                    return utility.filterXSS(info.getTitle());
                 }
                 return ""
             },

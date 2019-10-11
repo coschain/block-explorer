@@ -245,7 +245,7 @@
                 // location.reload();
             },
             onSubmit() {
-                let content = this.search.trim();
+                let content = utility.filterXSS(this.search.trim());
                 if (content.length === 0) {
                     this.search = "";
                     return;
@@ -271,6 +271,7 @@
                 this.isShowRpcAlert = false;
             },
             modifyRpcAddress(address) {
+                address = utility.filterXSS(address)
                 this.isShowRpcAlert = false;
                 if (address) {
                     let isNetAddress = false;

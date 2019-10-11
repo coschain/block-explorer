@@ -91,7 +91,7 @@
                             </router-link>
                         </td>
                         <td class="font-color-000000 tagAndContent">{{ getTitleOfArticle(post) }}</td>
-                        <td class="font-color-000000 tagAndContent ">{{ post.getBody()}} </td>
+                        <td class="font-color-000000 tagAndContent ">{{ getContentOfArticle(post)}} </td>
                         <td class="font-color-000000 tagAndContent">{{fetchArticleTag(post.getTagsList())}}</td>
                         <td  class="ont-color-000000 tagAndContent">{{post.getVoteCnt()}}</td>
                     </tr>
@@ -215,6 +215,7 @@
                 let tag = "";
                 if (tagsArray.length > 0) {
                     tag = tagsArray.join(",");
+                    tag = utility.filterXSS(tag)
                 }
 
                 return tag;
@@ -247,7 +248,14 @@
                         //if the parentId exist,indicate is reply
                         return "Reply";
                     }
-                    return info.getTitle();
+                    return utility.filterXSS(info.getTitle())
+                }
+                return ""
+            },
+
+            getContentOfArticle(info) {
+                if (utility.judgeIsNotEmpty(info)) {
+                    return utility.filterXSS(info.getBody())
                 }
                 return ""
             },

@@ -216,7 +216,7 @@
                     <div class="proDesc font-color-555555">{{getTitleDesc(articleInfo)}}:</div>
 <!--                    <div class="proValue font-color-000000">{{getTitleByPostInfo(articleInfo)}}</div>-->
                     <template v-if="getPostType(articleInfo)===0">
-                     <div class="proValue font-color-000000">{{articleInfo.getTitle()}}</div>
+                     <div class="proValue font-color-000000">{{getArticleTitle(articleInfo)}}</div>
                     </template>
                     <template v-if="getPostType(articleInfo)===1">
                       <div class="proValue font-color-000000" >
@@ -363,6 +363,7 @@
     import linkifyHtml from 'linkifyjs/html';
     import * as linkify from "linkifyjs";
     import {raw_type} from "cos-grpc-js"
+    import * as utils from "../assets/utility"
 
     const copyrightType = {
         copyrightTypeUnKnown: 0,//Unknown
@@ -486,6 +487,7 @@
                  let tag = "";
                  if (tagsArray.length > 0) {
                      tag = tagsArray.join(",");
+                     tag = utils.filterXSS(tag)
                  }
 
                  return tag;
@@ -562,7 +564,8 @@
 
              convertLinkInPostContent(content) {
                  if (content != null && typeof content == "string") {
-                     return linkifyHtml(content,linkify.options.defaults);
+                     let filterContent = utils.filterXSS(content)
+                     return linkifyHtml(filterContent,linkify.options.defaults);
                  }
                  return content;
              },
@@ -602,6 +605,20 @@
                  }
                  return "UnKnown";
              },
+
+             getArticleTitle(article) {
+                 if (utils.judgeIsNotEmpty(article)) {
+                     return utils.filterXSS(article.getTitle())
+                 }
+                 return ""
+             },
+
+             getArticleContent(article) {
+                 if (utils.judgeIsNotEmpty(article)) {
+                     return utils.filterXSS(article.getContent())
+                 }
+                 return ""
+             }
 
          }
     };

@@ -20,6 +20,8 @@ const rpcCacheKey = "rpcAddress";
 const complexCacheMapKey = "complexMapKey";
 let irreversibleNum = 0;
 const isUpdateSys = false;
+
+import xss from 'xss';
 module.exports = {
     isUpdateSys,
     pageCacheType:pageCacheType,
@@ -57,6 +59,7 @@ module.exports = {
     getTrxStatusByTrxInfo:getTrxReceiptStatusByTrxInfo,
     getTrxStatusByTrxWrap:getTrxReceiptStatusByWrap,
     judgeIsNotEmpty:judgeIsNotEmpty,
+    filterXSS:filterXSS
 };
 
 ////////////////////////////////////////////////////////////
@@ -532,4 +535,14 @@ function getTrxReceiptStatusByWrap(txWrap) {
 
 function judgeIsNotEmpty(obj) {
     return obj != null && typeof obj != "undefined";
+}
+
+function filterXSS(data) {
+    return xss(data, {
+        whiteList: {
+            // a: ['title', 'target', 'class', 'data-id'],
+        },
+        stripIgnoreTag: true, // Filter all non-whitelisted HTML
+        stripIgnoreTagBody: ['script'], // The script tag is special, you need to filter the content in the middle of the tag.
+    });
 }

@@ -100,7 +100,7 @@
         <div v-if="bpList && bpList.length" class="container mt20">
             <div class="alert alert-primary">
                 <div class="incomeTitle incomeBase">Call for Block Producers</div>
-                <div class="incomeBase incomeDesc">Minimum votes tp be elected: {{getMinBpVest().toLocaleString()}} VEST</div>
+                <div class="incomeBase incomeDesc">Minimum votes to be elected: {{getMinBpVest().toLocaleString()}} VEST</div>
                 <div class="incomeBase incomeDesc">Highest Accumulated Reward：{{getMaxAccumulatedReward()}} VEST</div>
                 <div class="incomeBase incomeDesc">Highest Annualized ROI: {{getMaxAnnualizedRate()}}({{getMaxAnnualizedAccountName()}})</div>
                 <button class="contactBtn">

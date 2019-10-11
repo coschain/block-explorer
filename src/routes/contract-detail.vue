@@ -469,7 +469,7 @@
                 isShowOriCode: false, // whether display origin json code of query result or display in table format
                 reverseElId: "reverseCheckBox",
                 isReverse: false, // whether is inquire in reverse order
-                ctrName:this.$route.params.cName,//contract name
+                ctrName:utility.filterXSS(this.$route.params.cName),//contract name
                 ctrDesc:"",//contract description
                 ctrOriCodePosition: "",//the position of contract origin code
                 isDisplaySwitch: true,
@@ -497,7 +497,7 @@
                     }
 
                     if (contract.getDescribe&&contract.getDescribe().length) {
-                        this.ctrDesc = contract.getDescribe();
+                        this.ctrDesc = utility.filterXSS(contract.getDescribe());
 
                     }
 
@@ -566,7 +566,7 @@
 
             startQueryContract() {
                 let tName = this.$refs.tableName[0].getCurrentValue();
-                let lowerBound = this.$refs.lowerBound[0].getCurrentValue();
+                let lowerBound = utility.filterXSS(this.$refs.lowerBound[0].getCurrentValue());
                 if (this.judgeStartIsNeedConvertToJson(lowerBound)) {
                     //convert string to json string
                     lowerBound = JSON.stringify(lowerBound);
@@ -775,7 +775,7 @@
                     if (filed === "table") {
                         this.curTableName = val["value"];
                     }
-                } 
+                }
             },
 
             getFieldValueByName(obj, name) {
@@ -818,7 +818,8 @@
 
             convertTolinkifyHtml(content) {
                 if (content != null && typeof content == "string") {
-                    return linkifyHtml(content,linkify.options.defaults);
+                    let filterContent = utility.filterXSS(content)
+                    return linkifyHtml(filterContent,linkify.options.defaults);
                 }
                 return content;
             },
