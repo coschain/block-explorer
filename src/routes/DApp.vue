@@ -222,7 +222,7 @@
 
             getDAppList() {
                 if (this.checkIsProduction())  {
-                    return [DAppType.DAppTypeCos];
+                    return [DAppType.DAppTypeCos, DAppType.DAppTypePg];
                 }
                 return [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin];
             },
