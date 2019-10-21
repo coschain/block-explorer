@@ -145,7 +145,7 @@
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Operations:</td>
                         <td>
-                            <pre v-highlightjs><code class="json operation-json-bg">{{ getOperationOfTx(trx) | pretty }}</code></pre>
+                            <highlight-code lang="json">{{ getOperationOfTx(trx) | pretty }}</highlight-code>
                         </td>
                     </tr>
 
@@ -211,7 +211,7 @@
                 <div class="mobileCell">
                     <div class="font-color-555555">Operations:</div>
                     <div class="detail">
-                        <pre v-highlightjs><code class="json operation-json-bg">{{ getOperationOfTx(trx) | pretty }}</code></pre>
+                        <highlight-code lang="json">{{ getOperationOfTx(trx) | pretty }}</highlight-code>
                     </div>
                 </div>
             </div>
