@@ -130,7 +130,7 @@
 
                         <td class="witnessContentCol statusContentCol">{{ getVoterCountOfWitness(witness)}}</td>
 
-                        <td class="witnessContentCol detailContentCol">{{ witness.getBpVest().getVoteVest().toString()}}</td>
+                        <td class="witnessContentCol detailContentCol">{{ getBpVoteVest(witness)}}</td>
                         <td class="witnessContentCol statusContentCol">
                             {{getBpDesc(witness, i+1)}}
                         </td>
@@ -410,6 +410,18 @@
                 }
                 return true
             },
+
+            getBpVoteVest(bp) {
+                if (utility.judgeIsNotEmpty) {
+                    let oriVest = bp.getBpVest().getVoteVest()
+                    console.log("origin vest is:", oriVest)
+                    console.log("origin vest object is:", oriVest.toObject())
+                    let strVest = oriVest.toString()
+                    console.log("strVest is:", strVest)
+                   return bp.getBpVest().getVoteVest().toString()
+                }
+                return ""
+            }
 
         },
         mounted() {
