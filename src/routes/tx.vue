@@ -145,7 +145,7 @@
                     <tr>
                         <td class="font-16 font-color-555555" style="padding-left: 24px;">Operations:</td>
                         <td>
-                            <pre v-highlightjs><code class="json operation-json-bg">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                            <pre v-highlightjs><code class="json operation-json-bg">{{ getOperationOfTx(trx) | pretty }}</code></pre>
                         </td>
                     </tr>
 
@@ -211,7 +211,7 @@
                 <div class="mobileCell">
                     <div class="font-color-555555">Operations:</div>
                     <div class="detail">
-                        <pre v-highlightjs><code class="json operation-json-bg">{{ trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList() | pretty }}</code></pre>
+                        <pre v-highlightjs><code class="json operation-json-bg">{{ getOperationOfTx(trx) | pretty }}</code></pre>
                     </div>
                 </div>
             </div>
@@ -342,7 +342,15 @@
                     return "" + total + " (" + cpuCon + "CPU / " + netCon + "Net" + ")"
                 }
                 return "0"
-            }
+            },
+            getOperationOfTx(trx) {
+                if (utility.judgeIsNotEmpty(trx)) {
+                   return trx.getTrxWrap().getSigTrx().getTrx().getOperationsObjectList()
+                }
+                return ""
+            },
+
+
 
         },
 
@@ -350,6 +358,6 @@
             pretty: function(value) {
                 return JSON.stringify(value, null, 2);
             }
-        }
+        },
     };
 </script>

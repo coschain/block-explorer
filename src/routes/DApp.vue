@@ -323,7 +323,7 @@
                         data = stat.getTrxs();
                         tips = "Transactions:";
                     } else if (type === chartType.chartTypeTxAmount) {
-                        data = BigNumber(stat.getAmount()).div(1000000).toFixed(1);
+                        data = BigNumber(stat.getAmount()).div(1000000).toFixed(0);
                         tips = "Transaction Amount:"
                     } else if (type === chartType.chartTypeTotalUser) {
                         data = stat.getTotalUserCount();

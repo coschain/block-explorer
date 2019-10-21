@@ -135,7 +135,7 @@
                             {{getBpDesc(witness, i+1)}}
                         </td>
 
-                        <td class="witnessContentCol detailContentCol">{{getBpAccumulatedReward(witness)}}VEST</td>
+                        <td class="witnessContentCol detailContentCol">{{getBpAccumulatedReward(witness)}} VEST</td>
                         <td class="witnessContentCol detailContentCol">{{getYearAnnualizedRate(witness, i+1)}}</td>
                     </tr>
                 </table>
