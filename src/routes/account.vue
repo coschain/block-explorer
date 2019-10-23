@@ -217,6 +217,55 @@
         padding-left: 16px;
     }
 
+    .vue-account .voterListHeader {
+        margin-top: 20px;
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 46px;
+        background-color: rgba(247, 247, 247, 1);
+        font-size: 14px ;
+    }
+
+    .vue-account .voterListHeader .headerCol {
+        width: 50%;
+        padding-left: 15px;
+    }
+
+    .vue-account .listBg {
+        background-color: white;
+    }
+
+    .vue-account .voterListContent {
+        display:flex;
+        flex-direction: row;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: center;
+        align-items: center;
+        height: 50px;
+        font-size: 14px ;
+    }
+
+    .vue-account .voterListContent .voterListContentCol {
+        width: 50%;
+        padding-left: 15px;
+        color: rgba(85, 85, 85, 1);
+    }
+
+    .vue-account .listBg:nth-of-type(odd) {
+        background: rgba(247, 247, 247, 1);
+    }
+
+    .vue-account .listBg:nth-of-type(event) {
+        background: rgba(255, 255, 255, 1);
+    }
+
 </style>
 <template>
     <!-- https://etherscan.io/account/0xea674fdde714fd979de3edf0f56aa9716b898ec8 -->
@@ -331,6 +380,29 @@
                     <td class="font-16 font-color-000000">{{accountInfo.toObject().staminaStakeRemain}}</td>
                 </tr>
             </table>
+
+            <div v-if="voterList.length > 0">
+                <div class="font-18 font-color-000000 table-title">
+                    Voters to BP {{ accountInfo.toObject().accountName.value }}
+                </div>
+                <div class="voterListHeader font-bold font-color-000000">
+                    <div class="headerCol">Account</div>
+                    <div class="headerCol">Vest</div>
+                </div>
+                <!--content-->
+                <div v-for="voter in voterList" class="listBg">
+                    <div class="voterListContent">
+                        <div class="voterListContentCol">
+                            <router-link v-bind:to='fragApi + "/account/" + voter.getAccountName().getValue()'>
+                                <span class="monospace">{{voter.getAccountName().getValue()}}</span>
+                            </router-link>
+                        </div>
+                        <div class="voterListContentCol">{{voter.getVest().toString()}}</div>
+                    </div>
+                </div>
+                <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageBpVoterData">Load More</button>
+            </div>
+
 
             <div class="mobile-detail d-md-none">
                 <div class="mobileCell">
@@ -465,6 +537,11 @@
                     this.$root.showModalLoading = false;
                     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
                 });
+                api.fetchAccountBpVoterList(this.$route.params.id, 30, null).then(res => {
+                    this.voterList = res.getVoterList();
+                }).catch(({ errCode, msg }) => {
+                    console.log(errCode, msg);
+                })
 
             //     api.getaccount(this.$route.params.id, o => {
             //         this.$root.showModalLoading = false;
@@ -531,6 +608,7 @@
                 isNoNrc20Tx: false,
                 accountInfo: null,
                 createTime: 0,
+                voterList: []
             };
         },
         methods: {
@@ -637,6 +715,16 @@
                     return desc;
                 }
                 return ""
+            },
+
+            onClickLoadNextPageBpVoterData() {
+                let lastVoter = this.voterList[this.voterList.length - 1].getAccountName();
+                api.fetchAccountBpVoterList(this.$route.params.id, 30, lastVoter).then(res => {
+                    let voterList = res.getVoterList();
+                    this.voterList = this.voterList.concat(voterList);
+                }).catch(({ errCode, msg }) => {
+                    console.log(errCode, msg)
+                })
             }
 
         },

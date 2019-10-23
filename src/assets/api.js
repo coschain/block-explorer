@@ -957,6 +957,50 @@ module.exports = {
         }
     },
 
+    async fetchAccountBpVoterList(bpName, limit, lastVoter) {
+        let result = newWebServiceResponse();
+        try {
+            let req = new cos_sdk.grpc.GetBlockProducerVoterListRequest();
+            let bp = new cos_sdk.raw_type.account_name();
+            bp.setValue(bpName);
+            req.setBlockProducer(bp);
+            req.setLimit(limit);
+            req.setLastVoter(lastVoter);
+            return new Promise((resolve, reject) => {
+                grpc_web.unary(cos_sdk.grpc_service.ApiService.GetBlockProducerVoterList, {
+                    request: req,
+                    host: getHost(),
+                    onEnd: res => {
+                        const {status, statusMessage, headers, message, trailers} = res;
+                        if (status === grpc_web.Code.OK && message) {
+                            resolve(message);
+                        } else {
+                            let err = {
+                                errCode: status,
+                                msg: statusMessage,
+                            };
+                            reject(err);
+                        }
+                    }
+                });
+            })
+            // }).then(res => {
+            //     result.res = res;
+            //     result.errMsg = null;
+            //     result.errCode = null;
+            //     return result;
+            // }).catch(({ errCode, msg }) => {
+            //     result.res = null;
+            //     result.errCode = errCode;
+            //     result.errMsg = msg;
+            //     return result;
+            // });
+        } catch (e) {
+            result.errMsg = e;
+            return result;
+        }
+    },
+
     async fetchAccountListByVest(start, end, pageSize, lastAccount) {
         let result = newWebServiceResponse();
         try {
