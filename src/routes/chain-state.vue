@@ -47,7 +47,7 @@
     <div class="vue-chain-state fullfill">
         <vue-bread title="Global Dynamic Properties"></vue-bread>
         <div v-if="stateInfo" class="container vue-state-info-container listBg">
-            <table class="explorer-table d-none d-md-table" style="table-layout: auto">
+            <table class="explorer-table d-md-table" style="table-layout: auto">
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Total COS:
                     </td>
