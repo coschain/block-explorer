@@ -381,7 +381,7 @@
                 </tr>
             </table>
 
-            <div v-if="voterList.length > 0">
+            <div class="d-none d-md-block" v-if="voterList.length > 0">
                 <div class="font-18 font-color-000000 table-title">
                     Voters to BP {{ accountInfo.toObject().accountName.value }}
                 </div>
@@ -400,7 +400,9 @@
                         <div class="voterListContentCol">{{voter.getVest().toString()}}</div>
                     </div>
                 </div>
-                <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageBpVoterData">Load More</button>
+                <div class="text-center">
+                    <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageBpVoterData">Load More</button>
+                </div>
             </div>
 
 
@@ -486,6 +488,30 @@
                 <div>
                     <div class="font-color-555555">Pledge Stamina:</div>
                     <div class="font-16 font-color-000000">{{accountInfo.toObject().staminaStakeRemain}}</div>
+                </div>
+
+                <div class="mobileCell" v-if="voterList.length > 0">
+                    <div class="font-18 font-color-000000 table-title">
+                        Voters to BP {{ accountInfo.toObject().accountName.value }}
+                    </div>
+                    <div class="voterListHeader font-bold font-color-000000">
+                        <div class="headerCol">Account</div>
+                        <div class="headerCol">Vest</div>
+                    </div>
+                    <!--content-->
+                    <div v-for="voter in voterList" class="listBg">
+                        <div class="voterListContent">
+                            <div class="voterListContentCol">
+                                <router-link v-bind:to='fragApi + "/account/" + voter.getAccountName().getValue()'>
+                                    <span class="monospace">{{voter.getAccountName().getValue()}}</span>
+                                </router-link>
+                            </div>
+                            <div class="voterListContentCol">{{voter.getVest().toString()}}</div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageBpVoterData">Load More</button>
+                    </div>
                 </div>
             </div>
         </div>
