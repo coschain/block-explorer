@@ -31,17 +31,39 @@
         font-size: 11px ;
     }
     .vue-user-trx .trxListHeadCol {
-        width: calc(100% / 6);
+        width: calc(100% / 7);
+    }
+
+    .vue-user-trx .active {
+        font-weight: bold;
     }
 
     .vue-user-trx .txContentCol {
         display:inline-block;
-        width: calc(100% / 6);
+        width: calc(100% / 7);
         height: 50px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         margin-top: 17px;
+    }
+
+    .vue-user-trx .nav-item-text {
+        font-size: 18px;
+        color: #000000;
+        letter-spacing: 0;
+    }
+
+    .vue-user-trx .nav-item-text:hover {
+        cursor: pointer;
+    }
+
+    .vue-user-trx nav > div + div {
+        border-left: 1px solid #000000;
+    }
+
+    .vue-user-trx nav > div:first-child {
+        padding-left: 0 !important;
     }
 
 
@@ -52,8 +74,16 @@
                    v-bind:subtitle="$route.params.account"
                    v-bind:subtitlemonospaced="!!$route.params.account">
         </vue-bread>
+
         <div v-if="trxList && trxList.length" class="container mt20">
-            <div class="maxPageTips">Display the latest {{maxUsrTxsPageNum}} pages of data</div>
+            <div class="nav-scroller">
+                <nav class="nav d-flex justify-content-start">
+                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'trxs'}" @click="currentTab ='trxs'">Sent Txs</div>
+                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'fund'}" @click="currentTab ='fund'">Fund History</div>
+                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'eco'}" @click="currentTab ='eco'">System Reward</div>
+                </nav>
+            </div>
+            <div class="maxPageTips">Display the latest {{maxUsrTxsPageNum}} pages of data, total {{ totalTxs }} records</div>
             <div class="explorer-table-container">
                 <table class="mt20 explorer-table">
                     <tr class="trxListHeader  font-bold font-color-000000">
@@ -61,36 +91,43 @@
                         <th class="trxListHeadCol">Block</th>
                         <th class="trxListHeadCol">Time</th>
                         <th class="trxListHeadCol">From</th>
+                        <th class="trxListHeadCol">To</th>
                         <th class="trxListHeadCol">Action</th>
-                        <th class="trxListHeadCol">Status</th>
+                        <th class="trxListHeadCol">Amount</th>
                     </tr>
 
                     <tr v-for="(trx, i) in trxList" :key="i">
                         <td class="txContentCol">
-                            <router-link v-bind:to='fragApi + "/tx/" + trx.getTrxId().getHexHash()' target="_blank">
-                                <span v-bind:class="[trx.getTrxWrap().getReceipt().getStatus() === 500 ? 'hash-failed' : 'hash-normal', 'monospace']">{{ trx.getTrxId().getHexHash() }}</span>
+                            <router-link v-bind:to='fragApi + "/tx/" + trx.trx_hash' target="_blank">
+                                <span class="monospace">{{ trx.trx_hash }}</span>
                             </router-link>
                         </td>
 
                         <td class="txContentCol">
-                            <router-link class="font-14" v-if='trx.getBlockHeight()' v-bind:to='fragApi + "/block/" + trx.getBlockHeight()' target="_blank">
-                                <span>{{ trx.getBlockHeight() }}</span>
+                            <router-link class="font-14" v-bind:to='fragApi + "/block/" + trx.block_height' target="_blank">
+                                <span>{{ trx.block_height }}</span>
                             </router-link>
                             <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
                         </td>
                         <td class="txContentCol">
-                            {{ timeConversion(Date.now()-trx.getBlockTime().getUtcSeconds()*1000) }} ago
+                            {{ timeConversion(Date.now()-Date.parse(trx.block_time)) }} ago
                         </td>
                         <td class="txContentCol">
-                            <router-link v-bind:to='fragApi + "/account/" + trx.getTrxWrap().getSigTrx().getTrx().sender()' target="_blank">
-                                <span class="monospace">{{ trx.getTrxWrap().getSigTrx().getTrx().sender() }}</span>
+                            <router-link v-bind:to='fragApi + "/account/" + trx.from' target="_blank">
+                                <span class="monospace">{{ trx.from }}</span>
                             </router-link>
                         </td>
                         <td class="txContentCol">
-                            {{convertOpActionsToStr(trx.getTrxWrap().getSigTrx().getTrx().getAllActions())}}
+                            <router-link v-bind:to='fragApi + "/account/" + trx.to' target="_blank">
+                                <span class="monospace">{{ trx.to }}</span>
+                            </router-link>
                         </td>
-
-                        <td class="txContentCol">{{getTrxStatus(trx)}}</td>
+                        <td class="txContentCol">
+                            {{ trx.action }}
+                        </td>
+                        <td class="txContentCol">
+                            {{ trx.amount / 1000000 }} COS
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -102,9 +139,10 @@
     </div>
 </template>
 <script>
-    var api = require("@/assets/api"),
-        utility = require("@/assets/utility"),
-        BigNumber = require("bignumber.js");
+    // let api = require("@/assets/api");
+    let elkApi = require("../assets/elkapi");
+    let utility = require("../assets/utility");
+    let BigNumber = require("bignumber.js");
 
     module.exports = {
         components: {
@@ -116,6 +154,7 @@
             return {
                 arr: null,
                 currentPage: 0,
+                currentTab: 'trxs',
                 fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
                 maxDisplayCnt: 0,
                 totalPage: 1,
@@ -134,46 +173,55 @@
             };
         },
         methods: {
-            nthPage(p) {
-                if (p < this.currentPage || p > this.maxUsrTxsPageNum) {
-                    return;
+            async nthPage(p) {
+                // if (p < this.currentPage || p > this.maxUsrTxsPageNum) {
+                //     return;
+                // }
+                // this.$root.showModalLoading = true;
+                // let start = this.listStart;
+                // let lastTrx = this.lastInfo;
+                //
+                // api.fetchUserTrxListByTime(this.account,start,this.firstPageEndTime,30,lastTrx,trxList => {
+                //     if (trxList.length > 0) {
+                //         this.trxList = this.trxList.concat(trxList);
+                //         this.lastInfo = trxList[trxList.length - 1];
+                //         this.listStart = this.lastInfo.getBlockTime();
+                //         if (this.currentPage === 0) {
+                //             this.listEnd = null;
+                //         } else {
+                //             this.listEnd = trxList[0].getBlockTime();
+                //         }
+                //         let curPageLen = this.pageInfo.length;
+                //         let info = {start: this.listStart, lastTrx: this.lastInfo};
+                //         if (curPageLen === 0) {
+                //             info.end = this.firstPageEnd;
+                //         } else {
+                //             if (curPageLen >= 1) {
+                //                 info.end = this.pageInfo[curPageLen - 1].start;
+                //             }
+                //         }
+                //         this.pageInfo.push(info);
+                //         this.currentPage = parseInt(p);
+                //
+                //     }
+                //     this.isShowLoadMore = this.currentPage < this.maxUsrTxsPageNum;
+                //     this.$root.showModalLoading = false;
+                //     this.isFetching = false;
+                // },(errCode,msg) => {
+                //     console.log("Get user's trx list fail,error code is %s,msg is %s",errCode,msg);
+                //     this.isFetching = false;
+                //     this.$root.showModalLoading = false;
+                //     this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
+                // });
+                let page = parseInt(p);
+                let trxs = await this.loadData(page);
+                if (trxs.length > 0) {
+                    this.currentPage = page;
+                    this.trxList = this.trxList.concat(trxs);
                 }
-                this.$root.showModalLoading = true;
-                let start = this.listStart;
-                let lastTrx = this.lastInfo;
-
-                api.fetchUserTrxListByTime(this.account,start,this.firstPageEndTime,30,lastTrx,trxList => {
-                    if (trxList.length > 0) {
-                        this.trxList = this.trxList.concat(trxList);
-                        this.lastInfo = trxList[trxList.length - 1];
-                        this.listStart = this.lastInfo.getBlockTime();
-                        if (this.currentPage === 0) {
-                            this.listEnd = null;
-                        } else {
-                            this.listEnd = trxList[0].getBlockTime();
-                        }
-                        let curPageLen = this.pageInfo.length;
-                        let info = {start: this.listStart, lastTrx: this.lastInfo};
-                        if (curPageLen === 0) {
-                            info.end = this.firstPageEnd;
-                        } else {
-                            if (curPageLen >= 1) {
-                                info.end = this.pageInfo[curPageLen - 1].start;
-                            }
-                        }
-                        this.pageInfo.push(info);
-                        this.currentPage = parseInt(p);
-
-                    }
-                    this.isShowLoadMore = this.currentPage < this.maxUsrTxsPageNum;
-                    this.$root.showModalLoading = false;
-                    this.isFetching = false;
-                },(errCode,msg) => {
-                    console.log("Get user's trx list fail,error code is %s,msg is %s",errCode,msg);
-                    this.isFetching = false;
-                    this.$root.showModalLoading = false;
-                    this.$router.replace((this.$route.params.api ? "/" + this.$route.params.api : "") + "/404");
-                });
+                if (trxs.length < this.maxUsrTxsPageNum) {
+                    this.isShowLoadMore = false
+                }
             },
 
             updateTxsListPage(index,info) {
@@ -196,39 +244,67 @@
                 }
                 return ""
             },
-            loadData() {
+            async loadData(page) {
+                this.$root.showModalLoading = true;
                 let name = this.$route.params.account;
-                let accountName = new api.cos_sdk.raw_type.account_name();
-                accountName.setValue(name);
-                this.account = accountName;
-                let startTime = new api.cos_sdk.raw_type.time_point_sec();
-                startTime.setUtcSeconds(Math.ceil(Date.now()/1000)+2*86400);
-                this.firstPageStartTime = startTime;
-                let endTime = new api.cos_sdk.raw_type.time_point_sec();
-                endTime.setUtcSeconds(1);
-                this.firstPageEndTime = endTime;
+                let trxs = [];
+                switch (this.currentTab) {
+                    case "trxs":
+                        trxs = await elkApi.fetchAccountSendTrxsByPage(name, page, this.maxUsrTxsPageNum);
+                        break;
+                    case "fund":
+                        trxs = await elkApi.fetchAccountFundHistoryByPage(name, page, this.maxUsrTxsPageNum);
+                        break;
+                    case "eco":
+                        trxs = await elkApi.fetchAccountEcoRewardByPage(name, page, this.maxUsrTxsPageNum);
+                        break;
+                }
+                this.$root.showModalLoading = false;
+                this.isFetching = false;
+                return trxs;
             },
-
+            async totalTxsCount() {
+                let count = 0;
+                let name = this.$route.params.account;
+                switch (this.currentTab) {
+                    case "trxs":
+                        count = await elkApi.fetchAccountSendTrxCount(name);
+                        break;
+                    case "fund":
+                        count = await elkApi.fetchAccountFundHistoryCount(name);
+                        break;
+                    case "eco":
+                        count = await elkApi.fetchAccountEcoRewardCount(name);
+                        break;
+                }
+                return count
+            },
             getTrxStatus(trx) {
                 return utility.getTrxStatusByTrxInfo(trx);
             },
 
-            onClickLoadNextPageUsrTxs() {
+            async onClickLoadNextPageUsrTxs() {
                 if (this.isFetching) {
                     return;
                 }
                 this.isFetching = true;
-                this.nthPage(this.currentPage + 1);
+                await this.nthPage(this.currentPage + 1);
             },
         },
-        mounted() {
-            this.loadData();
-            this.nthPage(1);
+        async mounted() {
+            this.totalTxs = await this.totalTxsCount();
+            await this.nthPage(0);
         },
-
         watch: {
-            $route() {
-                this.nthPage(1);
+            $route: async function () {
+                this.totalTxs = await this.totalTxsCount();
+                await this.nthPage(0);
+            },
+            currentTab: async function () {
+                this.trxList = [];
+                this.isShowLoadMore = true;
+                this.totalTxs = await this.totalTxsCount();
+                await this.nthPage(0);
             }
         },
 

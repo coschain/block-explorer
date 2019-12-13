@@ -45,6 +45,7 @@ module.exports = {
     byteToHexStr: convertByteToHexString,
     hexStrToByte: convertHexStringToByteArray,
     getHost: getRpcHost,
+    getElkProxy: getElkProxy,
     setHost: modifyRpcHost,
     clearPagesInfoCache: clearAllPageListDataCache,
     getPageCacheKey: getPageInfoCacheKey,
@@ -70,6 +71,10 @@ function getRpcHost() {
         return cachedAddr;
     }
     return process.env.VUE_APP_CHAIN;
+}
+
+function getElkProxy() {
+    return process.env.VUE_ELK_PROXY;
 }
 
 function modifyRpcHost(address) {

@@ -357,10 +357,10 @@
                 </tr>
 
                 <tr>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Account transaction count:</td>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Account transactions:</td>
                     <td class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id'>
-                            <span>{{accountInfo.toObject().trxCount}}</span>
+                            <span>view</span>
                         </router-link>
                     </td>
                 </tr>
@@ -467,10 +467,10 @@
                 </div>
 
                 <div class="mobileCell">
-                    <div class="font-color-555555">Account transaction count:</div>
+                    <div class="font-color-555555">Account transactions:</div>
                     <div class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id '>
-                        <span>{{accountInfo.toObject().trxCount}}</span>
+                        <span>view</span>
                         </router-link>
                     </div>
                 </div>
