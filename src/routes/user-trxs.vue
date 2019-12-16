@@ -2,6 +2,7 @@
     .vue-user-trx {
         background-color: white;
     }
+
     .vue-user-trx .tip a {
         color: rgb(76, 32, 133);
     }
@@ -19,7 +20,7 @@
     }
 
     .vue-user-trx .trxListHeader {
-        display:flex;
+        display: flex;
         flex-direction: row;
         overflow: hidden;
         white-space: nowrap;
@@ -28,8 +29,9 @@
         align-items: center;
         height: 46px;
         background-color: #e8e8e8;
-        font-size: 11px ;
+        font-size: 11px;
     }
+
     .vue-user-trx .trxListHeadCol {
         width: calc(100% / 7);
     }
@@ -39,7 +41,7 @@
     }
 
     .vue-user-trx .txContentCol {
-        display:inline-block;
+        display: inline-block;
         width: calc(100% / 7);
         height: 50px;
         overflow: hidden;
@@ -75,65 +77,109 @@
                    v-bind:subtitlemonospaced="!!$route.params.account">
         </vue-bread>
 
-        <div v-if="trxList && trxList.length" class="container mt20">
+        <div class="container mt20">
             <div class="nav-scroller">
                 <nav class="nav d-flex justify-content-start">
-                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'trxs'}" @click="currentTab ='trxs'">Sent Txs</div>
-                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'fund'}" @click="currentTab ='fund'">Fund History</div>
-                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'eco'}" @click="currentTab ='eco'">System Reward</div>
+                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'trxs'}"
+                         @click="currentTab ='trxs'">Sent Txs
+                    </div>
+                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'fund'}"
+                         @click="currentTab ='fund'">Fund History
+                    </div>
+                    <div class="px-2 nav-item-text" :class="{active: currentTab === 'eco'}" @click="currentTab ='eco'">
+                        System Reward
+                    </div>
                 </nav>
             </div>
-            <div class="maxPageTips">Display the latest {{maxUsrTxsPageNum}} pages of data, total {{ totalTxs }} records</div>
-            <div class="explorer-table-container">
-                <table class="mt20 explorer-table">
-                    <tr class="trxListHeader  font-bold font-color-000000">
-                        <th class="trxListHeadCol">Hash</th>
-                        <th class="trxListHeadCol">Block</th>
-                        <th class="trxListHeadCol">Time</th>
-                        <th class="trxListHeadCol">From</th>
-                        <th class="trxListHeadCol">To</th>
-                        <th class="trxListHeadCol">Action</th>
-                        <th class="trxListHeadCol">Amount</th>
-                    </tr>
+            <template v-if="trxList.length === 0">
+                <div class="maxPageTips">
+                    No Transactions
+                </div>
+                <div class="explorer-table-container">
+                    <table class="mt20 explorer-table">
+                        <tr class="trxListHeader  font-bold font-color-000000">
+                            <th class="trxListHeadCol">Hash</th>
+                            <th class="trxListHeadCol">Block</th>
+                            <th class="trxListHeadCol">Time</th>
+                            <th class="trxListHeadCol">From</th>
+                            <th class="trxListHeadCol">To</th>
+                            <th class="trxListHeadCol">Action</th>
+                            <th class="trxListHeadCol">Amount</th>
+                        </tr>
+                    </table>
+                </div>
+            </template>
+            <div v-if="trxList && trxList.length">
+                <div class="maxPageTips">Display the latest {{maxUsrTxsPageNum}} pages of data, total {{ totalTxs }}
+                    records
+                </div>
+                <div class="explorer-table-container">
+                    <table class="mt20 explorer-table">
+                        <tr class="trxListHeader  font-bold font-color-000000">
+                            <th class="trxListHeadCol">Hash</th>
+                            <th class="trxListHeadCol">Block</th>
+                            <th class="trxListHeadCol">Time</th>
+                            <th class="trxListHeadCol">From</th>
+                            <th class="trxListHeadCol">To</th>
+                            <th class="trxListHeadCol">Action</th>
+                            <th class="trxListHeadCol">Amount</th>
+                        </tr>
 
-                    <tr v-for="(trx, i) in trxList" :key="i">
-                        <td class="txContentCol">
-                            <router-link v-bind:to='fragApi + "/tx/" + trx.trx_hash' target="_blank">
-                                <span class="monospace">{{ trx.trx_hash }}</span>
-                            </router-link>
-                        </td>
+                        <tr v-for="(trx, i) in trxList" :key="i">
+                            <td class="txContentCol">
+                                <template v-if="isTransactionHash(trx.trx_hash)">
+                                    <router-link v-bind:to='fragApi + "/tx/" + trx.trx_hash' target="_blank">
+                                        <span class="monospace">{{ trx.trx_hash }}</span>
+                                    </router-link>
+                                </template>
+                                <template v-if="!isTransactionHash(trx.trx_hash)">
+                                    <span class="monospace">{{ trx.trx_hash }}</span>
+                                </template>
+                            </td>
 
-                        <td class="txContentCol">
-                            <router-link class="font-14" v-bind:to='fragApi + "/block/" + trx.block_height' target="_blank">
-                                <span>{{ trx.block_height }}</span>
-                            </router-link>
-                            <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
-                        </td>
-                        <td class="txContentCol">
-                            {{ timeConversion(Date.now()-Date.parse(trx.block_time)) }} ago
-                        </td>
-                        <td class="txContentCol">
-                            <router-link v-bind:to='fragApi + "/account/" + trx.from' target="_blank">
-                                <span class="monospace">{{ trx.from }}</span>
-                            </router-link>
-                        </td>
-                        <td class="txContentCol">
-                            <router-link v-bind:to='fragApi + "/account/" + trx.to' target="_blank">
-                                <span class="monospace">{{ trx.to }}</span>
-                            </router-link>
-                        </td>
-                        <td class="txContentCol">
-                            {{ trx.action }}
-                        </td>
-                        <td class="txContentCol">
-                            {{ trx.amount / 1000000 }} COS
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                            <td class="txContentCol">
+                                <router-link class="font-14" v-bind:to='fragApi + "/block/" + trx.block_height'
+                                             target="_blank">
+                                    <span>{{ trx.block_height }}</span>
+                                </router-link>
+                                <!--<i class="font-14 font-color-000000" v-else>pending</i>-->
+                            </td>
+                            <td class="txContentCol">
+                                {{ timeConversion(Date.now()-Date.parse(trx.block_time)) }} ago
+                            </td>
+                            <td class="txContentCol">
+                                <template v-if="isUserName(trx.from)">
+                                    <router-link v-bind:to='fragApi + "/account/" + trx.from' target="_blank">
+                                        <span class="monospace">{{ trx.from }}</span>
+                                    </router-link>
+                                </template>
+                                <template v-if="!isUserName(trx.from)">
+                                    <span class="monospace">{{ trx.from }}</span>
+                                </template>
+                            </td>
+                            <td class="txContentCol">
+                                <template v-if="isUserName(trx.to)">
+                                    <router-link v-bind:to='fragApi + "/account/" + trx.to' target="_blank">
+                                        <span class="monospace">{{ trx.to }}</span>
+                                    </router-link>
+                                </template>
+                                <template v-if="!isUserName(trx.to)">
+                                    <span class="monospace">{{ trx.to }}</span>
+                                </template>
+                            </td>
+                            <td class="txContentCol">
+                                {{ trx.action }}
+                            </td>
+                            <td class="txContentCol">
+                                {{ trx.amount / 1000000 }} COS
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-            <div v-if="isShowLoadMore" class="loadMore-container">
-                <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageUsrTxs()">Load More</button>
+                <div v-if="isShowLoadMore" class="loadMore-container">
+                    <button type="button" class="loadMoreBtn" @click="onClickLoadNextPageUsrTxs()">Load More</button>
+                </div>
             </div>
         </div>
     </div>
@@ -159,11 +205,11 @@
                 maxDisplayCnt: 0,
                 totalPage: 1,
                 totalTxs: 0,
-                listStart:null,
-                listEnd:null,
-                lastInfo:null,
+                listStart: null,
+                listEnd: null,
+                lastInfo: null,
                 trxList: [],
-                pageInfo:[],
+                pageInfo: [],
                 account: null,
                 firstPageStartTime: null,
                 firstPageEndTime: null,
@@ -224,12 +270,17 @@
                 }
             },
 
-            updateTxsListPage(index,info) {
+            updateTxsListPage(index, info) {
                 if (info && index >= 0 && index < this.pageInfo.length) {
-                    this.pageInfo.splice(index,1,info);
+                    this.pageInfo.splice(index, 1, info);
                 }
             },
-
+            isUserName(name) {
+                return name.length >= 6 && name.length <= 16 && name.match(/^[0-9a-z]+$/)
+            },
+            isTransactionHash(trx_hash) {
+                return !trx_hash.includes('_');
+            },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
             },
