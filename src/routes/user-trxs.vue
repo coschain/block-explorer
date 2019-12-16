@@ -150,21 +150,21 @@
                             <td class="txContentCol">
                                 <template v-if="isUserName(trx.from)">
                                     <router-link v-bind:to='fragApi + "/account/" + trx.from' target="_blank">
-                                        <span class="monospace">{{ trx.from }}</span>
+                                        <span class="monospace" :class="{active: itself(trx.from)}">{{ trx.from }}</span>
                                     </router-link>
                                 </template>
                                 <template v-if="!isUserName(trx.from)">
-                                    <span class="monospace">{{ trx.from }}</span>
+                                    <span class="monospace" :class="{active: itself(trx.from)}">{{ trx.from }}</span>
                                 </template>
                             </td>
                             <td class="txContentCol">
                                 <template v-if="isUserName(trx.to)">
                                     <router-link v-bind:to='fragApi + "/account/" + trx.to' target="_blank">
-                                        <span class="monospace">{{ trx.to }}</span>
+                                        <span class="monospace" :class="{active: itself(trx.to)}">{{ trx.to }}</span>
                                     </router-link>
                                 </template>
                                 <template v-if="!isUserName(trx.to)">
-                                    <span class="monospace">{{ trx.to }}</span>
+                                    <span class="monospace" :class="{active: itself(trx.to)}">{{ trx.to }}</span>
                                 </template>
                             </td>
                             <td class="txContentCol">
@@ -280,6 +280,9 @@
             },
             isTransactionHash(trx_hash) {
                 return !trx_hash.includes('_');
+            },
+            itself(name) {
+                return name === this.$route.params.account;
             },
             numberAddComma(n) {
                 return utility.numberAddComma(n);
