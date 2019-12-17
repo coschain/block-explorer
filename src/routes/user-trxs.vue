@@ -50,6 +50,11 @@
         margin-top: 17px;
     }
 
+    .vue-user-trx .txContentCol .wrap{
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+
     .vue-user-trx .nav-item-text {
         font-size: 18px;
         color: #000000;
@@ -168,7 +173,9 @@
                                 </template>
                             </td>
                             <td class="txContentCol">
+                                <span class="wrap">
                                 {{ trx.action }}
+                                </span>
                             </td>
                             <td class="txContentCol">
                                 {{ trx.amount / 1000000 }} COS
