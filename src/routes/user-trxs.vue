@@ -174,7 +174,7 @@
                             </td>
                             <td class="txContentCol">
                                 <span class="wrap">
-                                {{ trx.action }}
+                                {{ rename_action(trx.action) }}
                                 </span>
                             </td>
                             <td class="txContentCol">
@@ -351,6 +351,27 @@
                 this.isFetching = true;
                 await this.nthPage(this.currentPage + 1);
             },
+
+            rename_action(action) {
+                switch (action) {
+                    case "user_transfer_to_contract":
+                        return "transfer_to_contract";
+                    case "contract_transfer_to_user":
+                        return "transfer_from_contract";
+                    case "contract_transfer_vest_to_user":
+                        return "vest_from_contract";
+                    case "esys.reward.post_author":
+                        return "reward.post_author";
+                    case "esys.reward.reply_author":
+                        return "reward.reply_author";
+                    case "esys.reward.voter":
+                        return "reward.voter";
+                    case "esys.reward.dapp":
+                        return "reward.dapp";
+                    default:
+                        return action;
+                }
+            }
         },
         async mounted() {
             this.totalTxs = await this.totalTxsCount();
