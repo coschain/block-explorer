@@ -101,6 +101,10 @@ module.exports = [{
     meta: { headerActive: 2 },
     path: "/:api?/user-trxs/:account/"
 },{
+    component: require("@/routes/user-relevant").default,
+    meta: { headerActive: 2 },
+    path: "/:api?/user-relevant/:account/"
+},{
     component: require("@/routes/article-detail").default,
     meta: {headerActive: 2},
     path: "/:api?/article-detail/:pId",

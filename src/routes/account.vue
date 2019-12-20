@@ -357,9 +357,17 @@
                 </tr>
 
                 <tr>
-                    <td class="base-info-key font-16 font-color-555555 pl-16">Account transactions:</td>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Account transactions count:</td>
                     <td class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id'>
+                            <span>{{accountInfo.toObject().trxCount}}</span>
+                        </router-link>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Relevant transactions:</td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-relevant/" + $route.params.id'>
                             <span>view</span>
                         </router-link>
                     </td>
@@ -465,11 +473,18 @@
                         </router-link>
                     </div>
                 </div>
-
                 <div class="mobileCell">
-                    <div class="font-color-555555">Account transactions:</div>
+                    <div class="font-color-555555">Account Transactions count:</div>
                     <div class="font-16 font-color-000000">
                         <router-link v-bind:to='fragApi + "/user-trxs/" + $route.params.id '>
+                            <span>{{accountInfo.toObject().trxCount}}</span>
+                        </router-link>
+                    </div>
+                </div>
+                <div class="mobileCell">
+                    <div class="font-color-555555">Relevant Transactions:</div>
+                    <div class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-relevant/" + $route.params.id '>
                         <span>view</span>
                         </router-link>
                     </div>
