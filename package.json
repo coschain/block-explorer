@@ -14,7 +14,7 @@
     "axios": "^0.19.0",
     "bignumber.js": "7.2.1",
     "bootstrap": "^4.3.1",
-    "cos-grpc-js": "^1.5.15",
+    "cos-grpc-js": "^1.5.17",
     "font-awesome": "^4.7.0",
     "highcharts": "^6.1.0",
     "highlight.js": "^9.15.8",

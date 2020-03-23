@@ -310,6 +310,26 @@
 
                 </tr>
                 <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Owned Vest:
+                    </td>
+                    <td class="font-16 font-color-000000">{{accountInfo.hasVestOwned()?accountInfo.getVestOwned().toString():""}}</td>
+                </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Lent Vest:
+                    </td>
+                    <td class="font-16 font-color-000000">{{accountInfo.hasVestLent()?accountInfo.getVestLent().toString():""}}</td>
+                </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Borrowed Vest:
+                    </td>
+                    <td class="font-16 font-color-000000">{{accountInfo.hasVestBorrowed()?accountInfo.getVestBorrowed().toString():""}}</td>
+                </tr>
+                <tr>
+                    <td class="base-info-key font-16 font-color-555555 pl-16">Delivering Vest:
+                    </td>
+                    <td class="font-16 font-color-000000">{{accountInfo.hasVestDelivering()?accountInfo.getVestDelivering().toString():""}}</td>
+                </tr>
+                <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Reputation:</td>
                     <td class="font-16 font-color-000000">{{getReputationFromAccountInfo(accountInfo)}}</td>
                 </tr>
