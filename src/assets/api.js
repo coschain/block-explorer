@@ -1101,6 +1101,36 @@ module.exports = {
             result.errMsg = e;
             return result;
         }
+    },
+
+    async fetchUserVestDelegationOrders(account, isLender, pageSize, lastOrderId, success, fail) {
+        if (typeof success != "function" || typeof fail != "function") {
+            console.log("The success or fail is not a callBack function");
+            return
+        }
+        let accountName = new cos_sdk.raw_type.account_name();
+        accountName.setValue(account);
+        let req = new cos_sdk.grpc.GetVestDelegationOrderListRequest();
+        req.setLimit(pageSize);
+        req.setAccount(accountName);
+        req.setIsFrom(isLender);
+        req.setLastOrderId(lastOrderId);
+        let promise = new Promise((resolve, reject) => {
+            grpc_web.unary(cos_sdk.grpc_service.ApiService.GetVestDelegationOrderList, {
+                request: req,
+                host: getHost(),
+                onEnd: res => {
+                    const {status, statusMessage, headers, message, trailers} = res;
+                    if (status === grpc_web.Code.OK && message) {
+                        let obj = message.getOrdersList();
+                        resolve(obj)
+                    } else {
+                        reject(status, statusMessage)
+                    }
+                }
+            })
+        });
+        promise.then(success, fail)
     }
   };
 

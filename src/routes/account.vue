@@ -317,17 +317,29 @@
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Lent Vest:
                     </td>
-                    <td class="font-16 font-color-000000">{{accountInfo.hasVestLent()?accountInfo.getVestLent().toString():""}}</td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-vest-delegation/" + $route.params.id + "/lend"'>
+                            <span>{{accountInfo.hasVestLent()?accountInfo.getVestLent().toString():""}}</span>
+                        </router-link>
+                    </td>
                 </tr>
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Borrowed Vest:
                     </td>
-                    <td class="font-16 font-color-000000">{{accountInfo.hasVestBorrowed()?accountInfo.getVestBorrowed().toString():""}}</td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-vest-delegation/" + $route.params.id + "/borrow"'>
+                            <span>{{accountInfo.hasVestBorrowed()?accountInfo.getVestBorrowed().toString():""}}</span>
+                        </router-link>
+                    </td>
                 </tr>
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Delivering Vest:
                     </td>
-                    <td class="font-16 font-color-000000">{{accountInfo.hasVestDelivering()?accountInfo.getVestDelivering().toString():""}}</td>
+                    <td class="font-16 font-color-000000">
+                        <router-link v-bind:to='fragApi + "/user-vest-delegation/" + $route.params.id + "/lend"'>
+                            <span>{{accountInfo.hasVestDelivering()?accountInfo.getVestDelivering().toString():""}}</span>
+                        </router-link>
+                    </td>
                 </tr>
                 <tr>
                     <td class="base-info-key font-16 font-color-555555 pl-16">Reputation:</td>

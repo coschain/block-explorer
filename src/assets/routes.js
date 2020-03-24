@@ -105,6 +105,10 @@ module.exports = [{
     meta: { headerActive: 2 },
     path: "/:api?/user-relevant/:account/"
 },{
+    component: require("@/routes/user-vest-delegation").default,
+    meta: { headerActive: 2 },
+    path: "/:api?/user-vest-delegation/:account/:ordertype"
+},{
     component: require("@/routes/article-detail").default,
     meta: {headerActive: 2},
     path: "/:api?/article-detail/:pId",
