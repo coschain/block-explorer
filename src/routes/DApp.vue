@@ -183,6 +183,7 @@
             chartTypeTxCnt: 2, // every day tx count of recent 30 day
             chartTypeTxAmount: 3,// every day tx amount of recent 30 day
             chartTypeTotalUser: 4, //total user count
+            chartTypeMau: 5, //mau
     };
 
     const days = 30;
@@ -194,8 +195,9 @@
                // dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
                dAppsArray: this.getDAppList(),
                chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
-                   chartType.chartTypeTxAmount],
+                   chartType.chartTypeTxAmount, chartType.chartTypeMau],
                statList: [],
+               statMList: [],
                fragApi: this.$route.params.api ? "/" + this.$route.params.api : "",
            }
         },
@@ -241,6 +243,20 @@
                 }
                 return str;
             },
+            convertStampToMM(date) {
+                if (!date || date === 'undefined') {
+                    return '';
+                }
+                let t = new Date(date);
+                if (isNaN(t.getMonth())) {
+                    return '';
+                }
+                let str = t.toLocaleDateString('en', { month: 'short' });
+                if (str.length > 6) {
+                    str = t.getMonth() + 1;
+                }
+                return str;
+            },
 
             formatTxsCount(num) {
                 return formatTxsCnt(num);
@@ -271,6 +287,8 @@
                     return "Transaction Amount Per Day";
                 } else if (type === chartType.chartTypeTotalUser) {
                     return "Total User Count";
+                } else if (type === chartType.chartTypeMau) {
+                    return "Monthly Active User";
                 }
                 return ""
             },
@@ -291,13 +309,13 @@
             },
 
             fetchTabTitle(type) {
-                if (type === chartType.chartTypeDAU) {
+                if (type === DAppType.DAppTypePg) {
                     return "PhotoGrid";
-                } else if (type === chartType.chartTypeNewAcct) {
+                } else if (type === DAppType.DAppTypeCos) {
                     return "COS.TV";
-                } else if (type === chartType.chartTypeTxCnt) {
+                } else if (type === DAppType.DAppType2048) {
                     return "Game2048";
-                } else if (type === chartType.chartTypeTxAmount) {
+                } else if (type === DAppType.DAppTypeWalkcoin) {
                     return "WalkCoin";
                 }
                 return ""
@@ -312,30 +330,43 @@
                 let tips = "DAU:";
                 let dateArray = [];
                 let dataArray = [];
-                for (let stat of this.statList) {
-                    let date = this.convertStampToMMDD(stat.getDate()*1000);
-                    dateArray.push(date);
-                    let data = stat.getDau();
-                    if (type === chartType.chartTypeNewAcct) {
-                        data = stat.getDnu();
-                        tips = "DNU:";
-                    } else if (type === chartType.chartTypeTxCnt) {
-                        data = stat.getTrxs();
-                        tips = "Transactions:";
-                    } else if (type === chartType.chartTypeTxAmount) {
-                        data = BigNumber(stat.getAmount()).div(1000000).toFixed(0);
-                        tips = "Transaction Amount:"
-                    } else if (type === chartType.chartTypeTotalUser) {
-                        data = stat.getTotalUserCount();
-                        tips = "Total User Count:"
+                if (type === chartType.chartTypeMau) {
+                    for (let stat of this.statMList) {
+                        let date = this.convertStampToMM(stat.getDate()*1000);
+                        dateArray.push(date);
+                        let data = stat.getMau();
+                        tips = "Mau:";
+                        dataArray.push(data);
                     }
+                } else {
+                    for (let stat of this.statList) {
+                        let date = this.convertStampToMMDD(stat.getDate()*1000);
+                        dateArray.push(date);
+                        let data = stat.getDau();
+                        if (type === chartType.chartTypeNewAcct) {
+                            data = stat.getDnu();
+                            tips = "DNU:";
+                        } else if (type === chartType.chartTypeTxCnt) {
+                            data = stat.getTrxs();
+                            tips = "Transactions:";
+                        } else if (type === chartType.chartTypeTxAmount) {
+                            data = BigNumber(stat.getAmount()).div(1000000).toFixed(0);
+                            tips = "Transaction Amount:"
+                        } else if (type === chartType.chartTypeTotalUser) {
+                            data = stat.getTotalUserCount();
+                            tips = "Total User Count:"
+                        }
 
-                    dataArray.push(data);
+                        dataArray.push(data);
+                    }
                 }
 
+                //console.log(dateArray);
+                //console.log(dataArray);
                 if (dateArray.length < 1 || dataArray.length < 1) {
                     return {};
                 }
+
                 return {
                     grid: {left: '40', bottom: '50', right: '17', top: '10', containLabel: false},
                     xAxis: {
@@ -442,6 +473,21 @@
                     console.log("error code is:", result.errCode);
                     console.log("error msg is:", result.errMsg);
                 }
+
+                let result1 = await api.fetchMonthlyStats(dApp, 12);
+                if (result1.res) {
+                    let list = result1.res;
+                    console.log(list);
+                    if (list.length) {
+                        this.statMList = list;
+                    }else {
+                        console.log("Get empty list of  ", dApp);
+                    }
+                } else {
+                    console.log("error code is:", result.errCode);
+                    console.log("error msg is:", result.errMsg);
+                }
+
                 this.$root.showModalLoading = false;
             },
 
