@@ -152,10 +152,80 @@
         utility = require("@/assets/utility"),
         BigNumber = require("bignumber.js");
     const bpPageSize = 30;
-    const yearReward = 3061425
-    const bpNum = 21
-    const cosDecimal = 1000000
-    const singleBlkReward = 2.038621
+    const bpNum = 21;
+    const cosDecimal = 1000000;
+
+    //
+    // TODO: yearReward & singleBlkReward & blockHistory MUST be updated every year.
+    //
+    const yearReward = 3681860; // year #2: (26880000 + 32100000 + 18339076) / 21
+    const singleBlkReward = 2.451772; // year #2: (26880000 + 32100000 + 18339076) / (86400 * 365)
+
+    // list of all {producer: [blocks, rewards]} of past years
+    // currently year #1, i.e. from block #1 to #31,535,999 inclusive.
+    const blockHistory = {
+        "alogan": [930502, 1896940.917742],
+        "astonmartin": [120655, 245969.816755],
+        "bangrullezz": [430564, 877756.812244],
+        "bentley": [73575, 149991.540075],
+        "bidingtou": [16935, 34524.046635],
+        "bigdaddy": [120398, 245445.891158],
+        "bitruebp": [1181347, 2408318.802487],
+        "blockcapitalbp": [63812, 130088.483252],
+        "brazilbp": [781672, 1593532.954312],
+        "brazilbp2": [423206, 862756.638926],
+        "chainclubbp": [57180, 116568.348780],
+        "cheezbp": [734028, 1496404.895388],
+        "chickenwings": [829928, 1691908.649288],
+        "confluxbp": [14158, 28862.796118],
+        "contentosbp1": [932652, 1901323.952892],
+        "contentosbp2": [703436, 1434039.401756],
+        "contentosbp3": [343493, 700252.043153],
+        "contentosbp4": [320687, 653759.252627],
+        "contentosbrazil": [400702, 816879.511942],
+        "contentoskorean": [435465, 887748.093765],
+        "contentosrussia": [320407, 653188.438747],
+        "cosbusbp": [79613, 162300.733673],
+        "cosfinex": [262063, 534247.135123],
+        "cosjiedian": [541605, 1104127.326705],
+        "cosofficialbp1": [1174887, 2395149.310827],
+        "cosofficialbp2": [1502197, 3062410.350337],
+        "cosofficialbp3": [1501516, 3061022.049436],
+        "cosofficialbp4": [1494568, 3046857.710728],
+        "cosofficialbp5": [1502063, 3062137.175123],
+        "cosofficialbp6": [1497461, 3052755.441281],
+        "cosofficialbp7": [1502041, 3062092.325461],
+        "costvbp": [1333812, 2719137.153252],
+        "ferrari": [120375, 245399.002875],
+        "gwz390": [152898, 311701.073658],
+        "hamburger": [622308, 1268650.157268],
+        "harmonybp": [885, 1804.179585],
+        "helloworld": [228780, 466395.712380],
+        "helloworld1": [18170, 37041.743570],
+        "imbest": [576450, 1175163.075450],
+        "indiancoser": [119038, 242673.366598],
+        "initminer": [30, 61.158630],
+        "jaguar": [86365, 176065.502665],
+        "jessehellicon": [218340, 445112.509140],
+        "jesuschrist": [12830, 26155.507430],
+        "lambdabp": [1750, 3567.586750],
+        "livemebp": [1463151, 2982810.354771],
+        "mamonasbp": [21181, 43180.031401],
+        "onesgamebp": [47488, 96810.034048],
+        "photogridbp": [1501502, 3060993.508742],
+        "raiblocks": [927345, 1890504.991245],
+        "raiseprice": [283151, 577237.574771],
+        "shanshuibp": [1905, 3883.573005],
+        "sharktankviet": [561895, 1145490.946795],
+        "spanishcoser": [205427, 418787.796167],
+        "thinksmallgroup": [11899, 24257.551279],
+        "thomashoang": [485479, 989707.684459],
+        "valongo": [625, 1274.138125],
+        "vickybp": [1388188, 2829989.208748],
+        "vietnamcoser": [802556, 1636107.515276],
+        "wuweishequbp": [49360, 100626.332560],
+    };
+
     module.exports = {
         components: {
             "vue-bread": require("@/components/vue-bread").default,
@@ -341,8 +411,15 @@
             getBpAccumulatedReward(bp) {
                 //get accumulative reward(singleBlockReward * generatedBlock)
                 if (this.checkBpInfoValid(bp)) {
-                    let genBlkCnt = bp.getGenBlockCount()
-                    let bigVal = BigNumber(genBlkCnt*singleBlkReward)
+                    let bpName = bp.getOwner().getValue();
+                    let oldBlocks = 0;
+                    let oldRewards = 0;
+                    if (bpName in blockHistory) {
+                        oldBlocks = blockHistory[bpName][0];
+                        oldRewards = blockHistory[bpName][1];
+                    }
+                    let genBlkCnt = bp.getGenBlockCount() - oldBlocks;
+                    let bigVal = BigNumber(genBlkCnt*singleBlkReward + oldRewards);
                     bigVal.decimalPlaces(6)
                     return bigVal.decimalPlaces(6).toNumber()
                 }
@@ -354,9 +431,16 @@
                     let finalReward = BigNumber(0)
                     let top21Num = this.getTop21BpNumber()
                     for (let i = 0; i < top21Num; i++) {
-                        let bp = this.bpList[i]
-                        let genBlkNum = bp.getGenBlockCount()
-                        let reward = BigNumber(singleBlkReward * genBlkNum)
+                        let bp = this.bpList[i];
+                        let bpName = bp.getOwner().getValue();
+                        let oldBlocks = 0;
+                        let oldRewards = 0;
+                        if (bpName in blockHistory) {
+                            oldBlocks = blockHistory[bpName][0];
+                            oldRewards = blockHistory[bpName][1];
+                        }
+                        let genBlkNum = bp.getGenBlockCount() - oldBlocks;
+                        let reward = BigNumber(singleBlkReward * genBlkNum + oldRewards);
                         if (finalReward.comparedTo(reward) < 0) {
                             finalReward = reward
                         }
