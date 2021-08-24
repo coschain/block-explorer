@@ -84,7 +84,7 @@
             <div class="row">
                 <div class="col-xs-12 col-md-4">
                     <a target=_blank href=https://www.contentos.io/>
-                        <img style="height: 56px; width: 56px;display: inline; vertical-align: middle;" src="../../static/img/contentos-logo2.png"/>
+                        <img style="height: 56px;display: inline; vertical-align: middle;" src="../../static/img/COS.png"/>
                     </a>
                 </div>
 
