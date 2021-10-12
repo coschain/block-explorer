@@ -113,10 +113,11 @@
     module.exports = {
         methods: {
             getVersionDesc() {
-                if (process.env.NODE_ENV === 'production') {
-                    return 'Copyright © 2018 -2020 Contentos.io v1.0.0 MainNet'
-                }
-                return 'Copyright © 2018 -2020 Contentos.io v0.5 Jupiter'
+                var mainNetVersion = 'v2.0.0 MainNet'
+                var testNetVersion = 'v0.5 Jupiter'
+                var copyright = 'Copyright © 2018 - ' + new Date().getFullYear() + ' Contentos.io'
+                var ver = (process.env.NODE_ENV === 'production')? mainNetVersion : testNetVersion
+                return copyright + ' ' + ver
             }
         }
     }
