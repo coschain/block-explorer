@@ -10,11 +10,8 @@ const pageCacheType = {
 };
 
 const DAppType = {
-    DAppTypePg : 0, // PhotoGrid
-    DAppTypeCos : 1, // Contentos.io
-    DAppType2048 : 2, // Game2048
-    DAppTypeWalkcoin : 3, // Walkcoin
-
+    DAppTypeCos : 0, // Contentos.io
+    DAppTypeChannelVip: 1 // Channel VIP
 }
 const rpcCacheKey = "rpcAddress";
 const complexCacheMapKey = "complexMapKey";
@@ -46,6 +43,7 @@ module.exports = {
     hexStrToByte: convertHexStringToByteArray,
     getHost: getRpcHost,
     getElkProxy: getElkProxy,
+    getBackendOrigin: getBackendOrigin,
     setHost: modifyRpcHost,
     clearPagesInfoCache: clearAllPageListDataCache,
     getPageCacheKey: getPageInfoCacheKey,
@@ -75,6 +73,10 @@ function getRpcHost() {
 
 function getElkProxy() {
     return process.env.VUE_ELK_PROXY;
+}
+
+function getBackendOrigin() {
+    return process.env.backendOrigin;
 }
 
 function modifyRpcHost(address) {

@@ -175,6 +175,7 @@
     import pHead from "../components/vue-bread";
     import ECharts from "vue-echarts/components/ECharts";
     import {DAppType,formatTxsCnt,numberAddComma} from "../assets/utility";
+    let channelVip = require("../assets/channelVip");
     import api from "../assets/api";
     import BigNumber from "bignumber.js";
     const chartType =  {
@@ -191,7 +192,6 @@
         data() {
            return {
                selectType: this.getDefaultType(),
-               // dAppsArray: [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin],
                dAppsArray: this.getDAppList(),
                chartsArray: [chartType.chartTypeTotalUser,chartType.chartTypeDAU, chartType.chartTypeNewAcct, chartType.chartTypeTxCnt,
                    chartType.chartTypeTxAmount],
@@ -207,8 +207,7 @@
 
         methods: {
             getDefaultType() {
-                //test env default is pg, main net default is costv
-                let ty = this.checkIsProduction() ? DAppType.DAppTypeCos : DAppType.DAppTypePg;
+                let ty = DAppType.DAppTypeCos;
                 return ty;
             },
 
@@ -221,10 +220,7 @@
             },
 
             getDAppList() {
-                if (this.checkIsProduction())  {
-                    return [DAppType.DAppTypeCos, DAppType.DAppTypePg];
-                }
-                return [DAppType.DAppTypePg, DAppType.DAppTypeCos, DAppType.DAppType2048, DAppType.DAppTypeWalkcoin];
+                return [DAppType.DAppTypeCos, DAppType.DAppTypeChannelVip];
             },
 
             convertStampToMMDD(date) {
@@ -277,28 +273,20 @@
 
             getDAppNameByType(type) {
                 if (type != null && typeof type != "undefined") {
-                    if (type === DAppType.DAppTypePg) {
-                        return "photogrid";
-                    } else if (type === DAppType.DAppTypeCos) {
+                    if (type === DAppType.DAppTypeCos) {
                         return "contentos";
-                    } else if (type === DAppType.DAppType2048) {
-                        return "game 2048";
-                    } else if (type === DAppType.DAppTypeWalkcoin) {
-                        return "walk coin";
+                    } else if (type === DAppType.DAppTypeChannelVip) {
+                        return "Channel VIP";
                     }
                 }
                 return "";
             },
 
             fetchTabTitle(type) {
-                if (type === chartType.chartTypeDAU) {
-                    return "PhotoGrid";
-                } else if (type === chartType.chartTypeNewAcct) {
+                if (type === 0) {
                     return "COS.TV";
-                } else if (type === chartType.chartTypeTxCnt) {
-                    return "Game2048";
-                } else if (type === chartType.chartTypeTxAmount) {
-                    return "WalkCoin";
+                } else if (type === 1) {
+                    return "Channel VIP";
                 }
                 return ""
             },
@@ -312,27 +300,46 @@
                 let tips = "DAU:";
                 let dateArray = [];
                 let dataArray = [];
-                for (let stat of this.statList) {
-                    let date = this.convertStampToMMDD(stat.getDate()*1000);
-                    dateArray.push(date);
-                    let data = stat.getDau();
-                    if (type === chartType.chartTypeNewAcct) {
-                        data = stat.getDnu();
+                if (this.dAppTypeCos) {
+                    for (let stat of this.statList) {
+                        let date = this.convertStampToMMDD(stat.getDate()*1000);
+                        dateArray.push(date);
+                        let data = stat.getDau();
+                        if (type === chartType.chartTypeNewAcct) {
+                            data = stat.getDnu();
+                            tips = "DNU:";
+                        } else if (type === chartType.chartTypeTxCnt) {
+                            data = stat.getTrxs();
+                            tips = "Transactions:";
+                        } else if (type === chartType.chartTypeTxAmount) {
+                            data = BigNumber(stat.getAmount()).div(1000000).toFixed(0);
+                            tips = "Transaction Amount:"
+                        } else if (type === chartType.chartTypeTotalUser) {
+                            data = stat.getTotalUserCount();
+                            tips = "Total User Count:"
+                        }
+
+                        dataArray.push(data);
+                    }
+                } else if (this.dAppTypeChannelVip) {
+                    dateArray = this.statList.map((item) => this.convertStampToMMDD(item.transfer_date * 1000));
+                    if (type === chartType.chartTypeDAU) {
+                        dataArray = this.statList.map((item) => item.dau);
+                        tips = "DAU:";
+                    } else if (type === chartType.chartTypeNewAcct) {
+                        dataArray = this.statList.map((item) => item.dnu);
                         tips = "DNU:";
                     } else if (type === chartType.chartTypeTxCnt) {
-                        data = stat.getTrxs();
+                        dataArray = this.statList.map((item) => item.transfer_count);
                         tips = "Transactions:";
                     } else if (type === chartType.chartTypeTxAmount) {
-                        data = BigNumber(stat.getAmount()).div(1000000).toFixed(0);
-                        tips = "Transaction Amount:"
+                        dataArray = this.statList.map((item) => BigNumber(item.transfer_amount).div(1000000).toFixed(0))
+                        tips = "Transaction Amount:";
                     } else if (type === chartType.chartTypeTotalUser) {
-                        data = stat.getTotalUserCount();
-                        tips = "Total User Count:"
+                        dataArray = this.statList.map((item) => item.total_users_count);
+                        tips = "Total User Count:";
                     }
-
-                    dataArray.push(data);
                 }
-
                 if (dateArray.length < 1 || dataArray.length < 1) {
                     return {};
                 }
@@ -419,10 +426,7 @@
 
             async loadData(type) {
                 if (type == null || typeof type == "undefined") {
-                    type = DAppType.DAppTypePg;
-                    if (this.checkIsProduction()) {
-                        type = DAppType.DAppTypeCos
-                    }
+                    type = DAppType.DAppTypeCos;
                 }
                 this.$root.showModalLoading = true;
                 let dApp = this.getDAppNameByType(type);
@@ -430,17 +434,29 @@
                     this.$root.showModalLoading = false;
                     return;
                 }
-                let result = await api.fetchDailyStats(dApp, days);
-                if (result.res) {
-                    let list = result.res;
-                    if (list.length) {
-                        this.statList = list;
-                    }else {
-                        console.log("Get empty list of  ", dApp);
+                if (this.dAppTypeCos) {
+                    let result = await api.fetchDailyStats(dApp, days);
+                    if (result.res) {
+                        let list = result.res;
+                        if (list.length) {
+                            this.statList = list;
+                        }else {
+                            console.log("Get empty list of  ", dApp);
+                        }
+                    } else {
+                        console.log("error code is:", result.errCode);
+                        console.log("error msg is:", result.errMsg);
                     }
-                } else {
-                    console.log("error code is:", result.errCode);
-                    console.log("error msg is:", result.errMsg);
+                } else if (this.dAppTypeChannelVip) {
+                    try {
+                        const days = 30;
+                        const response = await channelVip.fetchChannelVipData(days);
+                        response.sort((a, b) => a.transfer_date - b.transfer_date)
+                        this.statList = response;
+
+                    } catch (error) {
+                        console.error('Error fetching data:', error);
+                    }
                 }
                 this.$root.showModalLoading = false;
             },
@@ -448,12 +464,16 @@
         },
 
         mounted() {
-            console.log("select type is:", this.selectType)
             this.loadData(this.selectType);
         },
 
         computed: {
-
+            dAppTypeCos () {
+                return this.selectType === 0;
+            },
+            dAppTypeChannelVip () {
+                return this.selectType === 1;
+            },
         }
 
     }
