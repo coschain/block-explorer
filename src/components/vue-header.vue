@@ -210,6 +210,14 @@
                 currentHost:this.getCurrentHostAddress(),
             };
         },
+        watch: {
+            $route() {
+                let dropdowns = document.querySelector(".dropdown-menu.show");
+                if (dropdowns) {
+                    dropdowns.classList.remove("show");
+                }
+            }
+        },
         methods: {
             checkIsMainNet() {
                 if (process.env.NODE_ENV === 'production') {
